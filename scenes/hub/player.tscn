@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bplker7qp53qd"]
+
+[ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/hub/player.gd" id="1_player"]
+[ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_player_tex"]
+[ext_resource type="Texture2D" uid="uid://bmj2kpuwewg54" path="res://assets/sprites/drink.png" id="3_drink_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/drink_glass.png" id="4_glass_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(10, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 5.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1474730025]
+script = ExtResource("1_player")
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=2145306783]
+texture_filter = 1
+texture = ExtResource("2_player_tex")
+centered = false
+offset = Vector2(-6, -20)
+hframes = 4
+vframes = 7
+
+[node name="DrinkIndicator" type="Sprite2D" parent="." unique_id=2145173532]
+visible = false
+z_index = 10
+texture_filter = 1
+position = Vector2(6, -10)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_glass_tex")
+
+[node name="DrinkFill" type="Sprite2D" parent="DrinkIndicator"]
+z_index = -1
+texture_filter = 1
+texture = ExtResource("3_drink_tex")
+hframes = 5
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=276543840]
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionArea" unique_id=259532830]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1604632555]

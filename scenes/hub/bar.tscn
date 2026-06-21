@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://dlfu10sqnk234"]
+
+[ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/hub/bar.gd" id="1_bar"]
+[ext_resource type="PackedScene" uid="uid://bplker7qp53qd" path="res://scenes/hub/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/hub/bartender.tscn" id="3_bartender"]
+[ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
+[ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
+[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table_with_chairs.tscn" id="7_table_group"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
+size = Vector2(320, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wallV"]
+size = Vector2(8, 328)
+
+[node name="Bar" type="Node2D" unique_id=705751519]
+scale = Vector2(4, 4)
+script = ExtResource("1_bar")
+
+[node name="BarBg" type="Sprite2D" parent="." unique_id=237508159]
+texture_filter = 1
+texture = ExtResource("5_bar_bg")
+centered = false
+
+[node name="BarFloor" type="Sprite2D" parent="." unique_id=452607508]
+texture_filter = 1
+position = Vector2(0, 28)
+texture = ExtResource("6_bar_floor")
+centered = false
+
+[node name="WallTop" type="StaticBody2D" parent="." unique_id=1778744540]
+position = Vector2(160, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop" unique_id=897356417]
+shape = SubResource("RectangleShape2D_wallH")
+
+[node name="WallBottom" type="StaticBody2D" parent="." unique_id=668866546]
+position = Vector2(160, 328)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom" unique_id=152890499]
+shape = SubResource("RectangleShape2D_wallH")
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=841916784]
+position = Vector2(-4, 164)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=583092633]
+shape = SubResource("RectangleShape2D_wallV")
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=951352988]
+position = Vector2(324, 164)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=698819567]
+shape = SubResource("RectangleShape2D_wallV")
+
+[node name="YSort" type="Node2D" parent="." unique_id=1256478703]
+y_sort_enabled = true
+
+[node name="Bartender" parent="YSort" unique_id=500718914 instance=ExtResource("3_bartender")]
+position = Vector2(160, 36)
+scale = Vector2(0.8, 0.8)
+
+[node name="TableGroup1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
+position = Vector2(108.25, 93)
+
+[node name="TableGroup2" parent="YSort" unique_id=2009390461 instance=ExtResource("7_table_group")]
+position = Vector2(212, 94.5)
+
+[node name="TableGroup3" parent="YSort" unique_id=418421417 instance=ExtResource("7_table_group")]
+position = Vector2(107.25, 156.25)
+
+[node name="TableGroup4" parent="YSort" unique_id=1562237625 instance=ExtResource("7_table_group")]
+position = Vector2(211, 158.25)
+
+[node name="TableGroup5" parent="YSort" unique_id=1362264130 instance=ExtResource("7_table_group")]
+position = Vector2(108.25, 218.5)
+
+[node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
+position = Vector2(210, 219.25)
+
+[node name="Player" parent="YSort" unique_id=392987832 instance=ExtResource("2_player")]
+position = Vector2(160, 150)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
+
+[node name="Stats" type="VBoxContainer" parent="HUD" unique_id=720355463]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 480.0
+offset_bottom = 200.0
+
+[node name="RespectLabel" type="Label" parent="HUD/Stats" unique_id=2089024428]
+layout_mode = 2
+text = "Respect  50"
+
+[node name="MindLabel" type="Label" parent="HUD/Stats" unique_id=1212374047]
+layout_mode = 2
+text = "Mind     50"
+
+[node name="MoneyLabel" type="Label" parent="HUD/Stats" unique_id=1080414005]
+layout_mode = 2
+text = "Money   $50"
+
+[node name="HintLabel" type="Label" parent="HUD" unique_id=1730699346]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -64.0
+offset_right = 320.0
+offset_bottom = -16.0
+horizontal_alignment = 1
