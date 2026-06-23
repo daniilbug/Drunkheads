@@ -41,11 +41,14 @@ signal drop_requested(drink_name: String, sort_pos: Vector2, visual_pos: Vector2
 signal drink_action_requested(drink_name: String)
 
 func _enter_tree() -> void:
-	$MultiplayerSynchronizer.set_multiplayer_authority(get_multiplayer_authority())
+	set_multiplayer_authority(get_multiplayer_authority(), true)
 
 func _ready() -> void:
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
+	call_deferred("_setup_authority")
+
+func _setup_authority() -> void:
 	if is_multiplayer_authority():
 		camera.make_current()
 

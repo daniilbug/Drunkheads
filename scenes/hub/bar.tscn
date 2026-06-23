@@ -4,13 +4,25 @@
 [ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/hub/bar/bartender.tscn" id="3_bartender"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
+[ext_resource type="AudioStream" uid="uid://b2wnrqj3xgg30" path="res://assets/audio/background/1.mp3" id="6_ml76i"]
+[ext_resource type="AudioStream" uid="uid://n10tiopjfnvy" path="res://assets/audio/background/2.mp3" id="7_5617e"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table_with_chairs.tscn" id="7_table_group"]
+[ext_resource type="AudioStream" uid="uid://cldhtq6v7vct0" path="res://assets/audio/background/3.mp3" id="8_fcf0i"]
+[ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="9_kpgvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
 size = Vector2(320, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallV"]
 size = Vector2(8, 328)
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_sm57a"]
+shuffle = true
+stream_count = 4
+stream_0 = ExtResource("6_ml76i")
+stream_1 = ExtResource("7_5617e")
+stream_2 = ExtResource("8_fcf0i")
+stream_3 = ExtResource("9_kpgvg")
 
 [node name="Bar" type="Node2D" unique_id=705751519]
 scale = Vector2(4, 4)
@@ -59,7 +71,6 @@ y_sort_enabled = true
 
 [node name="Bartender" parent="YSort" unique_id=500718914 instance=ExtResource("3_bartender")]
 position = Vector2(160.5, 35.75)
-scale = Vector2(0.8, 0.8)
 
 [node name="TableGroup1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
 position = Vector2(108.25, 93)
@@ -78,6 +89,12 @@ position = Vector2(108.25, 218.5)
 
 [node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
 position = Vector2(210, 219.25)
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1264568561]
+stream = SubResource("AudioStreamPlaylist_sm57a")
+volume_db = -10.0
+autoplay = true
+playback_type = 1
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 

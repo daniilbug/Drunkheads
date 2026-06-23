@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/hub/bar/bartender.gd" id="1_611q6"]
 [ext_resource type="Texture2D" uid="uid://2fpce82kty5m" path="res://assets/sprites/bartender.png" id="2_juoo6"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/hub/drop_place.tscn" id="3_611q6"]
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/hub/chair.tscn" id="4_juoo6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
 size = Vector2(160, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
-size = Vector2(160, 18)
+size = Vector2(21.5, 13)
 
 [node name="Bartender" type="StaticBody2D" unique_id=208033558]
 script = ExtResource("1_611q6")
@@ -35,11 +36,12 @@ hframes = 2
 position = Vector2(0, 17)
 
 [node name="Shape" type="CollisionShape2D" parent="PurchaseArea" unique_id=861993716]
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_zone")
 
 [node name="DropPlaces" type="Node2D" parent="." unique_id=1724788350]
 
-[node name="DropPlace" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
+[node name="DropPlace1" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
 position = Vector2(0, -7)
 
 [node name="DropPlace2" parent="DropPlaces" unique_id=578939736 instance=ExtResource("3_611q6")]
@@ -65,3 +67,29 @@ position = Vector2(-64, -7)
 
 [node name="DropPlace9" parent="DropPlaces" unique_id=1059687684 instance=ExtResource("3_611q6")]
 position = Vector2(64, -7)
+
+[node name="Chairs" type="Node2D" parent="." unique_id=1276897511]
+
+[node name="Chair1" parent="Chairs" unique_id=585785857 instance=ExtResource("4_juoo6")]
+position = Vector2(-64, 15)
+facing_north = true
+
+[node name="Chair2" parent="Chairs" unique_id=1491561316 instance=ExtResource("4_juoo6")]
+position = Vector2(-48, 15)
+facing_north = true
+
+[node name="Chair3" parent="Chairs" unique_id=1410535094 instance=ExtResource("4_juoo6")]
+position = Vector2(-32, 15)
+facing_north = true
+
+[node name="Chair4" parent="Chairs" unique_id=139894369 instance=ExtResource("4_juoo6")]
+position = Vector2(32, 14)
+facing_north = true
+
+[node name="Chair5" parent="Chairs" unique_id=1329622802 instance=ExtResource("4_juoo6")]
+position = Vector2(48, 14)
+facing_north = true
+
+[node name="Chair6" parent="Chairs" unique_id=53455378 instance=ExtResource("4_juoo6")]
+position = Vector2(64, 14)
+facing_north = true

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/hub/player.gd" id="1_player"]
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_player_tex"]
+[ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/hub/voice_chat.tscn" id="3_e52ck"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 8)
@@ -50,6 +51,8 @@ position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_interact")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=857080020]
+
+[node name="VoiceChat" parent="." unique_id=1764415366 instance=ExtResource("3_e52ck")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
 replication_config = SubResource("SceneReplicationConfig_5x06y")
