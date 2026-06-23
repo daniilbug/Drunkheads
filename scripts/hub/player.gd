@@ -117,11 +117,12 @@ func _try_interact() -> void:
 			var bartender = owner_node as Bartender
 			bartender.order(self)
 			return
-		if owner_node is Chair:
+		elif owner_node is Chair:
 			var chair = owner_node as Chair
 			if not chair.is_occupied:
 				_sit_in(chair)
 				return
+	_hands_interact()
 
 func _get_top_ysort_anchor(node: Node) -> Node2D:
 	var result: Node2D = null
