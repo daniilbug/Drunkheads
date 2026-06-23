@@ -11,19 +11,19 @@ const MIN_STAT := 0.0
 signal stats_changed
 signal stat_changed(stat: String, delta: float)
 
-func buy_drink(drink: DrinkType) -> bool:
+func buy_drink(drink: Drink) -> bool:
 	if money < drink.cost:
 		return false
 	_apply("money", -drink.cost)
 	stats_changed.emit()
 	return true
 
-func apply_drink_effects(drink: DrinkType) -> void:
+func apply_drink_effects(drink: Drink) -> void:
 	_apply("respect", drink.get_respect_bonus())
 	_apply("mind", -drink.get_mind_penalty())
 	stats_changed.emit()
 
-func apply_drink_part(drink: DrinkType) -> void:
+func apply_drink_part(drink: Drink) -> void:
 	_apply("respect", drink.get_respect_bonus() / 4.0)
 	_apply("mind", -drink.get_mind_penalty() / 4.0)
 	stats_changed.emit()

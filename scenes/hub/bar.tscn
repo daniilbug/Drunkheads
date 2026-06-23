@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://dlfu10sqnk234"]
 
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/hub/bar.gd" id="1_bar"]
-[ext_resource type="PackedScene" uid="uid://bplker7qp53qd" path="res://scenes/hub/player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://scenes/hub/bartender.tscn" id="3_bartender"]
+[ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/hub/bar/bartender.tscn" id="3_bartender"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table_with_chairs.tscn" id="7_table_group"]
@@ -27,6 +26,9 @@ texture_filter = 1
 position = Vector2(0, 28)
 texture = ExtResource("6_bar_floor")
 centered = false
+
+[node name="MenuItemSpawn" type="Node2D" parent="." unique_id=1303865117]
+position = Vector2(160.5, 27.5)
 
 [node name="WallTop" type="StaticBody2D" parent="." unique_id=1778744540]
 position = Vector2(160, -4)
@@ -56,7 +58,7 @@ shape = SubResource("RectangleShape2D_wallV")
 y_sort_enabled = true
 
 [node name="Bartender" parent="YSort" unique_id=500718914 instance=ExtResource("3_bartender")]
-position = Vector2(160, 36)
+position = Vector2(160.5, 35.75)
 scale = Vector2(0.8, 0.8)
 
 [node name="TableGroup1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
@@ -77,8 +79,8 @@ position = Vector2(108.25, 218.5)
 [node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
 position = Vector2(210, 219.25)
 
-[node name="Player" parent="YSort" unique_id=392987832 instance=ExtResource("2_player")]
-position = Vector2(160, 150)
+[node name="Items" type="Node2D" parent="." unique_id=672773583]
+z_as_relative = false
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
@@ -111,3 +113,13 @@ offset_top = -64.0
 offset_right = 320.0
 offset_bottom = -16.0
 horizontal_alignment = 1
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
+spawn_path = NodePath("../YSort")
+
+[node name="ItemsSpawner" type="MultiplayerSpawner" parent="." unique_id=303569049]
+_spawnable_scenes = PackedStringArray("uid://bldl7wtc2bj1h")
+spawn_path = NodePath("../Items")
+
+[connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]

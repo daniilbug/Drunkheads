@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bldl7wtc2bj1h"]
+
+[ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/hub/drink.gd" id="1_eae3o"]
+[ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drink_glass.png" id="2_ucycd"]
+[ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drink_indicator.png" id="3_4i2oy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eae3o"]
+radius = 11.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4i2oy"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:parts")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:alcohol")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:sprite_frame")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("GlassSprite:frame")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("GlassSprite/DrinkSprite:frame")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:holder_peer_id")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+
+[node name="Drink" type="Node2D" unique_id=1387790329]
+scale = Vector2(0.8, 0.8)
+script = ExtResource("1_eae3o")
+metadata/_custom_type_script = "uid://c32y5jxqyspnc"
+
+[node name="Area" type="Area2D" parent="." unique_id=678598918]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=138255126]
+shape = SubResource("CircleShape2D_eae3o")
+debug_color = Color(0.47213155, 0.5134719, 0.77586937, 0.41960785)
+
+[node name="GlassSprite" type="Sprite2D" parent="." unique_id=410337896]
+texture = ExtResource("2_ucycd")
+
+[node name="DrinkSprite" type="Sprite2D" parent="GlassSprite" unique_id=804594283]
+texture = ExtResource("3_4i2oy")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 10)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=855740150]
+replication_config = SubResource("SceneReplicationConfig_4i2oy")

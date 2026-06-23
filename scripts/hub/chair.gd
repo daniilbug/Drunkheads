@@ -12,16 +12,17 @@ func _ready() -> void:
 	sprite.frame = 2 if facing_north else 0
 
 func get_seat_position() -> Vector2:
-	# Offset north-facing chairs so player Y < chair Y — chair wins Y-sort and covers player
 	return global_position + (Vector2(0, -4) if facing_north else Vector2.ZERO)
-
-func get_drink_world_position() -> Vector2:
-	return $DrinkSpot.global_position
 
 func occupy(player: Player) -> void:
 	is_occupied = true
 	_occupant = player
-	sprite.frame = 3 if facing_north else 1
+	if facing_north:
+		sprite.frame = 3
+		player.direction = Vector2.UP
+	else:
+		sprite.frame = 1
+		player.direction = Vector2.DOWN
 
 func vacate() -> void:
 	is_occupied = false

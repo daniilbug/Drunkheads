@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dy73lxq0fpx5g"]
+
+[ext_resource type="Script" uid="uid://dv4uwr4ugxurf" path="res://scripts/menu.gd" id="1_yqeox"]
+
+[node name="Menu" type="Control" unique_id=728938566]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yqeox")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=278969341]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -81.5
+offset_right = 34.0
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="AddressInput" type="LineEdit" parent="VBoxContainer" unique_id=2046931961]
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+
+[node name="PortInput" type="LineEdit" parent="VBoxContainer" unique_id=1903856245]
+layout_mode = 2
+placeholder_text = "7777"
+
+[node name="HostButton" type="Button" parent="VBoxContainer" unique_id=1536727954]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="VBoxContainer" unique_id=424112036]
+layout_mode = 2
+text = "Join"
+
+[node name="StatusLabel" type="Label" parent="." unique_id=1353777596]
+layout_mode = 0
+offset_left = 606.0
+offset_top = 418.5
+offset_right = 674.0
+offset_bottom = 441.5

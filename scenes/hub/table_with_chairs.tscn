@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bcv5xmti8v4pp"]
 
-[ext_resource type="PackedScene" path="res://scenes/hub/table.tscn" id="1_table"]
+[ext_resource type="PackedScene" uid="uid://b3xed7ukp1pyj" path="res://scenes/hub/table.tscn" id="1_table"]
 [ext_resource type="PackedScene" path="res://scenes/hub/chair.tscn" id="2_chair"]
 
 [node name="TableWithChairs" type="Node2D" unique_id=686340738]

@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://c1dt3luxyc5sg"]
+
+[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/hub/bar/bartender.gd" id="1_611q6"]
+[ext_resource type="Texture2D" uid="uid://2fpce82kty5m" path="res://assets/sprites/bartender.png" id="2_juoo6"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/hub/drop_place.tscn" id="3_611q6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
+size = Vector2(160, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(160, 18)
+
+[node name="Bartender" type="StaticBody2D" unique_id=208033558]
+script = ExtResource("1_611q6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=486637219]
+shape = SubResource("RectangleShape2D_counter")
+
+[node name="CounterTop" type="Polygon2D" parent="." unique_id=413523057]
+color = Color(0.55, 0.38, 0.18, 1)
+polygon = PackedVector2Array(-80, -16, 80, -16, 80, 0, -80, 0)
+
+[node name="CounterFront" type="Polygon2D" parent="." unique_id=2082392828]
+color = Color(0.42, 0.28, 0.12, 1)
+polygon = PackedVector2Array(-80, 0, 80, 0, 80, 4, -80, 4)
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1556038128]
+texture_filter = 1
+texture = ExtResource("2_juoo6")
+centered = false
+offset = Vector2(-8, -40)
+hframes = 2
+
+[node name="PurchaseArea" type="Area2D" parent="." unique_id=735785618]
+position = Vector2(0, 17)
+
+[node name="Shape" type="CollisionShape2D" parent="PurchaseArea" unique_id=861993716]
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="DropPlaces" type="Node2D" parent="." unique_id=1724788350]
+
+[node name="DropPlace" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
+position = Vector2(0, -7)
+
+[node name="DropPlace2" parent="DropPlaces" unique_id=578939736 instance=ExtResource("3_611q6")]
+position = Vector2(16, -7)
+
+[node name="DropPlace3" parent="DropPlaces" unique_id=1296842302 instance=ExtResource("3_611q6")]
+position = Vector2(-16, -7)
+
+[node name="DropPlace4" parent="DropPlaces" unique_id=1358371655 instance=ExtResource("3_611q6")]
+position = Vector2(32, -7)
+
+[node name="DropPlace5" parent="DropPlaces" unique_id=834784061 instance=ExtResource("3_611q6")]
+position = Vector2(-32, -7)
+
+[node name="DropPlace6" parent="DropPlaces" unique_id=2085039786 instance=ExtResource("3_611q6")]
+position = Vector2(48, -7)
+
+[node name="DropPlace7" parent="DropPlaces" unique_id=113572129 instance=ExtResource("3_611q6")]
+position = Vector2(-48, -7)
+
+[node name="DropPlace8" parent="DropPlaces" unique_id=728145529 instance=ExtResource("3_611q6")]
+position = Vector2(-64, -7)
+
+[node name="DropPlace9" parent="DropPlaces" unique_id=1059687684 instance=ExtResource("3_611q6")]
+position = Vector2(64, -7)
