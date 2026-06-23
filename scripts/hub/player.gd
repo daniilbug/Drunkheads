@@ -37,7 +37,7 @@ var _is_walking := false
 var _idle_tween: Tween
 
 signal pickup_requested(drink_name: String)
-signal drop_requested(drink_name: String, drop_pos: Vector2, z_index: int)
+signal drop_requested(drink_name: String, sort_pos: Vector2, visual_pos: Vector2)
 signal drink_action_requested(drink_name: String)
 
 func _enter_tree() -> void:
@@ -123,16 +123,27 @@ func _try_interact() -> void:
 				_sit_in(chair)
 				return
 
+func _get_top_ysort_anchor(node: Node) -> Node2D:
+	var result: Node2D = null
+	var current := node
+	while current.get_parent() != null:
+		var parent := current.get_parent()
+		if parent is Node2D and (parent as Node2D).y_sort_enabled:
+			result = current as Node2D
+		current = parent
+	return result
+
 func _try_take_drop() -> void:
 	for area in interaction_area.get_overlapping_areas():
 		var owner_node := area.get_parent()
 		if owner_node is DropPlace and _hands_item != null:
 			var drop_place := owner_node as DropPlace
-			drop_requested.emit(
-				_hands_item.name,
-				drop_place.shape.global_position,
-				drop_place.z_index,
-			)
+			var visual_pos := drop_place.shape.global_position
+			var anchor := _get_top_ysort_anchor(drop_place)
+			var sort_y := visual_pos.y
+			if anchor != null:
+				sort_y = maxf(visual_pos.y, anchor.global_position.y + 1.0)
+			drop_requested.emit(_hands_item.name, Vector2(visual_pos.x, sort_y), visual_pos)
 			_hands_item = null
 			return
 		elif owner_node is Drink and _hands_item == null:

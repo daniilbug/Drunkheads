@@ -29,6 +29,9 @@ properties/5/replication_mode = 1
 properties/6/path = NodePath(".:holder_peer_id")
 properties/6/spawn = true
 properties/6/replication_mode = 1
+properties/7/path = NodePath("GlassSprite:position")
+properties/7/spawn = true
+properties/7/replication_mode = 1
 
 [node name="Drink" type="Node2D" unique_id=1387790329]
 scale = Vector2(0.8, 0.8)

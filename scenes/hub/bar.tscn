@@ -79,9 +79,6 @@ position = Vector2(108.25, 218.5)
 [node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
 position = Vector2(210, 219.25)
 
-[node name="Items" type="Node2D" parent="." unique_id=672773583]
-z_as_relative = false
-
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
 [node name="Stats" type="VBoxContainer" parent="HUD" unique_id=720355463]
@@ -120,6 +117,6 @@ spawn_path = NodePath("../YSort")
 
 [node name="ItemsSpawner" type="MultiplayerSpawner" parent="." unique_id=303569049]
 _spawnable_scenes = PackedStringArray("uid://bldl7wtc2bj1h")
-spawn_path = NodePath("../Items")
+spawn_path = NodePath("../YSort")
 
 [connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]

@@ -7,8 +7,8 @@ const DRINK_SCENE  := preload("res://scenes/hub/drink.tscn")
 @onready var log = Log.new("Bar")
 
 @onready var y_sort: Node2D = $YSort
-@onready var items: Node2D = $Items
 @onready var menu_item_spawn: Node2D = $MenuItemSpawn
+@onready var bartender: Node2D = $YSort/Bartender
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
 @onready var mind_label: Label = $HUD/Stats/MindLabel
 @onready var money_label: Label = $HUD/Stats/MoneyLabel
@@ -31,7 +31,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not multiplayer.is_server():
 		return
-	for child in items.get_children():
+	for child in y_sort.get_children():
 		if not child is Drink:
 			continue
 		var drink := child as Drink
@@ -41,7 +41,13 @@ func _process(_delta: float) -> void:
 		if holder == null:
 			drink.holder_peer_id = 0
 			continue
-		drink.global_position = holder.hands.global_position
+		var hands_pos := holder.hands.global_position
+		if holder.direction.y < 0:
+			drink.global_position = hands_pos
+			drink.glass_sprite.position = Vector2.ZERO
+		else:
+			drink.global_position = Vector2(hands_pos.x, holder.global_position.y + 1.0)
+			drink.glass_sprite.position = drink.to_local(hands_pos)
 
 func _on_peer_connected(peer_id: int) -> void:
 	_spawn_player(peer_id)
@@ -77,7 +83,7 @@ func _remove_player(peer_id: int) -> void:
 	var player := y_sort.get_node_or_null(str(peer_id))
 	if player:
 		player.queue_free()
-	for child in get_children():
+	for child in y_sort.get_children():
 		if child is Drink and (child as Drink).holder_peer_id == peer_id:
 			(child as Drink).holder_peer_id = 0
 
@@ -121,15 +127,11 @@ func _on_pickup_requested(drink_name: String) -> void:
 	else:
 		_request_pickup.rpc_id(1, drink_name)
 
-func _on_drop_requested(
-	drink_name: String, 
-	drop_pos: Vector2, 
-	z_index: int,
-) -> void:
+func _on_drop_requested(drink_name: String, sort_pos: Vector2, visual_pos: Vector2) -> void:
 	if multiplayer.is_server():
-		_handle_drop(multiplayer.get_unique_id(), drink_name, drop_pos, z_index)
+		_handle_drop(multiplayer.get_unique_id(), drink_name, sort_pos, visual_pos)
 	else:
-		_request_drop.rpc_id(1, drink_name, drop_pos, z_index)
+		_request_drop.rpc_id(1, drink_name, sort_pos, visual_pos)
 
 func _on_drink_action_requested(drink_name: String) -> void:
 	if multiplayer.is_server():
@@ -156,10 +158,10 @@ func _request_pickup(drink_name: String) -> void:
 	_handle_pickup(multiplayer.get_remote_sender_id(), drink_name)
 
 @rpc("any_peer", "reliable")
-func _request_drop(drink_name: String, drop_pos: Vector2, z_index: int) -> void:
+func _request_drop(drink_name: String, sort_pos: Vector2, visual_pos: Vector2) -> void:
 	if not multiplayer.is_server():
 		return
-	_handle_drop(multiplayer.get_remote_sender_id(), drink_name, drop_pos, z_index)
+	_handle_drop(multiplayer.get_remote_sender_id(), drink_name, sort_pos, visual_pos)
 
 @rpc("any_peer", "reliable")
 func _request_drink_action(drink_name: String) -> void:
@@ -180,32 +182,28 @@ func handle_drink_spawn(
 	drink.cost = cost
 	drink.alcohol = alcohol
 	drink.sprite_frame = sprite
-	drink.position = menu_item_spawn.position
+	drink.position = Vector2(menu_item_spawn.position.x, bartender.position.y + 1.0)
 	drink.set_multiplayer_authority(1)
-	items.add_child(drink, true)
+	y_sort.add_child(drink, true)
+	drink.glass_sprite.position = drink.to_local(menu_item_spawn.global_position)
 
 func _handle_pickup(peer_id: int, drink_name: String) -> void:
-	var drink := items.get_node_or_null(drink_name) as Drink
+	var drink := y_sort.get_node_or_null(drink_name) as Drink
 	if drink == null or drink.holder_peer_id != 0:
 		return
+	drink.glass_sprite.position = Vector2.ZERO
 	drink.holder_peer_id = peer_id
 
-func _handle_drop(
-	peer_id: int, 
-	drink_name: String, 
-	drop_pos: Vector2, 
-	z_index: int,
-) -> void:
-	var drink := items.get_node_or_null(drink_name) as Drink
+func _handle_drop(peer_id: int, drink_name: String, sort_pos: Vector2, visual_pos: Vector2) -> void:
+	var drink := y_sort.get_node_or_null(drink_name) as Drink
 	if drink == null or drink.holder_peer_id != peer_id:
 		return
 	drink.holder_peer_id = 0
-	drink.global_position = drop_pos
-	print(z_index)
-	drink.z_index = z_index
+	drink.global_position = sort_pos
+	drink.glass_sprite.position = drink.to_local(visual_pos)
 
 func _handle_drink_action(peer_id: int, drink_name: String) -> void:
-	var drink := items.get_node_or_null(drink_name) as Drink
+	var drink := y_sort.get_node_or_null(drink_name) as Drink
 	if drink == null or drink.holder_peer_id != peer_id:
 		return
 	if drink.parts == 0:
