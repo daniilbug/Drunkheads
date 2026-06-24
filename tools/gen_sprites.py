@@ -5,7 +5,9 @@ from PIL import Image, ImageDraw
 import os
 
 OUT = "/Users/daniilbug/drunkards/assets/sprites"
+OUT_DRINKS = "/Users/daniilbug/drunkards/assets/sprites/drinks"
 os.makedirs(OUT, exist_ok=True)
+os.makedirs(OUT_DRINKS, exist_ok=True)
 
 TRANSPARENT = (0, 0, 0, 0)
 
@@ -111,10 +113,9 @@ def draw_player_frame(img, draw, ox, oy, direction="s", walk_phase=0,
     rect(draw, ox + 3, by + 5, 6, 1, C["pants"])
 
     if drinking:
-        rect(draw, ox + 9, by, 2, 3, C["shirt_blue"])
-        rect(draw, ox + 9, by + 3, 2, 2, C["skin"])
-        rect(draw, ox + 10, by - 4, 2, 5, C["drink_yel"])
-        px(img, draw, ox + 10, by - 4, C["drink_hi"])
+        rect(draw, ox + 2, by + 1, 1, 4, C["skin"])        # left arm
+        rect(draw, ox + 9, by - 1, 2, 4, C["shirt_blue"])  # right sleeve raised
+        rect(draw, ox + 9, by - 3, 2, 3, C["skin"])         # right hand near mouth
     else:
         rect(draw, ox + 2, by + 1, 1, 4, C["skin"])
         rect(draw, ox + 9, by + 1, 1, 4, C["skin"])
@@ -140,7 +141,7 @@ def draw_player_frame(img, draw, ox, oy, direction="s", walk_phase=0,
 
 
 def gen_player():
-    ROWS = 7
+    ROWS = 8
     sheet = Image.new("RGBA", (FW * 4, FH * ROWS), TRANSPARENT)
     sdraw = ImageDraw.Draw(sheet)
 
@@ -163,6 +164,11 @@ def gen_player():
     for frame in range(4):
         draw_player_frame(sheet, sdraw, frame * FW, 6 * FH,
                           direction="s", drinking=(frame >= 1))
+
+    # Row 7: drink (north/away)
+    for frame in range(4):
+        draw_player_frame(sheet, sdraw, frame * FW, 7 * FH,
+                          direction="n", drinking=(frame >= 1))
 
     sheet.save(f"{OUT}/player.png")
     print(f"Saved player.png ({sheet.width}×{sheet.height})")
@@ -430,7 +436,7 @@ def gen_lamp():
     print(f"Saved lamp.png ({W}×{H})")
 
 
-# ─── DRINKS (sprite sheet, 5 frames × 8×10) ─────────────────────────────────
+# ─── BEERS (sprite sheet, 5 frames × 8×10) ──────────────────────────────────
 # Frame 0: Light Lager  — pale straw yellow
 # Frame 1: Pale Ale     — golden amber
 # Frame 2: Dark Stout   — near-black, cream foam
@@ -449,28 +455,34 @@ DRINK_TYPES = [
 DW, DH = 8, 10
 
 
-def draw_drink_frame(img, draw, ox, oy, liquid, highlight, shadow, foam):
-    # Glass body
-    rect(draw, ox + 1, oy + 2, 6, 6, liquid)
-    # Left highlight edge
-    rect(draw, ox + 1, oy + 2, 1, 5, highlight)
-    # Right shadow edge
-    rect(draw, ox + 6, oy + 3, 1, 5, shadow)
-    # Foam head (top 2 rows)
-    rect(draw, ox + 1, oy + 0, 6, 2, foam)
-    rect(draw, ox + 1, oy + 0, 1, 1, (255, 255, 255, 200))
-    # Mug base
-    rect(draw, ox + 2, oy + 8, 4, 2, (80, 55, 25, 255))
-    rect(draw, ox + 2, oy + 8, 4, 1, (110, 80, 40, 255))
+BEER_PARTS = 4  # number of sips per beer
 
 
-def gen_drink():
-    img = Image.new("RGBA", (DW * 5, DH), TRANSPARENT)
+def draw_drink_frame(img, draw, ox, oy, liquid, highlight, shadow, foam, fill_level):
+    # Interior liquid area: y=2..7 (6px tall), bottom-aligned
+    interior_h = 6
+    liquid_h = max(1, round(interior_h * fill_level / BEER_PARTS))
+    liquid_y = oy + 2 + (interior_h - liquid_h)
+
+    rect(draw, ox + 2, liquid_y, 4, liquid_h, liquid)
+    rect(draw, ox + 2, liquid_y, 1, liquid_h, highlight)
+    rect(draw, ox + 5, liquid_y + 1, 1, max(0, liquid_h - 1), shadow)
+
+    # Foam only when full
+    if fill_level == BEER_PARTS:
+        rect(draw, ox + 2, oy + 0, 4, 2, foam)
+        rect(draw, ox + 2, oy + 0, 1, 1, (255, 255, 255, 200))
+
+
+def gen_beer():
+    img = Image.new("RGBA", (DW * 5, DH * BEER_PARTS), TRANSPARENT)
     draw = ImageDraw.Draw(img)
-    for i, (liq, hi, sh, foam) in enumerate(DRINK_TYPES):
-        draw_drink_frame(img, draw, i * DW, 0, liq, hi, sh, foam)
-    img.save(f"{OUT}/drink.png")
-    print(f"Saved drink.png ({img.width}×{img.height})")
+    for col, (liq, hi, sh, foam) in enumerate(DRINK_TYPES):
+        for row in range(BEER_PARTS):
+            fill = BEER_PARTS - row  # row 0 = full, row 3 = last sip
+            draw_drink_frame(img, draw, col * DW, row * DH, liq, hi, sh, foam, fill)
+    img.save(f"{OUT_DRINKS}/beer.png")
+    print(f"Saved beer.png ({img.width}×{img.height})")
 
 
 # ─── EMPTY GLASS (single frame, 8×10) ────────────────────────────────────────
@@ -496,12 +508,128 @@ def draw_empty_glass_frame(img, draw, ox, oy):
     rect(draw, ox + 2, oy + 8, 4, 1, BASE_HI)
 
 
-def gen_drink_glass():
+def gen_beer_glass():
     img = Image.new("RGBA", (DW, DH), TRANSPARENT)
     draw = ImageDraw.Draw(img)
     draw_empty_glass_frame(img, draw, 0, 0)
-    img.save(f"{OUT}/drink_glass.png")
-    print(f"Saved drink_glass.png ({img.width}×{img.height})")
+    img.save(f"{OUT_DRINKS}/beer_glass.png")
+    print(f"Saved beer_glass.png ({img.width}×{img.height})")
+
+
+# ─── SHOTS (4 types × 1 part, 8×10 canvas) ──────────────────────────────────
+# Canvas is 8×10 (same as beer). The glass itself is 5px tall, drawn in the
+# bottom half (y=5..9), centered horizontally (4px wide, 2px pad each side).
+# Types: Vodka, Tequila, Whiskey, Dark Rum
+
+SHOT_TYPES = [
+    # (liquid,                  highlight,              shadow)
+    ((225, 238, 248, 255), (245, 252, 255, 255), (160, 195, 220, 255)),  # Vodka — nearly clear
+    ((228, 192,  65, 255), (252, 228, 120, 255), (165, 128,  25, 255)),  # Tequila — pale gold
+    ((172,  88,  22, 255), (215, 138,  65, 255), (110,  48,   8, 255)),  # Whiskey — amber
+    (( 68,  18,   8, 255), (115,  40,  20, 255), ( 35,   6,   2, 255)),  # Dark Rum — near black
+    (( 95,  38, 130, 255), (155,  80, 195, 255), ( 55,  15,  80, 255)),  # Sambuca — deep violet
+]
+
+SSW, SSH = 8, 10
+# Glass is 4px wide × 5px tall, placed in the bottom half of the 8×10 canvas.
+# rim y=5, interior y=6..7, bottom y=8, base y=9. Centered: x=2..5.
+_SX = 2
+_SY = 5
+
+
+def draw_shot_frame(img, draw, ox, oy, liquid, highlight, shadow):
+    gx, gy = ox + _SX, oy + _SY
+    # Liquid fills the interior: x=3..4, y=6..7
+    rect(draw, gx + 1, gy + 1, 2, 2, liquid)
+    rect(draw, gx + 1, gy + 1, 1, 1, highlight)
+    rect(draw, gx + 2, gy + 2, 1, 1, shadow)
+
+
+def gen_shot():
+    img = Image.new("RGBA", (SSW * len(SHOT_TYPES), SSH), TRANSPARENT)
+    draw = ImageDraw.Draw(img)
+    for i, (liq, hi, sh) in enumerate(SHOT_TYPES):
+        draw_shot_frame(img, draw, i * SSW, 0, liq, hi, sh)
+    img.save(f"{OUT_DRINKS}/shot.png")
+    print(f"Saved shot.png ({img.width}×{img.height})")
+
+
+def gen_shot_glass():
+    img = Image.new("RGBA", (SSW, SSH), TRANSPARENT)
+    draw = ImageDraw.Draw(img)
+    gx, gy = _SX, _SY
+    rect(draw, gx + 0, gy + 0, 4, 1, GLASS)      # rim      y=5
+    rect(draw, gx + 0, gy + 1, 1, 2, GLASS_HI)  # left wall y=6..7
+    rect(draw, gx + 3, gy + 1, 1, 2, GLASS_SH)  # right wall y=6..7
+    rect(draw, gx + 1, gy + 3, 2, 1, GLASS)      # bottom    y=8
+    rect(draw, gx + 0, gy + 4, 4, 1, (80, 55, 25, 255))  # base y=9
+    img.save(f"{OUT_DRINKS}/shot_glass.png")
+    print(f"Saved shot_glass.png ({SSW}×{SSH})")
+
+
+# ─── COCKTAILS (4 types × 5 parts, 8×10 canvas each) ────────────────────────
+# Canvas matches beer (8×10). The actual glass is 6×8 drawn with 1px padding
+# on each side — visually slimmer than a beer mug.
+# Types: Mojito, Margarita, Cosmopolitan, Blue Lagoon
+# Row 0 = full glass, row 4 = last sip.
+
+COCKTAIL_TYPES = [
+    # (liquid,                  highlight,              shadow,                 garnish)
+    (( 55, 160,  75, 255), ( 95, 210, 110, 255), ( 20,  90,  35, 255), (175, 230, 175, 255)),  # Mojito
+    ((205, 190,  55, 255), (245, 235, 115, 255), (145, 128,  15, 255), (255, 245, 160, 255)),  # Margarita
+    ((215,  60,  85, 255), (245, 120, 140, 255), (145,  20,  40, 255), (255, 190, 205, 255)),  # Cosmopolitan
+    (( 40, 130, 215, 255), ( 85, 185, 255, 255), ( 10,  75, 148, 255), (170, 220, 255, 255)),  # Blue Lagoon
+    ((185,  90, 160, 255), (230, 145, 210, 255), (120,  40, 100, 255), (240, 195, 230, 255)),  # Tequila Sunrise
+]
+
+CCW, CCH = 8, 10
+COCKTAIL_PARTS = 5
+# Glass drawn as 6×8 inside 8×10: 1px pad left/right, 1px pad top, 1px base.
+# Interior: x=gx+1..gx+4 (4 wide), y=gy+1..gy+6 (6 tall); bottom gy+7; base gy+8..gy+9
+_CCX = 1   # left pad → glass spans x=1..6
+_CCY = 0   # no top pad — cocktail glass fills height naturally
+
+
+def draw_cocktail_frame(img, draw, ox, oy, liquid, highlight, shadow, garnish, fill_level):
+    gx, gy = ox + _CCX, oy + _CCY
+    interior_h = 6
+    liquid_h = max(1, round(interior_h * fill_level / COCKTAIL_PARTS))
+    liquid_y = gy + 1 + (interior_h - liquid_h)  # bottom-aligned
+
+    # Liquid only — glass overlay comes from cocktail_glass.png
+    rect(draw, gx + 1, liquid_y, 4, liquid_h, liquid)
+    rect(draw, gx + 1, liquid_y, 1, liquid_h, highlight)
+    rect(draw, gx + 4, liquid_y + 1, 1, max(0, liquid_h - 1), shadow)
+
+    # Garnish on full glass
+    if fill_level == COCKTAIL_PARTS:
+        rect(draw, gx + 1, liquid_y, 4, 2, garnish)
+        px(img, draw, gx + 2, liquid_y, highlight)
+
+
+def gen_cocktail():
+    img = Image.new("RGBA", (CCW * len(COCKTAIL_TYPES), CCH * COCKTAIL_PARTS), TRANSPARENT)
+    draw = ImageDraw.Draw(img)
+    for col, (liq, hi, sh, garnish) in enumerate(COCKTAIL_TYPES):
+        for row in range(COCKTAIL_PARTS):
+            fill = COCKTAIL_PARTS - row  # row 0 = full, row 4 = 1 sip left
+            draw_cocktail_frame(img, draw, col * CCW, row * CCH, liq, hi, sh, garnish, fill)
+    img.save(f"{OUT_DRINKS}/cocktail.png")
+    print(f"Saved cocktail.png ({img.width}×{img.height})")
+
+
+def gen_cocktail_glass():
+    img = Image.new("RGBA", (CCW, CCH), TRANSPARENT)
+    draw = ImageDraw.Draw(img)
+    gx, gy = _CCX, _CCY
+    rect(draw, gx + 0, gy + 0, 6, 1, GLASS)       # rim
+    rect(draw, gx + 0, gy + 1, 1, 6, GLASS_HI)   # left wall
+    rect(draw, gx + 5, gy + 1, 1, 6, GLASS_SH)   # right wall
+    rect(draw, gx + 1, gy + 7, 4, 1, GLASS)       # bottom edge
+    rect(draw, gx + 0, gy + 8, 6, 1, (110, 80, 40, 255))
+    rect(draw, gx + 0, gy + 9, 6, 1, ( 80, 55, 25, 255))
+    img.save(f"{OUT_DRINKS}/cocktail_glass.png")
+    print(f"Saved cocktail_glass.png ({CCW}×{CCH})")
 
 
 if __name__ == "__main__":
@@ -512,6 +640,10 @@ if __name__ == "__main__":
     gen_bar_bg()
     gen_bar_floor()
     gen_lamp()
-    gen_drink()
-    gen_drink_glass()
+    gen_beer()
+    gen_beer_glass()
+    gen_shot()
+    gen_shot_glass()
+    gen_cocktail()
+    gen_cocktail_glass()
     print("All sprites generated.")

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bldl7wtc2bj1h"]
 
 [ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/hub/drink.gd" id="1_eae3o"]
-[ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drink_glass.png" id="2_ucycd"]
-[ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drink_indicator.png" id="3_4i2oy"]
+[ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drinks/beer_glass.png" id="2_ucycd"]
+[ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drinks/beer.png" id="3_4i2oy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eae3o"]
 radius = 11.0
@@ -32,6 +32,12 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath("GlassSprite:position")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath(".:type")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:max_parts")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
 [node name="Drink" type="Node2D" unique_id=1387790329]
 scale = Vector2(0.8, 0.8)

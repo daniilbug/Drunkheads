@@ -10,7 +10,8 @@ const ROW_WALK_W := 2
 const ROW_WALK_E := 3
 const ROW_IDLE   := 4
 const ROW_SIT    := 5
-const ROW_DRINK  := 6
+const ROW_DRINK   := 6
+const ROW_DRINK_N := 7
 
 const HANDS_EMPTY_CHILD_COUNT = 1
 const HANDS_ITEM_INDEX = 1
@@ -116,16 +117,18 @@ func _try_interact() -> void:
 		return
 	for area in interaction_area.get_overlapping_areas():
 		var owner_node := area.get_parent()
-		if owner_node is Bartender:
-			var bartender = owner_node as Bartender
-			bartender.order(self)
-			return
-		elif owner_node is Chair:
+		if owner_node is Chair:
 			var chair = owner_node as Chair
 			if not chair.is_occupied:
 				_sit_in(chair)
 				return
-	_hands_interact()
+		elif _hands_item != null:
+			_hands_interact()
+			return
+		elif owner_node is Bartender:
+			var bartender = owner_node as Bartender
+			bartender.order(self)
+			return
 
 func _get_top_ysort_anchor(node: Node) -> Node2D:
 	var result: Node2D = null
@@ -190,13 +193,14 @@ func _rpc_show_drink_anim() -> void:
 	_animate_drink()
 
 func _animate_drink() -> void:
-	sprite.frame = ROW_DRINK * 4
-	var t := create_tween()
-	t.tween_property(sprite, "rotation_degrees", 12.0, 0.12)
-	t.tween_property(sprite, "rotation_degrees", -4.0, 0.1)
-	t.tween_property(sprite, "rotation_degrees", 0.0, 0.18).set_trans(Tween.TRANS_SPRING)
+	var drink_row := ROW_DRINK_N if direction.y < 0 else ROW_DRINK
+	sprite.frame = drink_row * 4
+	var tween := create_tween()
+	tween.tween_property(sprite, "rotation_degrees", 12.0, 0.12)
+	tween.tween_property(sprite, "rotation_degrees", -4.0, 0.1)
+	tween.tween_property(sprite, "rotation_degrees", 0.0, 0.18).set_trans(Tween.TRANS_SPRING)
 	var sit_row := ROW_WALK_N if seated_chair and seated_chair.facing_north else ROW_SIT
-	t.tween_callback(func(): sprite.frame = sit_row * 4)
+	tween.tween_callback(func(): sprite.frame = sit_row * 4)
 	var frame_t := create_tween()
-	frame_t.tween_interval(0.12)
-	frame_t.tween_callback(func(): sprite.frame = ROW_DRINK * 4 + 1)
+	frame_t.tween_interval(0.15)
+	frame_t.tween_callback(func(): sprite.frame = drink_row * 4 + 1)

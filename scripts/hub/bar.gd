@@ -117,9 +117,26 @@ func _update_stats() -> void:
 
 func _on_bartender_item_purchased(item: BarMenuItem) -> void:
 	if multiplayer.is_server():
-		handle_drink_spawn(item.name, item.flavor, item.cost, item.alcohol, item.sprite)
+		handle_drink_spawn(
+			item.name, 
+			item.type,
+			item.flavor, 
+			item.cost, 
+			item.alcohol, 
+			item.sprite,
+			item.parts,
+		)
 	else:
-		_spawn_drink.rpc_id(1, item.name, item.flavor, item.cost, item.alcohol, item.sprite)
+		_spawn_drink.rpc_id(
+			1, 
+			item.name, 
+			item.type,
+			item.flavor, 
+			item.cost, 
+			item.alcohol, 
+			item.sprite,
+			item.parts,
+		)
 
 func _on_pickup_requested(drink_name: String) -> void:
 	if multiplayer.is_server():
@@ -142,14 +159,16 @@ func _on_drink_action_requested(drink_name: String) -> void:
 @rpc("any_peer", "reliable")
 func _spawn_drink(
 	drink_name: String,
+	type: BarMenuItem.Type,
 	flavor: String,
 	cost: float,
 	alcohol: float,
 	sprite: int,
+	parts: int,
 ) -> void:
 	if not multiplayer.is_server():
 		return
-	handle_drink_spawn(drink_name, flavor, cost, alcohol, sprite)
+	handle_drink_spawn(drink_name, type, flavor, cost, alcohol, sprite, parts)
 
 @rpc("any_peer", "reliable")
 func _request_pickup(drink_name: String) -> void:
@@ -171,17 +190,21 @@ func _request_drink_action(drink_name: String) -> void:
 
 func handle_drink_spawn(
 	drink_name: String,
+	type: BarMenuItem.Type,
 	flavor: String,
 	cost: float,
 	alcohol: float,
 	sprite: int,
+	parts: int,
 ) -> void:
 	var drink: Drink = DRINK_SCENE.instantiate()
 	drink.drink_name = drink_name
+	drink.type = type
 	drink.flavor = flavor
 	drink.cost = cost
 	drink.alcohol = alcohol
 	drink.sprite_frame = sprite
+	drink.max_parts = parts
 	drink.position = Vector2(menu_item_spawn.position.x, bartender.position.y + 1.0)
 	drink.set_multiplayer_authority(1)
 	y_sort.add_child(drink, true)

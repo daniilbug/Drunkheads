@@ -33,6 +33,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "What'll it be?"
 
+[node name="Tabs" type="TabBar" parent="Panel/Margin/VBox" unique_id=1430225921]
+layout_mode = 2
+current_tab = 0
+tab_count = 3
+tab_0/title = "Beer"
+tab_1/title = "Shots"
+tab_2/title = "Coctails"
+
 [node name="List" type="VBoxContainer" parent="Panel/Margin/VBox" unique_id=1956127938]
 layout_mode = 2
 size_flags_vertical = 3
@@ -42,3 +50,6 @@ theme_override_constants/separation = 8
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Never mind"
+
+[connection signal="tab_changed" from="Panel/Margin/VBox/Tabs" to="." method="_on_tabs_tab_changed"]
+[connection signal="pressed" from="Panel/Margin/VBox/CloseBtn" to="." method="_on_close_btn_pressed"]
