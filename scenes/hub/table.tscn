@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b3xed7ukp1pyj"]
 
 [ext_resource type="Texture2D" uid="uid://b1o7w31trucan" path="res://assets/sprites/table.png" id="1_table"]
-[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/hub/drop_place.tscn" id="2_18nsd"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="2_18nsd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
 size = Vector2(48, 24)

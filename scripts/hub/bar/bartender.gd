@@ -6,6 +6,9 @@ signal item_purchased(item: BarMenuItem)
 @onready var sprite: Sprite2D = $Sprite
 @onready var menu_item_area: Area2D = $MenuItemArea
 
+@onready var boombox_place = $DropPlaces/DropPlace1
+@onready var order_place = $DropPlaces/OrderPlace
+
 var _anim_t := 0.0
 var _menu_open := false
 

@@ -1,6 +1,6 @@
 @tool
 class_name Drink
-extends Node2D
+extends Draggable
 
 const FRAMES := 5
 
@@ -19,8 +19,6 @@ var max_parts: int = 4:
 		if is_node_ready():
 			_update_drink_sprite()
 
-var _log := Log.new("Drink")
-
 @onready var glass_sprite: Sprite2D = $GlassSprite
 @onready var drink_sprite: Sprite2D = $GlassSprite/DrinkSprite
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
@@ -31,12 +29,8 @@ var parts: int = max_parts:
 		if is_node_ready():
 			_update_drink_sprite()
 
-var holder_peer_id: int = 0
-
-func _enter_tree() -> void:
-	$MultiplayerSynchronizer.set_multiplayer_authority(get_multiplayer_authority())
-
 func _ready() -> void:
+	sprite = glass_sprite
 	_update_drink_sprite()
 
 func get_respect_bonus() -> float:
@@ -46,6 +40,7 @@ func get_mind_penalty() -> float:
 	return 5.0 + alcohol
 
 func _update_drink_sprite() -> void:
+	print("is_server=%s, drink %s, parts=%d, max_parts=%d" % [multiplayer.is_server(), name, parts, max_parts])
 	match type:
 		BarMenuItem.Type.BEER:
 			glass_sprite.texture = load("res://assets/sprites/drinks/beer_glass.png")

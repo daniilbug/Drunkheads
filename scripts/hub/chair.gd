@@ -1,3 +1,4 @@
+@tool
 class_name Chair
 extends Node2D
 

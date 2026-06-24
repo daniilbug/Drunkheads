@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dsc8g1p4uat67"]
 
-[ext_resource type="Script" uid="uid://cme507f1l28lq" path="res://scripts/hub/drop_place.gd" id="1_j8h5a"]
+[ext_resource type="Script" uid="uid://cme507f1l28lq" path="res://scripts/core/drop_place.gd" id="1_tk36x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fo1rd"]
 radius = 8.0
 
 [node name="DropPlace" type="Node2D" unique_id=16125788]
-script = ExtResource("1_j8h5a")
+script = ExtResource("1_tk36x")
 
 [node name="Area" type="Area2D" parent="." unique_id=599849946]
 

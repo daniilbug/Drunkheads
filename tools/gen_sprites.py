@@ -412,6 +412,78 @@ def gen_bar_floor():
     print(f"Saved bar_floor.png ({img.width}×{img.height})")
 
 
+# ─── BOOMBOX (16×10 per frame, 4 animation frames) ─────────────────────────
+# Frame 0: idle   Frame 1: beat low   Frame 2: beat high   Frame 3: beat mid
+# Animation: display bar + speaker centre dot pulse.
+
+BBW, BBH = 16, 10
+BB_BODY   = ( 32,  27,  23, 255)
+BB_HI     = ( 58,  50,  42, 255)
+BB_SH     = ( 14,  11,   9, 255)
+BB_RING   = ( 50,  43,  36, 255)
+BB_CONE   = ( 18,  15,  12, 255)
+BB_DISP   = ( 30, 190, 118, 255)
+BB_DISP_D = (  8,  62,  38, 255)
+BB_BTN_R  = (195,  48,  36, 255)
+BB_BTN    = ( 44,  38,  33, 255)
+BB_ANT    = ( 75,  65,  55, 255)
+
+
+def gen_boombox():
+    img = Image.new("RGBA", (BBW * 4, BBH), TRANSPARENT)
+    draw = ImageDraw.Draw(img)
+
+    # display bar widths and speaker dot brightness per frame
+    bar_w  = [0, 2, 5, 3]
+    dot_c  = [BB_CONE, BB_HI, (110, 95, 78, 255), BB_HI]
+
+    for frame in range(4):
+        ox = frame * BBW
+
+        # Antenna (top-right, diagonal 2px)
+        px(img, draw, ox + 12, 0, BB_ANT)
+        px(img, draw, ox + 13, 1, BB_ANT)
+
+        # Body fill
+        rect(draw, ox + 0, 1, 16, 9, BB_BODY)
+        # Highlights / shadows
+        rect(draw, ox + 1, 1, 14, 1, BB_HI)         # top edge
+        rect(draw, ox + 0, 1,  1, 8, BB_HI)         # left edge
+        rect(draw, ox + 15, 2,  1, 8, BB_SH)        # right edge shadow
+        rect(draw, ox + 1, 9, 14, 1, BB_SH)         # bottom shadow
+
+        # Left speaker: x=1..4, y=2..7
+        rect(draw, ox + 1, 2, 4, 6, BB_RING)
+        rect(draw, ox + 2, 3, 2, 4, BB_CONE)
+        px(img, draw, ox + 3, 5, dot_c[frame])      # centre dot
+
+        # Right speaker: x=11..14, y=2..7
+        rect(draw, ox + 11, 2, 4, 6, BB_RING)
+        rect(draw, ox + 12, 3, 2, 4, BB_CONE)
+        px(img, draw, ox + 13, 5, dot_c[frame])
+
+        # Centre panel background: x=5..10, y=2..8
+        rect(draw, ox + 5, 2, 6, 7, BB_BODY)
+
+        # Display bar: x=5..10, y=2..3
+        rect(draw, ox + 5, 2, 6, 2, BB_DISP_D)
+        if bar_w[frame] > 0:
+            rect(draw, ox + 5, 2, bar_w[frame], 2, BB_DISP)
+
+        # Cassette window: x=6..9, y=4..6
+        rect(draw, ox + 6, 4, 4, 3, BB_SH)
+        px(img, draw, ox + 7, 5, BB_HI)             # left reel dot
+        px(img, draw, ox + 9, 5, BB_HI)             # right reel dot
+
+        # Bottom button strip: y=8
+        px(img, draw, ox + 5, 8, BB_BTN_R)          # red play button
+        px(img, draw, ox + 7, 8, BB_BTN)
+        px(img, draw, ox + 9, 8, BB_BTN)
+
+    img.save(f"{OUT}/boombox.png")
+    print(f"Saved boombox.png ({img.width}×{img.height})")
+
+
 # ─── LAMP ───────────────────────────────────────────────────────────────────
 
 def gen_lamp():
@@ -636,6 +708,55 @@ def gen_cocktail_glass():
     print(f"Saved cocktail_glass.png ({CCW}×{CCH})")
 
 
+# ─── ENTRANCE CARPET (single frame, 32×10) ───────────────────────────────────
+# Seen top-down: deep red field, gold border, fringe on left/right short edges.
+
+CARP_RED  = (120,  22,  22, 255)
+CARP_DARK = ( 85,  12,  12, 255)
+CARP_MID  = (155,  35,  35, 255)
+CARP_GOLD = (175, 138,  48, 255)
+CARP_GOLDD= (120,  92,  28, 255)
+CARP_FRINGE = (200, 165,  58, 255)
+
+CW, CH = 32, 10
+
+
+def gen_carpet():
+    img, draw = new(CW, CH)
+
+    # ── body (full fill) ──────────────────────────────────────────────────────
+    rect(draw, 0, 0, CW, CH, CARP_RED)
+
+    # ── gold outer border (1 px, all four sides) ─────────────────────────────
+    rect(draw, 0,      0,      CW, 1,  CARP_GOLD)   # top
+    rect(draw, 0,      CH - 1, CW, 1,  CARP_GOLD)   # bottom
+    rect(draw, 0,      0,      1,  CH, CARP_GOLD)   # left
+    rect(draw, CW - 1, 0,      1,  CH, CARP_GOLD)   # right
+
+    # ── gold inner border (1 px inset, skipping corners) ─────────────────────
+    rect(draw, 2,      2,      CW - 4, 1,  CARP_GOLDD)   # top inner
+    rect(draw, 2,      CH - 3, CW - 4, 1,  CARP_GOLDD)   # bottom inner
+    rect(draw, 2,      2,      1,  CH - 4, CARP_GOLDD)   # left inner
+    rect(draw, CW - 3, 2,      1,  CH - 4, CARP_GOLDD)   # right inner
+
+    # ── subtle diamond centre accent ──────────────────────────────────────────
+    cx, cy = CW // 2, CH // 2
+    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        px(img, draw, cx + dx, cy + dy, CARP_GOLDD)
+    px(img, draw, cx, cy, CARP_GOLD)
+
+    # ── top/bottom row highlight (gives slight depth) ────────────────────────
+    rect(draw, 1, 1, CW - 2, 1, CARP_MID)
+
+    # ── fringe: short vertical lines on left and right edges ─────────────────
+    for fy in range(2, CH - 2, 2):
+        px(img, draw, 0, fy, CARP_FRINGE)
+        px(img, draw, CW - 1, fy, CARP_FRINGE)
+
+    img.save(f"{OUT}/carpet.png")
+    print(f"Saved carpet.png ({CW}×{CH})")
+
+
 if __name__ == "__main__":
     gen_player()
     gen_bartender()
@@ -644,10 +765,12 @@ if __name__ == "__main__":
     gen_bar_bg()
     gen_bar_floor()
     gen_lamp()
+    gen_boombox()
     gen_beer()
     gen_beer_glass()
     gen_shot()
     gen_shot_glass()
     gen_cocktail()
     gen_cocktail_glass()
+    gen_carpet()
     print("All sprites generated.")

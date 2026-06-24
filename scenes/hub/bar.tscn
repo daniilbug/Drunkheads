@@ -2,27 +2,17 @@
 
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/hub/bar.gd" id="1_bar"]
 [ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/hub/bar/bartender.tscn" id="3_bartender"]
+[ext_resource type="PackedScene" uid="uid://b5mayw2wvyc5g" path="res://scenes/hub/welcome_zone.tscn" id="4_wulp6"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
-[ext_resource type="AudioStream" uid="uid://b2wnrqj3xgg30" path="res://assets/audio/background/1.mp3" id="6_ml76i"]
-[ext_resource type="AudioStream" uid="uid://n10tiopjfnvy" path="res://assets/audio/background/2.mp3" id="7_5617e"]
+[ext_resource type="PackedScene" uid="uid://fixpgx736rri" path="res://scenes/hub/bar/boombox.tscn" id="6_ml76i"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table_with_chairs.tscn" id="7_table_group"]
-[ext_resource type="AudioStream" uid="uid://cldhtq6v7vct0" path="res://assets/audio/background/3.mp3" id="8_fcf0i"]
-[ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="9_kpgvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
 size = Vector2(320, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallV"]
 size = Vector2(8, 328)
-
-[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_sm57a"]
-shuffle = true
-stream_count = 4
-stream_0 = ExtResource("6_ml76i")
-stream_1 = ExtResource("7_5617e")
-stream_2 = ExtResource("8_fcf0i")
-stream_3 = ExtResource("9_kpgvg")
 
 [node name="Bar" type="Node2D" unique_id=705751519]
 scale = Vector2(4, 4)
@@ -66,11 +56,17 @@ position = Vector2(324, 164)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=698819567]
 shape = SubResource("RectangleShape2D_wallV")
 
+[node name="WelcomeZone" parent="." unique_id=862362952 instance=ExtResource("4_wulp6")]
+position = Vector2(160.25, 316.75)
+
 [node name="YSort" type="Node2D" parent="." unique_id=1256478703]
 y_sort_enabled = true
 
 [node name="Bartender" parent="YSort" unique_id=500718914 instance=ExtResource("3_bartender")]
 position = Vector2(160.5, 35.75)
+
+[node name="Boombox" parent="YSort" unique_id=1333916304 instance=ExtResource("6_ml76i")]
+position = Vector2(177.75, 9.25)
 
 [node name="TableGroup1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
 position = Vector2(108.25, 93)
@@ -89,12 +85,6 @@ position = Vector2(108.25, 218.5)
 
 [node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
 position = Vector2(210, 219.25)
-
-[node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1264568561]
-stream = SubResource("AudioStreamPlaylist_sm57a")
-volume_db = -10.0
-autoplay = true
-playback_type = 1
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
@@ -128,12 +118,8 @@ offset_right = 320.0
 offset_bottom = -16.0
 horizontal_alignment = 1
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
-_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
-spawn_path = NodePath("../YSort")
-
-[node name="ItemsSpawner" type="MultiplayerSpawner" parent="." unique_id=303569049]
-_spawnable_scenes = PackedStringArray("uid://bldl7wtc2bj1h")
+[node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
 spawn_path = NodePath("../YSort")
 
 [connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]

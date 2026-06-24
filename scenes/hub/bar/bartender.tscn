@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/hub/bar/bartender.gd" id="1_611q6"]
 [ext_resource type="Texture2D" uid="uid://2fpce82kty5m" path="res://assets/sprites/bartender.png" id="2_juoo6"]
-[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/hub/drop_place.tscn" id="3_611q6"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
 [ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/hub/chair.tscn" id="4_juoo6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
@@ -41,6 +41,9 @@ position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_zone")
 
 [node name="DropPlaces" type="Node2D" parent="." unique_id=1724788350]
+
+[node name="OrderPlace" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
+position = Vector2(0, -5)
 
 [node name="DropPlace1" parent="DropPlaces" unique_id=578939736 instance=ExtResource("3_611q6")]
 position = Vector2(16, -5)
