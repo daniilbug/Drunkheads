@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://brrb1kdp2f7ys"]
+
+[ext_resource type="Script" uid="uid://lapxfna6ob5e" path="res://scripts/hub/bar/neon_sign.gd" id="1_syw0i"]
+[ext_resource type="Texture2D" uid="uid://02knuh7nascw" path="res://assets/sprites/neon_sign.png" id="2_6f3tp"]
+
+[node name="NeonSign" type="Node2D" unique_id=572259460]
+script = ExtResource("1_syw0i")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1152729851]
+texture = ExtResource("2_6f3tp")
+hframes = 2

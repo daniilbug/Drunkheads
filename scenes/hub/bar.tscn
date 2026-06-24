@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
 [ext_resource type="PackedScene" uid="uid://fixpgx736rri" path="res://scenes/hub/bar/boombox.tscn" id="6_ml76i"]
-[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table_with_chairs.tscn" id="7_table_group"]
+[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="7_table_group"]
+[ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/hub/bar/neon_sign.tscn" id="8_m6do7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
 size = Vector2(320, 8)
@@ -121,5 +122,8 @@ horizontal_alignment = 1
 [node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
 _spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
 spawn_path = NodePath("../YSort")
+
+[node name="NeonSign" parent="." unique_id=572259460 instance=ExtResource("8_m6do7")]
+position = Vector2(131.75, 8.5)
 
 [connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]

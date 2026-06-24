@@ -1,33 +1,51 @@
-[gd_scene format=3 uid="uid://b3xed7ukp1pyj"]
+[gd_scene format=3 uid="uid://bcv5xmti8v4pp"]
 
 [ext_resource type="Texture2D" uid="uid://b1o7w31trucan" path="res://assets/sprites/table.png" id="1_table"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="2_18nsd"]
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/hub/chair.tscn" id="3_0xus0"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arq05"]
 size = Vector2(48, 24)
 
-[node name="Table" type="StaticBody2D" unique_id=692571549]
+[node name="TableWithChairs" type="Node2D" unique_id=686340738]
+y_sort_enabled = true
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=671686328]
+[node name="Table" type="StaticBody2D" parent="." unique_id=1071002197]
+
+[node name="Sprite" type="Sprite2D" parent="Table" unique_id=2101722161]
 texture_filter = 1
 position = Vector2(0, 12)
 texture = ExtResource("1_table")
 centered = false
 offset = Vector2(-24, -24)
 
-[node name="Shape" type="CollisionShape2D" parent="." unique_id=126533792]
-shape = SubResource("RectangleShape2D_table")
+[node name="Shape" type="CollisionShape2D" parent="Table" unique_id=1595896442]
+shape = SubResource("RectangleShape2D_arq05")
 
-[node name="DropPlaces" type="Node2D" parent="." unique_id=1792947421]
+[node name="DropPlaces" type="Node2D" parent="Table" unique_id=438695079]
 
-[node name="DropPlace" parent="DropPlaces" unique_id=639673201 instance=ExtResource("2_18nsd")]
+[node name="DropPlace" parent="Table/DropPlaces" unique_id=16125788 instance=ExtResource("2_18nsd")]
 position = Vector2(-11, -7)
 
-[node name="DropPlace2" parent="DropPlaces" unique_id=907191460 instance=ExtResource("2_18nsd")]
+[node name="DropPlace2" parent="Table/DropPlaces" unique_id=997977591 instance=ExtResource("2_18nsd")]
 position = Vector2(-11, 2)
 
-[node name="DropPlace3" parent="DropPlaces" unique_id=1665404351 instance=ExtResource("2_18nsd")]
+[node name="DropPlace3" parent="Table/DropPlaces" unique_id=60841244 instance=ExtResource("2_18nsd")]
 position = Vector2(12, -7)
 
-[node name="DropPlace4" parent="DropPlaces" unique_id=747907471 instance=ExtResource("2_18nsd")]
+[node name="DropPlace4" parent="Table/DropPlaces" unique_id=1301706812 instance=ExtResource("2_18nsd")]
 position = Vector2(12, 2)
+
+[node name="ChairSouthWest" parent="." unique_id=525780025 instance=ExtResource("3_0xus0")]
+position = Vector2(-13, -11)
+
+[node name="ChairSouthEast" parent="." unique_id=1094554752 instance=ExtResource("3_0xus0")]
+position = Vector2(13, -11)
+
+[node name="ChairNorthWest" parent="." unique_id=1948589676 instance=ExtResource("3_0xus0")]
+position = Vector2(-13, 20)
+facing_north = true
+
+[node name="ChairNorthEast" parent="." unique_id=1633767019 instance=ExtResource("3_0xus0")]
+position = Vector2(13, 20)
+facing_north = true
