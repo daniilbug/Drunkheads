@@ -28,8 +28,6 @@ const HANDS_ITEM_INDEX = 1
 @onready var camera: Camera2D = $Camera
 var direction := Vector2.DOWN
 
-var _log = Log.new("Player")
-
 var _hands_item: Draggable = null
 
 var _anim_t := 0.0
@@ -117,6 +115,9 @@ func _try_interact() -> void:
 			if not chair.is_occupied:
 				_sit_in(chair)
 				return
+		elif owner_node is Boombox:
+			owner_node.switch()
+			return
 		elif _hands_item != null:
 			_hands_interact()
 			return
@@ -160,6 +161,8 @@ func _hands_interact() -> void:
 	elif _hands_item is Drink:
 		var drink = _hands_item as Drink
 		_drink(drink)
+	elif _hands_item is Boombox:
+		_hands_item.switch()
 
 func _drink(drink: Drink) -> void:
 	if drink.parts == 0:

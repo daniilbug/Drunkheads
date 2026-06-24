@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="5_ia5v7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2lq3"]
-radius = 12.0
+radius = 8.0
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_nqy8t"]
 shuffle = true
@@ -25,6 +25,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("Sprite:position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:is_playing")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="Boombox" type="Node2D" unique_id=1333916304]
 script = ExtResource("1_acxi1")

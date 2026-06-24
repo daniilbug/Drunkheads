@@ -13,13 +13,16 @@ func _ready() -> void:
 	y_sort.child_entered_tree.connect(_on_child_entered_tree)
 	for child in y_sort.get_children():
 		if child is Draggable:
-			child.pickup_requested.connect(_on_pickup_requested)
-			child.drop_requested.connect(_on_drop_requested)
+			_process_draggable(child)
 	if multiplayer.is_server():
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_remove_player)
 		_spawn_player(multiplayer.get_unique_id())
 		_init_local_player(y_sort.get_node(str(multiplayer.get_unique_id())) as Player)
+
+func _on_child_entered_tree(node: Node) -> void:
+	if node is Draggable:
+		_process_draggable(node)
 
 func _on_peer_connected(peer_id: int) -> void:
 	_spawn_player(peer_id)
@@ -38,7 +41,6 @@ func _on_spawned(node: Node) -> void:
 		if pid == multiplayer.get_unique_id():
 			node.global_position = player_spawn.global_position
 			_init_local_player(node)
-
 
 func _remove_player(peer_id: int) -> void:
 	var player := y_sort.get_node_or_null(str(peer_id))
@@ -75,11 +77,6 @@ func _process(_delta: float) -> void:
 			draggable.global_position = Vector2(hands_pos.x, holder.global_position.y + 5.0)
 			draggable.sprite.position = draggable.to_local(hands_pos)
 
-func _on_child_entered_tree(node: Node) -> void:
-	if node is Draggable:
-		node.pickup_requested.connect(_on_pickup_requested)
-		node.drop_requested.connect(_on_drop_requested)
-
 func _on_pickup_requested(name: String) -> void:
 	if multiplayer.is_server():
 		_handle_pickup(multiplayer.get_unique_id(), name)
@@ -91,6 +88,11 @@ func _on_drop_requested(name: String, sort_pos: Vector2, visual_pos: Vector2) ->
 		_handle_drop(multiplayer.get_unique_id(), name, sort_pos, visual_pos)
 	else:
 		_request_drop.rpc_id(1, name, sort_pos, visual_pos)
+
+func _process_draggable(draggable: Draggable):
+	draggable.pickup_requested.connect(_on_pickup_requested)
+	draggable.drop_requested.connect(_on_drop_requested)
+	draggable.set_multiplayer_authority(1)
 
 @rpc("any_peer", "reliable")
 func _request_pickup(name: String) -> void:

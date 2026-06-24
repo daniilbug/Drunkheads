@@ -40,7 +40,6 @@ func get_mind_penalty() -> float:
 	return 5.0 + alcohol
 
 func _update_drink_sprite() -> void:
-	print("is_server=%s, drink %s, parts=%d, max_parts=%d" % [multiplayer.is_server(), name, parts, max_parts])
 	match type:
 		BarMenuItem.Type.BEER:
 			glass_sprite.texture = load("res://assets/sprites/drinks/beer_glass.png")
