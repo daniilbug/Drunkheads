@@ -15,7 +15,7 @@ size = Vector2(21.5, 13)
 y_sort_enabled = true
 script = ExtResource("1_611q6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=486637219]
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=486637219]
 shape = SubResource("RectangleShape2D_counter")
 
 [node name="CounterTop" type="Polygon2D" parent="." unique_id=413523057]
@@ -30,7 +30,7 @@ polygon = PackedVector2Array(-80, 0, 80, 0, 80, 4, -80, 4)
 texture_filter = 1
 texture = ExtResource("2_juoo6")
 centered = false
-offset = Vector2(-8, -40)
+offset = Vector2(-6, -36)
 hframes = 2
 
 [node name="PurchaseArea" type="Area2D" parent="." unique_id=735785618]

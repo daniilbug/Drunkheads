@@ -175,42 +175,46 @@ def gen_player():
 
 
 # ─── BARTENDER ──────────────────────────────────────────────────────────────
-BTW, BTH = 16, 24
+BTW, BTH = 12, 20
 
 
 def draw_bartender_frame(img, draw, ox, oy, phase=0):
-    # Counter-back panel fills the gap between apron bottom and counter top
-    rect(draw, ox + 0, oy + 18, 16, 2, C["counter"])
-    rect(draw, ox + 0, oy + 18, 16, 1, C["counter_hi"])
-    rect(draw, ox + 0, oy + 20, 16, 4, C["wood_mid"])
-    rect(draw, ox + 0, oy + 23, 16, 1, C["wood_dark"])
+    # Counter back-panel (fills visual gap above physical counter geometry)
+    rect(draw, ox + 0, oy + 15, 12, 2, C["counter"])
+    rect(draw, ox + 0, oy + 15, 12, 1, C["counter_hi"])
+    rect(draw, ox + 0, oy + 17, 12, 2, C["wood_mid"])
+    rect(draw, ox + 0, oy + 19, 12, 1, C["wood_dark"])
 
-    rect(draw, ox + 4, oy + 10, 8, 8, C["apron"])
-    rect(draw, ox + 4, oy + 10, 8, 1, C["apron_dark"])
-    rect(draw, ox + 4, oy + 11, 1, 6, C["apron_dark"])
-    rect(draw, ox + 11, oy + 11, 1, 6, C["apron_dark"])
-    rect(draw, ox + 3, oy + 11, 1, 5, C["shirt_teal"])
-    rect(draw, ox + 12, oy + 11, 1, 5, C["shirt_teal"])
+    # Body with apron (y=8..14)
+    rect(draw, ox + 3, oy + 8, 6, 7, C["apron"])
+    rect(draw, ox + 3, oy + 8, 6, 1, C["apron_dark"])
+    rect(draw, ox + 3, oy + 9, 1, 5, C["apron_dark"])
+    rect(draw, ox + 8, oy + 9, 1, 5, C["apron_dark"])
+    rect(draw, ox + 2, oy + 8, 1, 6, C["shirt_teal"])
+    rect(draw, ox + 9, oy + 8, 1, 6, C["shirt_teal"])
+    rect(draw, ox + 5, oy + 8, 1, 7, C["wood_dark"])
+    rect(draw, ox + 7, oy + 8, 1, 7, C["wood_dark"])
 
     if phase == 0:
-        rect(draw, ox + 2, oy + 15, 2, 3, C["skin"])
-        rect(draw, ox + 12, oy + 15, 2, 3, C["skin"])
+        rect(draw, ox + 2, oy + 11, 1, 3, C["skin"])
+        rect(draw, ox + 9, oy + 11, 1, 3, C["skin"])
     else:
-        rect(draw, ox + 2, oy + 15, 2, 3, C["skin"])
-        rect(draw, ox + 11, oy + 11, 2, 3, C["skin"])
-        rect(draw, ox + 12, oy + 8, 2, 4, C["drink_yel"])
-        px(img, draw, ox + 12, oy + 8, C["drink_hi"])
+        rect(draw, ox + 2, oy + 11, 1, 3, C["skin"])
+        rect(draw, ox + 9, oy + 8,  1, 3, C["skin"])
+        rect(draw, ox + 9, oy + 5,  2, 4, C["drink_yel"])
+        px(img, draw, ox + 9, oy + 5, C["drink_hi"])
 
-    rect(draw, ox + 4, oy + 3, 8, 6, C["skin"])
-    rect(draw, ox + 4, oy + 3, 1, 6, C["skin_dark"])
-    rect(draw, ox + 4, oy + 1, 8, 3, C["hair"])
-    rect(draw, ox + 3, oy + 3, 10, 1, C["hair"])
-    px(img, draw, ox + 5, oy + 1, C["hair_hi"])
-    px(img, draw, ox + 6, oy + 6, C["hair"])
-    px(img, draw, ox + 9, oy + 6, C["hair"])
-    rect(draw, ox + 6, oy + 8, 4, 1, C["hair"])
-    rect(draw, ox + 6, oy + 10, 1, 8, C["wood_dark"])
-    rect(draw, ox + 9, oy + 10, 1, 8, C["wood_dark"])
+    # Head (y=1..7)
+    rect(draw, ox + 3, oy + 2, 6, 6, C["skin"])
+    rect(draw, ox + 3, oy + 2, 1, 5, C["skin_dark"])
+    rect(draw, ox + 3, oy + 1, 6, 2, C["hair"])
+    px(img, draw, ox + 4, oy + 1, C["hair_hi"])
+    px(img, draw, ox + 3, oy + 3, C["hair"])
+    px(img, draw, ox + 8, oy + 3, C["hair"])
+    px(img, draw, ox + 5, oy + 7, C["hair"])
+    px(img, draw, ox + 6, oy + 7, C["hair"])
+    px(img, draw, ox + 4, oy + 4, (50, 30, 12, 255))
+    px(img, draw, ox + 7, oy + 4, (50, 30, 12, 255))
 
 
 def gen_bartender():
