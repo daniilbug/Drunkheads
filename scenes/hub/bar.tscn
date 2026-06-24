@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/hub/bar/bartender.tscn" id="3_bartender"]
 [ext_resource type="PackedScene" uid="uid://b5mayw2wvyc5g" path="res://scenes/hub/welcome_zone.tscn" id="4_wulp6"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
+[ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/hub/bar/plant.tscn" id="5_fcf0i"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
 [ext_resource type="PackedScene" uid="uid://fixpgx736rri" path="res://scenes/hub/bar/boombox.tscn" id="6_ml76i"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="7_table_group"]
@@ -63,6 +64,12 @@ position = Vector2(160.25, 316.75)
 
 [node name="YSort" type="Node2D" parent="." unique_id=1256478703]
 y_sort_enabled = true
+
+[node name="Plant" parent="YSort" unique_id=429371026 instance=ExtResource("5_fcf0i")]
+position = Vector2(68.5, 37.75)
+
+[node name="NeonSign" parent="YSort" unique_id=572259460 instance=ExtResource("8_m6do7")]
+position = Vector2(131.75, 8.5)
 
 [node name="Bartender" parent="YSort" unique_id=500718914 instance=ExtResource("3_bartender")]
 position = Vector2(160.5, 35.75)
@@ -126,8 +133,5 @@ horizontal_alignment = 1
 [node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
 _spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
 spawn_path = NodePath("../YSort")
-
-[node name="NeonSign" parent="." unique_id=572259460 instance=ExtResource("8_m6do7")]
-position = Vector2(131.75, 8.5)
 
 [connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]
