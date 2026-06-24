@@ -1,6 +1,8 @@
 class_name PlayerData
 extends Resource
 
+const MIN_DRUNK_LIMIT = 10
+
 const MAX_STAT := 100.0
 const MIN_STAT := 0.0
 
@@ -35,3 +37,6 @@ func _apply(stat: String, delta: float) -> void:
 	set(stat, next)
 	if not is_zero_approx(actual):
 		stat_changed.emit(stat, actual)
+
+func is_drunk() -> bool:
+	return mind <= MIN_DRUNK_LIMIT

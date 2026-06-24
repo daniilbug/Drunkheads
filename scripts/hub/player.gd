@@ -13,9 +13,6 @@ const ROW_SIT    := 5
 const ROW_DRINK   := 6
 const ROW_DRINK_N := 7
 
-const HANDS_EMPTY_CHILD_COUNT = 1
-const HANDS_ITEM_INDEX = 1
-
 @export var player_data: PlayerData
 @export var is_sitting := false
 @export var seated_chair: Chair = null
@@ -34,16 +31,19 @@ var _anim_t := 0.0
 var _anim_row := ROW_IDLE
 var _is_walking := false
 var _idle_tween: Tween
+var _drunk_tween: Tween
 
 signal drink_action_requested(drink_name: String)
 
 func _ready() -> void:
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
+	_drunk_tween = AnimationUtils.drunk_camera_shake_tween(camera)
 	call_deferred("_setup_authority")
 
 func _setup_authority() -> void:
 	if is_multiplayer_authority():
+		player_data.stats_changed.connect(_on_stats_changed)
 		camera.make_current()
 
 func _start_idle_bob() -> void:
@@ -187,3 +187,14 @@ func _animate_drink() -> void:
 	var frame_t := create_tween()
 	frame_t.tween_interval(0.15)
 	frame_t.tween_callback(func(): sprite.frame = drink_row * 4 + 1)
+	
+func _on_stats_changed():
+	var focus: float
+	if player_data.is_drunk():
+		focus = 1.5
+		_drunk_tween.play()
+	else:
+		focus = 1
+		_drunk_tween.pause()
+	AnimationUtils.drunk_camera_focus_change(camera, focus).play()
+	
