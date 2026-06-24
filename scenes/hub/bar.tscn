@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
 [ext_resource type="PackedScene" uid="uid://fixpgx736rri" path="res://scenes/hub/bar/boombox.tscn" id="6_ml76i"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="7_table_group"]
+[ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/hub/bar/table_football.tscn" id="8_5617e"]
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/hub/bar/neon_sign.tscn" id="8_m6do7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
@@ -69,23 +70,26 @@ position = Vector2(160.5, 35.75)
 [node name="Boombox" parent="YSort" unique_id=1333916304 instance=ExtResource("6_ml76i")]
 position = Vector2(177.75, 9.25)
 
-[node name="TableGroup1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
+[node name="Table1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
 position = Vector2(108.25, 93)
 
-[node name="TableGroup2" parent="YSort" unique_id=2009390461 instance=ExtResource("7_table_group")]
+[node name="Table2" parent="YSort" unique_id=2009390461 instance=ExtResource("7_table_group")]
 position = Vector2(212, 94.5)
 
-[node name="TableGroup3" parent="YSort" unique_id=418421417 instance=ExtResource("7_table_group")]
+[node name="Table3" parent="YSort" unique_id=418421417 instance=ExtResource("7_table_group")]
 position = Vector2(107.25, 156.25)
 
-[node name="TableGroup4" parent="YSort" unique_id=1562237625 instance=ExtResource("7_table_group")]
+[node name="Table4" parent="YSort" unique_id=1562237625 instance=ExtResource("7_table_group")]
 position = Vector2(211, 158.25)
 
-[node name="TableGroup5" parent="YSort" unique_id=1362264130 instance=ExtResource("7_table_group")]
+[node name="Table5" parent="YSort" unique_id=1362264130 instance=ExtResource("7_table_group")]
 position = Vector2(108.25, 218.5)
 
-[node name="TableGroup6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
+[node name="Table6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
 position = Vector2(210, 219.25)
+
+[node name="TableFootball" parent="YSort" unique_id=764347753 instance=ExtResource("8_5617e")]
+position = Vector2(283.25, 58.25)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
