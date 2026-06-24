@@ -12,6 +12,7 @@ size = Vector2(160, 16)
 size = Vector2(21.5, 13)
 
 [node name="Bartender" type="StaticBody2D" unique_id=208033558]
+y_sort_enabled = true
 script = ExtResource("1_611q6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=486637219]
@@ -41,34 +42,32 @@ shape = SubResource("RectangleShape2D_zone")
 
 [node name="DropPlaces" type="Node2D" parent="." unique_id=1724788350]
 
-[node name="DropPlace1" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
-position = Vector2(0, -7)
+[node name="DropPlace1" parent="DropPlaces" unique_id=578939736 instance=ExtResource("3_611q6")]
+position = Vector2(16, -5)
 
-[node name="DropPlace2" parent="DropPlaces" unique_id=578939736 instance=ExtResource("3_611q6")]
-position = Vector2(16, -7)
+[node name="DropPlace2" parent="DropPlaces" unique_id=1296842302 instance=ExtResource("3_611q6")]
+position = Vector2(-16, -5)
 
-[node name="DropPlace3" parent="DropPlaces" unique_id=1296842302 instance=ExtResource("3_611q6")]
-position = Vector2(-16, -7)
+[node name="DropPlace3" parent="DropPlaces" unique_id=1358371655 instance=ExtResource("3_611q6")]
+position = Vector2(32, -5)
 
-[node name="DropPlace4" parent="DropPlaces" unique_id=1358371655 instance=ExtResource("3_611q6")]
-position = Vector2(32, -7)
+[node name="DropPlace4" parent="DropPlaces" unique_id=834784061 instance=ExtResource("3_611q6")]
+position = Vector2(-32, -5)
 
-[node name="DropPlace5" parent="DropPlaces" unique_id=834784061 instance=ExtResource("3_611q6")]
-position = Vector2(-32, -7)
+[node name="DropPlace5" parent="DropPlaces" unique_id=2085039786 instance=ExtResource("3_611q6")]
+position = Vector2(48, -5)
 
-[node name="DropPlace6" parent="DropPlaces" unique_id=2085039786 instance=ExtResource("3_611q6")]
-position = Vector2(48, -7)
+[node name="DropPlace6" parent="DropPlaces" unique_id=113572129 instance=ExtResource("3_611q6")]
+position = Vector2(-48, -5)
 
-[node name="DropPlace7" parent="DropPlaces" unique_id=113572129 instance=ExtResource("3_611q6")]
-position = Vector2(-48, -7)
+[node name="DropPlace7" parent="DropPlaces" unique_id=728145529 instance=ExtResource("3_611q6")]
+position = Vector2(-64, -5)
 
-[node name="DropPlace8" parent="DropPlaces" unique_id=728145529 instance=ExtResource("3_611q6")]
-position = Vector2(-64, -7)
-
-[node name="DropPlace9" parent="DropPlaces" unique_id=1059687684 instance=ExtResource("3_611q6")]
-position = Vector2(64, -7)
+[node name="DropPlace8" parent="DropPlaces" unique_id=1059687684 instance=ExtResource("3_611q6")]
+position = Vector2(64, -5)
 
 [node name="Chairs" type="Node2D" parent="." unique_id=1276897511]
+y_sort_enabled = true
 
 [node name="Chair1" parent="Chairs" unique_id=585785857 instance=ExtResource("4_juoo6")]
 position = Vector2(-64, 15)
