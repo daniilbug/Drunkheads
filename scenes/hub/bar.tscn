@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="7_table_group"]
 [ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/hub/bar/table_football.tscn" id="8_5617e"]
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/hub/bar/neon_sign.tscn" id="8_m6do7"]
+[ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/hub/bar/menu.tscn" id="11_kpgvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
 size = Vector2(320, 8)
@@ -75,7 +76,7 @@ position = Vector2(131.75, 8.5)
 position = Vector2(160.5, 35.75)
 
 [node name="Boombox" parent="YSort" unique_id=1333916304 instance=ExtResource("6_ml76i")]
-position = Vector2(177.75, 9.25)
+position = Vector2(177, 31.25)
 
 [node name="Table1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
 position = Vector2(108.25, 93)
@@ -97,6 +98,9 @@ position = Vector2(210, 219.25)
 
 [node name="TableFootball" parent="YSort" unique_id=764347753 instance=ExtResource("8_5617e")]
 position = Vector2(283.25, 58.25)
+
+[node name="Menu" parent="YSort" unique_id=1599645215 instance=ExtResource("11_kpgvg")]
+position = Vector2(177.25, 8)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
