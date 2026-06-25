@@ -12,6 +12,7 @@ size = Vector2(160, 16)
 size = Vector2(21.5, 13)
 
 [node name="Bartender" type="StaticBody2D" unique_id=208033558]
+z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_611q6")
 
@@ -41,6 +42,8 @@ position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_zone")
 
 [node name="DropPlaces" type="Node2D" parent="." unique_id=1724788350]
+z_as_relative = false
+y_sort_enabled = true
 
 [node name="OrderPlace" parent="DropPlaces" unique_id=16125788 instance=ExtResource("3_611q6")]
 position = Vector2(0, -5)

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://c4kpd1fxe2rj3"]
+
+[ext_resource type="Script" uid="uid://cg8y3agaljuxt" path="res://scripts/core/room.gd" id="1_room"]
+
+[sub_resource type="RectangleShape2D" id="RectTopWall"]
+size = Vector2(80, 4)
+
+[sub_resource type="RectangleShape2D" id="RectBottomWall"]
+size = Vector2(80, 4)
+
+[sub_resource type="RectangleShape2D" id="RectLeftWall"]
+size = Vector2(4, 60)
+
+[sub_resource type="RectangleShape2D" id="RectRightWall"]
+size = Vector2(4, 60)
+
+[sub_resource type="RectangleShape2D" id="RectZone"]
+size = Vector2(72, 52)
+
+[node name="Room" type="Node2D" unique_id=1]
+z_as_relative = false
+script = ExtResource("1_room")
+
+[node name="Floor" type="Sprite2D" parent="." unique_id=2]
+texture_filter = 1
+centered = false
+
+[node name="WallTop" type="Sprite2D" parent="." unique_id=3]
+texture_filter = 1
+centered = false
+
+[node name="Collisions" type="Node2D" parent="." unique_id=4]
+
+[node name="TopWall" type="StaticBody2D" parent="Collisions" unique_id=5]
+position = Vector2(40, -4)
+
+[node name="Shape" type="CollisionShape2D" parent="Collisions/TopWall" unique_id=6]
+shape = SubResource("RectTopWall")
+
+[node name="BottomWall" type="StaticBody2D" parent="Collisions" unique_id=7]
+position = Vector2(40, 64)
+
+[node name="Shape" type="CollisionShape2D" parent="Collisions/BottomWall" unique_id=8]
+shape = SubResource("RectBottomWall")
+
+[node name="LeftWall" type="StaticBody2D" parent="Collisions" unique_id=9]
+position = Vector2(-4, 30)
+
+[node name="Shape" type="CollisionShape2D" parent="Collisions/LeftWall" unique_id=10]
+shape = SubResource("RectLeftWall")
+
+[node name="RightWall" type="StaticBody2D" parent="Collisions" unique_id=11]
+position = Vector2(84, 30)
+
+[node name="Shape" type="CollisionShape2D" parent="Collisions/RightWall" unique_id=12]
+shape = SubResource("RectRightWall")
+
+[node name="TransparencyZone" type="Area2D" parent="." unique_id=13]
+position = Vector2(40, 30)
+
+[node name="Shape" type="CollisionShape2D" parent="TransparencyZone" unique_id=14]
+shape = SubResource("RectZone")
+
+[node name="YSort" type="Node2D" parent="." unique_id=15]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="WallBottom" type="Sprite2D" parent="." unique_id=16]
+texture_filter = 1
+centered = false

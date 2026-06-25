@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c7xyqcf4ayf43"]
+
+[ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="1_mwwts"]
+[ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/hub/bar/bar.tscn" id="2_cs8gi"]
+
+[node name="Main" type="Node2D" unique_id=2114226814]
+z_as_relative = false
+y_sort_enabled = true
+scale = Vector2(4, 4)
+script = ExtResource("1_mwwts")
+
+[node name="Bar" parent="." unique_id=1 instance=ExtResource("2_cs8gi")]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
+
+[node name="Stats" type="VBoxContainer" parent="HUD" unique_id=720355463]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 480.0
+offset_bottom = 200.00003
+
+[node name="RespectLabel" type="Label" parent="HUD/Stats" unique_id=2089024428]
+layout_mode = 2
+text = "Respect  50"
+
+[node name="MindLabel" type="Label" parent="HUD/Stats" unique_id=1212374047]
+layout_mode = 2
+text = "Mind     50"
+
+[node name="MoneyLabel" type="Label" parent="HUD/Stats" unique_id=1080414005]
+layout_mode = 2
+text = "Money   $50"
+
+[node name="HintLabel" type="Label" parent="HUD" unique_id=1730699346]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -64.0
+offset_right = 320.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+
+[node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=731340413]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
+spawn_path = NodePath("..")

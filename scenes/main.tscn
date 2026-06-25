@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dwvxr7hlo6ji8"]
+
+[ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/hub/bar/bar.tscn" id="2_sugp2"]
+
+[node name="Main" unique_id=85658459 instance=ExtResource("1_0wfyh")]
+
+[node name="Bar" parent="." index="0" unique_id=1 instance=ExtResource("2_sugp2")]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="HUD" type="CanvasLayer" parent="." index="1" unique_id=1125200463]
+
+[node name="Stats" type="VBoxContainer" parent="HUD" index="0" unique_id=1030069989]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 480.0
+offset_bottom = 200.00003
+
+[node name="RespectLabel" type="Label" parent="HUD/Stats" index="0" unique_id=1262082649]
+layout_mode = 2
+text = "Respect  50"
+
+[node name="MindLabel" type="Label" parent="HUD/Stats" index="1" unique_id=1047812956]
+layout_mode = 2
+text = "Mind     50"
+
+[node name="MoneyLabel" type="Label" parent="HUD/Stats" index="2" unique_id=516649224]
+layout_mode = 2
+text = "Money   $50"
+
+[node name="HintLabel" type="Label" parent="HUD" index="1" unique_id=39883338]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -64.0
+offset_right = 320.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1

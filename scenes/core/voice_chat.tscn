@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://cs3d5c4yygunn"]
 
-[ext_resource type="Script" uid="uid://djhov01yyinej" path="res://scripts/hub/voice_chat.gd" id="1_5gpfh"]
+[ext_resource type="Script" uid="uid://djhov01yyinej" path="res://scripts/core/voice_chat.gd" id="1_mvx2g"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_5gpfh"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_5gpfh"]
 
 [node name="VoiceChat" type="Node2D" unique_id=1764415366]
-script = ExtResource("1_5gpfh")
+script = ExtResource("1_mvx2g")
 
 [node name="Input" type="AudioStreamPlayer2D" parent="." unique_id=465043216]
 stream = SubResource("AudioStreamMicrophone_5gpfh")

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bplker7qp53qd"]
 
-[ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/hub/player.gd" id="1_player"]
-[ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_player_tex"]
-[ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/hub/voice_chat.tscn" id="3_e52ck"]
+[ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/core/player.gd" id="1_q88xf"]
+[ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
+[ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 8)
@@ -24,7 +24,7 @@ properties/3/spawn = true
 properties/3/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
-script = ExtResource("1_player")
+script = ExtResource("1_q88xf")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
 position = Vector2(0, -4)
@@ -32,7 +32,7 @@ shape = SubResource("RectangleShape2D_body")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=2145306783]
 texture_filter = 1
-texture = ExtResource("2_player_tex")
+texture = ExtResource("2_665sb")
 centered = false
 offset = Vector2(-6, -20)
 hframes = 4
@@ -49,7 +49,7 @@ shape = SubResource("CircleShape2D_interact")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=857080020]
 
-[node name="VoiceChat" parent="." unique_id=1764415366 instance=ExtResource("3_e52ck")]
+[node name="VoiceChat" parent="." unique_id=1764415366 instance=ExtResource("3_kmdga")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
 replication_config = SubResource("SceneReplicationConfig_5x06y")

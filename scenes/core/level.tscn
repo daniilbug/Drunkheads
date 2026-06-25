@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bxiejuvupdj01"]
+
+[ext_resource type="Script" uid="uid://cowd4k1wrsywm" path="res://scripts/core/level.gd" id="1_jv1nx"]
+
+[node name="Level" type="Node2D" unique_id=85658459]
+z_as_relative = false
+y_sort_enabled = true
+script = ExtResource("1_jv1nx")
+
+[node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=2015702180]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
+spawn_path = NodePath("..")

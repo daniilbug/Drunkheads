@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cljklxycfrcy5"]
+
+[ext_resource type="Script" uid="uid://cg8y3agaljuxt" path="res://scripts/core/room.gd" id="1_8mqdx"]
+[ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_o15r8"]
+[ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="3_ryrl6"]
+
+[node name="BarMainRoom" type="Node2D" unique_id=990156551]
+script = ExtResource("1_8mqdx")
+room_size = null
+wall_thickness = null
+floor_texture = ExtResource("2_o15r8")
+wall_top_texture = ExtResource("3_ryrl6")
+wall_bottom_texture = ExtResource("3_ryrl6")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1747350534]
