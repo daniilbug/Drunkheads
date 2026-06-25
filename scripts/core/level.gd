@@ -96,7 +96,6 @@ func _process_draggable(draggable: Draggable):
 
 @rpc("any_peer", "reliable")
 func _request_pickup(name: String) -> void:
-	print("rpc pickup")
 	if not multiplayer.is_server():
 		return
 	_handle_pickup(multiplayer.get_remote_sender_id(), name)

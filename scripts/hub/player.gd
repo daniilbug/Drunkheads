@@ -4,26 +4,43 @@ extends CharacterBody2D
 const SPEED := 200.0
 const FPS_WALK := 8.0
 
-const ROW_WALK_S := 0
-const ROW_WALK_N := 1
-const ROW_WALK_W := 2
-const ROW_WALK_E := 3
-const ROW_IDLE   := 4
-const ROW_SIT    := 5
+const ROW_WALK_S  := 0
+const ROW_WALK_N  := 1
+const ROW_WALK_W  := 2
+const ROW_WALK_E  := 3
+const ROW_IDLE    := 4
+const ROW_SIT     := 5
 const ROW_DRINK   := 6
 const ROW_DRINK_N := 7
+const ROW_DANCE   := 8
+const ROW_DANCE_N := 9
 
 @export var player_data: PlayerData
 @export var is_sitting := false
 @export var seated_chair: Chair = null
 @export var peer_id: int = 0
 
+@export var is_dancing := false:
+	set(value):
+		is_dancing = value
+		if is_node_ready():
+			if value:
+				_start_dance_animation()
+			else:
+				_stop_dance_animation()
+
+@export var direction := Vector2.DOWN:
+	set(value):
+		var old_value = direction
+		direction = value
+		if old_value != value:
+			_on_direction_change(value)
+
 @onready var sprite: Sprite2D = $Sprite
 @onready var hands: Node2D = $Hands
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 @onready var camera: Camera2D = $Camera
-var direction := Vector2.DOWN
 
 var _hands_item: Draggable = null
 
@@ -32,6 +49,7 @@ var _anim_row := ROW_IDLE
 var _is_walking := false
 var _idle_tween: Tween
 var _drunk_tween: Tween
+var _dance_tween: Tween
 
 signal drink_action_requested(drink_name: String)
 
@@ -56,14 +74,12 @@ func _start_idle_bob() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-
 	if is_sitting:
 		velocity = Vector2.ZERO
 		return
 
 	var dir := Input.get_vector("left", "right", "up", "down")
 	velocity = dir * SPEED
-
 	var walking := dir != Vector2.ZERO
 	if walking != _is_walking:
 		_is_walking = walking
@@ -76,7 +92,6 @@ func _physics_process(delta: float) -> void:
 			_idle_tween.play()
 			_anim_row = _dir_to_idle_row(direction)
 			sprite.frame = _anim_row * 4
-
 	if walking:
 		direction = dir
 		_anim_t += delta
@@ -85,8 +100,28 @@ func _physics_process(delta: float) -> void:
 		elif not is_zero_approx(dir.y):
 			_anim_row = ROW_WALK_S if dir.y > 0 else ROW_WALK_N
 		sprite.frame = _anim_row * 4 + (int(_anim_t * FPS_WALK) % 4)
-
 	move_and_slide()
+
+func _on_direction_change(direction: Vector2) -> void:
+	if is_dancing:
+		_stop_dance_animation()
+		_start_dance_animation()
+
+func _start_dance_animation() -> void:
+	var dance_row := ROW_DANCE_N if direction.y < 0 else ROW_DANCE
+	var sprite_row_start_frame = dance_row * sprite.hframes
+	sprite.frame = sprite_row_start_frame
+	_dance_tween = create_tween().set_loops()
+	_dance_tween.tween_interval(0.5)
+	_dance_tween.tween_callback(
+		func(): sprite.frame = sprite_row_start_frame + (sprite.frame + 1) % sprite.hframes
+	)
+	
+func _stop_dance_animation() -> void:
+	if _dance_tween:
+		_dance_tween.kill()
+		_dance_tween = null
+	_start_idle_bob()
 
 func _dir_to_idle_row(d: Vector2) -> int:
 	if absf(d.x) >= absf(d.y):
@@ -114,9 +149,12 @@ func _try_interact() -> void:
 			var chair = owner_node as Chair
 			if not chair.is_occupied:
 				_sit_in(chair)
-				return
+			return
 		elif owner_node is Boombox:
 			owner_node.switch()
+			return
+		elif owner_node is DanceFloorController:
+			owner_node.next_mode()
 			return
 		elif _hands_item != null:
 			_hands_interact()
@@ -163,6 +201,8 @@ func _hands_interact() -> void:
 		_drink(drink)
 	elif _hands_item is Boombox:
 		_hands_item.switch()
+	elif _hands_item is DanceFloorController:
+		_hands_item.next_mode()
 
 func _drink(drink: Drink) -> void:
 	if drink.parts == 0:

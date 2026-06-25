@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://fo6qjo8d38ac"]
+
+[ext_resource type="Script" uid="uid://usy8mvcr7vcr" path="res://scripts/hub/bar/dance_floor_controller.gd" id="1_7n1dm"]
+[ext_resource type="Texture2D" uid="uid://cq8nflirl1bew" path="res://assets/sprites/dance_floor_controller.png" id="1_y33kc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7n1dm"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7n1dm"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:mode")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("Sprite:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="DanceFloorController" type="Node2D" unique_id=1964212012]
+script = ExtResource("1_7n1dm")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=83269075]
+texture = ExtResource("1_y33kc")
+hframes = 4
+
+[node name="Area" type="Area2D" parent="." unique_id=1599528541]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=1948925899]
+shape = SubResource("CircleShape2D_7n1dm")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=227178755]
+replication_config = SubResource("SceneReplicationConfig_7n1dm")

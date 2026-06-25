@@ -6,6 +6,9 @@ const DRINK_SCENE  := preload("res://scenes/hub/drink.tscn")
 @onready var menu_item_spawn: Node2D = $MenuItemSpawn
 @onready var bartender: Bartender = $YSort/Bartender
 @onready var boombox: Boombox = $YSort/Boombox
+@onready var dance_floor_controller: DanceFloorController = $YSort/DanceFloorController
+@onready var dance_floor: DanceFloor = $DanceFloor
+
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
 @onready var mind_label: Label = $HUD/Stats/MindLabel
 @onready var money_label: Label = $HUD/Stats/MoneyLabel
@@ -20,6 +23,8 @@ func _ready() -> void:
 
 	if multiplayer.is_server():
 		boombox.drop(bartender.boombox_place)
+		dance_floor_controller.on_mode_change.connect(func(mode: int): dance_floor.set_mode(mode))
+		dance_floor_controller.drop(bartender.dance_floor_controller_place)
 
 func _init_local_player(player: Player) -> void:
 	super._init_local_player(player)

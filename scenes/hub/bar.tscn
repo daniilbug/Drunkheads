@@ -5,11 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://b5mayw2wvyc5g" path="res://scenes/hub/welcome_zone.tscn" id="4_wulp6"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="5_bar_bg"]
 [ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/hub/bar/plant.tscn" id="5_fcf0i"]
+[ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/hub/bar/dance_floor.tscn" id="5_sm57a"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="6_bar_floor"]
 [ext_resource type="PackedScene" uid="uid://fixpgx736rri" path="res://scenes/hub/bar/boombox.tscn" id="6_ml76i"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="7_table_group"]
 [ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/hub/bar/table_football.tscn" id="8_5617e"]
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/hub/bar/neon_sign.tscn" id="8_m6do7"]
+[ext_resource type="PackedScene" uid="uid://dni4iowfhpsa3" path="res://scenes/hub/bar/dance_floor_controller.tscn" id="10_hh557"]
 [ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/hub/bar/menu.tscn" id="11_kpgvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wallH"]
@@ -63,6 +65,9 @@ shape = SubResource("RectangleShape2D_wallV")
 [node name="WelcomeZone" parent="." unique_id=862362952 instance=ExtResource("4_wulp6")]
 position = Vector2(160.25, 316.75)
 
+[node name="DanceFloor" parent="." unique_id=549599653 instance=ExtResource("5_sm57a")]
+position = Vector2(161, 169.75)
+
 [node name="YSort" type="Node2D" parent="." unique_id=1256478703]
 y_sort_enabled = true
 
@@ -78,6 +83,9 @@ position = Vector2(160.5, 35.75)
 [node name="Boombox" parent="YSort" unique_id=1333916304 instance=ExtResource("6_ml76i")]
 position = Vector2(177, 31.25)
 
+[node name="DanceFloorController" parent="YSort" unique_id=592976851 instance=ExtResource("10_hh557")]
+position = Vector2(97, 30.75)
+
 [node name="TableFootball" parent="YSort" unique_id=764347753 instance=ExtResource("8_5617e")]
 position = Vector2(283.25, 58.25)
 
@@ -85,22 +93,22 @@ position = Vector2(283.25, 58.25)
 position = Vector2(178.75, 7.75)
 
 [node name="Table1" parent="YSort" unique_id=1278514681 instance=ExtResource("7_table_group")]
-position = Vector2(108.25, 93)
+position = Vector2(104.5, 101)
 
 [node name="Table2" parent="YSort" unique_id=2009390461 instance=ExtResource("7_table_group")]
-position = Vector2(212, 94.5)
+position = Vector2(215.5, 100.75)
 
 [node name="Table3" parent="YSort" unique_id=418421417 instance=ExtResource("7_table_group")]
-position = Vector2(107.25, 156.25)
+position = Vector2(72.25, 169)
 
 [node name="Table4" parent="YSort" unique_id=1562237625 instance=ExtResource("7_table_group")]
-position = Vector2(211, 158.25)
+position = Vector2(249.25, 169)
 
 [node name="Table5" parent="YSort" unique_id=1362264130 instance=ExtResource("7_table_group")]
-position = Vector2(108.25, 218.5)
+position = Vector2(103.75, 241.25)
 
 [node name="Table6" parent="YSort" unique_id=2097257504 instance=ExtResource("7_table_group")]
-position = Vector2(210, 219.25)
+position = Vector2(217.5, 241)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=574862558]
 
@@ -132,6 +140,8 @@ offset_left = -320.0
 offset_top = -64.0
 offset_right = 320.0
 offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
 horizontal_alignment = 1
 
 [node name="Spawner" type="MultiplayerSpawner" parent="." unique_id=731340413]

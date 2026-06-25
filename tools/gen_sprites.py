@@ -75,9 +75,10 @@ def rect(draw, x, y, w, h, color):
 
 
 # ─── PLAYER ─────────────────────────────────────────────────────────────────
-# Sheet: 4 cols × 8 rows, frame 12×20
+# Sheet: 4 cols × 10 rows, frame 12×20
 # Row 0: walk_s   Row 1: walk_n   Row 2: walk_w   Row 3: walk_e
 # Row 4: idle     Row 5: sit_s    Row 6: drink     Row 7: sit_n
+# Row 8: dance_s  Row 9: dance_n
 
 FW, FH = 12, 20
 
@@ -140,8 +141,91 @@ def draw_player_frame(img, draw, ox, oy, direction="s", walk_phase=0,
             px(img, draw, ox + 4, hy + 3, C["hair"])
 
 
+def draw_dance_frame(img, draw, ox, oy, phase=0, direction="s"):
+    """4-phase dance: 0=groove V-arms, 1=left raise + right kick, 2=T-arms + jump, 3=right raise + left kick."""
+    facing_away = direction == "n"
+    body_dy = [0, -1, -1, 1][phase]
+    by = oy + 9 + body_dy
+    hy = by - 8
+
+    px(img, draw, ox + 5, oy + 19, C["shadow"])
+    px(img, draw, ox + 6, oy + 19, C["shadow"])
+
+    # Legs
+    if phase == 0:  # wide groove stance
+        rect(draw, ox + 2, oy + 15, 2, 4, C["pants"])
+        rect(draw, ox + 2, oy + 18, 2, 1, C["shoe"])
+        rect(draw, ox + 8, oy + 15, 2, 4, C["pants"])
+        rect(draw, ox + 8, oy + 18, 2, 1, C["shoe"])
+    elif phase == 1:  # left planted, right kick out
+        rect(draw, ox + 3, oy + 15, 2, 4, C["pants"])
+        rect(draw, ox + 3, oy + 18, 2, 1, C["shoe"])
+        rect(draw, ox + 7, oy + 15, 2, 3, C["pants"])
+        rect(draw, ox + 8, oy + 17, 3, 1, C["pants"])
+        rect(draw, ox + 9, oy + 17, 2, 1, C["shoe"])
+    elif phase == 2:  # both legs bent wide (slight jump)
+        rect(draw, ox + 2, oy + 16, 2, 3, C["pants"])
+        rect(draw, ox + 2, oy + 18, 2, 1, C["shoe"])
+        rect(draw, ox + 8, oy + 16, 2, 3, C["pants"])
+        rect(draw, ox + 8, oy + 18, 2, 1, C["shoe"])
+    else:  # phase 3: left kick out, right planted
+        rect(draw, ox + 3, oy + 15, 2, 3, C["pants"])
+        rect(draw, ox + 1, oy + 17, 3, 1, C["pants"])
+        rect(draw, ox + 1, oy + 17, 2, 1, C["shoe"])
+        rect(draw, ox + 7, oy + 15, 2, 4, C["pants"])
+        rect(draw, ox + 7, oy + 18, 2, 1, C["shoe"])
+
+    # Body
+    rect(draw, ox + 3, by, 6, 6, C["shirt_blue"])
+    rect(draw, ox + 3, by, 6, 1, C["shirt_dark"])
+    rect(draw, ox + 3, by + 1, 1, 4, C["shirt_dark"])
+    rect(draw, ox + 8, by + 1, 1, 4, C["shirt_dark"])
+    rect(draw, ox + 3, by + 5, 6, 1, C["pants"])
+
+    # Arms
+    if phase == 0:  # both arms raised in a V
+        rect(draw, ox + 2, by + 1, 1, 2, C["shirt_blue"])
+        px(img, draw, ox + 2, by - 1, C["shirt_blue"])
+        px(img, draw, ox + 1, by - 2, C["skin"])
+        px(img, draw, ox + 1, by - 3, C["skin"])
+        rect(draw, ox + 9, by + 1, 1, 2, C["shirt_blue"])
+        px(img, draw, ox + 9, by - 1, C["shirt_blue"])
+        px(img, draw, ox + 10, by - 2, C["skin"])
+        px(img, draw, ox + 10, by - 3, C["skin"])
+    elif phase == 1:  # left arm punches up, right arm swings low
+        rect(draw, ox + 2, by - 3, 1, 4, C["shirt_blue"])
+        px(img, draw, ox + 1, by - 4, C["skin"])
+        px(img, draw, ox + 1, by - 5, C["skin"])
+        rect(draw, ox + 9, by + 2, 1, 3, C["skin"])
+    elif phase == 2:  # full T: both arms wide horizontal
+        rect(draw, ox + 0, by + 2, 3, 1, C["shirt_blue"])
+        px(img, draw, ox + 0, by + 2, C["skin"])
+        rect(draw, ox + 9, by + 2, 3, 1, C["shirt_blue"])
+        px(img, draw, ox + 11, by + 2, C["skin"])
+    else:  # phase 3: right arm punches up, left arm swings low
+        rect(draw, ox + 2, by + 2, 1, 3, C["skin"])
+        rect(draw, ox + 9, by - 3, 1, 4, C["shirt_blue"])
+        px(img, draw, ox + 10, by - 4, C["skin"])
+        px(img, draw, ox + 10, by - 5, C["skin"])
+
+    # Head
+    if facing_away:
+        rect(draw, ox + 3, hy, 6, 7, C["hair"])
+        rect(draw, ox + 4, hy + 1, 4, 3, C["hair_hi"])
+    else:
+        rect(draw, ox + 3, hy + 1, 6, 6, C["skin"])
+        rect(draw, ox + 3, hy + 1, 1, 5, C["skin_dark"])
+        rect(draw, ox + 3, hy, 6, 2, C["hair"])
+        px(img, draw, ox + 3, hy + 1, C["hair"])
+        px(img, draw, ox + 8, hy + 1, C["hair"])
+        px(img, draw, ox + 4, hy, C["hair_hi"])
+        if direction == "s":
+            px(img, draw, ox + 4, hy + 3, C["hair"])
+            px(img, draw, ox + 7, hy + 3, C["hair"])
+
+
 def gen_player():
-    ROWS = 8
+    ROWS = 10
     sheet = Image.new("RGBA", (FW * 4, FH * ROWS), TRANSPARENT)
     sdraw = ImageDraw.Draw(sheet)
 
@@ -169,6 +253,16 @@ def gen_player():
     for frame in range(4):
         draw_player_frame(sheet, sdraw, frame * FW, 7 * FH,
                           direction="n", drinking=(frame >= 1))
+
+    # Row 8: dance_s (facing south, 4 dance phases loop)
+    for frame in range(4):
+        draw_dance_frame(sheet, sdraw, frame * FW, 8 * FH,
+                         phase=frame, direction="s")
+
+    # Row 9: dance_n (facing north/away, 4 dance phases loop)
+    for frame in range(4):
+        draw_dance_frame(sheet, sdraw, frame * FW, 9 * FH,
+                         phase=frame, direction="n")
 
     sheet.save(f"{OUT}/player.png")
     print(f"Saved player.png ({sheet.width}×{sheet.height})")

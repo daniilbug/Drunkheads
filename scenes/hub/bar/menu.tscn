@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ecv8ygkcr5r3"]
 
-[ext_resource type="Texture2D" uid="uid://cogcy1485sclw" path="res://assets/sprites/menu.png" id="1_mxvjf"]
+[ext_resource type="Texture2D" uid="uid://bq853br3xmoa5" path="res://assets/sprites/menu.png" id="1_mxvjf"]
 
 [node name="Menu" type="Node2D" unique_id=1599645215]
 
