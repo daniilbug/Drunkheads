@@ -32,7 +32,7 @@ extends Node2D
 	set(v):
 		wall_bottom_texture = v
 		if is_node_ready():
-			_wall_bottom.texture = v
+			_wall_bottom_sprite.texture = v
 
 @export_range(0.0, 1.0) var wall_hidden_alpha: float = 0.4
 
@@ -40,7 +40,8 @@ extends Node2D
 
 @onready var _floor: Sprite2D = $Floor
 @onready var _wall_top: Sprite2D = $WallTop
-@onready var _wall_bottom: Sprite2D = $WallBottom
+@onready var _wall_bottom: Node2D = $WallBottom
+@onready var _wall_bottom_sprite: Sprite2D = $WallBottom/Sprite
 @onready var _transparency_zone: Area2D = $TransparencyZone
 @onready var _top_wall: StaticBody2D = $Collisions/TopWall
 @onready var _bottom_wall_body: StaticBody2D = $Collisions/BottomWall
@@ -53,7 +54,7 @@ func _ready() -> void:
 	if wall_top_texture:
 		_wall_top.texture = wall_top_texture
 	if wall_bottom_texture:
-		_wall_bottom.texture = wall_bottom_texture
+		_wall_bottom_sprite.texture = wall_bottom_texture
 	if Engine.is_editor_hint():
 		return
 	_update_layout()

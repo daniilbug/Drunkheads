@@ -156,6 +156,9 @@ func _try_interact() -> void:
 		elif owner_node is DanceFloorController:
 			owner_node.next_mode()
 			return
+		elif owner_node is Door:
+			owner_node.toggle()
+			return
 		elif _hands_item != null:
 			_hands_interact()
 			return

@@ -1,6 +1,6 @@
 extends Control
 
-const HUB_SCENE := preload("res://scenes/hub/main.tscn")
+const HUB_SCENE := preload("res://scenes/main.tscn")
 const DEFAULT_PORT := 7777
 const MAX_PEERS := 16
 

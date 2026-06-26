@@ -25,9 +25,7 @@ script = ExtResource("1_room")
 texture_filter = 1
 centered = false
 
-[node name="WallTop" type="Sprite2D" parent="." unique_id=3]
-texture_filter = 1
-centered = false
+[node name="WallTop" type="Sprite2D" parent="." unique_id=1759582406]
 
 [node name="Collisions" type="Node2D" parent="." unique_id=4]
 
@@ -65,6 +63,6 @@ shape = SubResource("RectZone")
 z_as_relative = false
 y_sort_enabled = true
 
-[node name="WallBottom" type="Sprite2D" parent="." unique_id=16]
-texture_filter = 1
-centered = false
+[node name="WallBottom" type="Node2D" parent="." unique_id=998759746]
+
+[node name="Sprite" type="Sprite2D" parent="WallBottom" unique_id=1318119623]

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dgjm7b2yaq5kp"]
+
+[ext_resource type="Script" uid="uid://dwjo2oue4bldf" path="res://scripts/core/door.gd" id="1_door"]
+
+[sub_resource type="RectangleShape2D" id="RectBody"]
+size = Vector2(14, 4)
+
+[sub_resource type="RectangleShape2D" id="RectInteract"]
+size = Vector2(16, 12)
+
+[node name="Door" type="Node2D" unique_id=1]
+script = ExtResource("1_door")
+
+[node name="ClosedSprite" type="Sprite2D" parent="." unique_id=2]
+texture_filter = 1
+centered = false
+
+[node name="OpenSprite" type="Sprite2D" parent="." unique_id=3]
+visible = false
+texture_filter = 1
+centered = false
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=4]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=5]
+shape = SubResource("RectBody")
+
+[node name="InteractionZone" type="Area2D" parent="." unique_id=6]
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionZone" unique_id=7]
+shape = SubResource("RectInteract")

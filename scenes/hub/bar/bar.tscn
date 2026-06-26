@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cwxvyfkjgthba"]
+[gd_scene format=4 uid="uid://cwxvyfkjgthba"]
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_8py06"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ecrvg"]
@@ -11,7 +11,11 @@
 [ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/hub/bar/menu.tscn" id="10_fsl2a"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="11_bxo4q"]
 [ext_resource type="PackedScene" uid="uid://b5mayw2wvyc5g" path="res://scenes/hub/welcome_zone.tscn" id="12_eo0d5"]
+[ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/hub/bar/bar_door.tscn" id="13_eo0d5"]
+[ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="13_n4oow"]
+[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="13_r35sc"]
 [ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/hub/bar/dance_floor.tscn" id="13_ro7p1"]
+[ext_resource type="Texture2D" uid="uid://ckiyabi0ajuye" path="res://assets/sprites/window.png" id="15_n4oow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lc7ke"]
 size = Vector2(320, 4)
@@ -28,15 +32,22 @@ size = Vector2(4, 300)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kd3b8"]
 size = Vector2(312, 292)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n4oow"]
+shader = ExtResource("13_n4oow")
+shader_parameter/active_cutouts = 2
+shader_parameter/cutouts = PackedVector4Array(19, 71, 16, 28, 62, 72, 16, 24)
+
 [node name="Bar" unique_id=1 instance=ExtResource("1_8py06")]
-z_as_relative = true
+y_sort_enabled = true
 script = ExtResource("2_ro7p1")
 room_size = Vector2(320, 300)
+wall_hidden_alpha = 0.05
 
 [node name="Floor" parent="." index="0" unique_id=2]
 texture = ExtResource("2_ecrvg")
 
-[node name="WallTop" parent="." index="1" unique_id=3]
+[node name="WallTop" parent="." index="1" unique_id=1759582406]
+position = Vector2(160, -16)
 texture = ExtResource("3_ayeq0")
 
 [node name="TopWall" parent="Collisions" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
@@ -76,28 +87,28 @@ z_as_relative = false
 position = Vector2(161, 169.75)
 
 [node name="WelcomeZone" parent="FloorDecorations" index="1" unique_id=862362952 instance=ExtResource("12_eo0d5")]
-position = Vector2(160, 288)
+position = Vector2(26, 289)
 
 [node name="Plant" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
 position = Vector2(250, 41)
 
 [node name="NeonSign" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=572259460 instance=ExtResource("5_6ljkh")]
-position = Vector2(131.75, 8.5)
+position = Vector2(132, -22)
 
 [node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=208033558 instance=ExtResource("6_eo0d5")]
-position = Vector2(160.5, 35.75)
+position = Vector2(160, 13)
 
 [node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=764347753 instance=ExtResource("9_n4oow")]
 position = Vector2(283.25, 58.25)
 
 [node name="Menu" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
-position = Vector2(178.75, 7.75)
+position = Vector2(178, -21)
 
 [node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=686340738 instance=ExtResource("11_bxo4q")]
-position = Vector2(104.5, 101)
+position = Vector2(105, 95)
 
 [node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=622490447 instance=ExtResource("11_bxo4q")]
-position = Vector2(215.5, 100.75)
+position = Vector2(216, 95)
 
 [node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=594298796 instance=ExtResource("11_bxo4q")]
 position = Vector2(72.25, 169)
@@ -110,5 +121,23 @@ position = Vector2(103.75, 241.25)
 
 [node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="10" unique_id=650857141 instance=ExtResource("11_bxo4q")]
 position = Vector2(217.5, 241)
+
+[node name="WallBottom" parent="." index="6" unique_id=998759746]
+texture_repeat = 2
+position = Vector2(160, 300)
+
+[node name="Sprite" parent="WallBottom" index="0" unique_id=1318119623]
+material = SubResource("ShaderMaterial_n4oow")
+position = Vector2(0, -47)
+texture = ExtResource("13_r35sc")
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 100)
+
+[node name="Window1" type="Sprite2D" parent="WallBottom" index="1" unique_id=1626908148]
+position = Vector2(-90, -13)
+texture = ExtResource("15_n4oow")
+
+[node name="BarDoor" parent="." index="7" unique_id=361064526 instance=ExtResource("13_eo0d5")]
+position = Vector2(25, 300)
 
 [connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]
