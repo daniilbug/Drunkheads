@@ -3,30 +3,34 @@
 [ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_2bh3y"]
 [ext_resource type="Texture2D" uid="uid://cngimup6sdcts" path="res://assets/sprites/bar_door.png" id="2_574s7"]
 [ext_resource type="Texture2D" uid="uid://icw3lil2jrbi" path="res://assets/sprites/porch.png" id="3_31lnq"]
+[ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="4_8m3ql"]
 
 [node name="BarDoor" unique_id=1 instance=ExtResource("1_2bh3y")]
-is_open = true
 
 [node name="ClosedSprite" parent="." index="0" unique_id=2]
-visible = false
-position = Vector2(-6, -26)
+light_mask = 2
+position = Vector2(-8, -27)
 texture = ExtResource("2_574s7")
 hframes = 2
 
 [node name="OpenSprite" parent="." index="1" unique_id=3]
-visible = true
-position = Vector2(-6, -26)
+light_mask = 2
+position = Vector2(-8, -27)
 texture = ExtResource("2_574s7")
 hframes = 2
 frame = 1
 
-[node name="Shape" parent="Body" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
-position = Vector2(2, 0)
-disabled = true
-
 [node name="Shape" parent="InteractionZone" parent_id_path=PackedInt32Array(6) index="0" unique_id=7]
-position = Vector2(2, -4)
+position = Vector2(0, -4)
 
 [node name="Porch" type="Sprite2D" parent="." index="4" unique_id=201553710]
-position = Vector2(2, 4)
+light_mask = 2
+position = Vector2(0, 3)
 texture = ExtResource("3_31lnq")
+
+[node name="Roof" type="Sprite2D" parent="." index="5" unique_id=1574419120]
+texture_repeat = 2
+position = Vector2(0, -32)
+texture = ExtResource("4_8m3ql")
+region_enabled = true
+region_rect = Rect2(0, 0, 28, 8)

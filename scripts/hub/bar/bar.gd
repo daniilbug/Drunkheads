@@ -7,7 +7,6 @@ const DRINK_SCENE  := preload("res://scenes/hub/drink.tscn")
 
 @onready var bartender: Bartender = $YSort/Bartender
 @onready var dance_floor: DanceFloor = $FloorDecorations/DanceFloor
-@onready var welcome_zone: Node2D = $FloorDecorations/WelcomeZone
 
 func init_room() -> void:
 	var boombox: Boombox = BOOMBOX_SCENE.instantiate()

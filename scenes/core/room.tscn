@@ -25,33 +25,46 @@ script = ExtResource("1_room")
 texture_filter = 1
 centered = false
 
-[node name="WallTop" type="Sprite2D" parent="." unique_id=1759582406]
+[node name="Walls" type="Node2D" parent="." unique_id=4]
+z_as_relative = false
+y_sort_enabled = true
 
-[node name="Collisions" type="Node2D" parent="." unique_id=4]
-
-[node name="TopWall" type="StaticBody2D" parent="Collisions" unique_id=5]
+[node name="Top" type="StaticBody2D" parent="Walls" unique_id=5]
 position = Vector2(40, -4)
 
-[node name="Shape" type="CollisionShape2D" parent="Collisions/TopWall" unique_id=6]
+[node name="Shape" type="CollisionShape2D" parent="Walls/Top" unique_id=6]
 shape = SubResource("RectTopWall")
 
-[node name="BottomWall" type="StaticBody2D" parent="Collisions" unique_id=7]
+[node name="Sprite" type="Sprite2D" parent="Walls/Top" unique_id=1759582406]
+position = Vector2(-40, 4)
+
+[node name="Bottom" type="StaticBody2D" parent="Walls" unique_id=7]
+z_as_relative = false
 position = Vector2(40, 64)
 
-[node name="Shape" type="CollisionShape2D" parent="Collisions/BottomWall" unique_id=8]
+[node name="Shape" type="CollisionShape2D" parent="Walls/Bottom" unique_id=8]
 shape = SubResource("RectBottomWall")
 
-[node name="LeftWall" type="StaticBody2D" parent="Collisions" unique_id=9]
+[node name="Sprite" type="Sprite2D" parent="Walls/Bottom" unique_id=1318119623]
+position = Vector2(-40, -64)
+
+[node name="Left" type="StaticBody2D" parent="Walls" unique_id=9]
 position = Vector2(-4, 30)
 
-[node name="Shape" type="CollisionShape2D" parent="Collisions/LeftWall" unique_id=10]
+[node name="Shape" type="CollisionShape2D" parent="Walls/Left" unique_id=10]
 shape = SubResource("RectLeftWall")
 
-[node name="RightWall" type="StaticBody2D" parent="Collisions" unique_id=11]
+[node name="Sprite" type="Sprite2D" parent="Walls/Left" unique_id=1016601638]
+
+[node name="Right" type="StaticBody2D" parent="Walls" unique_id=11]
 position = Vector2(84, 30)
 
-[node name="Shape" type="CollisionShape2D" parent="Collisions/RightWall" unique_id=12]
+[node name="Shape" type="CollisionShape2D" parent="Walls/Right" unique_id=12]
 shape = SubResource("RectRightWall")
+
+[node name="Sprite" type="Sprite2D" parent="Walls/Right" unique_id=1912598871]
+light_mask = 2
+position = Vector2(0, -47)
 
 [node name="TransparencyZone" type="Area2D" parent="." unique_id=13]
 position = Vector2(40, 30)
@@ -62,7 +75,3 @@ shape = SubResource("RectZone")
 [node name="YSort" type="Node2D" parent="." unique_id=15]
 z_as_relative = false
 y_sort_enabled = true
-
-[node name="WallBottom" type="Node2D" parent="." unique_id=998759746]
-
-[node name="Sprite" type="Sprite2D" parent="WallBottom" unique_id=1318119623]

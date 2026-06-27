@@ -10,8 +10,7 @@ scale = Vector2(4, 4)
 script = ExtResource("2_tbgi4")
 
 [node name="Bar" parent="." index="0" unique_id=1 instance=ExtResource("2_sugp2")]
-z_as_relative = false
-y_sort_enabled = true
+light_mask = 0
 
 [node name="HUD" type="CanvasLayer" parent="." index="1" unique_id=1125200463]
 
@@ -47,14 +46,25 @@ grow_horizontal = 2
 grow_vertical = 0
 horizontal_alignment = 1
 
-[node name="Spawner" parent="." index="2" unique_id=1819118617]
-_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
-
-[node name="Asphalt" type="Node2D" parent="." index="3" unique_id=1950570810]
+[node name="Asphalt" type="Node2D" parent="." index="2" unique_id=1950570810]
+z_index = -1
 
 [node name="Sprite" type="Sprite2D" parent="Asphalt" index="0" unique_id=1954105509]
 texture_repeat = 2
-position = Vector2(160, 317.25)
+position = Vector2(160, 136.25)
 texture = ExtResource("2_jyhfs")
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 30)
+region_rect = Rect2(0, 0, 360, 380)
+
+[node name="Spawner" parent="." index="3" unique_id=1819118617]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://bldl7wtc2bj1h")
+
+[node name="Darkness" type="DirectionalLight2D" parent="." index="4" unique_id=2024742515]
+visible = false
+position = Vector2(-74.5, 357.5)
+color = Color(1, 1, 1, 0.666)
+blend_mode = 1
+max_distance = 1808.0
+
+[node name="PlayerSpawn" type="Node2D" parent="." index="5" unique_id=1937828665]
+position = Vector2(100.340454, 315.89908)

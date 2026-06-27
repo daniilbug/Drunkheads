@@ -31,5 +31,5 @@ void fragment() {
 		}
 	}
 	
-	COLOR = final_color;
+	COLOR.a = final_color.a;
 }

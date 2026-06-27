@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://dwjo2oue4bldf" path="res://scripts/core/door.gd" id="1_door"]
 
 [sub_resource type="RectangleShape2D" id="RectBody"]
-size = Vector2(14, 4)
+size = Vector2(14, 3.8592024)
 
 [sub_resource type="RectangleShape2D" id="RectInteract"]
-size = Vector2(16, 12)
+size = Vector2(22, 12)
 
 [node name="Door" type="Node2D" unique_id=1]
 script = ExtResource("1_door")

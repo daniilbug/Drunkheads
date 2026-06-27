@@ -2,18 +2,6 @@
 class_name Door
 extends Node2D
 
-@export var closed_texture: Texture2D:
-	set(v):
-		closed_texture = v
-		if is_node_ready():
-			_closed_sprite.texture = v
-
-@export var open_texture: Texture2D:
-	set(v):
-		open_texture = v
-		if is_node_ready():
-			_open_sprite.texture = v
-
 @export var is_open: bool = false:
 	set(v):
 		is_open = v
@@ -25,10 +13,6 @@ extends Node2D
 @onready var _collision: CollisionShape2D = $Body/Shape
 
 func _ready() -> void:
-	if closed_texture:
-		_closed_sprite.texture = closed_texture
-	if open_texture:
-		_open_sprite.texture = open_texture
 	_apply_state()
 	if not Engine.is_editor_hint():
 		_punch_wall_hole()
@@ -45,8 +29,8 @@ func _punch_wall_hole() -> void:
 	var room := get_parent() as Room
 	if not room:
 		return
-	var collisions := room.get_node_or_null("Collisions")
-	if not collisions:
+	var walls := room.get_walls()
+	if not walls:
 		return
 
 	var door_center := room.to_local(_collision.global_position)
@@ -56,17 +40,15 @@ func _punch_wall_hole() -> void:
 	var door_hw := door_shape.size.x * 0.5
 	var door_hh := door_shape.size.y * 0.5
 
-	for child in collisions.get_children():
-		var wall := child as StaticBody2D
-		if not wall:
-			continue
-		var shape_node := wall.get_node_or_null("Shape") as CollisionShape2D
+	for wall in walls:
+		var shape_node := wall.find_child("*Shape") as CollisionShape2D
+		print(shape_node)
 		if not shape_node:
 			continue
 		var wall_shape := shape_node.shape as RectangleShape2D
 		if not wall_shape:
 			continue
-
+			
 		var wall_center := wall.position
 		var wall_hw := wall_shape.size.x * 0.5
 		var wall_hh := wall_shape.size.y * 0.5

@@ -9,7 +9,7 @@ extends Level
 @onready var hint_label: Label = $HUD/HintLabel
 
 func _ready() -> void:
-	player_spawn = bar.welcome_zone
+	player_spawn = $PlayerSpawn
 	super._ready()
 
 func _init_local_player(player: Player) -> void:
