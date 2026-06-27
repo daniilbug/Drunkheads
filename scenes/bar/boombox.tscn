@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://fixpgx736rri"]
 
-[ext_resource type="Script" uid="uid://tdiqhjfq4vmv" path="res://scripts/hub/bar/boombox.gd" id="1_acxi1"]
-[ext_resource type="Texture2D" uid="uid://cedhrbfo2qmdc" path="res://assets/sprites/boombox.png" id="1_alato"]
-[ext_resource type="AudioStream" uid="uid://b2wnrqj3xgg30" path="res://assets/audio/background/1.mp3" id="2_k2lq3"]
-[ext_resource type="AudioStream" uid="uid://n10tiopjfnvy" path="res://assets/audio/background/2.mp3" id="3_acxi1"]
-[ext_resource type="AudioStream" uid="uid://cldhtq6v7vct0" path="res://assets/audio/background/3.mp3" id="4_b3vwe"]
-[ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="5_ia5v7"]
+[ext_resource type="Script" uid="uid://tdiqhjfq4vmv" path="res://scripts/bar/boombox.gd" id="1_321pt"]
+[ext_resource type="Texture2D" uid="uid://cedhrbfo2qmdc" path="res://assets/sprites/boombox.png" id="2_i6ncd"]
+[ext_resource type="AudioStream" uid="uid://b2wnrqj3xgg30" path="res://assets/audio/background/1.mp3" id="3_cw7vd"]
+[ext_resource type="AudioStream" uid="uid://n10tiopjfnvy" path="res://assets/audio/background/2.mp3" id="4_n7atx"]
+[ext_resource type="AudioStream" uid="uid://cldhtq6v7vct0" path="res://assets/audio/background/3.mp3" id="5_q4uuh"]
+[ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="6_c0a2j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2lq3"]
 radius = 8.0
@@ -13,10 +13,10 @@ radius = 8.0
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_nqy8t"]
 shuffle = true
 stream_count = 4
-stream_0 = ExtResource("2_k2lq3")
-stream_1 = ExtResource("3_acxi1")
-stream_2 = ExtResource("4_b3vwe")
-stream_3 = ExtResource("5_ia5v7")
+stream_0 = ExtResource("3_cw7vd")
+stream_1 = ExtResource("4_n7atx")
+stream_2 = ExtResource("5_q4uuh")
+stream_3 = ExtResource("6_c0a2j")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k2lq3"]
 properties/0/path = NodePath(".:position")
@@ -30,12 +30,13 @@ properties/2/spawn = true
 properties/2/replication_mode = 2
 
 [node name="Boombox" type="Node2D" unique_id=1333916304]
-script = ExtResource("1_acxi1")
+script = ExtResource("1_321pt")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1600914448]
+light_mask = 2
 position = Vector2(0.15427779, 0.20536803)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("1_alato")
+texture = ExtResource("2_i6ncd")
 hframes = 4
 
 [node name="Area" type="Area2D" parent="." unique_id=970690791]
@@ -47,8 +48,7 @@ shape = SubResource("CircleShape2D_k2lq3")
 stream = SubResource("AudioStreamPlaylist_nqy8t")
 volume_db = -10.0
 autoplay = true
-max_distance = 1000.0
-attenuation = 2.0
+attenuation = 5.0
 playback_type = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=744631673]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://fo6qjo8d38ac"]
 
-[ext_resource type="Script" uid="uid://usy8mvcr7vcr" path="res://scripts/hub/bar/dance_floor_controller.gd" id="1_7n1dm"]
-[ext_resource type="Texture2D" uid="uid://cq8nflirl1bew" path="res://assets/sprites/dance_floor_controller.png" id="1_y33kc"]
+[ext_resource type="Script" uid="uid://usy8mvcr7vcr" path="res://scripts/bar/dance_floor_controller.gd" id="1_vtr3j"]
+[ext_resource type="Texture2D" uid="uid://cq8nflirl1bew" path="res://assets/sprites/dance_floor_controller.png" id="2_n7ec0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7n1dm"]
 
@@ -17,10 +17,11 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [node name="DanceFloorController" type="Node2D" unique_id=1964212012]
-script = ExtResource("1_7n1dm")
+script = ExtResource("1_vtr3j")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=83269075]
-texture = ExtResource("1_y33kc")
+light_mask = 2
+texture = ExtResource("2_n7ec0")
 hframes = 4
 
 [node name="Area" type="Area2D" parent="." unique_id=1599528541]

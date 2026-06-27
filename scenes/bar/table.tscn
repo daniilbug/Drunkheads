@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bcv5xmti8v4pp"]
+
+[ext_resource type="Texture2D" uid="uid://b1o7w31trucan" path="res://assets/sprites/table.png" id="1_w4umq"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="2_jdh4r"]
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/bar/chair.tscn" id="3_1kejr"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/bar/lamp.tscn" id="4_kep7d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arq05"]
+size = Vector2(48, 24)
+
+[node name="TableWithChairs" type="Node2D" unique_id=686340738]
+y_sort_enabled = true
+
+[node name="Table" type="StaticBody2D" parent="." unique_id=1071002197]
+
+[node name="Sprite" type="Sprite2D" parent="Table" unique_id=2101722161]
+light_mask = 3
+texture_filter = 1
+position = Vector2(0, 12)
+texture = ExtResource("1_w4umq")
+centered = false
+offset = Vector2(-24, -24)
+
+[node name="Shape" type="CollisionShape2D" parent="Table" unique_id=1595896442]
+shape = SubResource("RectangleShape2D_arq05")
+
+[node name="DropPlaces" type="Node2D" parent="Table" unique_id=438695079]
+
+[node name="DropPlace" parent="Table/DropPlaces" unique_id=16125788 instance=ExtResource("2_jdh4r")]
+position = Vector2(-11, -7)
+
+[node name="DropPlace2" parent="Table/DropPlaces" unique_id=997977591 instance=ExtResource("2_jdh4r")]
+position = Vector2(-11, 2)
+
+[node name="DropPlace3" parent="Table/DropPlaces" unique_id=60841244 instance=ExtResource("2_jdh4r")]
+position = Vector2(12, -7)
+
+[node name="DropPlace4" parent="Table/DropPlaces" unique_id=1301706812 instance=ExtResource("2_jdh4r")]
+position = Vector2(12, 2)
+
+[node name="ChairSouthWest" parent="." unique_id=525780025 instance=ExtResource("3_1kejr")]
+position = Vector2(-13, -11)
+
+[node name="ChairSouthEast" parent="." unique_id=1094554752 instance=ExtResource("3_1kejr")]
+position = Vector2(13, -11)
+
+[node name="ChairNorthWest" parent="." unique_id=1948589676 instance=ExtResource("3_1kejr")]
+position = Vector2(-13, 20)
+facing_north = true
+
+[node name="ChairNorthEast" parent="." unique_id=1633767019 instance=ExtResource("3_1kejr")]
+position = Vector2(13, 20)
+facing_north = true
+
+[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("4_kep7d")]

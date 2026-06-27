@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1jq6q1pigrsk"
-path="res://.godot/imported/lamp.png-e161f1e088c60fb8266ad7f1cd5aaba1.ctex"
+uid="uid://c3i2ome0g4oy1"
+path="res://.godot/imported/bar_sign.png-b5984a269b187f62c0df8880754678f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/lamp.png"
-dest_files=["res://.godot/imported/lamp.png-e161f1e088c60fb8266ad7f1cd5aaba1.ctex"]
+source_file="res://assets/sprites/bar_sign.png"
+dest_files=["res://.godot/imported/bar_sign.png-b5984a269b187f62c0df8880754678f5.ctex"]
 
 [params]
 

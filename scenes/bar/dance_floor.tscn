@@ -1,10 +1,21 @@
 [gd_scene format=3 uid="uid://dck66yt4prbuv"]
 
-[ext_resource type="Script" uid="uid://e6b5l6htm2x1" path="res://scripts/hub/bar/dance_floor.gd" id="1_d0mg5"]
-[ext_resource type="Texture2D" uid="uid://b6w0jv8hdjcrq" path="res://assets/sprites/dance_floor.png" id="1_j8unq"]
+[ext_resource type="Script" uid="uid://e6b5l6htm2x1" path="res://scripts/bar/dance_floor.gd" id="1_ffnn4"]
+[ext_resource type="Texture2D" uid="uid://br6xfe3dgn656" path="res://assets/sprites/dance_floor.png" id="2_0xm2o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0mg5"]
 size = Vector2(48, 48)
+
+[sub_resource type="Gradient" id="Gradient_d0mg5"]
+offsets = PackedFloat32Array(0, 0.14177693, 0.64083177)
+colors = PackedColorArray(1, 1, 1, 1, 0.8495575, 0.8495575, 0.8495575, 0.8495575, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nfqsg"]
+gradient = SubResource("Gradient_d0mg5")
+width = 80
+height = 80
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d0mg5"]
 properties/0/path = NodePath(".:mode")
@@ -12,10 +23,11 @@ properties/0/spawn = true
 properties/0/replication_mode = 2
 
 [node name="DanceFloor" type="Node2D" unique_id=549599653]
-script = ExtResource("1_d0mg5")
+script = ExtResource("1_ffnn4")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=782230232]
-texture = ExtResource("1_j8unq")
+light_mask = 2
+texture = ExtResource("2_0xm2o")
 hframes = 5
 
 [node name="Area" type="Area2D" parent="." unique_id=64172543]
@@ -23,6 +35,10 @@ collision_mask = 0
 
 [node name="Shape" type="CollisionShape2D" parent="Area" unique_id=2136695537]
 shape = SubResource("RectangleShape2D_d0mg5")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=1177872038]
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_nfqsg")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2108897858]
 replication_config = SubResource("SceneReplicationConfig_d0mg5")

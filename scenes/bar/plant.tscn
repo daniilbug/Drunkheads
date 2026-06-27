@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bdl3xq7nt8huj"]
 
-[ext_resource type="Texture2D" uid="uid://d31ye57wx1p24" path="res://assets/sprites/plant.png" id="1_ctho0"]
+[ext_resource type="Texture2D" uid="uid://xjnsglrcy0r" path="res://assets/sprites/plant.png" id="1_ctho0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hpcdc"]
 size = Vector2(15, 10)
@@ -8,6 +8,7 @@ size = Vector2(15, 10)
 [node name="Plant" type="StaticBody2D" unique_id=429371026]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1507569492]
+light_mask = 2
 position = Vector2(0.4, -12)
 texture = ExtResource("1_ctho0")
 

@@ -12,6 +12,9 @@ extends Node2D
 @onready var _open_sprite: Sprite2D = $OpenSprite
 @onready var _collision: CollisionShape2D = $Body/Shape
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(1, true)
+
 func _ready() -> void:
 	_apply_state()
 	if not Engine.is_editor_hint():
@@ -42,7 +45,6 @@ func _punch_wall_hole() -> void:
 
 	for wall in walls:
 		var shape_node := wall.find_child("*Shape") as CollisionShape2D
-		print(shape_node)
 		if not shape_node:
 			continue
 		var wall_shape := shape_node.shape as RectangleShape2D

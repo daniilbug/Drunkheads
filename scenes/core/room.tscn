@@ -22,6 +22,7 @@ z_as_relative = false
 script = ExtResource("1_room")
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=2]
+light_mask = 2
 texture_filter = 1
 centered = false
 

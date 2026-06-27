@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wbgbdugtw7ni"]
 
-[ext_resource type="Texture2D" uid="uid://dtpl8u3glp6jp" path="res://assets/sprites/table_football.png" id="1_y707c"]
+[ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="1_y707c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y707c"]
 size = Vector2(24, 40)
@@ -8,6 +8,7 @@ size = Vector2(24, 40)
 [node name="TableFootball" type="StaticBody2D" unique_id=764347753]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1471531696]
+light_mask = 2
 texture = ExtResource("1_y707c")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=1530597163]

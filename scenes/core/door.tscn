@@ -8,6 +8,11 @@ size = Vector2(14, 3.8592024)
 [sub_resource type="RectangleShape2D" id="RectInteract"]
 size = Vector2(22, 12)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_77t7i"]
+properties/0/path = NodePath(".:is_open")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Door" type="Node2D" unique_id=1]
 script = ExtResource("1_door")
 
@@ -29,3 +34,6 @@ shape = SubResource("RectBody")
 
 [node name="Shape" type="CollisionShape2D" parent="InteractionZone" unique_id=7]
 shape = SubResource("RectInteract")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1219028353]
+replication_config = SubResource("SceneReplicationConfig_77t7i")

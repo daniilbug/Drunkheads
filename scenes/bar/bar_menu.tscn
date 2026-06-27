@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://j8uafynfmw8s"]
 
-[ext_resource type="Script" uid="uid://b40xduancicgs" path="res://scripts/hub/bar/bar_menu.gd" id="1_17llj"]
+[ext_resource type="Script" uid="uid://b40xduancicgs" path="res://scripts/bar/bar_menu.gd" id="1_ywyjx"]
 
 [node name="DrinkMenu" type="CanvasLayer" unique_id=640850640]
 layer = 10
-script = ExtResource("1_17llj")
+script = ExtResource("1_ywyjx")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1082979582]
 anchors_preset = 8

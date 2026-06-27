@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bbo0itl4kau50"]
+
+[ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar_sign.png" id="1_brj26"]
+[ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/bar/bar_sign.gd" id="1_fwycx"]
+
+[sub_resource type="Gradient" id="Gradient_asdnn"]
+offsets = PackedFloat32Array(0, 0.9489603)
+colors = PackedColorArray(0.83221525, 0.00068076135, 0.8560393, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_brj26"]
+gradient = SubResource("Gradient_asdnn")
+width = 80
+height = 80
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="BarSign" type="Node2D" unique_id=1758219415]
+script = ExtResource("1_fwycx")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1180024161]
+texture = ExtResource("1_brj26")
+hframes = 2
+
+[node name="Light" type="PointLight2D" parent="." unique_id=871723839]
+position = Vector2(1, 0)
+texture = SubResource("GradientTexture2D_brj26")

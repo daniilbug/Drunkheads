@@ -2,19 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_8py06"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ecrvg"]
-[ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/hub/bar/bar.gd" id="2_ro7p1"]
+[ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/bar/bar.gd" id="2_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="3_ayeq0"]
-[ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/hub/bar/plant.tscn" id="4_1v61x"]
-[ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/hub/bar/neon_sign.tscn" id="5_6ljkh"]
-[ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/hub/bar/bartender.tscn" id="6_eo0d5"]
-[ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/hub/bar/table_football.tscn" id="9_n4oow"]
-[ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/hub/bar/menu.tscn" id="10_fsl2a"]
-[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/hub/table.tscn" id="11_bxo4q"]
-[ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/hub/bar/bar_door.tscn" id="13_eo0d5"]
+[ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/bar/plant.tscn" id="4_1v61x"]
+[ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/bar/neon_sign.tscn" id="5_6ljkh"]
+[ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/bar/bartender.tscn" id="6_eo0d5"]
+[ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/bar/table_football.tscn" id="9_n4oow"]
+[ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/bar/menu.tscn" id="10_fsl2a"]
+[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/bar/table.tscn" id="11_bxo4q"]
+[ext_resource type="PackedScene" uid="uid://bbo0itl4kau50" path="res://scenes/bar/bar_sign.tscn" id="11_eia43"]
+[ext_resource type="PackedScene" uid="uid://b8unrnh2ptmbw" path="res://scenes/bar/window_transparent.tscn" id="11_kd8aa"]
+[ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/bar/bar_door.tscn" id="13_eo0d5"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="13_n4oow"]
 [ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="13_r35sc"]
-[ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/hub/bar/dance_floor.tscn" id="13_ro7p1"]
-[ext_resource type="Texture2D" uid="uid://ckiyabi0ajuye" path="res://assets/sprites/window_transparent.png" id="15_n4oow"]
+[ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/bar/dance_floor.tscn" id="13_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="16_bxo4q"]
 [ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="16_fsl2a"]
 
@@ -42,20 +43,32 @@ size = Vector2(312, 292)
 y_sort_enabled = true
 script = ExtResource("2_ro7p1")
 room_size = Vector2(320, 300)
-wall_hidden_alpha = 0.05
+wall_hidden_alpha = 0.0
 
 [node name="Floor" parent="." index="0" unique_id=2]
 texture = ExtResource("2_ecrvg")
 
 [node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+y_sort_enabled = true
 position = Vector2(160, 0)
 
 [node name="Shape" parent="Walls/Top" index="0" unique_id=6]
 shape = SubResource("RectangleShape2D_lc7ke")
 
 [node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+light_mask = 2
 position = Vector2(0, -14)
 texture = ExtResource("3_ayeq0")
+
+[node name="NeonSign" parent="Walls/Top" index="2" unique_id=572259460 instance=ExtResource("5_6ljkh")]
+position = Vector2(20, -12)
+
+[node name="BuildingWall" type="Sprite2D" parent="Walls/Top" index="3" unique_id=198726362]
+texture_repeat = 2
+position = Vector2(0, -19)
+texture = ExtResource("13_r35sc")
+region_enabled = true
+region_rect = Rect2(0, 0, 336, 42)
 
 [node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
 position = Vector2(160, 300)
@@ -71,17 +84,14 @@ texture = ExtResource("13_r35sc")
 region_enabled = true
 region_rect = Rect2(0, 0, 320, 100)
 
-[node name="Window1" type="Sprite2D" parent="Walls/Bottom" index="2" unique_id=1692207840]
-position = Vector2(-78, -13)
-texture = ExtResource("15_n4oow")
+[node name="Window1" parent="Walls/Bottom" index="2" unique_id=1195451715 instance=ExtResource("11_kd8aa")]
+position = Vector2(-78, -1)
 
-[node name="Window2" type="Sprite2D" parent="Walls/Bottom" index="3" unique_id=905534540]
-position = Vector2(1, -13)
-texture = ExtResource("15_n4oow")
+[node name="Window2" parent="Walls/Bottom" index="3" unique_id=6621145 instance=ExtResource("11_kd8aa")]
+position = Vector2(1, -1)
 
-[node name="Window3" type="Sprite2D" parent="Walls/Bottom" index="4" unique_id=1999622984]
-position = Vector2(82, -13)
-texture = ExtResource("15_n4oow")
+[node name="Window3" parent="Walls/Bottom" index="4" unique_id=1254424151 instance=ExtResource("11_kd8aa")]
+position = Vector2(82, -1)
 
 [node name="Window4" type="Sprite2D" parent="Walls/Bottom" index="5" unique_id=1712789861]
 position = Vector2(-133, -53)
@@ -93,8 +103,11 @@ position = Vector2(-78, -53)
 texture = ExtResource("16_bxo4q")
 hframes = 2
 
-[node name="Window6" type="Sprite2D" parent="Walls/Bottom" index="7" unique_id=1803090]
-position = Vector2(1, -53)
+[node name="Window6" parent="Walls/Bottom" index="7" unique_id=461007414 instance=ExtResource("11_kd8aa")]
+position = Vector2(1, -40)
+
+[node name="Background" type="Sprite2D" parent="Walls/Bottom/Window6" index="2" unique_id=1803090]
+position = Vector2(0, -13)
 texture = ExtResource("16_bxo4q")
 hframes = 2
 frame = 1
@@ -110,6 +123,9 @@ position = Vector2(0, -89)
 texture = ExtResource("16_fsl2a")
 region_enabled = true
 region_rect = Rect2(0, 0, 340, 32)
+
+[node name="BarSign" parent="Walls/Bottom" index="10" unique_id=1758219415 instance=ExtResource("11_eia43")]
+position = Vector2(140, -13)
 
 [node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
 position = Vector2(0, 150)
@@ -131,6 +147,7 @@ position = Vector2(320, 150)
 shape = SubResource("RectangleShape2D_ewniu")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+light_mask = 1
 texture_repeat = 2
 position = Vector2(4, 2)
 texture = ExtResource("13_r35sc")
@@ -144,37 +161,34 @@ position = Vector2(160, 150)
 shape = SubResource("RectangleShape2D_kd3b8")
 
 [node name="Plant" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
-position = Vector2(250, 41)
+position = Vector2(248.01111, 15.617748)
 
-[node name="NeonSign" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=572259460 instance=ExtResource("5_6ljkh")]
-position = Vector2(132, -22)
-
-[node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=208033558 instance=ExtResource("6_eo0d5")]
+[node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=208033558 instance=ExtResource("6_eo0d5")]
 position = Vector2(160, 13)
 
-[node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=764347753 instance=ExtResource("9_n4oow")]
+[node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
 position = Vector2(283.25, 58.25)
 
-[node name="Menu" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
+[node name="Menu" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
 position = Vector2(178, -21)
 
-[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=686340738 instance=ExtResource("11_bxo4q")]
+[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=686340738 instance=ExtResource("11_bxo4q")]
 position = Vector2(105, 95)
 
-[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=622490447 instance=ExtResource("11_bxo4q")]
+[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=622490447 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 95)
 
-[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=594298796 instance=ExtResource("11_bxo4q")]
+[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=594298796 instance=ExtResource("11_bxo4q")]
 position = Vector2(72.25, 169)
 
-[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
+[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
 position = Vector2(249.25, 169)
 
-[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
-position = Vector2(103.75, 241.25)
+[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
+position = Vector2(111, 249)
 
-[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="10" unique_id=650857141 instance=ExtResource("11_bxo4q")]
-position = Vector2(217.5, 241)
+[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=650857141 instance=ExtResource("11_bxo4q")]
+position = Vector2(216, 249)
 
 [node name="FloorDecorations" type="Node2D" parent="." index="4" unique_id=1590726249]
 z_as_relative = false

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c1dt3luxyc5sg"]
 
-[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/hub/bar/bartender.gd" id="1_611q6"]
+[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/bar/bartender.gd" id="1_611q6"]
 [ext_resource type="Texture2D" uid="uid://2fpce82kty5m" path="res://assets/sprites/bartender.png" id="2_juoo6"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
-[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/hub/chair.tscn" id="4_juoo6"]
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/bar/chair.tscn" id="4_juoo6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
 size = Vector2(160, 16)
@@ -20,14 +20,17 @@ script = ExtResource("1_611q6")
 shape = SubResource("RectangleShape2D_counter")
 
 [node name="CounterTop" type="Polygon2D" parent="." unique_id=413523057]
+light_mask = 2
 color = Color(0.55, 0.38, 0.18, 1)
 polygon = PackedVector2Array(-80, -16, 80, -16, 80, 0, -80, 0)
 
 [node name="CounterFront" type="Polygon2D" parent="." unique_id=2082392828]
+light_mask = 2
 color = Color(0.42, 0.28, 0.12, 1)
 polygon = PackedVector2Array(-80, 0, 80, 0, 80, 4, -80, 4)
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1556038128]
+light_mask = 2
 texture_filter = 1
 texture = ExtResource("2_juoo6")
 centered = false

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b8unrnh2ptmbw"]
+
+[ext_resource type="Texture2D" uid="uid://ckiyabi0ajuye" path="res://assets/sprites/window_transparent.png" id="1_uyvff"]
+
+[sub_resource type="Gradient" id="Gradient_uyvff"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_puxuu"]
+gradient = SubResource("Gradient_uyvff")
+width = 16
+height = 40
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[node name="WindowTransparent" type="Node2D" unique_id=1195451715]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=2065896413]
+position = Vector2(0, -12)
+texture = ExtResource("1_uyvff")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=1478163360]
+position = Vector2(0, -4)
+texture = SubResource("GradientTexture2D_puxuu")

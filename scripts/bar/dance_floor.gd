@@ -3,12 +3,14 @@ extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var area: Area2D = $Area
+@onready var light: Light2D = $Light
 
 @export var mode: int = 0:
 	set(value):
 		mode = value
 		_update_collision()
 		_update_animation()
+		_update_light()
 
 var _tween: Tween
 
@@ -37,11 +39,18 @@ func _update_animation():
 	if _tween:
 		_tween.kill()
 	if mode > 0:
+		sprite.frame = 1
 		_tween = create_tween().set_loops()
 		_tween.tween_interval(0.5 / mode)
 		_tween.tween_callback(func(): sprite.frame = max(1, (sprite.frame + 1) % sprite.hframes))
 	else:
 		sprite.frame = 0
+
+func _update_light():
+	if mode > 0:
+		light.enabled = true
+	else:
+		light.enabled = false
 
 func _on_area_body_entered(body: Node2D) -> void:
 	if body is Player:
