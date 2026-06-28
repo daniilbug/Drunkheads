@@ -6,8 +6,8 @@ const MIN_DRUNK_LIMIT = 10
 const MAX_STAT := 100.0
 const MIN_STAT := 0.0
 
-@export var respect: float = 50.0
-@export var mind: float = 50.0
+@export var respect: float = 0.0
+@export var mind: float = MAX_STAT
 @export var money: float = 50.0
 
 signal stats_changed
@@ -37,6 +37,9 @@ func _apply(stat: String, delta: float) -> void:
 	set(stat, next)
 	if not is_zero_approx(actual):
 		stat_changed.emit(stat, actual)
+
+func get_drunkness() -> float:
+	return 1 - (mind / MAX_STAT)
 
 func is_drunk() -> bool:
 	return mind <= MIN_DRUNK_LIMIT

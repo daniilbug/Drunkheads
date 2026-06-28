@@ -56,7 +56,6 @@ signal drink_action_requested(drink_name: String)
 func _ready() -> void:
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
-	_drunk_tween = AnimationUtils.drunk_camera_shake_tween(camera)
 	call_deferred("_setup_authority")
 
 func _setup_authority() -> void:
@@ -232,12 +231,18 @@ func _animate_drink() -> void:
 	frame_t.tween_callback(func(): sprite.frame = drink_row * 4 + 1)
 	
 func _on_stats_changed():
-	var focus: float
-	if player_data.is_drunk():
-		focus = 1.5
-		_drunk_tween.play()
+	var drunkness = player_data.get_drunkness()
+	if drunkness > 0.75:
+		AnimationUtils.drunk_camera_focus_change(camera, 1.25).play()
 	else:
-		focus = 1
-		_drunk_tween.pause()
-	AnimationUtils.drunk_camera_focus_change(camera, focus).play()
+		AnimationUtils.drunk_camera_focus_change(camera, 1).play()
+	if drunkness > 0.25:
+		if _drunk_tween:
+			_drunk_tween.kill()
+		_drunk_tween = AnimationUtils.drunk_camera_shake_tween(
+			camera,
+			2 - drunkness + 0.25,
+			drunkness,
+		)
+		_drunk_tween.play()
 	

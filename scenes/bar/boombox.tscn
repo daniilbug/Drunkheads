@@ -6,17 +6,25 @@
 [ext_resource type="AudioStream" uid="uid://n10tiopjfnvy" path="res://assets/audio/background/2.mp3" id="4_n7atx"]
 [ext_resource type="AudioStream" uid="uid://cldhtq6v7vct0" path="res://assets/audio/background/3.mp3" id="5_q4uuh"]
 [ext_resource type="AudioStream" uid="uid://d3r2tltimegwe" path="res://assets/audio/background/4.mp3" id="6_c0a2j"]
+[ext_resource type="AudioStream" uid="uid://3y8divynyu4s" path="res://assets/audio/background/5.mp3" id="7_q4uuh"]
+[ext_resource type="AudioStream" uid="uid://branluevx78du" path="res://assets/audio/background/6.mp3" id="8_c0a2j"]
+[ext_resource type="AudioStream" uid="uid://cegfvy8t4ipbq" path="res://assets/audio/background/7.mp3" id="9_35338"]
+[ext_resource type="AudioStream" uid="uid://b0aaal4mvtau3" path="res://assets/audio/background/8.mp3" id="10_lr7bw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2lq3"]
 radius = 8.0
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_nqy8t"]
 shuffle = true
-stream_count = 4
+stream_count = 8
 stream_0 = ExtResource("3_cw7vd")
 stream_1 = ExtResource("4_n7atx")
 stream_2 = ExtResource("5_q4uuh")
 stream_3 = ExtResource("6_c0a2j")
+stream_4 = ExtResource("7_q4uuh")
+stream_5 = ExtResource("8_c0a2j")
+stream_6 = ExtResource("9_35338")
+stream_7 = ExtResource("10_lr7bw")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k2lq3"]
 properties/0/path = NodePath(".:position")
