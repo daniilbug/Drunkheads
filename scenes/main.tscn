@@ -59,9 +59,7 @@ region_rect = Rect2(0, 0, 360, 400)
 [node name="PlayerSpawn" type="Node2D" parent="." index="4" unique_id=1937828665]
 position = Vector2(100.340454, 315.89908)
 
-[node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1806955092]
-position = Vector2(-21, 382.25)
-energy = 0.5
+[node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1821277763]
+position = Vector2(-18.051575, 356.72577)
+color = Color(1, 1, 1, 0.75000006)
 blend_mode = 1
-shadow_enabled = true
-shadow_filter = 1

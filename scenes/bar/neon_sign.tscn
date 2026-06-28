@@ -20,8 +20,6 @@ fill_to = Vector2(0, 0)
 script = ExtResource("1_asdnn")
 
 [node name="Light" type="PointLight2D" parent="." unique_id=1701465821]
-position = Vector2(0.0546875, -8.96875)
-energy = 0.5
 range_item_cull_mask = 2
 texture = SubResource("GradientTexture2D_syw0i")
 

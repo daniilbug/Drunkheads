@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/bar/bar_sign.gd" id="1_fwycx"]
 
 [sub_resource type="Gradient" id="Gradient_asdnn"]
-offsets = PackedFloat32Array(0, 0.9489603)
+offsets = PackedFloat32Array(0.17013232, 0.69187146)
 colors = PackedColorArray(0.83221525, 0.00068076135, 0.8560393, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_brj26"]
@@ -20,6 +20,7 @@ fill_to = Vector2(0, 0)
 script = ExtResource("1_fwycx")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1180024161]
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("1_brj26")
 hframes = 2
 

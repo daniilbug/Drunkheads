@@ -21,6 +21,18 @@ func _ready() -> void:
 		_punch_wall_hole()
 
 func toggle() -> void:
+	if multiplayer.is_server():
+		_toggle_local()
+	else:
+		_toogle_remote.rpc_id(1)
+
+@rpc("any_peer", "reliable")
+func _toogle_remote() -> void:
+	if not multiplayer.is_server():
+		return
+	_toggle_local()
+	
+func _toggle_local() -> void:
 	is_open = not is_open
 
 func _apply_state() -> void:

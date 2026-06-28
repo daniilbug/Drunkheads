@@ -125,7 +125,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 340, 32)
 
 [node name="BarSign" parent="Walls/Bottom" index="10" unique_id=1758219415 instance=ExtResource("11_eia43")]
-position = Vector2(140, -13)
+position = Vector2(127.57077, -12.505554)
 
 [node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
 position = Vector2(0, 150)

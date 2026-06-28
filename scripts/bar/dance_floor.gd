@@ -3,7 +3,8 @@ extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var area: Area2D = $Area
-@onready var light: Light2D = $Light
+@onready var light: PointLight2D = $Light
+@onready var _light_texture: GradientTexture2D = light.texture
 
 @export var mode: int = 0:
 	set(value):
@@ -42,7 +43,15 @@ func _update_animation():
 		sprite.frame = 1
 		_tween = create_tween().set_loops()
 		_tween.tween_interval(0.5 / mode)
-		_tween.tween_callback(func(): sprite.frame = max(1, (sprite.frame + 1) % sprite.hframes))
+		_tween.tween_callback(
+			func(): 
+				sprite.frame = max(1, (sprite.frame + 1) % sprite.hframes)
+				match sprite.frame:
+					1: _light_texture.gradient.set_color(0, Color.from_string("#fe33cc", Color.WHITE))
+					2: _light_texture.gradient.set_color(0, Color.from_string("#67ccfe", Color.WHITE))
+					3: _light_texture.gradient.set_color(0, Color.from_string("#65fe98", Color.WHITE))
+					4: _light_texture.gradient.set_color(0, Color.from_string("#fefe00", Color.WHITE))
+		)
 	else:
 		sprite.frame = 0
 
