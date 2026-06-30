@@ -19,10 +19,10 @@ var max_parts: int = 4:
 		if is_node_ready():
 			_update_drink_sprite()
 
-@onready var glass_sprite: Sprite2D = $GlassSprite
-@onready var drink_sprite: Sprite2D = $GlassSprite/DrinkSprite
+@onready var drink_sprite: Sprite2D = $Sprite/Drink
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
+@export
 var parts: int = max_parts:
 	set(value):
 		parts = value
@@ -30,7 +30,6 @@ var parts: int = max_parts:
 			_update_drink_sprite()
 
 func _ready() -> void:
-	sprite = glass_sprite
 	_update_drink_sprite()
 
 func get_respect_bonus() -> float:
@@ -42,13 +41,13 @@ func get_mind_penalty() -> float:
 func _update_drink_sprite() -> void:
 	match type:
 		BarMenuItem.Type.BEER:
-			glass_sprite.texture = load("res://assets/sprites/drinks/beer_glass.png")
+			sprite.texture = load("res://assets/sprites/drinks/beer_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/beer.png")
 		BarMenuItem.Type.SHOT:
-			glass_sprite.texture = load("res://assets/sprites/drinks/shot_glass.png")
+			sprite.texture = load("res://assets/sprites/drinks/shot_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/shot.png")
 		BarMenuItem.Type.COCTAIL:
-			glass_sprite.texture = load("res://assets/sprites/drinks/cocktail_glass.png")
+			sprite.texture = load("res://assets/sprites/drinks/cocktail_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/cocktail.png")
 	
 	var frame_w := drink_sprite.texture.get_width()

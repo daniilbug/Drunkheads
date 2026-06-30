@@ -35,5 +35,9 @@ shape = SubResource("RectBody")
 [node name="Shape" type="CollisionShape2D" parent="InteractionZone" unique_id=7]
 shape = SubResource("RectInteract")
 
+[node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=415454640]
+max_distance = 64.0
+attenuation = 0.5
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1219028353]
 replication_config = SubResource("SceneReplicationConfig_77t7i")

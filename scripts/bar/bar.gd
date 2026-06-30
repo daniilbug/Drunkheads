@@ -1,3 +1,4 @@
+@tool
 class_name Bar
 extends Room
 
@@ -55,6 +56,8 @@ func _spawn_drink(
 		return
 	handle_drink_spawn(drink_name, type, flavor, cost, alcohol, sprite, parts)
 	
+static var _drink_id: int = 0
+
 func handle_drink_spawn(
 	drink_name: String,
 	type: BarMenuItem.Type,
@@ -65,6 +68,8 @@ func handle_drink_spawn(
 	parts: int,
 ) -> void:
 	var drink: Drink = DRINK_SCENE.instantiate()
+	_drink_id += 1
+	drink.name = "Drink" + str(_drink_id)
 	drink.drink_name = drink_name
 	drink.type = type
 	drink.flavor = flavor
@@ -72,5 +77,5 @@ func handle_drink_spawn(
 	drink.alcohol = alcohol
 	drink.sprite_frame = sprite
 	drink.max_parts = parts
-	y_sort.add_child(drink)
+	get_parent().add_child(drink)
 	drink.drop(bartender.order_place)

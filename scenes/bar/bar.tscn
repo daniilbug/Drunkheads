@@ -70,6 +70,9 @@ texture = ExtResource("13_r35sc")
 region_enabled = true
 region_rect = Rect2(0, 0, 336, 42)
 
+[node name="Menu" parent="Walls/Top" index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
+position = Vector2(-27, -12)
+
 [node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
 position = Vector2(160, 300)
 
@@ -169,25 +172,22 @@ position = Vector2(160, 13)
 [node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
 position = Vector2(283.25, 58.25)
 
-[node name="Menu" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
-position = Vector2(178, -21)
-
-[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=686340738 instance=ExtResource("11_bxo4q")]
+[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
 position = Vector2(105, 95)
 
-[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=622490447 instance=ExtResource("11_bxo4q")]
+[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=622490447 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 95)
 
-[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=594298796 instance=ExtResource("11_bxo4q")]
+[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=594298796 instance=ExtResource("11_bxo4q")]
 position = Vector2(72.25, 169)
 
-[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
+[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
 position = Vector2(249.25, 169)
 
-[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
+[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
 position = Vector2(111, 249)
 
-[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=650857141 instance=ExtResource("11_bxo4q")]
+[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 249)
 
 [node name="FloorDecorations" type="Node2D" parent="." index="4" unique_id=1590726249]

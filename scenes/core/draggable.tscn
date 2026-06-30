@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://1vwgltopo0k6"]
+
+[ext_resource type="Script" uid="uid://bcv2k1qsknjaa" path="res://scripts/core/draggable.gd" id="1_nr3oe"]
+[ext_resource type="AudioStream" uid="uid://bojnpf0og4bhn" path="res://assets/audio/interactions/drop.mp3" id="2_mdows"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f44yl"]
+radius = 8.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mt2m7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:parts")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:max_parts")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:sprite_frame")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:type")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:holder_peer_id")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+
+[node name="Draggable" type="Node2D" unique_id=972279722]
+script = ExtResource("1_nr3oe")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=700934381]
+light_mask = 2
+position = Vector2(0.15427779, 0.20536803)
+scale = Vector2(0.8, 0.8)
+hframes = 4
+
+[node name="Area" type="Area2D" parent="." unique_id=698382733]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=1778742215]
+shape = SubResource("CircleShape2D_f44yl")
+
+[node name="PlacingAudio" type="AudioStreamPlayer2D" parent="." unique_id=1777630915]
+stream = ExtResource("2_mdows")
+volume_db = -10.0
+autoplay = true
+max_distance = 64.0
+attenuation = 5.0
+playback_type = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=598135177]
+replication_config = SubResource("SceneReplicationConfig_mt2m7")

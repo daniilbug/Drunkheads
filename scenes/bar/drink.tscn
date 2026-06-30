@@ -1,55 +1,29 @@
-[gd_scene format=3 uid="uid://bldl7wtc2bj1h"]
+[gd_scene format=3 uid="uid://di8pbj1ruq3r3"]
 
+[ext_resource type="PackedScene" uid="uid://1vwgltopo0k6" path="res://scenes/core/draggable.tscn" id="1_cprlb"]
 [ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/bar/drink.gd" id="1_idkpf"]
 [ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drinks/beer_glass.png" id="2_cprlb"]
 [ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drinks/beer.png" id="3_wfvy8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_eae3o"]
-radius = 12.0
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4i2oy"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:parts")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath(".:holder_peer_id")
-properties/2/spawn = true
-properties/2/replication_mode = 2
-properties/3/path = NodePath("GlassSprite:position")
-properties/3/spawn = true
-properties/3/replication_mode = 2
-properties/4/path = NodePath(".:type")
-properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath(".:sprite_frame")
-properties/5/spawn = true
-properties/5/replication_mode = 2
-properties/6/path = NodePath(".:max_parts")
-properties/6/spawn = true
-properties/6/replication_mode = 0
-
-[node name="Drink" type="Node2D" unique_id=1387790329]
-scale = Vector2(0.8, 0.8)
+[node name="Drink" unique_id=972279722 instance=ExtResource("1_cprlb")]
 script = ExtResource("1_idkpf")
-metadata/_custom_type_script = "uid://c32y5jxqyspnc"
+drink_name = ""
+type = 0
+flavor = ""
+cost = 10.0
+alcohol = 5.0
+sprite_frame = 0
+max_parts = 4
+parts = 4
 
-[node name="Area" type="Area2D" parent="." unique_id=678598918]
-
-[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=138255126]
-shape = SubResource("CircleShape2D_eae3o")
-debug_color = Color(0.47213155, 0.5134719, 0.77586937, 0.41960785)
-
-[node name="GlassSprite" type="Sprite2D" parent="." unique_id=410337896]
-light_mask = 2
+[node name="Sprite" parent="." index="0" unique_id=700934381]
 texture = ExtResource("2_cprlb")
+hframes = 1
 
-[node name="DrinkSprite" type="Sprite2D" parent="GlassSprite" unique_id=804594283]
+[node name="Drink" type="Sprite2D" parent="Sprite" index="0" unique_id=2109298326]
 light_mask = 2
+position = Vector2(-0.19284722, -0.25671005)
+scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("3_wfvy8")
 region_enabled = true
 region_rect = Rect2(0, 0, 8, 10)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=855740150]
-replication_config = SubResource("SceneReplicationConfig_4i2oy")

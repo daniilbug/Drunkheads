@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED := 200.0
+const SPEED := 150.0
 const FPS_WALK := 8.0
 
 const ROW_WALK_S  := 0
@@ -41,6 +41,7 @@ const ROW_DANCE_N := 9
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 @onready var camera: Camera2D = $Camera
+@onready var audio: AudioStreamPlayer2D = $Audio
 
 var _hands_item: Draggable = null
 
@@ -50,12 +51,14 @@ var _is_walking := false
 var _idle_tween: Tween
 var _drunk_tween: Tween
 var _dance_tween: Tween
+var _last_position: Vector2
 
 signal drink_action_requested(drink_name: String)
 
 func _ready() -> void:
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
+	set_notify_transform(true)
 	call_deferred("_setup_authority")
 
 func _setup_authority() -> void:
@@ -75,6 +78,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if is_sitting:
 		velocity = Vector2.ZERO
+		audio.stop()
 		return
 
 	var dir := Input.get_vector("left", "right", "up", "down")
@@ -99,6 +103,10 @@ func _physics_process(delta: float) -> void:
 		elif not is_zero_approx(dir.y):
 			_anim_row = ROW_WALK_S if dir.y > 0 else ROW_WALK_N
 		sprite.frame = _anim_row * 4 + (int(_anim_t * FPS_WALK) % 4)
+		if not audio.playing: 
+			audio.play()
+	else:
+		audio.stop()
 	move_and_slide()
 
 func _on_direction_change(direction: Vector2) -> void:

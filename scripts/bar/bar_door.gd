@@ -4,8 +4,8 @@ extends Door
 
 @onready var light: Light2D = $Light
 
-func _apply_state() -> void:
-	super._apply_state()
+func _apply_state(was_open: bool) -> void:
+	super._apply_state(was_open)
 	_update_light()
 	
 func _update_light() -> void:

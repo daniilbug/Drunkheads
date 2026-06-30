@@ -3,20 +3,23 @@ class_name Door
 extends Node2D
 
 @export var is_open: bool = false:
-	set(v):
-		is_open = v
+	set(value):
+		var was_open = is_open
+		is_open = value
 		if is_node_ready():
-			_apply_state()
+			_apply_state(was_open)
 
 @onready var _closed_sprite: Sprite2D = $ClosedSprite
 @onready var _open_sprite: Sprite2D = $OpenSprite
 @onready var _collision: CollisionShape2D = $Body/Shape
+@onready var _audio: AudioStreamPlayer2D = $Audio
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
 
 func _ready() -> void:
-	_apply_state()
+	if multiplayer.is_server():
+		_apply_state(false)
 	if not Engine.is_editor_hint():
 		_punch_wall_hole()
 
@@ -35,10 +38,11 @@ func _toogle_remote() -> void:
 func _toggle_local() -> void:
 	is_open = not is_open
 
-func _apply_state() -> void:
+func _apply_state(was_open: bool) -> void:
 	_closed_sprite.visible = not is_open
 	_open_sprite.visible = is_open
 	_collision.disabled = is_open
+	_make_sound(was_open)
 
 func _punch_wall_hole() -> void:
 	var room := get_parent() as Room
@@ -103,3 +107,11 @@ func _add_v_segment(wall: StaticBody2D, y_from: float, y_to: float, width: float
 	col.position = Vector2(0.0, (y_from + y_to) * 0.5 - wall.position.y)
 	col.shape = shape
 	wall.add_child(col)
+	
+func _make_sound(was_open: bool) -> void:
+	if was_open and not is_open:
+		_audio.stream = load("res://assets/audio/interactions/door_close.mp3")
+		_audio.play()
+	elif not was_open and is_open:
+		_audio.stream = load("res://assets/audio/interactions/door_open.mp3")
+		_audio.play()

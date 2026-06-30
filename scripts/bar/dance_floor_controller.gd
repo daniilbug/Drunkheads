@@ -5,10 +5,13 @@ signal on_mode_change(mode: int)
 
 const MODES = 4
 
+@onready var audio: AudioStreamPlayer2D = $Audio
+
 @export var mode: int = 0:
 	set(value):
 		mode = value
 		sprite.frame = mode
+		audio.play()
 
 func _ready() -> void:
 	sprite = $Sprite
