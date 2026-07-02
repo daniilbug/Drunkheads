@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED := 150.0
+const SPEED := 200.0
 const FPS_WALK := 8.0
 
 const ROW_WALK_S  := 0
@@ -44,6 +44,7 @@ const ROW_DANCE_N := 9
 @onready var audio: AudioStreamPlayer2D = $Audio
 
 var _hands_item: Draggable = null
+var is_in_minigame := false
 
 var _anim_t := 0.0
 var _anim_row := ROW_IDLE
@@ -75,6 +76,10 @@ func _start_idle_bob() -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
+		return
+	if is_in_minigame:
+		velocity = Vector2.ZERO
+		audio.stop()
 		return
 	if is_sitting:
 		velocity = Vector2.ZERO
@@ -138,6 +143,8 @@ func _dir_to_idle_row(d: Vector2) -> int:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
+	if is_in_minigame:
+		return
 	if event.is_action_pressed("interact"):
 		_try_interact()
 	elif event.is_action_pressed("take"):
@@ -165,6 +172,9 @@ func _try_interact() -> void:
 			return
 		elif owner_node is Door:
 			owner_node.toggle()
+			return
+		elif owner_node is TableFootballInteract:
+			owner_node.open_game(self)
 			return
 		elif _hands_item != null:
 			_hands_interact()

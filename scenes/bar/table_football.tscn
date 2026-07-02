@@ -1,15 +1,27 @@
 [gd_scene format=3 uid="uid://wbgbdugtw7ni"]
 
 [ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="1_y707c"]
+[ext_resource type="Script" uid="uid://mczze6kac7dy" path="res://scripts/table-football/table_football_interact.gd" id="2_interact"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y707c"]
+[sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(24, 40)
 
-[node name="TableFootball" type="StaticBody2D" unique_id=764347753]
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(36, 52)
+
+[node name="TableFootball" type="Node2D" unique_id=764347753]
+script = ExtResource("2_interact")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1471531696]
 light_mask = 2
 texture = ExtResource("1_y707c")
 
-[node name="Shape" type="CollisionShape2D" parent="." unique_id=1530597163]
-shape = SubResource("RectangleShape2D_y707c")
+[node name="Body" type="StaticBody2D" parent="." unique_id=1530597162]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=1530597163]
+shape = SubResource("1")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1530597200]
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionArea" unique_id=1530597201]
+shape = SubResource("2")

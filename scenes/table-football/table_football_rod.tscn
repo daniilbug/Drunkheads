@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://mtgilbnu5c4g"]
+
+[ext_resource type="Script" uid="uid://c7368nndcjxki" path="res://scripts/table-football/table_football_rod.gd" id="1_rod"]
+
+[sub_resource type="RectangleShape2D" id="Shape_k0"]
+size = Vector2(6, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_k1"]
+size = Vector2(6, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_k2"]
+size = Vector2(6, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_k3"]
+size = Vector2(6, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_k4"]
+size = Vector2(6, 24)
+
+[node name="TableFootballRod" type="Node2D" unique_id=248734841]
+script = ExtResource("1_rod")
+
+[node name="Kicker0" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker0"]
+shape = SubResource("Shape_k0")
+
+[node name="Kicker1" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker1"]
+shape = SubResource("Shape_k1")
+
+[node name="Kicker2" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker2"]
+shape = SubResource("Shape_k2")
+
+[node name="Kicker3" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker3"]
+shape = SubResource("Shape_k3")
+
+[node name="Kicker4" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker4"]
+shape = SubResource("Shape_k4")

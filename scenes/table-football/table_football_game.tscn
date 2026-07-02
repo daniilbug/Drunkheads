@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://lse8ducx2yup"]
+
+[ext_resource type="Script" uid="uid://pmyird8xd34j" path="res://scripts/table-football/table_football_game.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/table-football/table_football_table.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/table-football/table_football_ball.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://mtgilbnu5c4g" path="res://scenes/table-football/table_football_rod.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/table-football/table_football_serve_overlay.tscn" id="6"]
+
+[node name="TableFootballGame" type="Node2D" unique_id=898991035]
+script = ExtResource("1")
+
+[node name="Table" parent="." unique_id=264814975 instance=ExtResource("2")]
+position = Vector2(475, 80)
+
+[node name="ServeOverlay" parent="Table" unique_id=1234567890 instance=ExtResource("6")]
+visible = false
+
+[node name="BallSpawnPoint" type="Node2D" parent="Table" unique_id=1296029331]
+position = Vector2(165, 280)
+
+[node name="Rod0" parent="Table" unique_id=145274485 instance=ExtResource("5")]
+position = Vector2(0, 67)
+kicker_count = 1
+player_height = 20
+kick_speed = 280.0
+kick_impulse = 30.0
+slide_speed = 120.0
+
+[node name="Rod1" parent="Table" unique_id=525169290 instance=ExtResource("5")]
+position = Vector2(0, 494)
+kicker_count = 1
+team = 1
+player_height = 20
+kick_speed = 280.0
+kick_impulse = 30.0
+slide_speed = 120.0
+
+[node name="Rod2" parent="Table" unique_id=1414849536 instance=ExtResource("5")]
+position = Vector2(0, 128)
+kicker_count = 2
+team = 1
+player_height = 20
+kick_speed = 320.0
+kick_impulse = 24.0
+slide_speed = 160.0
+
+[node name="Rod3" parent="Table" unique_id=273068906 instance=ExtResource("5")]
+position = Vector2(0, 433)
+kicker_count = 2
+player_height = 20
+kick_speed = 320.0
+kick_impulse = 24.0
+slide_speed = 160.0
+
+[node name="Rod4" parent="Table" unique_id=1971715449 instance=ExtResource("5")]
+position = Vector2(0, 189)
+player_height = 20
+kick_speed = 420.0
+kick_impulse = 26.0
+slide_speed = 220.0
+
+[node name="Rod5" parent="Table" unique_id=1239636468 instance=ExtResource("5")]
+position = Vector2(0, 372)
+team = 1
+player_height = 20
+kick_speed = 420.0
+kick_impulse = 26.0
+slide_speed = 220.0
+
+[node name="Rod6" parent="Table" unique_id=882257414 instance=ExtResource("5")]
+position = Vector2(0, 250)
+kicker_count = 4
+team = 1
+player_height = 20
+kick_speed = 380.0
+kick_impulse = 18.0
+slide_speed = 240.0
+
+[node name="Rod7" parent="Table" unique_id=818877363 instance=ExtResource("5")]
+position = Vector2(0, 311)
+kicker_count = 4
+player_height = 20
+kick_speed = 380.0
+kick_impulse = 18.0
+slide_speed = 240.0
+
+[node name="Ball" parent="." unique_id=844576459 instance=ExtResource("3")]
+position = Vector2(640, 360)
