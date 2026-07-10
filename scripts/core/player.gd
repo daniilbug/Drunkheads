@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED := 200.0
+const SPEED := 350.0
 const FPS_WALK := 8.0
 
 const ROW_WALK_S  := 0
@@ -182,6 +182,9 @@ func _try_interact() -> void:
 		elif owner_node is Bartender:
 			var bartender = owner_node as Bartender
 			bartender.order(self)
+			return
+		elif owner_node is Interactable:
+			owner_node.interact()
 			return
 
 func _try_take_drop() -> void:

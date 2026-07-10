@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://wbgbdugtw7ni"]
 
 [ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="1_y707c"]
-[ext_resource type="Script" uid="uid://mczze6kac7dy" path="res://scripts/table-football/table_football_interact.gd" id="2_interact"]
+[ext_resource type="Script" uid="uid://mc00e6kac7dy" path="res://scripts/table-football/table_football_interact.gd" id="2_interact"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="3_yrx7c"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(24, 40)
@@ -25,3 +26,5 @@ shape = SubResource("1")
 
 [node name="Shape" type="CollisionShape2D" parent="InteractionArea" unique_id=1530597201]
 shape = SubResource("2")
+
+[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("3_yrx7c")]

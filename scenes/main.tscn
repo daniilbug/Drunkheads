@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/asphalt.png" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/bar/bar.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="2_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://beou7oanjwgs3" path="res://scenes/wc/wc.tscn" id="5_tbgi4"]
 
 [node name="Main" unique_id=85658459 instance=ExtResource("1_0wfyh")]
 scale = Vector2(4, 4)
@@ -12,7 +13,10 @@ script = ExtResource("2_tbgi4")
 [node name="Bar" parent="." index="0" unique_id=1 instance=ExtResource("2_sugp2")]
 light_mask = 0
 
-[node name="HUD" type="CanvasLayer" parent="." index="1" unique_id=1125200463]
+[node name="WC" parent="." index="1" unique_id=1075251084 instance=ExtResource("5_tbgi4")]
+position = Vector2(240, -80)
+
+[node name="HUD" type="CanvasLayer" parent="." index="2" unique_id=1125200463]
 
 [node name="Stats" type="VBoxContainer" parent="HUD" index="0" unique_id=1030069989]
 offset_left = 24.0
@@ -46,23 +50,20 @@ grow_horizontal = 2
 grow_vertical = 0
 horizontal_alignment = 1
 
-[node name="Asphalt" type="Node2D" parent="." index="2" unique_id=1950570810]
+[node name="Asphalt" type="Node2D" parent="." index="3" unique_id=1950570810]
 z_index = -1
 
 [node name="Sprite" type="Sprite2D" parent="Asphalt" index="0" unique_id=1954105509]
 texture_repeat = 2
-position = Vector2(160, 136.25)
+position = Vector2(159.75, 42.5)
 texture = ExtResource("2_jyhfs")
 region_enabled = true
-region_rect = Rect2(0, 0, 360, 400)
+region_rect = Rect2(0, 0, 360, 600)
 
-[node name="PlayerSpawn" type="Node2D" parent="." index="3" unique_id=1937828665]
-position = Vector2(100.340454, 315.89908)
+[node name="PlayerSpawn" type="Node2D" parent="." index="4" unique_id=1937828665]
+position = Vector2(273, 319)
 
-[node name="Darkness" type="DirectionalLight2D" parent="." index="4" unique_id=1821277763]
+[node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1821277763]
 position = Vector2(-18.051575, 356.72577)
 color = Color(1, 1, 1, 0.75000006)
 blend_mode = 1
-
-[node name="Spawner" parent="." index="5" unique_id=1819118617]
-_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd", "uid://di8pbj1ruq3r3")

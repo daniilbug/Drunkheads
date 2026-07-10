@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://yyxk8drg18gg"]
+
+[ext_resource type="Texture2D" uid="uid://oi1c5p3x7qyn" path="res://assets/sprites/wc/trash.png" id="1_sm3cy"]
+
+[node name="Trash" type="Node2D" unique_id=1513952303]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1157179690]
+light_mask = 2
+position = Vector2(0, -6)
+texture = ExtResource("1_sm3cy")

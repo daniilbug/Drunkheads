@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://yw1t8mdvhnmo"]
+
+[ext_resource type="Texture2D" uid="uid://s2l35kncnxt" path="res://assets/sprites/wc/no_smoking.png" id="1_nc7pf"]
+
+[node name="NoSmoking" type="Node2D" unique_id=2060100485]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=624764361]
+light_mask = 2
+position = Vector2(0, -14)
+texture = ExtResource("1_nc7pf")

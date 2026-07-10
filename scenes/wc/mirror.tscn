@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bcd8na17hihu0"]
+
+[ext_resource type="Texture2D" uid="uid://be31uvg5gxstg" path="res://assets/sprites/wc/mirror.png" id="1_jhptp"]
+[ext_resource type="Shader" uid="uid://b51nnm4005llv" path="res://assets/shaders/mirror.gdshader" id="1_yg751"]
+[ext_resource type="Texture2D" uid="uid://b4mg5d11vsi6e" path="res://assets/sprites/wc/mirror_frame.png" id="3_mmmhf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mmmhf"]
+shader = ExtResource("1_yg751")
+shader_parameter/blur_amount = 8.0
+
+[node name="Mirror" type="Node2D" unique_id=957622239]
+z_index = 100
+z_as_relative = false
+
+[node name="Glass" type="Sprite2D" parent="." unique_id=1660288943]
+light_mask = 2
+material = SubResource("ShaderMaterial_mmmhf")
+position = Vector2(0, -19)
+texture = ExtResource("1_jhptp")
+
+[node name="Frame" type="Sprite2D" parent="." unique_id=1324184992]
+light_mask = 2
+position = Vector2(0, -19)
+texture = ExtResource("3_mmmhf")

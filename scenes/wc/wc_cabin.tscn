@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cwccbn4568aa0"]
+
+[ext_resource type="Script" uid="uid://bx6rbam06i0ll" path="res://scripts/wc/wc_cabin.gd" id="1_bkwlb"]
+[ext_resource type="Texture2D" uid="uid://cwccabin12345" path="res://assets/sprites/wc/cabin.png" id="1_cab"]
+[ext_resource type="AudioStream" uid="uid://ddjbq7ndqalll" path="res://assets/audio/interactions/wc_cabin.mp3" id="3_srfal"]
+
+[sub_resource type="RectangleShape2D" id="RectTop"]
+size = Vector2(28, 4)
+
+[sub_resource type="RectangleShape2D" id="RectBottom"]
+size = Vector2(28, 4)
+
+[sub_resource type="RectangleShape2D" id="RectLeft"]
+size = Vector2(4, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bkwlb"]
+size = Vector2(23, 9)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bkwlb"]
+properties/0/path = NodePath(".:is_being_used")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="WCCabin" type="Node2D" unique_id=975831774]
+script = ExtResource("1_bkwlb")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=197389947]
+light_mask = 2
+texture_filter = 1
+position = Vector2(14, -14)
+texture = ExtResource("1_cab")
+
+[node name="TopWall" type="StaticBody2D" parent="." unique_id=932216655]
+position = Vector2(22, -30)
+
+[node name="Shape" type="CollisionShape2D" parent="TopWall" unique_id=1107784895]
+position = Vector2(-8, 15)
+shape = SubResource("RectTop")
+
+[node name="BottomWall" type="StaticBody2D" parent="." unique_id=793335799]
+position = Vector2(24, 30)
+
+[node name="Shape" type="CollisionShape2D" parent="BottomWall" unique_id=865010586]
+position = Vector2(-10, -31)
+shape = SubResource("RectBottom")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=1163186307]
+
+[node name="Shape" type="CollisionShape2D" parent="LeftWall" unique_id=1232952955]
+position = Vector2(2, -8)
+shape = SubResource("RectLeft")
+
+[node name="Area" type="Area2D" parent="." unique_id=713704597]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=342478654]
+position = Vector2(15.5, -8.5)
+shape = SubResource("RectangleShape2D_bkwlb")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1178779473]
+stream = ExtResource("3_srfal")
+max_distance = 300.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=350387091]
+replication_config = SubResource("SceneReplicationConfig_bkwlb")

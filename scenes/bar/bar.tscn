@@ -22,6 +22,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lc7ke"]
 size = Vector2(320, 4)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcgap1"]
+size = Vector2(270, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcgap2"]
+size = Vector2(30, 4)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6ee6"]
 size = Vector2(320, 4)
 
@@ -54,24 +60,35 @@ position = Vector2(160, 0)
 
 [node name="Shape" parent="Walls/Top" index="0" unique_id=6]
 shape = SubResource("RectangleShape2D_lc7ke")
+disabled = true
 
 [node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
 light_mask = 2
-position = Vector2(0, -14)
+position = Vector2(0, -16)
 texture = ExtResource("3_ayeq0")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 32)
 
 [node name="NeonSign" parent="Walls/Top" index="2" unique_id=572259460 instance=ExtResource("5_6ljkh")]
-position = Vector2(20, -12)
+position = Vector2(52, -14)
 
 [node name="BuildingWall" type="Sprite2D" parent="Walls/Top" index="3" unique_id=198726362]
 texture_repeat = 2
-position = Vector2(0, -19)
+position = Vector2(-45.5, -19)
 texture = ExtResource("13_r35sc")
 region_enabled = true
-region_rect = Rect2(0, 0, 336, 42)
+region_rect = Rect2(0, 0, 245, 42)
 
 [node name="Menu" parent="Walls/Top" index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
-position = Vector2(-27, -12)
+position = Vector2(-5, -15)
+
+[node name="WCGapLeft" type="CollisionShape2D" parent="Walls/Top" index="5" unique_id=3001]
+position = Vector2(-25, 0)
+shape = SubResource("RectangleShape2D_wcgap1")
+
+[node name="WCGapRight" type="CollisionShape2D" parent="Walls/Top" index="6" unique_id=3002]
+position = Vector2(147, 0)
+shape = SubResource("RectangleShape2D_wcgap2")
 
 [node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
 position = Vector2(160, 300)
@@ -164,13 +181,13 @@ position = Vector2(160, 150)
 shape = SubResource("RectangleShape2D_kd3b8")
 
 [node name="Plant" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
-position = Vector2(248.01111, 15.617748)
+position = Vector2(69.11421, 13.439728)
 
 [node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=208033558 instance=ExtResource("6_eo0d5")]
 position = Vector2(160, 13)
 
 [node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
-position = Vector2(283.25, 58.25)
+position = Vector2(276.41495, 56.51532)
 
 [node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
 position = Vector2(105, 95)

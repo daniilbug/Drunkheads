@@ -1,0 +1,165 @@
+[gd_scene format=4 uid="uid://beou7oanjwgs3"]
+
+[ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_krdbx"]
+[ext_resource type="Script" uid="uid://myclchlnfuu5" path="res://scripts/wc/wc.gd" id="2_bl6vp"]
+[ext_resource type="Texture2D" uid="uid://dx1d31elntiip" path="res://assets/sprites/wc/floor.png" id="2_eldff"]
+[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="3_wc"]
+[ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="4_c1ue7"]
+[ext_resource type="Texture2D" uid="uid://2oq77u0367f3" path="res://assets/sprites/wc/bottom_wall.png" id="4_gnih4"]
+[ext_resource type="PackedScene" uid="uid://dqbynlr7e4ivp" path="res://scenes/wc/wc_door.tscn" id="4_wc"]
+[ext_resource type="PackedScene" uid="uid://cwccbn4568aa0" path="res://scenes/wc/wc_cabin.tscn" id="5_cab"]
+[ext_resource type="Texture2D" uid="uid://bfsv6nsu5ukjg" path="res://assets/sprites/wc/top_wall.png" id="5_w853x"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="7_4badc"]
+[ext_resource type="PackedScene" uid="uid://fow4hkarxeti" path="res://scenes/wc/switch.tscn" id="7_g6ssw"]
+[ext_resource type="PackedScene" uid="uid://tcxajs6xuq3n" path="res://scenes/wc/sink.tscn" id="8_ima66"]
+[ext_resource type="PackedScene" uid="uid://bcd8na17hihu0" path="res://scenes/wc/mirror.tscn" id="9_brjof"]
+[ext_resource type="PackedScene" uid="uid://doht0txgiu4t6" path="res://scenes/wc/towel.tscn" id="10_8w2dc"]
+[ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/wc/trash.tscn" id="13_2khuj"]
+[ext_resource type="PackedScene" uid="uid://yw1t8mdvhnmo" path="res://scenes/wc/no_smoking.tscn" id="14_0kn3p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eldff"]
+size = Vector2(80, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8ftx"]
+size = Vector2(80, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wyiue"]
+shader = ExtResource("4_c1ue7")
+shader_parameter/active_cutouts = 1
+shader_parameter/cutouts = PackedVector4Array(32, 13, 14, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kbhr3"]
+size = Vector2(4, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c1ue7"]
+size = Vector2(4, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wyiue"]
+size = Vector2(72, 72)
+
+[node name="WC" unique_id=1 instance=ExtResource("1_krdbx")]
+y_sort_enabled = true
+script = ExtResource("2_bl6vp")
+room_size = Vector2(80, 80)
+
+[node name="Floor" parent="." index="0" unique_id=2]
+texture_repeat = 2
+texture = ExtResource("2_eldff")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 80)
+
+[node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(40, 0)
+
+[node name="Shape" parent="Walls/Top" index="0" unique_id=6]
+shape = SubResource("RectangleShape2D_eldff")
+
+[node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+texture_repeat = 2
+position = Vector2(0, -28)
+texture = ExtResource("3_wc")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 8)
+
+[node name="BottomFacade" type="Sprite2D" parent="Walls/Top" index="2" unique_id=1104028023]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -7)
+texture = ExtResource("4_gnih4")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 13)
+
+[node name="TopFacade" type="Sprite2D" parent="Walls/Top" index="3" unique_id=584952455]
+light_mask = 2
+position = Vector2(0, -20)
+texture = ExtResource("5_w853x")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 14)
+
+[node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
+position = Vector2(40, 80)
+
+[node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
+shape = SubResource("RectangleShape2D_d8ftx")
+
+[node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_wyiue")
+position = Vector2(0, -19)
+texture = ExtResource("3_wc")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 42)
+
+[node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
+position = Vector2(0, 40)
+
+[node name="Shape" parent="Walls/Left" index="0" unique_id=10]
+shape = SubResource("RectangleShape2D_kbhr3")
+
+[node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
+texture_repeat = 2
+position = Vector2(-4, -12)
+texture = ExtResource("3_wc")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 108)
+
+[node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
+position = Vector2(80, 40)
+
+[node name="Shape" parent="Walls/Right" index="0" unique_id=12]
+shape = SubResource("RectangleShape2D_c1ue7")
+
+[node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+light_mask = 1
+texture_repeat = 2
+position = Vector2(4, -12)
+texture = ExtResource("3_wc")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 108)
+
+[node name="TransparencyZone" parent="." index="2" unique_id=13]
+position = Vector2(40, 40)
+
+[node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
+shape = SubResource("RectangleShape2D_wyiue")
+
+[node name="WCCabin1" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=975831774 instance=ExtResource("5_cab")]
+position = Vector2(0, 67)
+
+[node name="WCCabin2" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=2001 instance=ExtResource("5_cab")]
+position = Vector2(0, 48)
+
+[node name="WCCabin3" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1090333347 instance=ExtResource("5_cab")]
+position = Vector2(0, 29)
+
+[node name="Sink1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=208708157 instance=ExtResource("8_ima66")]
+position = Vector2(40, 4)
+
+[node name="Sink2" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1348874060 instance=ExtResource("8_ima66")]
+position = Vector2(63.210773, 4.018215)
+
+[node name="Mirror1" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=957622239 instance=ExtResource("9_brjof")]
+z_index = 0
+position = Vector2(40, 3)
+
+[node name="Mirror2" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=289214993 instance=ExtResource("9_brjof")]
+z_index = 0
+position = Vector2(63, 3)
+
+[node name="Towel" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=821627299 instance=ExtResource("10_8w2dc")]
+position = Vector2(52, 6)
+
+[node name="Switch" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1667194425 instance=ExtResource("7_g6ssw")]
+position = Vector2(23.559307, 80.51867)
+
+[node name="Trash" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=1513952303 instance=ExtResource("13_2khuj")]
+position = Vector2(74.00407, 22.82336)
+
+[node name="NoSmoking" parent="YSort" parent_id_path=PackedInt32Array(15) index="10" unique_id=2060100485 instance=ExtResource("14_0kn3p")]
+position = Vector2(23, 0)
+
+[node name="WCDoor" parent="." index="4" unique_id=1001 instance=ExtResource("4_wc")]
+position = Vector2(39, 80)
+
+[node name="Lamp" parent="." index="5" unique_id=954300179 instance=ExtResource("7_4badc")]
+position = Vector2(52, 20)

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dqbynlr7e4ivp"]
+
+[ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_wcdr"]
+[ext_resource type="Texture2D" uid="uid://xweln8gsygfb" path="res://assets/sprites/wc/door.png" id="2_64jud"]
+
+[node name="WCDoor" unique_id=1 instance=ExtResource("1_wcdr")]
+
+[node name="ClosedSprite" parent="." index="0" unique_id=2]
+position = Vector2(-8, -27)
+texture = ExtResource("2_64jud")
+hframes = 2
+
+[node name="OpenSprite" parent="." index="1" unique_id=3]
+position = Vector2(-8, -27)
+texture = ExtResource("2_64jud")
+hframes = 2
+frame = 1
+
+[node name="Shape" parent="InteractionZone" parent_id_path=PackedInt32Array(6) index="0" unique_id=7]
+position = Vector2(0, -4)

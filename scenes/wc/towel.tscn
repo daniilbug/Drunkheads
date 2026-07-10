@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://doht0txgiu4t6"]
+
+[ext_resource type="Texture2D" uid="uid://dcqyvcfhn8vpp" path="res://assets/sprites/wc/towel.png" id="1_rhfgd"]
+
+[node name="Towel" type="Node2D" unique_id=821627299]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=721688234]
+light_mask = 2
+position = Vector2(0, -17)
+texture = ExtResource("1_rhfgd")
