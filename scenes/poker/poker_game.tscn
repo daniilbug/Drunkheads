@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://poker_game_scene"]
+
+[ext_resource type="Script" uid="uid://poker_game_script" path="res://scripts/poker/poker_game.gd" id="1_game"]
+
+[node name="PokerGame" type="Node2D" unique_id=910000001]
+script = ExtResource("1_game")
+visible = false

@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/bar/neon_sign.tscn" id="5_6ljkh"]
 [ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/bar/bartender.tscn" id="6_eo0d5"]
 [ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/bar/table_football.tscn" id="9_n4oow"]
+[ext_resource type="PackedScene" uid="uid://poker_table_prop" path="res://scenes/poker/poker.tscn" id="9_poker"]
 [ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/bar/menu.tscn" id="10_fsl2a"]
 [ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/bar/table.tscn" id="11_bxo4q"]
 [ext_resource type="PackedScene" uid="uid://bbo0itl4kau50" path="res://scenes/bar/bar_sign.tscn" id="11_eia43"]
@@ -189,22 +190,25 @@ position = Vector2(160, 13)
 [node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
 position = Vector2(276.41495, 56.51532)
 
-[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
+[node name="PokerTable" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=920000001 instance=ExtResource("9_poker")]
+position = Vector2(56.0, 56.0)
+
+[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=686340738 instance=ExtResource("11_bxo4q")]
 position = Vector2(105, 95)
 
-[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=622490447 instance=ExtResource("11_bxo4q")]
+[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=622490447 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 95)
 
-[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=594298796 instance=ExtResource("11_bxo4q")]
+[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=594298796 instance=ExtResource("11_bxo4q")]
 position = Vector2(72.25, 169)
 
-[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
+[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
 position = Vector2(249.25, 169)
 
-[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
+[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
 position = Vector2(111, 249)
 
-[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
+[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=650857141 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 249)
 
 [node name="FloorDecorations" type="Node2D" parent="." index="4" unique_id=1590726249]

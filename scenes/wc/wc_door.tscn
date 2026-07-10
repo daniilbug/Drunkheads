@@ -6,11 +6,13 @@
 [node name="WCDoor" unique_id=1 instance=ExtResource("1_wcdr")]
 
 [node name="ClosedSprite" parent="." index="0" unique_id=2]
+light_mask = 2
 position = Vector2(-8, -27)
 texture = ExtResource("2_64jud")
 hframes = 2
 
 [node name="OpenSprite" parent="." index="1" unique_id=3]
+light_mask = 2
 position = Vector2(-8, -27)
 texture = ExtResource("2_64jud")
 hframes = 2

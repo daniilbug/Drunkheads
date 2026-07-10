@@ -38,6 +38,10 @@ func _apply(stat: String, delta: float) -> void:
 	if not is_zero_approx(actual):
 		stat_changed.emit(stat, actual)
 
+func adjust_money(delta: float) -> void:
+	_apply("money", delta)
+	stats_changed.emit()
+
 func get_drunkness() -> float:
 	return 1 - (mind / MAX_STAT)
 

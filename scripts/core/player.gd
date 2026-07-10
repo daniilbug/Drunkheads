@@ -176,6 +176,9 @@ func _try_interact() -> void:
 		elif owner_node is TableFootballInteract:
 			owner_node.open_game(self)
 			return
+		elif owner_node is PokerInteract:
+			owner_node.open_game(self)
+			return
 		elif _hands_item != null:
 			_hands_interact()
 			return
