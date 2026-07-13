@@ -2,9 +2,16 @@
 
 [ext_resource type="Texture2D" uid="uid://oi1c5p3x7qyn" path="res://assets/sprites/wc/trash.png" id="1_sm3cy"]
 
-[node name="Trash" type="Node2D" unique_id=1513952303]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sm3cy"]
+size = Vector2(7, 3)
+
+[node name="Trash" type="StaticBody2D" unique_id=2128032258]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1157179690]
 light_mask = 2
 position = Vector2(0, -6)
 texture = ExtResource("1_sm3cy")
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=783985651]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_sm3cy")

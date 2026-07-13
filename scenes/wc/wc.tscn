@@ -150,7 +150,7 @@ position = Vector2(63, 3)
 position = Vector2(52, 6)
 
 [node name="Switch" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1667194425 instance=ExtResource("7_g6ssw")]
-position = Vector2(23.559307, 80.51867)
+position = Vector2(21.163923, 80.33837)
 
 [node name="Trash" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=1513952303 instance=ExtResource("13_2khuj")]
 position = Vector2(74.00407, 22.82336)

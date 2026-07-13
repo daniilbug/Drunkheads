@@ -40,7 +40,7 @@ var player_name: String = ""
 		if old_value != value:
 			_on_direction_change(value)
 
-@onready var sprite: Sprite2D = $Spritew
+@onready var sprite: Sprite2D = $Sprite
 @onready var hands: Node2D = $Hands
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer

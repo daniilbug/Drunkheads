@@ -305,10 +305,10 @@ func next_active_unfold_seat(from: int) -> int:
 func _ensure_game_exists() -> void:
 	if game != null and is_instance_valid(game):
 		return
-	_canvas      = CanvasLayer.new()
+	_canvas = CanvasLayer.new()
 	_canvas.name = "PokerCanvas"
-	game        = load("res://scenes/poker/poker_game.tscn").instantiate() as PokerGame
-	game.name   = "PokerGame"
+	game = load("res://scenes/poker/poker_game.tscn").instantiate() as PokerGame
+	game.name = "PokerGame"
 	game.interact_node = self
 	get_tree().root.add_child(_canvas)
 	_canvas.add_child(game)
@@ -376,8 +376,6 @@ func _remote_player_left(peer_id: int) -> void:
 		if player_slots[s] == peer_id:
 			player_slots[s] = -1
 			break
-
-
 
 @rpc("authority", "call_local", "reliable")
 func _remote_ready_state(data: Dictionary) -> void:
