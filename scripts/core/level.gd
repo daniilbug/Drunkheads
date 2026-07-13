@@ -18,6 +18,7 @@ static func find_level_node(node: Node2D) -> Level:
 var player_spawn: Node2D
 
 var local_player: Player = null
+var _name_registry: Dictionary = {}  # peer_id -> final display name (server only)
 
 func _ready() -> void:
 	spawner.spawned.connect(_on_spawned)
@@ -27,6 +28,7 @@ func _ready() -> void:
 		multiplayer.peer_disconnected.connect(_remove_player)
 		_spawn_player(multiplayer.get_unique_id())
 		_init_local_player(get_node(str(multiplayer.get_unique_id())) as Player)
+		_register_player_setup(multiplayer.get_unique_id(), Player.local_setup)
 	for child in get_children():
 		if child is Room:
 			child.init_room()
@@ -54,8 +56,10 @@ func _on_spawned(node: Node) -> void:
 		if pid == multiplayer.get_unique_id():
 			node.global_position = player_spawn.global_position
 			_init_local_player(node)
+			_request_player_setup.rpc_id(1, Player.local_setup)
 
 func _remove_player(peer_id: int) -> void:
+	_name_registry.erase(peer_id)
 	var player := get_node_or_null(str(peer_id))
 	if player:
 		player.queue_free()
@@ -128,3 +132,33 @@ func _handle_drop(peer_id: int, name: String, sort_pos: Vector2, visual_pos: Vec
 	draggable.holder_peer_id = 0
 	draggable.global_position = sort_pos
 	draggable.sprite.position = draggable.to_local(visual_pos)
+
+func _resolve_name(desired: String, exclude_peer: int) -> String:
+	var base := desired.strip_edges()
+	if base.is_empty():
+		base = "Player"
+	var taken: Array[String] = []
+	for pid in _name_registry:
+		if pid != exclude_peer:
+			taken.append(_name_registry[pid])
+	if base not in taken:
+		return base
+	var idx := 2
+	while ("%s %d" % [base, idx]) in taken:
+		idx += 1
+	return "%s %d" % [base, idx]
+
+func _register_player_setup(peer_id: int, setup: Dictionary) -> void:
+	var final_name := _resolve_name(setup.get("name", "Player"), peer_id)
+	_name_registry[peer_id] = final_name
+	var final_setup := setup.duplicate()
+	final_setup["name"] = final_name
+	var player := get_node_or_null(str(peer_id)) as Player
+	if player:
+		player.rpc_apply_player_setup.rpc(final_setup)
+
+@rpc("any_peer", "reliable")
+func _request_player_setup(setup: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	_register_player_setup(multiplayer.get_remote_sender_id(), setup)

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cceaouu46sogy"]
+
+[ext_resource type="Script" uid="uid://1bb0m5svgshm" path="res://scripts/poker/poker_session.gd" id="1_757um"]
+[ext_resource type="Texture2D" uid="uid://ca23hqxll5j0c" path="res://assets/sprites/poker_table.png" id="2_w8wmd"]
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/bar/chair.tscn" id="3_3gi30"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="4_ofbl2"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(48, 24)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(64, 40)
+
+[node name="PokerTable" type="Node2D" unique_id=900000001]
+y_sort_enabled = true
+script = ExtResource("1_757um")
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=900000002]
+position = Vector2(0, 10)
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=900000003]
+position = Vector2(0, -10)
+shape = SubResource("1")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=900000004]
+position = Vector2(0, 10)
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionArea" unique_id=900000005]
+position = Vector2(0, -10)
+shape = SubResource("2")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=574519799]
+light_mask = 2
+texture = ExtResource("2_w8wmd")
+
+[node name="Chairs" type="Node2D" parent="." unique_id=698539861]
+y_sort_enabled = true
+position = Vector2(0, 10)
+
+[node name="Chair1" parent="Chairs" unique_id=585785857 instance=ExtResource("3_3gi30")]
+position = Vector2(-12, -21)
+
+[node name="Chair2" parent="Chairs" unique_id=2065405442 instance=ExtResource("3_3gi30")]
+position = Vector2(13, -21)
+
+[node name="Chair3" parent="Chairs" unique_id=713759916 instance=ExtResource("3_3gi30")]
+position = Vector2(-12, 10)
+facing_north = true
+
+[node name="Chair4" parent="Chairs" unique_id=1945780077 instance=ExtResource("3_3gi30")]
+position = Vector2(13, 10)
+facing_north = true
+
+[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("4_ofbl2")]

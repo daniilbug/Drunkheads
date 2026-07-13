@@ -1,7 +1,124 @@
-[gd_scene format=3 uid="uid://poker_game_scene"]
+[gd_scene format=3 uid="uid://cn0lx6h3t4jxg"]
 
-[ext_resource type="Script" uid="uid://poker_game_script" path="res://scripts/poker/poker_game.gd" id="1_game"]
+[ext_resource type="Script" uid="uid://xljp0r6pp4rx" path="res://scripts/poker/poker_game.gd" id="1_gd"]
+[ext_resource type="PackedScene" uid="uid://crw6cuwhwg034" path="res://scenes/poker/community_cards.tscn" id="2_cc"]
+[ext_resource type="PackedScene" uid="uid://bjfcfpcf4vd5p" path="res://scenes/poker/player_hand.tscn" id="3_ph"]
+[ext_resource type="PackedScene" uid="uid://brkactb0001" path="res://scenes/poker/action_buttons.tscn" id="4_ab"]
+[ext_resource type="PackedScene" uid="uid://m10pgtb4rrim" path="res://scenes/poker/poker_background.tscn" id="5_tv"]
+[ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/poker/chip_stack.tscn" id="6_cs"]
+[ext_resource type="AudioStream" uid="uid://b80sjf7fyw8a" path="res://assets/audio/poker/shuffling.mp3" id="7_shuffle"]
 
-[node name="PokerGame" type="Node2D" unique_id=910000001]
-script = ExtResource("1_game")
+[sub_resource type="GDScript" id="GDScript_rry38"]
+script/source = "@tool
+class_name PokerTable
+extends Node2D
+
+const W  := 1280.0
+const H  := 720.0
+const TW := 700.0
+const TH := 420.0
+const TX := (W - TW) / 2.0
+const TY := (H - TH) / 2.0
+
+@export_group(\"Colors\")
+@export var color_overlay:   Color = Color(0, 0, 0, 0.78)
+@export var color_felt:      Color = Color(\"1a5c2a\")
+@export var color_felt_edge: Color = Color(\"0f3a1a\")
+
+func _draw() -> void:
+	draw_rect(Rect2(0, 0, W, H), color_overlay)
+	draw_rect(Rect2(TX - 6, TY - 6, TW + 12, TH + 12), color_felt_edge, true, 0.0)
+	draw_rect(Rect2(TX, TY, TW, TH), color_felt, true, 0.0)
+"
+
+[node name="PokerGame" type="Node2D" unique_id=630853822]
+script = ExtResource("1_gd")
+
+[node name="Table" parent="." unique_id=200000003 instance=ExtResource("5_tv")]
+script = SubResource("GDScript_rry38")
+color_felt = Color(0.101960786, 0.36078432, 0.16470589, 1)
+color_felt_edge = Color(0.05882353, 0.22745098, 0.101960786, 1)
+
+[node name="PhaseLabel" type="Label" parent="." unique_id=546228221]
+offset_left = 441.0
+offset_top = 109.0
+offset_right = 841.0
+offset_bottom = 129.0
+theme_override_colors/font_color = Color(0.941176, 0.847059, 0.627451, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+
+[node name="PotLabel" type="Label" parent="." unique_id=109821710]
+offset_left = 488.0
+offset_top = 273.0
+offset_right = 788.0
+offset_bottom = 297.0
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="Cards" parent="." unique_id=371035547 instance=ExtResource("2_cc")]
+position = Vector2(640, 353)
+
+[node name="Seat0" parent="." unique_id=916761678 instance=ExtResource("3_ph")]
 visible = false
+position = Vector2(400, 440)
+
+[node name="Seat1" parent="." unique_id=1604102942 instance=ExtResource("3_ph")]
+visible = false
+position = Vector2(880, 440)
+seat_slot = 1
+
+[node name="Seat2" parent="." unique_id=996209186 instance=ExtResource("3_ph")]
+visible = false
+position = Vector2(400, 180)
+seat_slot = 2
+
+[node name="Seat3" parent="." unique_id=1295138444 instance=ExtResource("3_ph")]
+visible = false
+position = Vector2(880, 180)
+seat_slot = 3
+
+[node name="BetChips0" parent="." unique_id=100000001 instance=ExtResource("6_cs")]
+position = Vector2(400, 400)
+amount = 5.0
+
+[node name="BetChips1" parent="." unique_id=100000002 instance=ExtResource("6_cs")]
+position = Vector2(880, 400)
+
+[node name="BetChips2" parent="." unique_id=100000003 instance=ExtResource("6_cs")]
+position = Vector2(400, 320)
+
+[node name="BetChips3" parent="." unique_id=100000004 instance=ExtResource("6_cs")]
+position = Vector2(880, 320)
+
+[node name="PotChips" parent="." unique_id=100000005 instance=ExtResource("6_cs")]
+position = Vector2(640, 449)
+amount = 50.0
+
+[node name="ActionButtons" parent="." unique_id=735256959 instance=ExtResource("4_ab")]
+offset_left = 319.0
+offset_top = 614.0
+offset_right = 959.0
+offset_bottom = 659.0
+
+[node name="HintLabel" type="Label" parent="." unique_id=938658905]
+offset_left = 340.0
+offset_top = 583.0
+offset_right = 940.0
+offset_bottom = 601.0
+theme_override_colors/font_color = Color(0.941176, 0.847059, 0.627451, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="WinnerLabel" type="Label" parent="." unique_id=1545188602]
+offset_left = 287.0
+offset_top = 75.0
+offset_right = 987.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="ShuffleAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_shuffle")

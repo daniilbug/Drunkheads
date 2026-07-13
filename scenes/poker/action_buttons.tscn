@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://brkactb0001"]
+
+[ext_resource type="Script" uid="uid://bf7ouehnxu83g" path="res://scripts/poker/action_buttons.gd" id="1_sc"]
+
+[node name="ActionButtons" type="Control" unique_id=1572759390]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 50.0
+script = ExtResource("1_sc")
+
+[node name="HBox" type="HBoxContainer" parent="." unique_id=1918897533]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 8
+
+[node name="CheckCallButton" type="Button" parent="HBox" unique_id=2127142902]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Check"
+
+[node name="RaiseButton" type="Button" parent="HBox" unique_id=706679805]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Raise"
+
+[node name="FoldButton" type="Button" parent="HBox" unique_id=804572388]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Fold"
+
+[node name="ReadyButton" type="Button" parent="HBox" unique_id=110000001]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Ready"
+
+[node name="RaisePanel" type="HBoxContainer" parent="HBox" unique_id=742948317]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DownButton" type="Button" parent="HBox/RaisePanel" unique_id=2145645845]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "▼"
+
+[node name="AmountLabel" type="Label" parent="HBox/RaisePanel" unique_id=707975034]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "$0"
+vertical_alignment = 1
+
+[node name="UpButton" type="Button" parent="HBox/RaisePanel" unique_id=921968925]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+text = "▲"
+
+[node name="ConfirmButton" type="Button" parent="HBox/RaisePanel" unique_id=450985617]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Bet"
+
+[connection signal="pressed" from="HBox/CheckCallButton" to="." method="_on_check_call"]
+[connection signal="pressed" from="HBox/RaiseButton" to="." method="_on_raise_toggle"]
+[connection signal="pressed" from="HBox/FoldButton" to="." method="_on_fold"]
+[connection signal="pressed" from="HBox/ReadyButton" to="." method="_on_ready"]
+[connection signal="pressed" from="HBox/RaisePanel/DownButton" to="." method="_on_raise_down"]
+[connection signal="pressed" from="HBox/RaisePanel/UpButton" to="." method="_on_raise_up"]
+[connection signal="pressed" from="HBox/RaisePanel/ConfirmButton" to="." method="_on_confirm_raise"]

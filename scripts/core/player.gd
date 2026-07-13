@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+static var local_setup: Dictionary = {"name": "Player"}
+
 const SPEED := 350.0
 const FPS_WALK := 8.0
 
@@ -20,6 +22,8 @@ const ROW_DANCE_N := 9
 @export var seated_chair: Chair = null
 @export var peer_id: int = 0
 
+var player_name: String = ""
+
 @export var is_dancing := false:
 	set(value):
 		is_dancing = value
@@ -36,7 +40,7 @@ const ROW_DANCE_N := 9
 		if old_value != value:
 			_on_direction_change(value)
 
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: Sprite2D = $Spritew
 @onready var hands: Node2D = $Hands
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
@@ -77,16 +81,19 @@ func _start_idle_bob() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
+	var dir := Input.get_vector("left", "right", "up", "down")
 	if is_in_minigame:
 		velocity = Vector2.ZERO
 		audio.stop()
 		return
 	if is_sitting:
-		velocity = Vector2.ZERO
-		audio.stop()
+		if dir != Vector2.ZERO:
+			_stand_up()
+		else:
+			velocity = Vector2.ZERO
+			audio.stop()
 		return
 
-	var dir := Input.get_vector("left", "right", "up", "down")
 	velocity = dir * SPEED
 	var walking := dir != Vector2.ZERO
 	if walking != _is_walking:
@@ -151,19 +158,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_take_drop()
 
 func _try_interact() -> void:
-	if is_sitting:
-		if _hands_item != null:
-			_hands_interact()
-		else:
-			_stand_up()
-		return
 	for area in interaction_area.get_overlapping_areas():
 		var owner_node := area.get_parent()
 		if owner_node is Chair:
 			var chair = owner_node as Chair
 			if not chair.is_occupied:
 				_sit_in(chair)
-			return
+				return
 		elif owner_node is Boombox:
 			owner_node.switch()
 			return
@@ -176,7 +177,7 @@ func _try_interact() -> void:
 		elif owner_node is TableFootballInteract:
 			owner_node.open_game(self)
 			return
-		elif owner_node is PokerInteract:
+		elif owner_node is PokerSession:
 			owner_node.open_game(self)
 			return
 		elif _hands_item != null:
@@ -254,6 +255,14 @@ func _animate_drink() -> void:
 	frame_t.tween_interval(0.15)
 	frame_t.tween_callback(func(): sprite.frame = drink_row * 4 + 1)
 	
+@rpc("any_peer", "call_local", "reliable")
+func rpc_apply_player_setup(setup: Dictionary) -> void:
+	var sender := multiplayer.get_remote_sender_id()
+	if sender != 0 and sender != 1:
+		return
+	if setup.has("name"):
+		player_name = setup["name"]
+
 func _on_stats_changed():
 	var drunkness = player_data.get_drunkness()
 	if drunkness > 0.75:

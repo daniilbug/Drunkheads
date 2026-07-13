@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://crw6cuwhwg034"]
+
+[ext_resource type="Script" uid="uid://cy7de2b6nrsh7" path="res://scripts/poker/community_cards.gd" id="1_sc"]
+[ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/poker/card.tscn" id="2_pc"]
+
+[node name="CommunityCards" type="Node2D" unique_id=680234559]
+script = ExtResource("1_sc")
+
+[node name="Card1" parent="." unique_id=1841083854 instance=ExtResource("2_pc")]
+position = Vector2(-146, -37)
+face_up = false
+
+[node name="Card2" parent="." unique_id=1051534423 instance=ExtResource("2_pc")]
+position = Vector2(-86, -37)
+face_up = false
+
+[node name="Card3" parent="." unique_id=1141080564 instance=ExtResource("2_pc")]
+position = Vector2(-26, -37)
+face_up = false
+
+[node name="Card4" parent="." unique_id=1972554669 instance=ExtResource("2_pc")]
+position = Vector2(34, -37)
+face_up = false
+
+[node name="Card5" parent="." unique_id=844770185 instance=ExtResource("2_pc")]
+position = Vector2(94, -37)
+face_up = false

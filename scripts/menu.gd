@@ -4,6 +4,7 @@ const HUB_SCENE := preload("res://scenes/main.tscn")
 const DEFAULT_PORT := 7777
 const MAX_PEERS := 16
 
+@onready var name_input: LineEdit    = $VBoxContainer/NameInput
 @onready var address_input: LineEdit = $VBoxContainer/AddressInput
 @onready var port_input: LineEdit    = $VBoxContainer/PortInput
 @onready var host_button: Button     = $VBoxContainer/HostButton
@@ -21,6 +22,8 @@ func _ready() -> void:
 
 
 func _on_host_pressed() -> void:
+	var entered_name := name_input.text.strip_edges()
+	Player.local_setup = {"name": entered_name if not entered_name.is_empty() else "Player"}
 	var port := int(port_input.text) if port_input.text.is_valid_int() else DEFAULT_PORT
 
 	var peer := ENetMultiplayerPeer.new()
@@ -38,6 +41,8 @@ func _on_host_pressed() -> void:
 
 
 func _on_join_pressed() -> void:
+	var entered_name := name_input.text.strip_edges()
+	Player.local_setup = {"name": entered_name if not entered_name.is_empty() else "Player"}
 	var address := address_input.text.strip_edges()
 	var port    := int(port_input.text) if port_input.text.is_valid_int() else DEFAULT_PORT
 

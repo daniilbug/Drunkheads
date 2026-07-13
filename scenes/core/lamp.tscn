@@ -5,8 +5,8 @@
 
 [sub_resource type="Gradient" id="Gradient_mut0l"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0.15662651, 0.42771083, 0.7108434)
-colors = PackedColorArray(0.8646751, 0.86467516, 0.8646751, 1, 0.6242558, 0.62425584, 0.6242558, 0.72195417, 0, 0, 0, 0)
+offsets = PackedFloat32Array(0.07530121, 0.7108434)
+colors = PackedColorArray(0.8646751, 0.86467516, 0.8646751, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_w6qhe"]
 gradient = SubResource("Gradient_mut0l")
@@ -27,6 +27,5 @@ position = Vector2(0.015624999, -42.929684)
 texture = ExtResource("1_hkk6q")
 
 [node name="Light" type="PointLight2D" parent="." unique_id=1194208775]
-position = Vector2(1, 0)
 range_item_cull_mask = 2
 texture = SubResource("GradientTexture2D_w6qhe")

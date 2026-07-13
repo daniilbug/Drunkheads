@@ -26,6 +26,10 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="NameInput" type="LineEdit" parent="VBoxContainer" unique_id=987654321]
+layout_mode = 2
+placeholder_text = "Your name"
+
 [node name="AddressInput" type="LineEdit" parent="VBoxContainer" unique_id=2046931961]
 layout_mode = 2
 placeholder_text = "127.0.0.1"

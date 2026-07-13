@@ -10,16 +10,24 @@ const FULL_HOUSE      := 6
 const FOUR_OF_A_KIND  := 7
 const STRAIGHT_FLUSH  := 8
 
-const HAND_NAMES := ["High Card", "Pair", "Two Pair", "Three of a Kind",
-	"Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush"]
+const HAND_NAMES := [
+	"High Card",
+	"Pair",
+	"Two Pair",
+	"Three of a Kind",
+	"Straight",
+	"Flush",
+	"Full House",
+	"Four of a Kind",
+	"Straight Flush"
+]
 
-# card = 0..51; rank = card/4 (0=2 .. 12=Ace), suit = card%4
 static func card_rank(c: int) -> int: return c / 4
 static func card_suit(c: int) -> int: return c % 4
 
-# Returns { rank: int, name: String, tiebreakers: Array[int] }
-# Evaluates all C(7,5)=21 five-card combos from the 7 given cards.
 static func best_hand(cards: Array) -> Dictionary:
+	if cards.size() < 5:
+		return {}
 	var best := {}
 	for combo in _combos5(cards):
 		var h := _eval5(combo)
@@ -29,8 +37,6 @@ static func best_hand(cards: Array) -> Dictionary:
 
 static func compare_hands(a: Dictionary, b: Dictionary) -> int:
 	return _compare(a, b)
-
-# ── private ────────────────────────────────────────────────────────────────
 
 static func _combos5(cards: Array) -> Array:
 	var out := []
@@ -55,7 +61,6 @@ static func _eval5(cards: Array) -> Dictionary:
 	var straight_high: int = ranks[0]
 	if ranks[0] - ranks[4] == 4 and _unique(ranks) == 5:
 		is_straight = true
-	# Ace-low straight A-2-3-4-5
 	elif ranks == [12, 3, 2, 1, 0]:
 		is_straight = true
 		straight_high = 3
@@ -92,7 +97,6 @@ static func _h(rank: int, tb: Array) -> Dictionary:
 	return {"rank": rank, "name": HAND_NAMES[rank], "tiebreakers": tb}
 
 static func _tiebreakers_by_count(counts: Dictionary) -> Array:
-	# Sort groups: first by count descending, then by rank descending
 	var pairs := []
 	for r in counts:
 		pairs.append([counts[r], r])
