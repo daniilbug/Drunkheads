@@ -1,0 +1,123 @@
+[gd_scene format=4 uid="uid://b1j7g1w1w2e4i"]
+
+[ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_brsjr"]
+[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="2_fl8mr"]
+[ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ut0ew"]
+[ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="3_irpe5"]
+[ext_resource type="PackedScene" uid="uid://be5o3ll3mn4fi" path="res://scenes/room/poker/poker_door.tscn" id="3_kl0to"]
+[ext_resource type="Texture2D" uid="uid://yciwjjjxd8av" path="res://assets/sprites/poker/top_wall.png" id="4_3yyd8"]
+[ext_resource type="PackedScene" uid="uid://cceaouu46sogy" path="res://scenes/room/poker/poker_table.tscn" id="4_5gf1k"]
+[ext_resource type="PackedScene" uid="uid://da3ollbm07nuj" path="res://scenes/room/poker/spades_sign.tscn" id="7_pn4u5"]
+[ext_resource type="PackedScene" uid="uid://xtnvdmvjcvsv" path="res://scenes/room/poker/poker_shelf.tscn" id="8_ffy83"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irpe5"]
+size = Vector2(80, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5gf1k"]
+size = Vector2(80, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gf1k"]
+shader = ExtResource("3_irpe5")
+shader_parameter/active_cutouts = 1
+shader_parameter/cutouts = PackedVector4Array(31, 13, 14, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ut0ew"]
+size = Vector2(4, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i85l0"]
+size = Vector2(4, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn4u5"]
+size = Vector2(72, 92)
+
+[node name="PokerRoom" unique_id=1 instance=ExtResource("1_brsjr")]
+y_sort_enabled = true
+room_size = Vector2(80, 100)
+
+[node name="Floor" parent="." index="0" unique_id=2]
+position = Vector2(0, -3)
+texture = ExtResource("2_ut0ew")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 102)
+
+[node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(40, 0)
+
+[node name="Shape" parent="Walls/Top" index="0" unique_id=6]
+shape = SubResource("RectangleShape2D_irpe5")
+
+[node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+texture_repeat = 2
+position = Vector2(0, -23)
+texture = ExtResource("2_fl8mr")
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 42)
+
+[node name="Wall" type="Sprite2D" parent="Walls/Top" index="2" unique_id=383001238]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -19)
+texture = ExtResource("4_3yyd8")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 34)
+
+[node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
+position = Vector2(40, 100)
+
+[node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
+shape = SubResource("RectangleShape2D_5gf1k")
+
+[node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_5gf1k")
+position = Vector2(0, -21)
+texture = ExtResource("2_fl8mr")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 42)
+
+[node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
+position = Vector2(0, 50)
+
+[node name="Shape" parent="Walls/Left" index="0" unique_id=10]
+shape = SubResource("RectangleShape2D_ut0ew")
+
+[node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
+texture_repeat = 2
+position = Vector2(-4, -4)
+texture = ExtResource("2_fl8mr")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 108)
+
+[node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
+position = Vector2(80, 50)
+
+[node name="Shape" parent="Walls/Right" index="0" unique_id=12]
+shape = SubResource("RectangleShape2D_i85l0")
+
+[node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+texture_repeat = 2
+position = Vector2(4, -4)
+texture = ExtResource("2_fl8mr")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 108)
+
+[node name="TransparencyZone" parent="." index="2" unique_id=13]
+position = Vector2(40, 50)
+
+[node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
+shape = SubResource("RectangleShape2D_pn4u5")
+
+[node name="PokerTable" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=900000001 instance=ExtResource("4_5gf1k")]
+position = Vector2(39, 34)
+
+[node name="SpadesSign" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=1798872972 instance=ExtResource("7_pn4u5")]
+position = Vector2(39, 12)
+
+[node name="PokerShelf1" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1309903454 instance=ExtResource("8_ffy83")]
+position = Vector2(21, 15)
+
+[node name="PokerShelf2" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=339454931 instance=ExtResource("8_ffy83")]
+position = Vector2(55, 15)
+
+[node name="PokerDoor" parent="." index="4" unique_id=678336619 instance=ExtResource("3_kl0to")]
+position = Vector2(38.000004, 104)

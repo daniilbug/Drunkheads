@@ -64,7 +64,6 @@ position = Vector2(84, 30)
 shape = SubResource("RectRightWall")
 
 [node name="Sprite" type="Sprite2D" parent="Walls/Right" unique_id=1912598871]
-light_mask = 2
 position = Vector2(0, -47)
 
 [node name="TransparencyZone" type="Area2D" parent="." unique_id=13]

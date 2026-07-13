@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brrb1kdp2f7ys"]
 
-[ext_resource type="Script" uid="uid://b7txdtjq74nv3" path="res://scripts/bar/neon_sign.gd" id="1_asdnn"]
+[ext_resource type="Script" uid="uid://b7txdtjq74nv3" path="res://scripts/core/neon_sign.gd" id="1_asdnn"]
 [ext_resource type="Texture2D" uid="uid://cktmv68xkvid" path="res://assets/sprites/neon_sign.png" id="2_fvwel"]
 
 [sub_resource type="Gradient" id="Gradient_asdnn"]

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://da3ollbm07nuj"]
+
+[ext_resource type="PackedScene" uid="uid://22wbiojb1ic3" path="res://scenes/core/sign.tscn" id="1_uyrfj"]
+[ext_resource type="Texture2D" uid="uid://dblfxw07avs26" path="res://assets/sprites/poker/spades_sign.png" id="2_xyot5"]
+
+[node name="SpadesSign" unique_id=1798872972 instance=ExtResource("1_uyrfj")]
+
+[node name="Light" parent="." index="0" unique_id=1985183862]
+position = Vector2(0, -30)
+
+[node name="Sprite" parent="." index="1" unique_id=1753303534]
+position = Vector2(0, -30)
+texture = ExtResource("2_xyot5")

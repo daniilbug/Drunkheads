@@ -14,7 +14,7 @@ var _anim_t := 0.0
 var _menu_open := false
 
 func order(player: Player) -> void:
-	var menu: BarMenu = preload("res://scenes/bar/bar_menu.tscn").instantiate()
+	var menu: BarMenu = preload("res://scenes/room/bar/bar_menu.tscn").instantiate()
 	add_child(menu)
 	_menu_open = true
 	menu.open(player.player_data)

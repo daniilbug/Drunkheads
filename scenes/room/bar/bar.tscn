@@ -4,19 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ecrvg"]
 [ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/bar/bar.gd" id="2_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="3_ayeq0"]
-[ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/bar/plant.tscn" id="4_1v61x"]
-[ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/bar/neon_sign.tscn" id="5_6ljkh"]
-[ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/bar/bartender.tscn" id="6_eo0d5"]
-[ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/bar/table_football.tscn" id="9_n4oow"]
-[ext_resource type="PackedScene" uid="uid://cceaouu46sogy" path="res://scenes/bar/poker_table.tscn" id="9_poker"]
-[ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/bar/menu.tscn" id="10_fsl2a"]
-[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/bar/table.tscn" id="11_bxo4q"]
-[ext_resource type="PackedScene" uid="uid://bbo0itl4kau50" path="res://scenes/bar/bar_sign.tscn" id="11_eia43"]
-[ext_resource type="PackedScene" uid="uid://b8unrnh2ptmbw" path="res://scenes/bar/window_transparent.tscn" id="11_kd8aa"]
-[ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/bar/bar_door.tscn" id="13_eo0d5"]
+[ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/room/bar/plant.tscn" id="4_1v61x"]
+[ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/room/bar/neon_sign.tscn" id="5_6ljkh"]
+[ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/room/bar/bartender.tscn" id="6_eo0d5"]
+[ext_resource type="PackedScene" uid="uid://wbgbdugtw7ni" path="res://scenes/room/bar/table_football.tscn" id="9_n4oow"]
+[ext_resource type="PackedScene" uid="uid://ecv8ygkcr5r3" path="res://scenes/room/bar/menu.tscn" id="10_fsl2a"]
+[ext_resource type="PackedScene" uid="uid://bcv5xmti8v4pp" path="res://scenes/room/bar/table.tscn" id="11_bxo4q"]
+[ext_resource type="PackedScene" uid="uid://bbo0itl4kau50" path="res://scenes/room/bar/bar_sign.tscn" id="11_eia43"]
+[ext_resource type="PackedScene" uid="uid://b8unrnh2ptmbw" path="res://scenes/room/bar/window_transparent.tscn" id="11_kd8aa"]
+[ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/room/bar/bar_door.tscn" id="13_eo0d5"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="13_n4oow"]
 [ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="13_r35sc"]
-[ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/bar/dance_floor.tscn" id="13_ro7p1"]
+[ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/room/bar/dance_floor.tscn" id="13_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="16_bxo4q"]
 [ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="16_fsl2a"]
 
@@ -24,10 +23,13 @@
 size = Vector2(320, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wcgap1"]
-size = Vector2(270, 4)
+size = Vector2(30, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wcgap2"]
 size = Vector2(30, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ie7o"]
+size = Vector2(224, 3.631)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6ee6"]
 size = Vector2(320, 4)
@@ -75,21 +77,25 @@ position = Vector2(52, -14)
 
 [node name="BuildingWall" type="Sprite2D" parent="Walls/Top" index="3" unique_id=198726362]
 texture_repeat = 2
-position = Vector2(-45.5, -19)
+position = Vector2(0, -19)
 texture = ExtResource("13_r35sc")
 region_enabled = true
-region_rect = Rect2(0, 0, 245, 42)
+region_rect = Rect2(0, 0, 158, 42)
 
 [node name="Menu" parent="Walls/Top" index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
 position = Vector2(-5, -15)
 
-[node name="WCGapLeft" type="CollisionShape2D" parent="Walls/Top" index="5" unique_id=3001]
-position = Vector2(-25, 0)
+[node name="LeftConnector" type="CollisionShape2D" parent="Walls/Top" index="5" unique_id=3001]
+position = Vector2(-145, 0)
 shape = SubResource("RectangleShape2D_wcgap1")
 
-[node name="WCGapRight" type="CollisionShape2D" parent="Walls/Top" index="6" unique_id=3002]
+[node name="RightConnector" type="CollisionShape2D" parent="Walls/Top" index="6" unique_id=3002]
 position = Vector2(147, 0)
 shape = SubResource("RectangleShape2D_wcgap2")
+
+[node name="CenterConnector" type="CollisionShape2D" parent="Walls/Top" index="7" unique_id=101096036]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_4ie7o")
 
 [node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
 position = Vector2(160, 300)
@@ -168,7 +174,6 @@ position = Vector2(320, 150)
 shape = SubResource("RectangleShape2D_ewniu")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
-light_mask = 1
 texture_repeat = 2
 position = Vector2(4, 2)
 texture = ExtResource("13_r35sc")
@@ -190,25 +195,22 @@ position = Vector2(160, 13)
 [node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
 position = Vector2(276.41495, 56.51532)
 
-[node name="PokerTable" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=920000001 instance=ExtResource("9_poker")]
-position = Vector2(44.999996, 49)
-
-[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=686340738 instance=ExtResource("11_bxo4q")]
+[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
 position = Vector2(105, 95)
 
-[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=622490447 instance=ExtResource("11_bxo4q")]
+[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=622490447 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 95)
 
-[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=594298796 instance=ExtResource("11_bxo4q")]
+[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=594298796 instance=ExtResource("11_bxo4q")]
 position = Vector2(72.25, 169)
 
-[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
+[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
 position = Vector2(249.25, 169)
 
-[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
+[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
 position = Vector2(111, 249)
 
-[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=650857141 instance=ExtResource("11_bxo4q")]
+[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 249)
 
 [node name="FloorDecorations" type="Node2D" parent="." index="4" unique_id=1590726249]

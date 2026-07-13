@@ -2,9 +2,9 @@
 class_name Bar
 extends Room
 
-const BOOMBOX_SCENE := preload("res://scenes/bar/boombox.tscn")
-const DANCE_FLOOR_CONTROLLER := preload("res://scenes/bar/dance_floor_controller.tscn")
-const DRINK_SCENE  := preload("res://scenes/bar/drink.tscn")
+const BOOMBOX_SCENE := preload("res://scenes/room/bar/boombox.tscn")
+const DANCE_FLOOR_CONTROLLER := preload("res://scenes/room/bar/dance_floor_controller.tscn")
+const DRINK_SCENE  := preload("res://scenes/room/bar/drink.tscn")
 
 @onready var bartender: Bartender = $YSort/Bartender
 @onready var dance_floor: DanceFloor = $FloorDecorations/DanceFloor

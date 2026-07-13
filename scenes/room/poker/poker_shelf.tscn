@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://xtnvdmvjcvsv"]
+
+[ext_resource type="Texture2D" uid="uid://dr05rkhp1lc3g" path="res://assets/sprites/bottles_shelf.png" id="1_x6amm"]
+
+[node name="PokerShelf" type="Node2D" unique_id=1309903454]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1849858084]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(1, -34)
+texture = ExtResource("1_x6amm")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 30)

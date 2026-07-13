@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://be5o3ll3mn4fi"]
+
+[ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_nj7cr"]
+[ext_resource type="Texture2D" uid="uid://2ij3gjcmtusi" path="res://assets/sprites/poker/door.png" id="2_hr76p"]
+[ext_resource type="AudioStream" uid="uid://dnx244722noyd" path="res://assets/audio/interactions/door_open.mp3" id="3_y877b"]
+
+[node name="PokerDoor" unique_id=1 instance=ExtResource("1_nj7cr")]
+is_open = true
+
+[node name="ClosedSprite" parent="." index="0" unique_id=2]
+visible = false
+position = Vector2(-8, -33)
+texture = ExtResource("2_hr76p")
+hframes = 2
+
+[node name="OpenSprite" parent="." index="1" unique_id=3]
+visible = true
+position = Vector2(-8, -33)
+texture = ExtResource("2_hr76p")
+hframes = 2
+frame = 1
+
+[node name="Shape" parent="Body" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(0, -6)
+disabled = true
+
+[node name="Shape" parent="InteractionZone" parent_id_path=PackedInt32Array(6) index="0" unique_id=7]
+position = Vector2(0, -7)
+
+[node name="Audio" parent="." index="4" unique_id=415454640]
+stream = ExtResource("3_y877b")

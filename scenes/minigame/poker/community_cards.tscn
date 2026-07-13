@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://crw6cuwhwg034"]
 
 [ext_resource type="Script" uid="uid://cy7de2b6nrsh7" path="res://scripts/poker/community_cards.gd" id="1_sc"]
-[ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/poker/card.tscn" id="2_pc"]
+[ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/minigame/poker/card.tscn" id="2_pc"]
 
 [node name="CommunityCards" type="Node2D" unique_id=680234559]
 script = ExtResource("1_sc")

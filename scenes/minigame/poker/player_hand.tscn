@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bjfcfpcf4vd5p"]
 
 [ext_resource type="Script" uid="uid://jc4f72uu6wlx" path="res://scripts/poker/player_hand.gd" id="1_sc"]
-[ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/poker/card.tscn" id="2_pc"]
+[ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/minigame/poker/card.tscn" id="2_pc"]
 [ext_resource type="Texture2D" uid="uid://dealerchip001" path="res://assets/sprites/poker/dealer_chip.png" id="3_dc"]
-[ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/poker/chip_stack.tscn" id="4_cs"]
+[ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/minigame/poker/chip_stack.tscn" id="4_cs"]
 
 [node name="PlayerHand" type="Node2D" unique_id=259638545]
 script = ExtResource("1_sc")

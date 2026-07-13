@@ -307,7 +307,7 @@ func _ensure_game_exists() -> void:
 		return
 	_canvas = CanvasLayer.new()
 	_canvas.name = "PokerCanvas"
-	game = load("res://scenes/poker/poker_game.tscn").instantiate() as PokerGame
+	game = load("res://scenes/minigame/poker/poker_game.tscn").instantiate() as PokerGame
 	game.name = "PokerGame"
 	game.interact_node = self
 	get_tree().root.add_child(_canvas)

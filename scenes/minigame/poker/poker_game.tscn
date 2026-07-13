@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cn0lx6h3t4jxg"]
 
 [ext_resource type="Script" uid="uid://xljp0r6pp4rx" path="res://scripts/poker/poker_game.gd" id="1_gd"]
-[ext_resource type="PackedScene" uid="uid://crw6cuwhwg034" path="res://scenes/poker/community_cards.tscn" id="2_cc"]
-[ext_resource type="PackedScene" uid="uid://bjfcfpcf4vd5p" path="res://scenes/poker/player_hand.tscn" id="3_ph"]
-[ext_resource type="PackedScene" uid="uid://brkactb0001" path="res://scenes/poker/action_buttons.tscn" id="4_ab"]
-[ext_resource type="PackedScene" uid="uid://m10pgtb4rrim" path="res://scenes/poker/poker_background.tscn" id="5_tv"]
-[ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/poker/chip_stack.tscn" id="6_cs"]
-[ext_resource type="AudioStream" uid="uid://b80sjf7fyw8a" path="res://assets/audio/poker/shuffling.mp3" id="7_shuffle"]
+[ext_resource type="PackedScene" uid="uid://crw6cuwhwg034" path="res://scenes/minigame/poker/community_cards.tscn" id="2_cc"]
+[ext_resource type="PackedScene" uid="uid://bjfcfpcf4vd5p" path="res://scenes/minigame/poker/player_hand.tscn" id="3_ph"]
+[ext_resource type="PackedScene" uid="uid://brkactb0001" path="res://scenes/minigame/poker/action_buttons.tscn" id="4_ab"]
+[ext_resource type="PackedScene" uid="uid://m10pgtb4rrim" path="res://scenes/minigame/poker/poker_background.tscn" id="5_tv"]
+[ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/minigame/poker/chip_stack.tscn" id="6_cs"]
+[ext_resource type="AudioStream" uid="uid://4eo7gfqmduuc" path="res://assets/audio/poker/shuffling.mp3" id="7_shuffle"]
 
 [sub_resource type="GDScript" id="GDScript_rry38"]
 script/source = "@tool
@@ -120,5 +120,5 @@ theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 
-[node name="ShuffleAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="ShuffleAudio" type="AudioStreamPlayer2D" parent="." unique_id=775272716]
 stream = ExtResource("7_shuffle")

@@ -60,7 +60,7 @@ func _ensure_game_exists() -> void:
 		return
 	_canvas = CanvasLayer.new()
 	_canvas.name = "TableFootballCanvas"
-	_game = load("res://scenes/table-football/table_football_game.tscn").instantiate() as TableFootballGame
+	_game = load("res://scenes/minigame/table-football/table_football_game.tscn").instantiate() as TableFootballGame
 	_game.name = "TableFootballGame"
 	_game.interact_node = self
 	get_tree().root.add_child(_canvas)
