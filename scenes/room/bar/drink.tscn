@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://di8pbj1ruq3r3"]
 
-[ext_resource type="PackedScene" uid="uid://1vwgltopo0k6" path="res://scenes/core/draggable.tscn" id="1_cprlb"]
-[ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/bar/drink.gd" id="1_idkpf"]
-[ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drinks/beer_glass.png" id="2_cprlb"]
-[ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drinks/beer.png" id="3_wfvy8"]
+[ext_resource type="PackedScene" uid="uid://1vwgltopo0k6" path="res://scenes/core/draggable.tscn" id="1_mcmum"]
+[ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/room/bar/drink.gd" id="2_68v5n"]
+[ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drinks/beer_glass.png" id="3_4pm5x"]
+[ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drinks/beer.png" id="4_glw30"]
 
-[node name="Drink" unique_id=972279722 instance=ExtResource("1_cprlb")]
-script = ExtResource("1_idkpf")
+[node name="Drink" unique_id=972279722 instance=ExtResource("1_mcmum")]
+script = ExtResource("2_68v5n")
 drink_name = ""
 type = 0
 flavor = ""
@@ -17,13 +17,13 @@ max_parts = 4
 parts = 4
 
 [node name="Sprite" parent="." index="0" unique_id=700934381]
-texture = ExtResource("2_cprlb")
+texture = ExtResource("3_4pm5x")
 hframes = 1
 
 [node name="Drink" type="Sprite2D" parent="Sprite" index="0" unique_id=2109298326]
 light_mask = 2
 position = Vector2(-0.19284722, -0.25671005)
 scale = Vector2(0.99999994, 0.99999994)
-texture = ExtResource("3_wfvy8")
+texture = ExtResource("4_glw30")
 region_enabled = true
 region_rect = Rect2(0, 0, 8, 10)

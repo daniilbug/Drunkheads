@@ -1,72 +1,96 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://ti67oquw5puq"]
 
-[ext_resource type="Script" uid="uid://bxl1akuw534hi" path="res://scripts/table-football/table_football_table.gd" id="1"]
+[ext_resource type="Script" uid="uid://bxl1akuw534hi" path="res://scripts/minigame/table-football/table_football_table.gd" id="1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sb672"]
+friction = 0.0
+bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="Shape_left"]
 size = Vector2(8, 560)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pqm0j"]
+friction = 0.0
+bounce = 1.0
+
 [sub_resource type="RectangleShape2D" id="Shape_right"]
 size = Vector2(8, 560)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8pful"]
+friction = 0.0
+bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="Shape_top_left"]
 size = Vector2(132, 8)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0jr5f"]
+friction = 0.0
+bounce = 1.0
+
 [sub_resource type="RectangleShape2D" id="Shape_top_right"]
 size = Vector2(132, 8)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yfyd0"]
+friction = 0.0
+bounce = 1.0
 
 [sub_resource type="RectangleShape2D" id="Shape_bottom_left"]
 size = Vector2(132, 8)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i5jsc"]
+friction = 0.0
+bounce = 1.0
+
 [sub_resource type="RectangleShape2D" id="Shape_bottom_right"]
 size = Vector2(132, 8)
 
-[node name="Table" type="Node2D"]
+[node name="Table" type="Node2D" unique_id=2005738721]
 script = ExtResource("1")
 
-[node name="LeftWall" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=794528061]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_sb672")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1459284560]
 position = Vector2(4, 280)
 shape = SubResource("Shape_left")
 
-[node name="RightWall" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1312998888]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_pqm0j")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=1084443014]
 position = Vector2(326, 280)
 shape = SubResource("Shape_right")
 
-[node name="TopLeft" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="TopLeft" type="StaticBody2D" parent="." unique_id=370116824]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_8pful")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TopLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopLeft" unique_id=2138142013]
 position = Vector2(74, 4)
 shape = SubResource("Shape_top_left")
 
-[node name="TopRight" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="TopRight" type="StaticBody2D" parent="." unique_id=1720566137]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_0jr5f")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TopRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopRight" unique_id=654314525]
 position = Vector2(256, 4)
 shape = SubResource("Shape_top_right")
 
-[node name="BottomLeft" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="BottomLeft" type="StaticBody2D" parent="." unique_id=1817363812]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_yfyd0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomLeft" unique_id=832817331]
 position = Vector2(74, 556)
 shape = SubResource("Shape_bottom_left")
 
-[node name="BottomRight" type="StaticBody2D" parent="."]
-collision_layer = 1
+[node name="BottomRight" type="StaticBody2D" parent="." unique_id=1342938457]
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_i5jsc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomRight" unique_id=1678528000]
 position = Vector2(256, 556)
 shape = SubResource("Shape_bottom_right")

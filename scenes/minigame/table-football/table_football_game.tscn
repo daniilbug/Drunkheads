@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://lse8ducx2yup"]
 
-[ext_resource type="Script" uid="uid://pmyird8xd34j" path="res://scripts/table-football/table_football_game.gd" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/minigame/table-football/table_football_table.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/minigame/table-football/table_football_ball.tscn" id="3"]
+[ext_resource type="Script" uid="uid://pmyird8xd34j" path="res://scripts/minigame/table-football/table_football_game.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://ti67oquw5puq" path="res://scenes/minigame/table-football/table_football_table.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://djqavi8rcq1yq" path="res://scenes/minigame/table-football/table_football_ball.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://mtgilbnu5c4g" path="res://scenes/minigame/table-football/table_football_rod.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://scenes/minigame/table-football/table_football_serve_overlay.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://bcliq6a1ahkyj" path="res://scenes/minigame/table-football/table_football_serve_overlay.tscn" id="6"]
 
 [node name="TableFootballGame" type="Node2D" unique_id=898991035]
 script = ExtResource("1")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brkcard0001"]
 
-[ext_resource type="Script" uid="uid://c8intfbf02e50" path="res://scripts/poker/poker_card.gd" id="1_4xe8q"]
+[ext_resource type="Script" uid="uid://c8intfbf02e50" path="res://scripts/minigame/poker/poker_card.gd" id="1_4xe8q"]
 
 [node name="Card" type="Node2D" unique_id=1381116546]
 script = ExtResource("1_4xe8q")

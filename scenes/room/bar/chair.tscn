@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c2n6gnfnfbbch"]
 
-[ext_resource type="Script" uid="uid://daqrqknickw75" path="res://scripts/bar/chair.gd" id="1_48mhd"]
+[ext_resource type="Script" uid="uid://daqrqknickw75" path="res://scripts/room/bar/chair.gd" id="1_48mhd"]
 [ext_resource type="Texture2D" uid="uid://vrwocusmllgc" path="res://assets/sprites/chair.png" id="2_b8sam"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sit"]

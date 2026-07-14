@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://wbgbdugtw7ni"]
 
-[ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="1_y707c"]
-[ext_resource type="Script" uid="uid://mc00e6kac7dy" path="res://scripts/table-football/table_football_interact.gd" id="2_interact"]
-[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="3_yrx7c"]
+[ext_resource type="Script" uid="uid://mc00e6kac7dy" path="res://scripts/minigame/table-football/table_football_interact.gd" id="1_5j7js"]
+[ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="2_xsr0x"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="3_ytu1d"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(24, 40)
@@ -11,11 +11,11 @@ size = Vector2(24, 40)
 size = Vector2(36, 52)
 
 [node name="TableFootball" type="Node2D" unique_id=764347753]
-script = ExtResource("2_interact")
+script = ExtResource("1_5j7js")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1471531696]
 light_mask = 2
-texture = ExtResource("1_y707c")
+texture = ExtResource("2_xsr0x")
 
 [node name="Body" type="StaticBody2D" parent="." unique_id=1530597162]
 
@@ -27,4 +27,4 @@ shape = SubResource("1")
 [node name="Shape" type="CollisionShape2D" parent="InteractionArea" unique_id=1530597201]
 shape = SubResource("2")
 
-[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("3_yrx7c")]
+[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("3_ytu1d")]

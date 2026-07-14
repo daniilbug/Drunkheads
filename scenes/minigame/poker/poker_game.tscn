@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cn0lx6h3t4jxg"]
 
-[ext_resource type="Script" uid="uid://xljp0r6pp4rx" path="res://scripts/poker/poker_game.gd" id="1_gd"]
+[ext_resource type="Script" uid="uid://xljp0r6pp4rx" path="res://scripts/minigame/poker/poker_game.gd" id="1_gd"]
 [ext_resource type="PackedScene" uid="uid://crw6cuwhwg034" path="res://scenes/minigame/poker/community_cards.tscn" id="2_cc"]
 [ext_resource type="PackedScene" uid="uid://bjfcfpcf4vd5p" path="res://scenes/minigame/poker/player_hand.tscn" id="3_ph"]
 [ext_resource type="PackedScene" uid="uid://brkactb0001" path="res://scenes/minigame/poker/action_buttons.tscn" id="4_ab"]

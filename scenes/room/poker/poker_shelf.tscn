@@ -7,7 +7,7 @@
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1849858084]
 light_mask = 2
 texture_repeat = 2
-position = Vector2(1, -34)
+position = Vector2(1, -19)
 texture = ExtResource("1_x6amm")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 30)

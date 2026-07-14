@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fo6qjo8d38ac"]
 
-[ext_resource type="Script" uid="uid://usy8mvcr7vcr" path="res://scripts/bar/dance_floor_controller.gd" id="1_vtr3j"]
+[ext_resource type="Script" uid="uid://usy8mvcr7vcr" path="res://scripts/room/bar/dance_floor_controller.gd" id="1_vtr3j"]
 [ext_resource type="Texture2D" uid="uid://cq8nflirl1bew" path="res://assets/sprites/dance_floor_controller.png" id="2_n7ec0"]
 [ext_resource type="AudioStream" uid="uid://cf1qmnl0cs5tw" path="res://assets/audio/interactions/button_press.mp3" id="3_n7ec0"]
 

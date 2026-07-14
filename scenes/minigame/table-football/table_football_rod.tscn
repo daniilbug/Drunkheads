@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://mtgilbnu5c4g"]
 
-[ext_resource type="Script" uid="uid://c7368nndcjxki" path="res://scripts/table-football/table_football_rod.gd" id="1_rod"]
+[ext_resource type="Script" uid="uid://c7368nndcjxki" path="res://scripts/minigame/table-football/table_football_rod.gd" id="1_rod"]
 
 [sub_resource type="RectangleShape2D" id="Shape_k0"]
 size = Vector2(6, 24)
@@ -20,37 +20,37 @@ size = Vector2(6, 24)
 [node name="TableFootballRod" type="Node2D" unique_id=248734841]
 script = ExtResource("1_rod")
 
-[node name="Kicker0" type="StaticBody2D" parent="."]
+[node name="Kicker0" type="StaticBody2D" parent="." unique_id=859674937]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker0" unique_id=16638514]
 shape = SubResource("Shape_k0")
 
-[node name="Kicker1" type="StaticBody2D" parent="."]
+[node name="Kicker1" type="StaticBody2D" parent="." unique_id=990212224]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker1" unique_id=13303132]
 shape = SubResource("Shape_k1")
 
-[node name="Kicker2" type="StaticBody2D" parent="."]
+[node name="Kicker2" type="StaticBody2D" parent="." unique_id=822697591]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker2" unique_id=1939576203]
 shape = SubResource("Shape_k2")
 
-[node name="Kicker3" type="StaticBody2D" parent="."]
+[node name="Kicker3" type="StaticBody2D" parent="." unique_id=2040910998]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker3" unique_id=96086285]
 shape = SubResource("Shape_k3")
 
-[node name="Kicker4" type="StaticBody2D" parent="."]
+[node name="Kicker4" type="StaticBody2D" parent="." unique_id=1592015589]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kicker4" unique_id=1071093347]
 shape = SubResource("Shape_k4")

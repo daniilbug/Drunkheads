@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://tcxajs6xuq3n"]
 
-[ext_resource type="Texture2D" uid="uid://d4dd8jandlnlc" path="res://assets/sprites/wc/sink.png" id="1_fm1n4"]
-[ext_resource type="Script" uid="uid://dvwowe2daiv22" path="res://scripts/wc/sink.gd" id="1_sk7no"]
-[ext_resource type="AudioStream" uid="uid://ckfid4vq8q4u4" path="res://assets/audio/interactions/sink.mp3" id="3_jt73d"]
+[ext_resource type="Script" uid="uid://dvwowe2daiv22" path="res://scripts/room/wc/sink.gd" id="1_6847f"]
+[ext_resource type="Texture2D" uid="uid://d4dd8jandlnlc" path="res://assets/sprites/wc/sink.png" id="2_af1sa"]
+[ext_resource type="AudioStream" uid="uid://ckfid4vq8q4u4" path="res://assets/audio/interactions/sink.mp3" id="3_ikbha"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sk7no"]
 properties/0/path = NodePath(".:is_watering")
@@ -13,12 +13,12 @@ properties/0/replication_mode = 2
 radius = 8.0
 
 [node name="Sink" type="Node2D" unique_id=208708157]
-script = ExtResource("1_sk7no")
+script = ExtResource("1_6847f")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=481073212]
 light_mask = 2
 position = Vector2(0, -9)
-texture = ExtResource("1_fm1n4")
+texture = ExtResource("2_af1sa")
 hframes = 6
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1107503609]
@@ -30,6 +30,6 @@ replication_config = SubResource("SceneReplicationConfig_sk7no")
 shape = SubResource("CircleShape2D_sk7no")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=2064312346]
-stream = ExtResource("3_jt73d")
+stream = ExtResource("3_ikbha")
 max_distance = 1000.0
 attenuation = 1.5

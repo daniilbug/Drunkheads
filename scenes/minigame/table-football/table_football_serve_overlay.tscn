@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bcliq6a1ahkyj"]
 
-[ext_resource type="Script" uid="uid://st2v6epdxbug" path="res://scripts/table-football/table_football_serve_overlay.gd" id="1"]
+[ext_resource type="Script" uid="uid://st2v6epdxbug" path="res://scripts/minigame/table-football/table_football_serve_overlay.gd" id="1"]
 
-[node name="ServeOverlay" type="Node2D"]
+[node name="ServeOverlay" type="Node2D" unique_id=520189910]
 script = ExtResource("1")

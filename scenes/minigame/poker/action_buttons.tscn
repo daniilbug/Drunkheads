@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brkactb0001"]
 
-[ext_resource type="Script" uid="uid://bf7ouehnxu83g" path="res://scripts/poker/action_buttons.gd" id="1_sc"]
+[ext_resource type="Script" uid="uid://bf7ouehnxu83g" path="res://scripts/minigame/poker/action_buttons.gd" id="1_sc"]
 
 [node name="ActionButtons" type="Control" unique_id=1572759390]
 layout_mode = 3

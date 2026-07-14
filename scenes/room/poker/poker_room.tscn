@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://b1j7g1w1w2e4i"]
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_brsjr"]
+[ext_resource type="Script" uid="uid://3vjlr323k5t5" path="res://scripts/room/poker/poker_room.gd" id="2_8ipd0"]
 [ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="2_fl8mr"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ut0ew"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="3_irpe5"]
@@ -9,6 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://cceaouu46sogy" path="res://scenes/room/poker/poker_table.tscn" id="4_5gf1k"]
 [ext_resource type="PackedScene" uid="uid://da3ollbm07nuj" path="res://scenes/room/poker/spades_sign.tscn" id="7_pn4u5"]
 [ext_resource type="PackedScene" uid="uid://xtnvdmvjcvsv" path="res://scenes/room/poker/poker_shelf.tscn" id="8_ffy83"]
+[ext_resource type="PackedScene" uid="uid://fow4hkarxeti" path="res://scenes/core/switch.tscn" id="9_2trb1"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="10_ffy83"]
+[ext_resource type="Texture2D" uid="uid://bodrccnqog1p6" path="res://assets/sprites/poker/poker_shelf.png" id="11_8rwd6"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="12_14eqx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_irpe5"]
 size = Vector2(80, 4)
@@ -32,6 +37,7 @@ size = Vector2(72, 92)
 
 [node name="PokerRoom" unique_id=1 instance=ExtResource("1_brsjr")]
 y_sort_enabled = true
+script = ExtResource("2_8ipd0")
 room_size = Vector2(80, 100)
 
 [node name="Floor" parent="." index="0" unique_id=2]
@@ -111,13 +117,32 @@ shape = SubResource("RectangleShape2D_pn4u5")
 position = Vector2(39, 34)
 
 [node name="SpadesSign" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=1798872972 instance=ExtResource("7_pn4u5")]
-position = Vector2(39, 12)
+position = Vector2(39, 7)
 
-[node name="PokerShelf1" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1309903454 instance=ExtResource("8_ffy83")]
-position = Vector2(21, 15)
+[node name="BottlesShelf1" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1309903454 instance=ExtResource("8_ffy83")]
+position = Vector2(21, 1)
 
-[node name="PokerShelf2" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=339454931 instance=ExtResource("8_ffy83")]
-position = Vector2(55, 15)
+[node name="BottlesShelf2" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=339454931 instance=ExtResource("8_ffy83")]
+position = Vector2(55, 1)
+
+[node name="Switch" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1667194425 instance=ExtResource("9_2trb1")]
+position = Vector2(57, 100)
+
+[node name="Shelf" type="Node2D" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=1929126933]
+
+[node name="Sprite" type="Sprite2D" parent="YSort/Shelf" index="0" unique_id=502978014]
+light_mask = 2
+position = Vector2(39, -7)
+texture = ExtResource("11_8rwd6")
+
+[node name="DropPlace" parent="YSort/Shelf" index="1" unique_id=16125788 instance=ExtResource("12_14eqx")]
+position = Vector2(39, -10)
 
 [node name="PokerDoor" parent="." index="4" unique_id=678336619 instance=ExtResource("3_kl0to")]
 position = Vector2(38.000004, 104)
+is_open = false
+
+[node name="Lamp" parent="." index="5" unique_id=909148239 instance=ExtResource("10_ffy83")]
+position = Vector2(39, 34)
+
+[connection signal="on_switch" from="YSort/Switch" to="." method="_on_switch"]

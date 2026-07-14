@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://bjfcfpcf4vd5p"]
 
-[ext_resource type="Script" uid="uid://jc4f72uu6wlx" path="res://scripts/poker/player_hand.gd" id="1_sc"]
+[ext_resource type="Script" uid="uid://jc4f72uu6wlx" path="res://scripts/minigame/poker/player_hand.gd" id="1_sc"]
 [ext_resource type="PackedScene" uid="uid://brkcard0001" path="res://scenes/minigame/poker/card.tscn" id="2_pc"]
 [ext_resource type="Texture2D" uid="uid://dealerchip001" path="res://assets/sprites/poker/dealer_chip.png" id="3_dc"]
 [ext_resource type="PackedScene" uid="uid://djpe44007c2iq" path="res://scenes/minigame/poker/chip_stack.tscn" id="4_cs"]
 
 [node name="PlayerHand" type="Node2D" unique_id=259638545]
+visible = false
 script = ExtResource("1_sc")
 
 [node name="ChipsLabel" type="Label" parent="." unique_id=1276771810]
@@ -24,13 +25,13 @@ theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 
 [node name="DealerChip" type="Sprite2D" parent="." unique_id=999999999]
+visible = false
 position = Vector2(27, 34)
 texture = ExtResource("3_dc")
 offset = Vector2(55, -5)
 
 [node name="ChipsStack" parent="." unique_id=100000006 instance=ExtResource("4_cs")]
 position = Vector2(82, 84)
-amount = 200.0
 
 [node name="Card1" parent="." unique_id=1321127664 instance=ExtResource("2_pc")]
 position = Vector2(-58, 14)

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djpe44007c2iq"]
 
-[ext_resource type="Script" uid="uid://chipstackg01" path="res://scripts/poker/chip_stack.gd" id="1_cs"]
+[ext_resource type="Script" uid="uid://chipstackg01" path="res://scripts/minigame/poker/chip_stack.gd" id="1_cs"]
 [ext_resource type="AudioStream" uid="uid://c8h7ooqhljaj0" path="res://assets/audio/poker/chips.mp3" id="2_71ndt"]
 
 [node name="ChipStack" type="Node2D" unique_id=140024081]

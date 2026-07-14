@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bbo0itl4kau50"]
 
-[ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar_sign.png" id="1_brj26"]
-[ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/bar/bar_sign.gd" id="1_fwycx"]
+[ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/room/bar/bar_sign.gd" id="1_ygby0"]
+[ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar_sign.png" id="2_my1w7"]
 
-[sub_resource type="Gradient" id="Gradient_asdnn"]
+[sub_resource type="Gradient" id="Gradient_er6gy"]
 offsets = PackedFloat32Array(0.17013232, 0.69187146)
 colors = PackedColorArray(0.83221525, 0.00068076135, 0.8560393, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_brj26"]
-gradient = SubResource("Gradient_asdnn")
+gradient = SubResource("Gradient_er6gy")
 width = 80
 height = 80
 use_hdr = true
@@ -17,11 +17,11 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
 
 [node name="BarSign" type="Node2D" unique_id=1758219415]
-script = ExtResource("1_fwycx")
+script = ExtResource("1_ygby0")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1180024161]
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("1_brj26")
+texture = ExtResource("2_my1w7")
 hframes = 2
 
 [node name="Light" type="PointLight2D" parent="." unique_id=871723839]

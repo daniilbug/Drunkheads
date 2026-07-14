@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cwccbn4568aa0"]
 
-[ext_resource type="Script" uid="uid://bx6rbam06i0ll" path="res://scripts/wc/wc_cabin.gd" id="1_bkwlb"]
-[ext_resource type="Texture2D" uid="uid://cwccabin12345" path="res://assets/sprites/wc/cabin.png" id="1_cab"]
-[ext_resource type="AudioStream" uid="uid://ddjbq7ndqalll" path="res://assets/audio/interactions/wc_cabin.mp3" id="3_srfal"]
+[ext_resource type="Script" uid="uid://bx6rbam06i0ll" path="res://scripts/room/wc/wc_cabin.gd" id="1_06io4"]
+[ext_resource type="Texture2D" uid="uid://cwccabin12345" path="res://assets/sprites/wc/cabin.png" id="2_ndplr"]
+[ext_resource type="AudioStream" uid="uid://ddjbq7ndqalll" path="res://assets/audio/interactions/wc_cabin.mp3" id="3_6e4uq"]
 
 [sub_resource type="RectangleShape2D" id="RectTop"]
 size = Vector2(28, 4)
@@ -22,13 +22,13 @@ properties/0/spawn = true
 properties/0/replication_mode = 2
 
 [node name="WCCabin" type="Node2D" unique_id=975831774]
-script = ExtResource("1_bkwlb")
+script = ExtResource("1_06io4")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=197389947]
 light_mask = 2
 texture_filter = 1
 position = Vector2(14, -14)
-texture = ExtResource("1_cab")
+texture = ExtResource("2_ndplr")
 
 [node name="TopWall" type="StaticBody2D" parent="." unique_id=932216655]
 position = Vector2(22, -30)
@@ -57,7 +57,7 @@ position = Vector2(15.5, -8.5)
 shape = SubResource("RectangleShape2D_bkwlb")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1178779473]
-stream = ExtResource("3_srfal")
+stream = ExtResource("3_6e4uq")
 max_distance = 300.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=350387091]

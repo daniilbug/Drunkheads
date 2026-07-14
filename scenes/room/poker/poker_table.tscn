@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://cceaouu46sogy"]
 
-[ext_resource type="Script" uid="uid://1bb0m5svgshm" path="res://scripts/poker/poker_session.gd" id="1_ee1sl"]
-[ext_resource type="Texture2D" uid="uid://ca23hqxll5j0c" path="res://assets/sprites/poker_table.png" id="2_1mlhw"]
+[ext_resource type="Script" uid="uid://1bb0m5svgshm" path="res://scripts/minigame/poker/poker_session.gd" id="1_ee1sl"]
+[ext_resource type="Texture2D" uid="uid://ca23hqxll5j0c" path="res://assets/sprites/poker/poker_table.png" id="2_1mlhw"]
 [ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/room/bar/chair.tscn" id="3_6estj"]
-[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="4_y6win"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(48, 24)
@@ -50,5 +49,3 @@ facing_north = true
 [node name="Chair4" parent="Chairs" unique_id=1945780077 instance=ExtResource("3_6estj")]
 position = Vector2(13, 10)
 facing_north = true
-
-[node name="Lamp" parent="." unique_id=909148239 instance=ExtResource("4_y6win")]

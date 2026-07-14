@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://beou7oanjwgs3"]
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_krdbx"]
-[ext_resource type="Script" uid="uid://myclchlnfuu5" path="res://scripts/wc/wc.gd" id="2_bl6vp"]
+[ext_resource type="Script" uid="uid://myclchlnfuu5" path="res://scripts/room/wc/wc.gd" id="2_bl6vp"]
 [ext_resource type="Texture2D" uid="uid://dx1d31elntiip" path="res://assets/sprites/wc/floor.png" id="2_eldff"]
 [ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="3_wc"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="4_c1ue7"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cwccbn4568aa0" path="res://scenes/room/wc/wc_cabin.tscn" id="5_cab"]
 [ext_resource type="Texture2D" uid="uid://bfsv6nsu5ukjg" path="res://assets/sprites/wc/top_wall.png" id="5_w853x"]
 [ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="7_4badc"]
-[ext_resource type="PackedScene" uid="uid://fow4hkarxeti" path="res://scenes/room/wc/switch.tscn" id="7_g6ssw"]
+[ext_resource type="PackedScene" uid="uid://fow4hkarxeti" path="res://scenes/core/switch.tscn" id="7_g6ssw"]
 [ext_resource type="PackedScene" uid="uid://tcxajs6xuq3n" path="res://scenes/room/wc/sink.tscn" id="8_ima66"]
 [ext_resource type="PackedScene" uid="uid://bcd8na17hihu0" path="res://scenes/room/wc/mirror.tscn" id="9_brjof"]
 [ext_resource type="PackedScene" uid="uid://doht0txgiu4t6" path="res://scenes/room/wc/towel.tscn" id="10_8w2dc"]
@@ -110,7 +110,6 @@ position = Vector2(80, 40)
 shape = SubResource("RectangleShape2D_c1ue7")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
-light_mask = 1
 texture_repeat = 2
 position = Vector2(4, -12)
 texture = ExtResource("3_wc")

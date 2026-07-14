@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dck66yt4prbuv"]
 
-[ext_resource type="Script" uid="uid://e6b5l6htm2x1" path="res://scripts/bar/dance_floor.gd" id="1_ffnn4"]
+[ext_resource type="Script" uid="uid://e6b5l6htm2x1" path="res://scripts/room/bar/dance_floor.gd" id="1_ffnn4"]
 [ext_resource type="Texture2D" uid="uid://br6xfe3dgn656" path="res://assets/sprites/dance_floor.png" id="2_0xm2o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0mg5"]

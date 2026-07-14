@@ -1,18 +1,18 @@
 [gd_scene format=3 uid="uid://fow4hkarxeti"]
 
-[ext_resource type="Script" uid="uid://b87ljw7us5s6i" path="res://scripts/wc/switch.gd" id="1_t7dmv"]
-[ext_resource type="Texture2D" uid="uid://bhmjngdsocyvq" path="res://assets/sprites/wc/switch.png" id="1_xj72i"]
-[ext_resource type="AudioStream" uid="uid://cf1qmnl0cs5tw" path="res://assets/audio/interactions/button_press.mp3" id="3_xlfhr"]
+[ext_resource type="Script" uid="uid://b87ljw7us5s6i" path="res://scripts/core/switch.gd" id="1_01hhb"]
+[ext_resource type="Texture2D" uid="uid://bhmjngdsocyvq" path="res://assets/sprites/wc/switch.png" id="2_72ens"]
+[ext_resource type="AudioStream" uid="uid://cf1qmnl0cs5tw" path="res://assets/audio/interactions/button_press.mp3" id="3_je46t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xj72i"]
 radius = 4.0
 
 [node name="Switch" type="Node2D" unique_id=1667194425]
-script = ExtResource("1_t7dmv")
+script = ExtResource("1_01hhb")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=981908747]
 position = Vector2(0, -12)
-texture = ExtResource("1_xj72i")
+texture = ExtResource("2_72ens")
 
 [node name="Area" type="Area2D" parent="." unique_id=1064453603]
 
@@ -21,4 +21,4 @@ position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_xj72i")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1011595441]
-stream = ExtResource("3_xlfhr")
+stream = ExtResource("3_je46t")

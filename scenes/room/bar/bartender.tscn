@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c1dt3luxyc5sg"]
 
-[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/bar/bartender.gd" id="1_611q6"]
+[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/room/bar/bartender.gd" id="1_611q6"]
 [ext_resource type="Texture2D" uid="uid://2fpce82kty5m" path="res://assets/sprites/bartender.png" id="2_juoo6"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
 [ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/room/bar/chair.tscn" id="4_juoo6"]

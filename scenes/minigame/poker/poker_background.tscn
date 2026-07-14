@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://m10pgtb4rrim"]
 
-[ext_resource type="Script" uid="uid://bs4hju5d7dni7" path="res://scripts/poker/poker_table.gd" id="1_sc"]
+[ext_resource type="Script" uid="uid://bs4hju5d7dni7" path="res://scripts/minigame/poker/poker_table.gd" id="1_sc"]
 [ext_resource type="Texture2D" uid="uid://cptegf3pjr1wa" path="res://assets/sprites/poker/background.png" id="2_lu421"]
 
 [node name="PokerTable" type="Node2D" unique_id=80091596]

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_8py06"]
 [ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ecrvg"]
-[ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/bar/bar.gd" id="2_ro7p1"]
+[ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/room/bar/bar.gd" id="2_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="3_ayeq0"]
 [ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/room/bar/plant.tscn" id="4_1v61x"]
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/room/bar/neon_sign.tscn" id="5_6ljkh"]
@@ -187,7 +187,7 @@ position = Vector2(160, 150)
 shape = SubResource("RectangleShape2D_kd3b8")
 
 [node name="Plant" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
-position = Vector2(69.11421, 13.439728)
+position = Vector2(11, 14)
 
 [node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=208033558 instance=ExtResource("6_eo0d5")]
 position = Vector2(160, 13)
