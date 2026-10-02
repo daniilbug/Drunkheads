@@ -24,6 +24,8 @@ const ROW_DANCE_N := 9
 
 var player_name: String = ""
 
+@export var id: int = 0
+
 @export var is_dancing := false:
 	set(value):
 		is_dancing = value
@@ -43,8 +45,7 @@ var player_name: String = ""
 @onready var sprite: Sprite2D = $Sprite
 @onready var hands: Node2D = $Hands
 @onready var interaction_area: Area2D = $InteractionArea
-@onready var synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
-@onready var camera: Camera2D = $Camera
+@onready var camera: Camera2D = get_node_or_null("Camera")
 @onready var audio: AudioStreamPlayer2D = $Audio
 
 var _hands_item: Draggable = null
@@ -58,7 +59,10 @@ var _drunk_tween: Tween
 var _dance_tween: Tween
 var _last_position: Vector2
 
-signal drink_action_requested(drink_name: String)
+signal drink_action_requested(player_id: int, drink_name: String)
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(int(name), true)
 
 func _ready() -> void:
 	sprite.frame = ROW_IDLE * 4
@@ -196,16 +200,18 @@ func _try_take_drop() -> void:
 		var owner_node := area.get_parent()
 		if owner_node is DropPlace and _hands_item != null:
 			var place = owner_node as DropPlace
-			_hands_item.drop(place)
+			_hands_item.drop(self, place)
 			_hands_item = null
 			return
 		elif owner_node is Draggable and _hands_item == null:
 			_hands_item = owner_node
 			owner_node.tree_exiting.connect(func(): _hands_item = null, CONNECT_ONE_SHOT)
-			_hands_item.pickup()
+			_hands_item.pickup(self)
 			return
 
 func _sit_in(chair: Chair) -> void:
+	if is_sitting:
+		return
 	chair.occupy(self)
 	seated_chair = chair
 	is_sitting = true
@@ -215,7 +221,7 @@ func _sit_in(chair: Chair) -> void:
 
 func _stand_up() -> void:
 	if seated_chair:
-		seated_chair.vacate()
+		seated_chair.vacate(self)
 		seated_chair = null
 	is_sitting = false
 	_start_idle_bob()
@@ -235,7 +241,7 @@ func _drink(drink: Drink) -> void:
 	if drink.parts == 0:
 		return
 	player_data.apply_drink_part(drink)
-	drink_action_requested.emit(drink.name)
+	drink_action_requested.emit(int(name), drink.name)
 	_rpc_show_drink_anim.rpc()
 
 @rpc("authority", "call_local", "reliable")

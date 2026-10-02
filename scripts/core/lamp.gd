@@ -5,7 +5,6 @@ extends Node2D
 
 @export var is_turned_on: bool = true:
 	set(value):
-		print("set ", value)
 		if is_node_ready():
 			_light.visible = value
 		is_turned_on = value

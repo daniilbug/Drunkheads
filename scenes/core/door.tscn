@@ -39,5 +39,9 @@ shape = SubResource("RectInteract")
 max_distance = 64.0
 attenuation = 0.5
 
+[node name="NavigationPortal" type="NavigationLink2D" parent="."]
+start_position = Vector2(0, -20)
+end_position = Vector2(0, 20)
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1219028353]
 replication_config = SubResource("SceneReplicationConfig_77t7i")

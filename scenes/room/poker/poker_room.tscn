@@ -113,29 +113,29 @@ position = Vector2(40, 50)
 [node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
 shape = SubResource("RectangleShape2D_pn4u5")
 
-[node name="PokerTable" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=900000001 instance=ExtResource("4_5gf1k")]
+[node name="PokerTable" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=900000001 instance=ExtResource("4_5gf1k")]
 position = Vector2(39, 34)
 
-[node name="SpadesSign" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=1798872972 instance=ExtResource("7_pn4u5")]
+[node name="SpadesSign" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=1798872972 instance=ExtResource("7_pn4u5")]
 position = Vector2(39, 7)
 
-[node name="BottlesShelf1" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1309903454 instance=ExtResource("8_ffy83")]
+[node name="BottlesShelf1" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1309903454 instance=ExtResource("8_ffy83")]
 position = Vector2(21, 1)
 
-[node name="BottlesShelf2" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=339454931 instance=ExtResource("8_ffy83")]
+[node name="BottlesShelf2" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=339454931 instance=ExtResource("8_ffy83")]
 position = Vector2(55, 1)
 
-[node name="Switch" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1667194425 instance=ExtResource("9_2trb1")]
+[node name="Switch" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=1667194425 instance=ExtResource("9_2trb1")]
 position = Vector2(57, 100)
 
-[node name="Shelf" type="Node2D" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=1929126933]
+[node name="Shelf" type="Node2D" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=1929126933]
 
-[node name="Sprite" type="Sprite2D" parent="YSort/Shelf" index="0" unique_id=502978014]
+[node name="Sprite" type="Sprite2D" parent="NavigationRegion/YSort/Shelf" index="0" unique_id=502978014]
 light_mask = 2
 position = Vector2(39, -7)
 texture = ExtResource("11_8rwd6")
 
-[node name="DropPlace" parent="YSort/Shelf" index="1" unique_id=16125788 instance=ExtResource("12_14eqx")]
+[node name="DropPlace" parent="NavigationRegion/YSort/Shelf" index="1" unique_id=16125788 instance=ExtResource("12_14eqx")]
 position = Vector2(39, -10)
 
 [node name="PokerDoor" parent="." index="4" unique_id=678336619 instance=ExtResource("3_kl0to")]
@@ -145,4 +145,4 @@ is_open = false
 [node name="Lamp" parent="." index="5" unique_id=909148239 instance=ExtResource("10_ffy83")]
 position = Vector2(39, 34)
 
-[connection signal="on_switch" from="YSort/Switch" to="." method="_on_switch"]
+[connection signal="on_switch" from="NavigationRegion/YSort/Switch" to="." method="_on_switch"]

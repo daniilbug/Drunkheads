@@ -2,6 +2,7 @@ class_name Main
 extends Level
 
 @onready var bar: Bar = $Bar
+@onready var npc_manager: NPCManager = $NPCManager
 
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
 @onready var mind_label: Label = $HUD/Stats/MindLabel
@@ -10,7 +11,13 @@ extends Level
 
 func _ready() -> void:
 	player_spawn = $PlayerSpawn
+	npc_manager.npc_added.connect(_init_npc)
 	super._ready()
+
+func _init_npc(npc: NPC) -> void:
+	super._init_npc(npc)
+	npc.player_data.stats_changed.connect(_update_stats)
+	npc.drink_action_requested.connect(_on_drink_action_requested)
 
 func _init_local_player(player: Player) -> void:
 	super._init_local_player(player)
@@ -26,21 +33,21 @@ func _update_stats() -> void:
 	mind_label.text    = "Mind     %d" % int(d.mind)
 	money_label.text   = "Money   $%d" % int(d.money)
 		
-func _on_drink_action_requested(drink_name: String) -> void:
+func _on_drink_action_requested(player_id: int, drink_name: String) -> void:
 	if multiplayer.is_server():
-		_handle_drink_action(multiplayer.get_unique_id(), drink_name)
+		_handle_drink_action(player_id, drink_name)
 	else:
-		_request_drink_action.rpc_id(1, drink_name)
+		_request_drink_action.rpc_id(1, player_id, drink_name)
 
 @rpc("any_peer", "reliable")
-func _request_drink_action(drink_name: String) -> void:
-	if not multiplayer.is_server():
+func _request_drink_action(player_id: int, drink_name: String) -> void:
+	if not multiplayer.is_server() or player_id != multiplayer.get_remote_sender_id():
 		return
-	_handle_drink_action(multiplayer.get_remote_sender_id(), drink_name)
+	_handle_drink_action(player_id, drink_name)
 	
-func _handle_drink_action(peer_id: int, drink_name: String) -> void:
+func _handle_drink_action(player_id: int, drink_name: String) -> void:
 	var drink := get_node_or_null(drink_name) as Drink
-	if drink == null or drink.holder_peer_id != peer_id:
+	if drink == null or drink.holder_peer_id != player_id:
 		return
 	if drink.parts == 0:
 		return

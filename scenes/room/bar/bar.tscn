@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="16_bxo4q"]
 [ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="16_fsl2a"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lc7ke"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eoy7c"]
 size = Vector2(320, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wcgap1"]
@@ -31,7 +31,7 @@ size = Vector2(30, 4)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ie7o"]
 size = Vector2(224, 3.631)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6ee6"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fydf2"]
 size = Vector2(320, 4)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r35sc"]
@@ -39,14 +39,18 @@ shader = ExtResource("13_n4oow")
 shader_parameter/active_cutouts = 4
 shader_parameter/cutouts = PackedVector4Array(19, 71, 16, 28, 74, 72, 16, 24, 153, 72, 16, 24, 234, 72, 16, 24)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n560b"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bw7fw"]
 size = Vector2(4, 300)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ewniu"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ht54o"]
 size = Vector2(4, 300)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kd3b8"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sr52o"]
 size = Vector2(312, 292)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_rcdku"]
+vertices = PackedVector2Array(298.40625, 86.52344, 298.40625, 26.523438, 308, 12, 308, 288, 283.25, 191, 283.25, 147, 250, 271, 12, 288, 182, 271, 145, 271, 77, 271, 250, 117, 254.40625, 86.52344, 250, 73, 254.40625, 26.523438, 215.25, 147, 182, 117, 282, 12, 250, 227, 215.25, 191, 182, 227, 139, 117, 145, 227, 106.25, 191, 106.25, 147, 250, 11.8125, 282, 11.8125, 250, 31, 70, 31, 182, 73, 139, 73, 71, 73, 29.5, 24, 71, 117, 38.25, 147, 77, 227, 38.25, 191, 12, 24, 29.5, 12, 40, 12, 40, 11.8125, 70, 11.8125)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(0, 3, 4, 5), PackedInt32Array(6, 3, 7, 8), PackedInt32Array(9, 8, 7), PackedInt32Array(10, 9, 7), PackedInt32Array(11, 12, 0, 5), PackedInt32Array(12, 11, 13, 14), PackedInt32Array(11, 5, 15, 16), PackedInt32Array(17, 2, 1, 14), PackedInt32Array(4, 3, 6, 18), PackedInt32Array(19, 4, 18, 20), PackedInt32Array(21, 16, 15, 19, 20, 22, 23, 24), PackedInt32Array(25, 26, 17, 14), PackedInt32Array(27, 25, 14), PackedInt32Array(27, 14, 13), PackedInt32Array(28, 27, 13, 29), PackedInt32Array(29, 16, 21, 30), PackedInt32Array(28, 29, 30), PackedInt32Array(28, 30, 31, 32), PackedInt32Array(33, 21, 24, 34), PackedInt32Array(20, 8, 9, 22), PackedInt32Array(23, 22, 35, 36), PackedInt32Array(36, 7, 37, 32, 34), PackedInt32Array(32, 38, 39, 28), PackedInt32Array(39, 40, 41, 28), PackedInt32Array(35, 10, 7, 36), PackedInt32Array(34, 32, 31, 33)])
 
 [node name="Bar" unique_id=1 instance=ExtResource("1_8py06")]
 y_sort_enabled = true
@@ -62,7 +66,7 @@ y_sort_enabled = true
 position = Vector2(160, 0)
 
 [node name="Shape" parent="Walls/Top" index="0" unique_id=6]
-shape = SubResource("RectangleShape2D_lc7ke")
+shape = SubResource("RectangleShape2D_eoy7c")
 disabled = true
 
 [node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
@@ -101,7 +105,7 @@ shape = SubResource("RectangleShape2D_4ie7o")
 position = Vector2(160, 300)
 
 [node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
-shape = SubResource("RectangleShape2D_s6ee6")
+shape = SubResource("RectangleShape2D_fydf2")
 
 [node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
 texture_repeat = 2
@@ -158,7 +162,7 @@ position = Vector2(127.57077, -12.505554)
 position = Vector2(0, 150)
 
 [node name="Shape" parent="Walls/Left" index="0" unique_id=10]
-shape = SubResource("RectangleShape2D_n560b")
+shape = SubResource("RectangleShape2D_bw7fw")
 
 [node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
 texture_repeat = 2
@@ -171,7 +175,7 @@ region_rect = Rect2(0, 0, 8, 301)
 position = Vector2(320, 150)
 
 [node name="Shape" parent="Walls/Right" index="0" unique_id=12]
-shape = SubResource("RectangleShape2D_ewniu")
+shape = SubResource("RectangleShape2D_ht54o")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
 texture_repeat = 2
@@ -184,43 +188,46 @@ region_rect = Rect2(0, 0, 8, 301)
 position = Vector2(160, 150)
 
 [node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
-shape = SubResource("RectangleShape2D_kd3b8")
+shape = SubResource("RectangleShape2D_sr52o")
 
-[node name="Plant" parent="YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
-position = Vector2(11, 14)
-
-[node name="Bartender" parent="YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=208033558 instance=ExtResource("6_eo0d5")]
-position = Vector2(160, 13)
-
-[node name="TableFootball" parent="YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
-position = Vector2(276.41495, 56.51532)
-
-[node name="Table1" parent="YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
-position = Vector2(105, 95)
-
-[node name="Table2" parent="YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=622490447 instance=ExtResource("11_bxo4q")]
-position = Vector2(216, 95)
-
-[node name="Table3" parent="YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=594298796 instance=ExtResource("11_bxo4q")]
-position = Vector2(72.25, 169)
-
-[node name="Table4" parent="YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
-position = Vector2(249.25, 169)
-
-[node name="Table5" parent="YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
-position = Vector2(111, 249)
-
-[node name="Table6" parent="YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
-position = Vector2(216, 249)
-
-[node name="FloorDecorations" type="Node2D" parent="." index="4" unique_id=1590726249]
+[node name="FloorDecorations" type="Node2D" parent="." index="3" unique_id=1590726249]
 z_as_relative = false
 
 [node name="DanceFloor" parent="FloorDecorations" index="0" unique_id=549599653 instance=ExtResource("13_ro7p1")]
 position = Vector2(161, 169.75)
 
-[node name="BarDoor" parent="." index="5" unique_id=361064526 instance=ExtResource("13_eo0d5")]
+[node name="BarDoor" parent="." index="4" unique_id=361064526 instance=ExtResource("13_eo0d5")]
 light_mask = 0
 position = Vector2(27, 300)
 
-[connection signal="item_purchased" from="YSort/Bartender" to="." method="_on_bartender_item_purchased"]
+[node name="NavigationRegion" parent="." index="5" unique_id=887136184]
+navigation_polygon = SubResource("NavigationPolygon_rcdku")
+
+[node name="Plant" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=429371026 instance=ExtResource("4_1v61x")]
+position = Vector2(11, 14)
+
+[node name="Bartender" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=208033558 instance=ExtResource("6_eo0d5")]
+position = Vector2(160, 13)
+
+[node name="TableFootball" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=764347753 instance=ExtResource("9_n4oow")]
+position = Vector2(276.41495, 56.51532)
+
+[node name="Table1" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=686340738 instance=ExtResource("11_bxo4q")]
+position = Vector2(105, 95)
+
+[node name="Table2" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=622490447 instance=ExtResource("11_bxo4q")]
+position = Vector2(216, 95)
+
+[node name="Table3" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=594298796 instance=ExtResource("11_bxo4q")]
+position = Vector2(72.25, 169)
+
+[node name="Table4" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=2007613642 instance=ExtResource("11_bxo4q")]
+position = Vector2(249.25, 169)
+
+[node name="Table5" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="7" unique_id=1254421105 instance=ExtResource("11_bxo4q")]
+position = Vector2(111, 249)
+
+[node name="Table6" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
+position = Vector2(216, 249)
+
+[connection signal="item_purchased" from="NavigationRegion/YSort/Bartender" to="." method="_on_bartender_item_purchased"]

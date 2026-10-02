@@ -6,7 +6,7 @@ const BOOMBOX_SCENE := preload("res://scenes/room/bar/boombox.tscn")
 const DANCE_FLOOR_CONTROLLER := preload("res://scenes/room/bar/dance_floor_controller.tscn")
 const DRINK_SCENE  := preload("res://scenes/room/bar/drink.tscn")
 
-@onready var bartender: Bartender = $YSort/Bartender
+@onready var bartender: Bartender = $NavigationRegion/YSort/Bartender
 @onready var dance_floor: DanceFloor = $FloorDecorations/DanceFloor
 
 func init_room() -> void:
@@ -15,9 +15,9 @@ func init_room() -> void:
 	y_sort.add_child(boombox)
 	y_sort.add_child(dance_floor_controller)
 	if multiplayer.is_server():
-		boombox.drop(bartender.boombox_place)
+		boombox.drop(null, bartender.boombox_place)
 		dance_floor_controller.on_mode_change.connect(func(mode: int): dance_floor.set_mode(mode))
-		dance_floor_controller.drop(bartender.dance_floor_controller_place)
+		dance_floor_controller.drop(null, bartender.dance_floor_controller_place)
 
 func _on_bartender_item_purchased(item: BarMenuItem) -> void:
 	if multiplayer.is_server():
@@ -78,4 +78,4 @@ func handle_drink_spawn(
 	drink.sprite_frame = sprite
 	drink.max_parts = parts
 	get_parent().add_child(drink)
-	drink.drop(bartender.order_place)
+	drink.drop(null, bartender.order_place)

@@ -14,6 +14,10 @@ extends Node2D
 @onready var _collision: CollisionShape2D = $Body/Shape
 @onready var _audio: AudioStreamPlayer2D = $Audio
 
+var _auto_close_timer := 0.0
+const AUTO_CLOSE_DELAY := 2.0
+const NPC_PROXIMITY_THRESHOLD := 80.0
+
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
 
@@ -22,6 +26,28 @@ func _ready() -> void:
 		_apply_state(false)
 	if not Engine.is_editor_hint():
 		_punch_wall_hole()
+
+func _process(delta: float) -> void:
+	if Engine.is_editor_hint() or not multiplayer.is_server():
+		return
+
+	if is_open:
+		_auto_close_timer += delta
+		if _auto_close_timer >= AUTO_CLOSE_DELAY:
+			_auto_close_timer = 0.0
+			is_open = false
+	else:
+		_auto_close_timer = 0.0
+
+	var level = Level.find_level_node(self)
+	if level:
+		for child in level.get_children():
+			if child is NPC:
+				var npc = child as NPC
+				if global_position.distance_to(npc.global_position) < NPC_PROXIMITY_THRESHOLD:
+					if not is_open:
+						is_open = true
+					_auto_close_timer = 0.0
 
 func toggle() -> void:
 	if multiplayer.is_server():

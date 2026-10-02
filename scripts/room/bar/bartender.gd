@@ -4,11 +4,11 @@ extends StaticBody2D
 signal item_purchased(item: BarMenuItem)
 
 @onready var sprite: Sprite2D = $Sprite
-@onready var menu_item_area: Area2D = $MenuItemArea
 
-@onready var boombox_place = $DropPlaces/DropPlace1
-@onready var dance_floor_controller_place = $DropPlaces/DropPlace7
-@onready var order_place = $DropPlaces/OrderPlace
+@onready var purchase_area: Area2D = $PurchaseArea
+@onready var boombox_place: DropPlace = $DropPlaces/DropPlace1
+@onready var dance_floor_controller_place: DropPlace = $DropPlaces/DropPlace7
+@onready var order_place: DropPlace = $DropPlaces/OrderPlace
 
 var _anim_t := 0.0
 var _menu_open := false
@@ -20,6 +20,9 @@ func order(player: Player) -> void:
 	menu.open(player.player_data)
 	menu.item_selected.connect(func(item: BarMenuItem): _on_menu_item_selected(item, menu))
 	menu.closed.connect(func(): _on_menu_closed(menu))
+
+func order_item(player: Player, item: BarMenuItem) -> void:
+	item_purchased.emit(item)
 
 func _ready() -> void:
 	sprite.frame = 0

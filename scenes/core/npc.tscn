@@ -1,9 +1,7 @@
-[gd_scene format=4 uid="uid://bplker7qp53qd"]
+[gd_scene format=4 uid="uid://bdvk4vs15fb0q"]
 
-[ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/core/player.gd" id="1_q88xf"]
+[ext_resource type="Script" uid="uid://bxauom013q3vc" path="res://scripts/core/npc.gd" id="1_q88xf"]
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
-[ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
-[ext_resource type="Script" uid="uid://ccajbckjdpgmm" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 8)
@@ -27,7 +25,7 @@ properties/3/path = NodePath(".:direction")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
-[node name="Player" type="CharacterBody2D" unique_id=1474730025]
+[node name="NPC" type="CharacterBody2D" unique_id=1474730025]
 script = ExtResource("1_q88xf")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
@@ -52,18 +50,16 @@ position = Vector2(0.03440857, -7.993946)
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_interact")
 
-[node name="Camera" type="Camera2D" parent="." unique_id=857080020]
-
-[node name="VoiceChat" parent="." unique_id=1764415366 instance=ExtResource("3_kmdga")]
-
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1000496576]
 stream = SubResource("AudioStreamMP3_q88xf")
 volume_db = -10.0
 max_distance = 64.0
 
-[node name="NavigationObstacle" type="NavigationObstacle2D" parent="."]
-script = ExtResource("4_nav_obstacle")
-radius = 5.0
+[node name="NavigationAgent" type="NavigationAgent2D" parent="." unique_id=1999999999]
+avoidance_enabled = true
+radius = 20.0
+neighbor_distance = 160.0
+max_speed = 150.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
 replication_config = SubResource("SceneReplicationConfig_5x06y")

@@ -17,6 +17,11 @@ size = Vector2(4, 60)
 [sub_resource type="RectangleShape2D" id="RectZone"]
 size = Vector2(72, 52)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_cehbr"]
+vertices = PackedVector2Array(70.00781, 50.007813, 10.0078125, 50.007813, 10, 10, 70.00781, 10)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 80.00527, 0.009690285, 80.00527, 60.00969, 0.0052723885, 60.00969)])
+
 [node name="Room" type="Node2D" unique_id=1]
 z_as_relative = false
 script = ExtResource("1_room")
@@ -72,6 +77,13 @@ position = Vector2(40, 30)
 [node name="Shape" type="CollisionShape2D" parent="TransparencyZone" unique_id=14]
 shape = SubResource("RectZone")
 
-[node name="YSort" type="Node2D" parent="." unique_id=15]
+[node name="NavigationRegion" type="NavigationRegion2D" parent="." unique_id=887136184]
 z_as_relative = false
 y_sort_enabled = true
+position = Vector2(-0.0052723885, -0.009690285)
+navigation_polygon = SubResource("NavigationPolygon_cehbr")
+
+[node name="YSort" type="Node2D" parent="NavigationRegion" unique_id=15]
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(0.0052719116, 0.009689331)

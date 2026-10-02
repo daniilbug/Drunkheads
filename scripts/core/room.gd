@@ -8,6 +8,7 @@ extends Node2D
 		queue_redraw()
 		if is_node_ready():
 			_update_layout()
+			_update_navigation_region()
 
 @export var wall_thickness: float = 4.0:
 	set(v):
@@ -18,7 +19,8 @@ extends Node2D
 
 @export_range(0.0, 1.0) var wall_hidden_alpha: float = 0.4
 
-@onready var y_sort: Node2D = $YSort
+@onready var navigation_region: NavigationRegion2D = $NavigationRegion
+@onready var y_sort: Node2D = $NavigationRegion/YSort
 
 @onready var _floor: Sprite2D = $Floor
 @onready var _wall_top: StaticBody2D = $Walls/Top
@@ -30,9 +32,10 @@ extends Node2D
 @onready var _transparency_zone: Area2D = $TransparencyZone
 
 func _ready() -> void:
+	_update_navigation_region()
+	_update_layout()
 	if Engine.is_editor_hint():
 		return
-	_update_layout()
 	_transparency_zone.body_entered.connect(_on_body_entered)
 	_transparency_zone.body_exited.connect(_on_body_exited)
 
@@ -68,7 +71,38 @@ func _update_layout() -> void:
 	var zone_shape := RectangleShape2D.new()
 	zone_shape.size = Vector2(w - t * 2.0, h - t * 2.0)
 	(_transparency_zone.get_node("Shape") as CollisionShape2D).shape = zone_shape
+	
+func _update_navigation_region() -> void:
+	var bounding_outline := PackedVector2Array([
+		Vector2.ZERO,
+		Vector2(room_size.x, 0.0),
+		room_size,
+		Vector2(0.0, room_size.y),
+	])
 
+	var polygon: NavigationPolygon
+	if navigation_region.navigation_polygon:
+		polygon = navigation_region.navigation_polygon.duplicate()
+	else:
+		polygon = NavigationPolygon.new()
+		
+	polygon.clear_outlines()
+	polygon.clear_polygons()
+	var source_data := NavigationMeshSourceGeometryData2D.new()
+	NavigationServer2D.parse_source_geometry_data(
+		polygon,
+		source_data,
+		self
+	)
+	source_data.add_traversable_outline(bounding_outline)
+	NavigationServer2D.bake_from_source_geometry_data(
+		polygon,
+		source_data
+	)
+	navigation_region.navigation_polygon = polygon
+
+
+	
 func _place_wall(body: StaticBody2D, pos: Vector2, size: Vector2) -> void:
 	body.position = pos
 	var shape := RectangleShape2D.new()
