@@ -38,6 +38,7 @@ func _on_peer_connected(peer_id: int) -> void:
 func _spawn_player(peer_id: int) -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
 	player.name = str(peer_id)
+	player.randomize_appearance()
 	add_child(player)
 	player.global_position = player_spawn.global_position
 

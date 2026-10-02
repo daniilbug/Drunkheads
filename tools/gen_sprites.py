@@ -6,8 +6,10 @@ import os
 
 OUT = "/Users/daniilbug/drunkards/assets/sprites"
 OUT_DRINKS = "/Users/daniilbug/drunkards/assets/sprites/drinks"
+OUT_CHARACTERS = f"{OUT}/characters"
 os.makedirs(OUT, exist_ok=True)
 os.makedirs(OUT_DRINKS, exist_ok=True)
+os.makedirs(OUT_CHARACTERS, exist_ok=True)
 
 TRANSPARENT = (0, 0, 0, 0)
 
@@ -81,6 +83,11 @@ def rect(draw, x, y, w, h, color):
 # Row 8: dance_s  Row 9: dance_n
 
 FW, FH = 12, 20
+PLAYER_VARIANTS_PER_SLOT = 6
+# Keep six distinct masculine silhouettes and six feminine silhouettes.
+# Values refer to the drawing routines below; tuple position is the game ID.
+PLAYER_HAIR_STYLES = (0, 4, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17)
+PLAYER_HAIR_VARIANTS = len(PLAYER_HAIR_STYLES)
 
 
 def draw_player_frame(img, draw, ox, oy, direction="s", walk_phase=0,
@@ -264,8 +271,363 @@ def gen_player():
         draw_dance_frame(sheet, sdraw, frame * FW, 9 * FH,
                          phase=frame, direction="n")
 
-    sheet.save(f"{OUT}/player.png")
-    print(f"Saved player.png ({sheet.width}×{sheet.height})")
+    # The original drawing functions remain the single source of frame poses.
+    # Split their finished pixels by palette so all clothing atlases stay aligned.
+    layers = {
+        name: Image.new("RGBA", sheet.size, TRANSPARENT)
+        for name in ("base", "hair", "top", "pants")
+    }
+    palette_layers = {
+        C["hair"]: "hair", C["hair_hi"]: "hair",
+        C["shirt_blue"]: "top", C["shirt_dark"]: "top",
+        C["pants"]: "pants", C["pants_dark"]: "pants",
+    }
+    for y in range(sheet.height):
+        for x in range(sheet.width):
+            color = sheet.getpixel((x, y))
+            if color[3]:
+                layers[palette_layers.get(color, "base")].putpixel((x, y), color)
+
+    # North-facing heads were entirely hair in the old sheet. Keep skin under
+    # every hairstyle, including styles that expose the back of the head.
+    base_draw = ImageDraw.Draw(layers["base"])
+    for row in (1, 7, 9):
+        for frame in range(4):
+            hy = _player_head_y(row, frame)
+            rect(base_draw, frame * FW + 3, row * FH + hy, 6, 7, C["skin_dark"])
+
+    layers["base"].save(f"{OUT}/player.png")
+    for kind in ("hair", "top", "pants"):
+        styles = PLAYER_HAIR_STYLES if kind == "hair" else range(PLAYER_VARIANTS_PER_SLOT)
+        for variant, style in enumerate(styles):
+            image = _player_clothing_variant(layers[kind], kind, style)
+            if kind == "hair":
+                _clear_hair_in_front_of_profile(image)
+            image.save(f"{OUT_CHARACTERS}/{kind}_{variant}.png")
+    total = PLAYER_HAIR_VARIANTS + 2 * PLAYER_VARIANTS_PER_SLOT
+    print(f"Saved player base and {total} clothing atlases ({sheet.width}×{sheet.height})")
+
+
+def _player_head_y(row, frame):
+    if row in (0, 1, 2, 3):
+        return 1 - abs([0, -1, 0, 1][frame])
+    if row in (8, 9):
+        return 1 + [0, -1, -1, 1][frame]
+    return 1
+
+
+def _player_body_y(row, frame):
+    return _player_head_y(row, frame) + 8
+
+
+def _clear_hair_in_front_of_profile(sheet):
+    """Keep the forehead and face contour clear in both side views."""
+    for row, eye_x in ((2, 4), (3, 7)):
+        for frame in range(4):
+            ox, oy = frame * FW, row * FH
+            hy = _player_head_y(row, frame)
+            eye_pos = (ox + eye_x, oy + hy + 3)
+            eye = sheet.getpixel(eye_pos)
+            for y in range(FH):
+                # The head faces left in row 2 and right in row 3.
+                if row == 2:
+                    front = list(range(3))
+                    if y >= hy + 1:
+                        front.append(3)
+                    if y >= hy + 2:
+                        front.append(4)
+                else:
+                    front = list(range(9, FW))
+                    if y >= hy + 1:
+                        front.append(8)
+                    if y >= hy + 2:
+                        front.append(7)
+                for x in front:
+                    sheet.putpixel((ox + x, oy + y), TRANSPARENT)
+            if eye[3]:
+                sheet.putpixel(eye_pos, eye)
+
+
+def _player_clothing_variant(source, kind, variant):
+    if kind == "hair" and variant >= PLAYER_VARIANTS_PER_SLOT:
+        return _draw_extra_hairstyle(variant)
+    image = source.copy()
+    if variant == 0:
+        return image
+
+    if kind == "hair":
+        colors = {
+            4: ((146, 152, 159, 255), (198, 203, 205, 255)),
+        }[variant]
+        replacements = {C["hair"]: colors[0], C["hair_hi"]: colors[1]}
+    elif kind == "top":
+        colors = {
+            1: ((166, 58, 64, 255), (110, 37, 49, 255)),
+            2: ((55, 135, 98, 255), (34, 89, 71, 255)),
+            3: ((222, 212, 184, 255), (158, 145, 125, 255)),
+            4: ((121, 76, 156, 255), (77, 49, 110, 255)),
+            5: ((72, 80, 91, 255), (39, 44, 52, 255)),
+        }[variant]
+        replacements = {C["shirt_blue"]: colors[0], C["shirt_dark"]: colors[1]}
+    else:
+        colors = {
+            1: ((111, 98, 69, 255), (73, 69, 52, 255)),
+            2: ((49, 52, 59, 255), (31, 34, 41, 255)),
+            3: ((65, 105, 157, 255), (39, 71, 113, 255)),
+            4: ((179, 132, 78, 255), (119, 83, 51, 255)),
+            5: ((200, 196, 176, 255), (139, 143, 137, 255)),
+        }[variant]
+        replacements = {C["pants"]: colors[0], C["pants_dark"]: colors[1]}
+
+    pixels = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            pixels[x, y] = replacements.get(pixels[x, y], pixels[x, y])
+
+    draw = ImageDraw.Draw(image)
+    for row in range(10):
+        for frame in range(4):
+            ox, oy = frame * FW, row * FH
+            hy = oy + _player_head_y(row, frame)
+            by = oy + _player_body_y(row, frame)
+            if kind == "hair" and variant == 4:
+                # Close-cropped silver hair; reveal the base scalp at the back.
+                if row in (1, 7, 9):
+                    for y in range(hy + 1, hy + 7):
+                        for x in range(3, 9):
+                            image.putpixel((ox + x, y), TRANSPARENT)
+                else:
+                    image.putpixel((ox + 3, hy + 1), TRANSPARENT)
+                    image.putpixel((ox + 8, hy + 1), TRANSPARENT)
+                rect(draw, ox + 3, hy, 6, 1, colors[0])
+                rect(draw, ox + 4, hy, 3, 1, colors[1])
+            elif kind == "top" and variant == 1:
+                # Jacket zipper and a light collar.
+                rect(draw, ox + 6, by + 1, 1, 4, (215, 194, 161, 255))
+                px(image, draw, ox + 5, by, (215, 194, 161, 255))
+            elif kind == "top" and variant == 2:
+                # Hoodie pocket and neckline.
+                rect(draw, ox + 5, by + 3, 3, 1, colors[1])
+                rect(draw, ox + 5, by, 3, 1, colors[1])
+            elif kind == "top" and variant == 3:
+                # Light collared shirt with two small buttons.
+                px(image, draw, ox + 4, by + 1, colors[1])
+                px(image, draw, ox + 7, by + 1, colors[1])
+                px(image, draw, ox + 6, by + 2, (84, 69, 61, 255))
+                px(image, draw, ox + 6, by + 4, (84, 69, 61, 255))
+            elif kind == "top" and variant == 4:
+                # Purple sweater with two contrasting stripes.
+                rect(draw, ox + 4, by + 2, 4, 1, colors[1])
+                rect(draw, ox + 4, by + 4, 4, 1, colors[1])
+            elif kind == "top" and variant == 5:
+                # Dark jacket with brass zipper and lapels.
+                rect(draw, ox + 6, by + 1, 1, 4, (193, 157, 94, 255))
+                px(image, draw, ox + 4, by + 1, colors[1])
+                px(image, draw, ox + 8, by + 1, colors[1])
+            elif kind == "pants" and variant == 1:
+                # Chinos with a narrow belt.
+                rect(draw, ox + 4, by + 5, 4, 1, colors[1])
+            elif kind == "pants" and variant == 2:
+                # Black trousers with a lighter center seam.
+                px(image, draw, ox + 4, oy + 17, colors[1])
+                px(image, draw, ox + 8, oy + 17, colors[1])
+            elif kind == "pants" and variant == 3:
+                # Blue jeans with a light seam down each leg.
+                for x in (4, 8):
+                    if image.getpixel((ox + x, oy + 16))[3]:
+                        px(image, draw, ox + x, oy + 16, (107, 147, 190, 255))
+            elif kind == "pants" and variant == 4:
+                # Khaki shorts: uncover the lower two pixels of each leg.
+                for left, right in ((3, 5), (7, 9)):
+                    leg_rows = [y for y in range(by + 5, oy + FH)
+                                if any(image.getpixel((ox + x, y))[3]
+                                       for x in range(left, right))]
+                    if leg_rows:
+                        for y in leg_rows[-2:]:
+                            for x in range(left, right):
+                                if image.getpixel((ox + x, y))[3]:
+                                    image.putpixel((ox + x, y), C["skin_dark"])
+            elif kind == "pants" and variant == 5:
+                # Pale trousers with a dark belt.
+                rect(draw, ox + 4, by + 5, 4, 1, (83, 75, 70, 255))
+    return image
+
+
+def _draw_extra_hairstyle(style):
+    """Draw front, back and mirrored profiles inside each animation frame."""
+    # 7-10: side part, quiff, undercut, messy spikes.
+    # 12-17: bob, long straight, high ponytail, twin buns, curls, braid.
+    palettes = {
+        7: ((112, 65, 39, 255), (160, 101, 55, 255), (73, 43, 32, 255)),
+        8: ((186, 143, 68, 255), (231, 194, 104, 255), (124, 92, 49, 255)),
+        9: ((37, 43, 59, 255), (68, 82, 105, 255), (27, 30, 43, 255)),
+        10: ((170, 73, 39, 255), (221, 119, 61, 255), (112, 49, 34, 255)),
+        12: ((103, 61, 42, 255), (147, 91, 55, 255), (69, 42, 36, 255)),
+        13: ((35, 31, 48, 255), (76, 68, 91, 255), (25, 24, 37, 255)),
+        14: ((150, 65, 48, 255), (204, 101, 67, 255), (98, 45, 41, 255)),
+        15: ((123, 91, 158, 255), (170, 133, 200, 255), (80, 63, 114, 255)),
+        16: ((186, 142, 68, 255), (238, 198, 107, 255), (127, 94, 55, 255)),
+        17: ((117, 43, 62, 255), (173, 78, 89, 255), (78, 32, 51, 255)),
+    }
+    main, highlight, shadow = palettes[style]
+    sheet = Image.new("RGBA", (FW * 4, FH * 10), TRANSPARENT)
+
+    for row in range(10):
+        north = row in (1, 7, 9)
+        mirror_west = row == 2
+        side = row in (2, 3)
+        # Author one right-facing profile, then mirror it for the left-facing row.
+        back_x = 1
+        for frame in range(4):
+            image, draw = new(FW, FH)
+            hy = _player_head_y(row, frame)
+
+            if style == 7:  # Side part
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 4, main)
+                    rect(draw, 5, hy + 1, 1, 4, shadow)
+                    rect(draw, 3, hy, 3, 1, highlight)
+                elif side:
+                    rect(draw, 4, hy + 1, 4, 1, highlight)
+                    rect(draw, 6, hy + 2, 1, 1, main)
+                else:
+                    rect(draw, 2, hy + 1, 6, 1, highlight)
+                    rect(draw, 7, hy + 2, 2, 1, main)
+            elif style == 8:  # High quiff
+                if north:
+                    rect(draw, 3, hy, 6, 2, main)
+                    rect(draw, 3, hy + 2, 6, 3, main)
+                    rect(draw, 4, hy, 4, 1, highlight)
+                elif side:
+                    rect(draw, 3, hy, 6, 2, main)
+                    rect(draw, 5, hy - 2, 3, 3, highlight)
+                    rect(draw, back_x + 1, hy + 1, 1, 2, shadow)
+                else:
+                    rect(draw, 3, hy, 6, 2, main)
+                    rect(draw, 4, hy - 2, 4, 3, highlight)
+                    rect(draw, 3, hy + 1, 1, 2, shadow)
+            elif style == 9:  # Undercut
+                if north:
+                    rect(draw, 3, hy + 1, 6, 3, main)
+                    rect(draw, 4, hy + 4, 4, 1, shadow)
+                    rect(draw, 3, hy, 6, 1, highlight)
+                elif side:
+                    rect(draw, 3, hy, 6, 2, main)
+                    rect(draw, 5, hy, 3, 2, highlight)
+                    rect(draw, back_x + 1, hy + 2, 2, 1, shadow)
+                else:
+                    rect(draw, 4, hy, 5, 3, main)
+                    rect(draw, 5, hy, 3, 1, highlight)
+                    rect(draw, 3, hy + 1, 1, 1, shadow)
+            elif style == 10:  # Messy spikes
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 4, main)
+                    for x in (3, 6, 8):
+                        rect(draw, x, hy - 1, 1, 2, highlight)
+                elif side:
+                    rect(draw, 6, hy - 1, 1, 3, highlight)
+                    rect(draw, 5, hy - 2, 1, 3, highlight)
+                    rect(draw, back_x + 1, hy + 1, 1, 2, shadow)
+                else:
+                    rect(draw, 2, hy + 1, 1, 2, shadow)
+                    for x, rise in ((3, 1), (5, 2), (8, 1)):
+                        rect(draw, x, hy - rise, 1, rise + 1, highlight)
+            elif style == 12:  # Rounded bob
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 6, main)
+                    rect(draw, 2, hy + 1, 2, 7, shadow)
+                    rect(draw, 8, hy + 1, 2, 7, main)
+                elif side:
+                    rect(draw, back_x, hy + 1, 2, 7, shadow)
+                    rect(draw, back_x, hy + 7, 2, 1, main)
+                else:
+                    rect(draw, 2, hy + 1, 2, 7, main)
+                    rect(draw, 8, hy + 1, 2, 7, main)
+                    rect(draw, 3, hy + 7, 2, 1, shadow)
+                    rect(draw, 7, hy + 7, 2, 1, shadow)
+                rect(draw, 4, hy, 3, 1, highlight)
+            elif style == 13:  # Long straight hair
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 9, main)
+                    rect(draw, 5, hy + 2, 1, 8, highlight)
+                    rect(draw, 2, hy + 1, 1, 10, shadow)
+                    rect(draw, 9, hy + 1, 1, 10, shadow)
+                elif side:
+                    rect(draw, back_x, hy + 1, 2, 10, shadow)
+                    rect(draw, back_x + 1, hy + 3, 1, 7, highlight)
+                else:
+                    rect(draw, 2, hy + 1, 2, 10, shadow)
+                    rect(draw, 8, hy + 1, 2, 10, main)
+                    rect(draw, 9, hy + 3, 1, 7, highlight)
+            elif style == 14:  # High ponytail
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 5, main)
+                    rect(draw, 5, hy - 1, 3, 2, shadow)
+                    rect(draw, 5, hy + 7, 3, 6, main)
+                    rect(draw, 6, hy + 8, 1, 5, highlight)
+                elif side:
+                    rect(draw, back_x, hy + 1, 2, 7, main)
+                    rect(draw, back_x, hy + 8, 1, 4, highlight)
+                    rect(draw, 5, hy - 1, 2, 1, shadow)
+                else:
+                    rect(draw, 5, hy - 2, 3, 2, shadow)
+                    rect(draw, 9, hy + 1, 2, 5, main)
+                    rect(draw, 10, hy + 5, 1, 5, highlight)
+            elif style == 15:  # Twin buns
+                rect(draw, 3, hy, 6, 2, main)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 5, shadow)
+                if side:
+                    bun_x = 1
+                    rect(draw, bun_x, hy - 1, 3, 3, main)
+                    px(image, draw, bun_x + 1, hy, highlight)
+                else:
+                    rect(draw, 1, hy - 1, 3, 3, main)
+                    rect(draw, 8, hy - 1, 3, 3, main)
+                    px(image, draw, 2, hy, highlight)
+                    px(image, draw, 9, hy, highlight)
+            elif style == 16:  # Full curls
+                rect(draw, 2, hy - 1, 8, 4, main)
+                if north:
+                    rect(draw, 3, hy + 3, 6, 5, main)
+                    rect(draw, 2, hy + 2, 1, 6, shadow)
+                    rect(draw, 9, hy + 2, 1, 6, main)
+                elif side:
+                    rect(draw, back_x, hy + 2, 2, 6, main)
+                    px(image, draw, back_x, hy + 5, highlight)
+                else:
+                    rect(draw, 2, hy + 2, 1, 5, main)
+                    rect(draw, 9, hy + 2, 1, 5, main)
+                for x, y in ((2, 0), (5, 0), (9, 1), (2, 4), (9, 5)):
+                    px(image, draw, x, hy + y, highlight)
+            elif style == 17:  # Long braid
+                rect(draw, 3, hy, 6, 2, main)
+                rect(draw, 4, hy, 3, 1, highlight)
+                if north:
+                    rect(draw, 3, hy + 2, 6, 5, main)
+                    for segment in range(3):
+                        rect(draw, 5 + segment % 2, hy + 7 + segment * 2,
+                             2, 2, highlight if segment % 2 else shadow)
+                else:
+                    braid_x = back_x if side else 9
+                    rect(draw, braid_x, hy + 2, 1, 5, main)
+                    for segment in range(3):
+                        rect(draw, braid_x + segment % 2, hy + 7 + segment * 2,
+                             2, 2, highlight if segment % 2 else shadow)
+
+            if not north:
+                eye_xs = (7,) if side else (4, 7)
+                for x in eye_xs:
+                    px(image, draw, x, hy + 3, (60, 41, 36, 255))
+            if mirror_west:
+                image = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+            sheet.paste(image, (frame * FW, row * FH))
+    return sheet
 
 
 # ─── BARTENDER ──────────────────────────────────────────────────────────────

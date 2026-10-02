@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/core/player.gd" id="1_q88xf"]
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
+[ext_resource type="Script" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/top_0.png" id="2_top"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/pants_0.png" id="2_pants"]
 [ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
 [ext_resource type="Script" uid="uid://ccajbckjdpgmm" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
 
@@ -27,6 +31,17 @@ properties/3/path = NodePath(".:direction")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_appearance"]
+properties/0/path = NodePath(".:hair_id")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:top_id")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:pants_id")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
 script = ExtResource("1_q88xf")
 
@@ -38,6 +53,34 @@ shape = SubResource("RectangleShape2D_body")
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_665sb")
+centered = false
+offset = Vector2(-6, -20)
+hframes = 4
+vframes = 10
+script = ExtResource("2_character_sprite")
+
+[node name="Pants" type="Sprite2D" parent="Sprite"]
+light_mask = 3
+texture_filter = 1
+texture = ExtResource("2_pants")
+centered = false
+offset = Vector2(-6, -20)
+hframes = 4
+vframes = 10
+
+[node name="Top" type="Sprite2D" parent="Sprite"]
+light_mask = 3
+texture_filter = 1
+texture = ExtResource("2_top")
+centered = false
+offset = Vector2(-6, -20)
+hframes = 4
+vframes = 10
+
+[node name="Hair" type="Sprite2D" parent="Sprite"]
+light_mask = 3
+texture_filter = 1
+texture = ExtResource("2_hair")
 centered = false
 offset = Vector2(-6, -20)
 hframes = 4
@@ -67,3 +110,6 @@ radius = 5.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
 replication_config = SubResource("SceneReplicationConfig_5x06y")
+
+[node name="AppearanceSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_appearance")

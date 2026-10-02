@@ -22,6 +22,21 @@ const ROW_DANCE_N := 9
 @export var seated_chair: Chair = null
 @export var peer_id: int = 0
 
+@export var hair_id: int = 0:
+	set(value):
+		hair_id = value
+		_refresh_appearance()
+
+@export var top_id: int = 0:
+	set(value):
+		top_id = value
+		_refresh_appearance()
+
+@export var pants_id: int = 0:
+	set(value):
+		pants_id = value
+		_refresh_appearance()
+
 var player_name: String = ""
 
 @export var id: int = 0
@@ -42,7 +57,7 @@ var player_name: String = ""
 		if old_value != value:
 			_on_direction_change(value)
 
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: CharacterSprite = $Sprite
 @onready var hands: Node2D = $Hands
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var camera: Camera2D = get_node_or_null("Camera")
@@ -63,12 +78,23 @@ signal drink_action_requested(player_id: int, drink_name: String)
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name), true)
+	$AppearanceSynchronizer.set_multiplayer_authority(1)
 
 func _ready() -> void:
+	_refresh_appearance()
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
 	set_notify_transform(true)
 	call_deferred("_setup_authority")
+
+func randomize_appearance() -> void:
+	hair_id = randi_range(0, CharacterSprite.HAIR_TEXTURES.size() - 1)
+	top_id = randi_range(0, CharacterSprite.TOP_TEXTURES.size() - 1)
+	pants_id = randi_range(0, CharacterSprite.PANTS_TEXTURES.size() - 1)
+
+func _refresh_appearance() -> void:
+	if is_node_ready():
+		sprite.set_appearance(hair_id, top_id, pants_id)
 
 func _setup_authority() -> void:
 	if is_multiplayer_authority():

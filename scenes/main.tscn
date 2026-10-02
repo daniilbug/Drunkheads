@@ -31,9 +31,6 @@ position = Vector2(20, -42)
 z_index = -1
 position = Vector2(20, 56.5)
 
-[node name="StreetNavigation" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_street")
-
 [node name="Sprite" type="Sprite2D" parent="Asphalt" index="0" unique_id=1954105509]
 texture_repeat = 2
 position = Vector2(159.75, 42.875)
@@ -84,15 +81,16 @@ blend_mode = 1
 [node name="NPCManager" type="Node2D" parent="." index="6" unique_id=2072928996]
 script = ExtResource("3_npc_mgr")
 
-[node name="ExitPoint" type="Marker2D" parent="NPCManager"]
-position = Vector2(47, 430)
-
-[node name="PlayerSpawner" parent="." index="7" unique_id=1819118617]
-_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
+[node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0" unique_id=210341260]
+position = Vector2(49.75, 467.25)
 
 [node name="PlayerSpawn" type="Node2D" parent="." index="8" unique_id=1937828665]
-position = Vector2(47.5, 381.25)
+position = Vector2(316.75, 377.75)
 
 [node name="DrinkSpawner" type="MultiplayerSpawner" parent="." index="9" unique_id=1698032546]
 _spawnable_scenes = PackedStringArray("uid://di8pbj1ruq3r3")
 spawn_path = NodePath("..")
+
+[node name="StreetNavigation" type="NavigationRegion2D" parent="." index="11" unique_id=1657496319]
+position = Vector2(-19.5, -12)
+navigation_polygon = SubResource("NavigationPolygon_street")

@@ -31,6 +31,7 @@ func _spawn_npc() -> void:
 
 	var npc: NPC = NPC_SCENE.instantiate()
 	npc.name = str(_next_npc_id)
+	npc.randomize_appearance()
 	_next_npc_id -= 1
 
 	var spawn_point = _level.player_spawn
