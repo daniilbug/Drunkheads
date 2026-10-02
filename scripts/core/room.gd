@@ -111,14 +111,18 @@ func _place_wall(body: StaticBody2D, pos: Vector2, size: Vector2) -> void:
 	collisionShape.shape = shape
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player and (body as Player).is_multiplayer_authority():
+	if _is_local_player(body):
 		_wall_bottom.z_index = 1
 		_tween_wall_alpha(wall_hidden_alpha)
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is Player and (body as Player).is_multiplayer_authority():
+	if _is_local_player(body):
 		_wall_bottom.z_index = 0
 		_tween_wall_alpha(1.0)
+
+func _is_local_player(body: Node2D) -> bool:
+	var level := Level.find_level_node(self)
+	return level != null and body == level.local_player
 
 func _tween_wall_alpha(alpha: float) -> void:
 	var tween := create_tween()
