@@ -5,6 +5,7 @@ const SMOKE_DURATION := 3.0
 const SMOKE_FRAMES := 8
 
 @onready var smoke_sprite: Sprite2D = $Sprite/Smoke
+@onready var smoking_audio: AudioStreamPlayer2D = $SmokingAudio
 
 @export var cigarettes_left: int = 5:
 	set(value):
@@ -19,6 +20,7 @@ var _smoke_tween: Tween
 func play_smoke() -> void:
 	if _smoke_tween:
 		_smoke_tween.kill()
+	smoking_audio.play()
 	smoke_sprite.frame = 0
 	smoke_sprite.show()
 	_smoke_tween = create_tween()

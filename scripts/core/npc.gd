@@ -30,11 +30,16 @@ const EXIT_DISTANCE := 10.0
 const STUCK_TICKS := 3
 const STUCK_PROGRESS_DISTANCE := 12.0
 const PASS_THROUGH_TICKS := 1
+const CHARACTER_AVOIDANCE_LAYER := 1
+const STATIC_AVOIDANCE_LAYER := 2
+const DOOR_PASS_THROUGH_DISTANCE := Door.NPC_PROXIMITY_THRESHOLD * 1.5
 
 var _last_progress_position := Vector2.ZERO
 var _stuck_ticks := 0
 var _pass_through_ticks := 0
 var _passing_through := false
+var _near_door := false
+var _doors: Array[Door] = []
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
@@ -42,6 +47,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	super._ready()
 	if multiplayer.is_server():
+		for node in _level.find_children("*", "Door", true, false):
+			_doors.append(node as Door)
 		_last_progress_position = global_position
 		nav_agent.velocity_computed.connect(_on_velocity_computed)
 
@@ -56,6 +63,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	_state_machine(delta)
+	_update_door_pass_through()
 	var direction_to_target := Vector2.ZERO
 	if not nav_agent.is_navigation_finished():
 		var next_path_position: Vector2 = nav_agent.get_next_path_position()
@@ -106,7 +114,7 @@ func _check_stuck_movement() -> void:
 		if _pass_through_ticks >= PASS_THROUGH_TICKS:
 			_end_pass_through()
 		return
-	if is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
+	if state == State.EXITING or is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
 		_stuck_ticks = 0
 		return
 	if progress >= STUCK_PROGRESS_DISTANCE:
@@ -124,11 +132,40 @@ func _begin_pass_through() -> void:
 
 func _end_pass_through() -> void:
 	_passing_through = false
-	_set_character_avoidance(true)
+	if state == State.EXITING or _near_door:
+		_set_static_obstacle_avoidance()
+	else:
+		_set_character_avoidance(true)
 	_reset_stuck_check()
 
 func _set_character_avoidance(enabled: bool) -> void:
 	nav_agent.avoidance_enabled = enabled
+	nav_agent.avoidance_mask = STATIC_AVOIDANCE_LAYER | CHARACTER_AVOIDANCE_LAYER
+	_set_character_collision(enabled)
+
+func _set_static_obstacle_avoidance() -> void:
+	nav_agent.avoidance_enabled = true
+	nav_agent.avoidance_mask = STATIC_AVOIDANCE_LAYER
+	_set_character_collision(false)
+
+func _update_door_pass_through() -> void:
+	if state == State.EXITING or _passing_through:
+		return
+	var near_door := false
+	if not is_sitting:
+		for door in _doors:
+			if global_position.distance_to(door.global_position) <= DOOR_PASS_THROUGH_DISTANCE:
+				near_door = true
+				break
+	if near_door == _near_door:
+		return
+	_near_door = near_door
+	if near_door:
+		_set_static_obstacle_avoidance()
+	else:
+		_set_character_avoidance(true)
+
+func _set_character_collision(enabled: bool) -> void:
 	for child in _level.get_children():
 		if child is Player and child != self:
 			if enabled:
@@ -202,7 +239,7 @@ func _begin_exit() -> void:
 	if is_instance_valid(_hands_item) and _hands_item is Drink:
 		_hands_item.queue_free()
 	_hands_item = null
-	_set_character_avoidance(true)
+	_set_static_obstacle_avoidance()
 	nav_agent.target_position = _npc_manager.exit_point.global_position
 	state = State.EXITING
 

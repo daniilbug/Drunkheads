@@ -31,4 +31,5 @@ texture = SubResource("GradientTexture2D_kgj5c")
 shape = SubResource("CircleShape2D_xuupk")
 
 [node name="Obstacle" type="NavigationObstacle2D" parent="." unique_id=2086381986]
+avoidance_layers = 2
 radius = 20.0

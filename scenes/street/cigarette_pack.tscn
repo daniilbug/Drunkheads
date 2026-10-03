@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dncrmw2qr6a5g" path="res://scripts/street/cigarette_pack.gd" id="2_script"]
 [ext_resource type="Texture2D" uid="uid://b5bnurj5ugkwt" path="res://assets/sprites/street/cigarettes_pack.png" id="3_sprite"]
 [ext_resource type="Texture2D" uid="uid://bevvaukq5pbg4" path="res://assets/sprites/street/cigarette_smoke.png" id="4_smoke"]
+[ext_resource type="AudioStream" uid="uid://detqnbwwnn6x7" path="res://assets/audio/interactions/smoking.mp3" id="5_smoking_audio"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pack"]
 properties/0/path = NodePath(".:position")
@@ -39,3 +40,7 @@ hframes = 8
 
 [node name="MultiplayerSynchronizer" parent="." index="3" unique_id=598135177]
 replication_config = SubResource("SceneReplicationConfig_pack")
+
+[node name="SmokingAudio" type="AudioStreamPlayer2D" parent="." index="4"]
+stream = ExtResource("5_smoking_audio")
+max_distance = 128.0
