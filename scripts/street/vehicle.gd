@@ -6,6 +6,7 @@ signal boarding_requested(player: Player)
 
 enum TravelState { STOPPED, DRIVING }
 const MIN_MOVING_SPEED := 1.0
+const ARRIVAL_TOLERANCE := 0.25
 
 @export var cruise_speed := 70.0
 @export var acceleration := 140.0
@@ -101,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		return
 	_navigation_agent.get_next_path_position()
 	var remaining := absf(_destination.x - position.x)
-	if remaining <= 0.01:
+	if remaining <= ARRIVAL_TOLERANCE:
 		_finish_route()
 		return
 	var direction := 1.0 if facing_right else -1.0
@@ -143,7 +144,7 @@ func _apply_safe_velocity(safe_velocity: Vector2) -> void:
 		step = 0.0
 	position.x += direction * step
 	current_speed = step / maxf(_pending_delta, 0.001)
-	if step >= remaining - 0.01:
+	if step >= remaining - ARRIVAL_TOLERANCE:
 		_finish_route()
 
 func _finish_route() -> void:
