@@ -1,17 +1,35 @@
 [gd_scene format=3 uid="uid://yyxk8drg18gg"]
 
+[ext_resource type="Script" uid="uid://b0xhctabfquak" path="res://scripts/room/wc/trash.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://oi1c5p3x7qyn" path="res://assets/sprites/wc/trash.png" id="1_sm3cy"]
+[ext_resource type="AudioStream" uid="uid://ccttmj06tb112" path="res://assets/audio/interactions/trash.mp3" id="2_audio"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sm3cy"]
 size = Vector2(7, 3)
 
-[node name="Trash" type="StaticBody2D" unique_id=2128032258]
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 8.0
+
+[node name="Trash" type="Node2D" unique_id=2128032258]
+script = ExtResource("1_script")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1157179690]
 light_mask = 2
 position = Vector2(0, -6)
 texture = ExtResource("1_sm3cy")
 
-[node name="Shape" type="CollisionShape2D" parent="." unique_id=783985651]
+[node name="Body" type="StaticBody2D" parent="." unique_id=1959355598]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=783985651]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_sm3cy")
+
+[node name="Area" type="Area2D" parent="." unique_id=860040697]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=1610857425]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_interact")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1811412718]
+stream = ExtResource("2_audio")
+max_distance = 128.0

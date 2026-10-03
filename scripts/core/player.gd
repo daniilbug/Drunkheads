@@ -196,6 +196,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_take_drop()
 
 func _try_interact() -> void:
+	if _hands_item != null:
+		for area in interaction_area.get_overlapping_areas():
+			var owner_node := area.get_parent()
+			if owner_node is Trash:
+				owner_node.interact(self)
+				return
 	for area in interaction_area.get_overlapping_areas():
 		var owner_node := area.get_parent()
 		if owner_node is Chair:

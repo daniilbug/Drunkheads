@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://beou7oanjwgs3" path="res://scenes/room/wc/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
 [ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
+[ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 vertices = PackedVector2Array(20, 370, 380, 370, 380, 500, 20, 500)
@@ -88,3 +89,6 @@ position = Vector2(140.25, 358.5)
 [node name="CigaretteSpawner" type="MultiplayerSpawner" parent="." index="13" unique_id=566738044]
 _spawnable_scenes = PackedStringArray("uid://cep8nonl3w4at")
 spawn_path = NodePath("..")
+
+[node name="Trash" parent="." index="14" unique_id=2128032258 instance=ExtResource("9_85g3d")]
+position = Vector2(74.25, 362.75)
