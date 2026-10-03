@@ -28,7 +28,7 @@ func _ready() -> void:
 	)
 	_playing_tween.stop()
 
-func interact() -> void:
+func interact(_player: Player) -> void:
 	if is_watering:
 		turn_off()
 	else:

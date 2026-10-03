@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ds0moei40y8mg"]
+
+[ext_resource type="Script" uid="uid://c8di0x6vaqh1n" path="res://scripts/street/cigarette_machine.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://df2a8712gsvky" path="res://assets/sprites/street/cigarette_machine.png" id="2_sprite"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(14.875, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
+size = Vector2(22, 12.5)
+
+[sub_resource type="Gradient" id="Gradient_er6gy"]
+offsets = PackedFloat32Array(0.036144577, 0.5873494)
+colors = PackedColorArray(0.9569754, 0.9423636, 0.95832425, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2dh35"]
+gradient = SubResource("Gradient_er6gy")
+width = 80
+height = 80
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="CigaretteMachine" type="Node2D" unique_id=1617941136]
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1839115546]
+position = Vector2(0, -12)
+texture = ExtResource("2_sprite")
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=550232831]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=1021043946]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Area" type="Area2D" parent="." unique_id=1643289982]
+
+[node name="Shape" type="CollisionShape2D" parent="Area" unique_id=1909503505]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_interact")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=2029942206]
+position = Vector2(0, -11)
+texture = SubResource("GradientTexture2D_2dh35")

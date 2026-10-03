@@ -12,7 +12,7 @@ extends Interactable
 			else:
 				audio.stop()
 
-func interact() -> void:
+func interact(_player: Player) -> void:
 	if not is_being_used:
 		use()
 

@@ -2,7 +2,7 @@ class_name Draggable
 extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite
-@onready var placing_audio: AudioStreamPlayer2D = $PlacingAudio
+@onready var placing_audio: AudioStreamPlayer2D = get_node_or_null("PlacingAudio")
 @onready var _level: Level = Level.find_level_node(self)
 
 @export var holder_peer_id: int = 0:

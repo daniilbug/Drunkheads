@@ -64,6 +64,7 @@ var player_name: String = ""
 @onready var audio: AudioStreamPlayer2D = $Audio
 
 var _hands_item: Draggable = null
+var _smoking := false
 var is_in_minigame := false
 
 var _anim_t := 0.0
@@ -75,6 +76,7 @@ var _dance_tween: Tween
 var _last_position: Vector2
 
 signal drink_action_requested(player_id: int, drink_name: String)
+signal smoke_action_requested(player_id: int, pack_name: String)
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name), true)
@@ -113,6 +115,10 @@ func _physics_process(delta: float) -> void:
 		return
 	var dir := Input.get_vector("left", "right", "up", "down")
 	if is_in_minigame:
+		velocity = Vector2.ZERO
+		audio.stop()
+		return
+	if _smoking:
 		velocity = Vector2.ZERO
 		audio.stop()
 		return
@@ -182,6 +188,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if is_in_minigame:
 		return
+	if _smoking:
+		return
 	if event.is_action_pressed("interact"):
 		_try_interact()
 	elif event.is_action_pressed("take"):
@@ -218,8 +226,10 @@ func _try_interact() -> void:
 			bartender.order(self)
 			return
 		elif owner_node is Interactable:
-			owner_node.interact()
+			owner_node.interact(self)
 			return
+	if _hands_item != null:
+		_hands_interact()
 
 func _try_take_drop() -> void:
 	for area in interaction_area.get_overlapping_areas():
@@ -230,10 +240,18 @@ func _try_take_drop() -> void:
 			_hands_item = null
 			return
 		elif owner_node is Draggable and _hands_item == null:
-			_hands_item = owner_node
-			owner_node.tree_exiting.connect(func(): _hands_item = null, CONNECT_ONE_SHOT)
+			take_spawned_item(owner_node)
 			_hands_item.pickup(self)
 			return
+
+func take_spawned_item(item: Draggable) -> void:
+	if _hands_item != null:
+		return
+	_hands_item = item
+	item.tree_exiting.connect(func():
+		if _hands_item == item:
+			_hands_item = null
+	, CONNECT_ONE_SHOT)
 
 func _sit_in(chair: Chair) -> void:
 	if is_sitting:
@@ -258,6 +276,8 @@ func _hands_interact() -> void:
 	elif _hands_item is Drink:
 		var drink = _hands_item as Drink
 		_drink(drink)
+	elif _hands_item is CigarettePack:
+		_smoke(_hands_item as CigarettePack)
 	elif _hands_item is Boombox:
 		_hands_item.switch()
 	elif _hands_item is DanceFloorController:
@@ -269,6 +289,29 @@ func _drink(drink: Drink) -> void:
 	player_data.apply_drink_part(drink)
 	drink_action_requested.emit(int(name), drink.name)
 	_rpc_show_drink_anim.rpc()
+
+func _smoke(pack: CigarettePack) -> void:
+	if _smoking or pack.cigarettes_left <= 0:
+		return
+	_smoking = true
+	smoke_action_requested.emit(int(name), pack.name)
+	_rpc_show_smoke_anim.rpc()
+
+func on_cigarette_smoked() -> void:
+	player_data.apply_cigarette()
+
+@rpc("authority", "call_local", "reliable")
+func _rpc_show_smoke_anim() -> void:
+	var smoke_row := ROW_DRINK_N if direction.y < 0 else ROW_DRINK
+	sprite.frame = smoke_row * 4
+	var tween := create_tween()
+	tween.tween_interval(CigarettePack.SMOKE_DURATION * 0.35)
+	tween.tween_callback(func(): sprite.frame = smoke_row * 4 + 1)
+	tween.tween_interval(CigarettePack.SMOKE_DURATION * 0.65)
+	tween.tween_callback(func():
+		sprite.frame = _dir_to_idle_row(direction) * 4
+		_smoking = false
+	)
 
 @rpc("authority", "call_local", "reliable")
 func _rpc_show_drink_anim() -> void:

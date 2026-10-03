@@ -30,6 +30,11 @@ func apply_drink_part(drink: Drink) -> void:
 	_apply("mind", -drink.get_mind_penalty() / 4.0)
 	stats_changed.emit()
 
+func apply_cigarette() -> void:
+	_apply("respect", 1.0)
+	_apply("mind", -1.0)
+	stats_changed.emit()
+
 func _apply(stat: String, delta: float) -> void:
 	var current: float = get(stat)
 	var next := clampf(current + delta, MIN_STAT, MAX_STAT)

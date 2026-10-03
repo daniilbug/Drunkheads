@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://d1nd8va4ey5ij"]
 
 [ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_0wfyh"]
-[ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/asphalt.png" id="2_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/room/bar/bar.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://5eb3l2o6scfd" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
 [ext_resource type="PackedScene" uid="uid://beou7oanjwgs3" path="res://scenes/room/wc/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 vertices = PackedVector2Array(20, 370, 380, 370, 380, 500, 20, 500)
@@ -59,20 +60,6 @@ text = "Mind     50"
 layout_mode = 2
 text = "Money   $50"
 
-[node name="HintLabel" type="Label" parent="HUD" index="1" unique_id=39883338]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -64.0
-offset_right = 320.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-horizontal_alignment = 1
-
 [node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1821277763]
 position = Vector2(-18.051575, 356.72577)
 color = Color(1, 1, 1, 0.75000006)
@@ -94,3 +81,10 @@ spawn_path = NodePath("..")
 [node name="StreetNavigation" type="NavigationRegion2D" parent="." index="11" unique_id=1657496319]
 position = Vector2(-19.5, -12)
 navigation_polygon = SubResource("NavigationPolygon_street")
+
+[node name="CigaretteMachine" parent="." index="12" unique_id=2138538464 instance=ExtResource("6_cigarette_machine")]
+position = Vector2(140.25, 358.5)
+
+[node name="CigaretteSpawner" type="MultiplayerSpawner" parent="." index="13" unique_id=566738044]
+_spawnable_scenes = PackedStringArray("uid://cep8nonl3w4at")
+spawn_path = NodePath("..")

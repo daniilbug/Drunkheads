@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cep8nonl3w4at"]
+
+[ext_resource type="PackedScene" uid="uid://1vwgltopo0k6" path="res://scenes/core/draggable.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://dncrmw2qr6a5g" path="res://scripts/street/cigarette_pack.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://b5bnurj5ugkwt" path="res://assets/sprites/street/cigarettes_pack.png" id="3_sprite"]
+[ext_resource type="Texture2D" uid="uid://bevvaukq5pbg4" path="res://assets/sprites/street/cigarette_smoke.png" id="4_smoke"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pack"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:holder_peer_id")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:cigarettes_left")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="CigarettePack" unique_id=1884799502 instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+cigarettes_left = 5
+
+[node name="Sprite" parent="." index="0" unique_id=700934381]
+position = Vector2(0, 0)
+scale = Vector2(1, 1)
+texture = ExtResource("3_sprite")
+hframes = 1
+
+[node name="Smoke" type="Sprite2D" parent="Sprite"]
+visible = false
+light_mask = 2
+position = Vector2(0, -7)
+z_index = 1
+texture = ExtResource("4_smoke")
+hframes = 8
+
+[node name="MultiplayerSynchronizer" parent="." index="3" unique_id=598135177]
+replication_config = SubResource("SceneReplicationConfig_pack")
