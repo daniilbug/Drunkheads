@@ -106,7 +106,7 @@ func _check_stuck_movement() -> void:
 		if _pass_through_ticks >= PASS_THROUGH_TICKS:
 			_end_pass_through()
 		return
-	if state == State.EXITING or is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
+	if is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
 		_stuck_ticks = 0
 		return
 	if progress >= STUCK_PROGRESS_DISTANCE:
@@ -202,7 +202,7 @@ func _begin_exit() -> void:
 	if is_instance_valid(_hands_item) and _hands_item is Drink:
 		_hands_item.queue_free()
 	_hands_item = null
-	_set_character_avoidance(false)
+	_set_character_avoidance(true)
 	nav_agent.target_position = _npc_manager.exit_point.global_position
 	state = State.EXITING
 

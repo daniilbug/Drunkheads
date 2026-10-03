@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dcpll4c8f6iix"]
+
+[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="1_8dc4u"]
+[ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="2_0kse8"]
+[ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="3_0kse8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8dc4u"]
+size = Vector2(160, 9)
+
+[node name="BrickHouse" type="StaticBody2D" unique_id=400617549]
+
+[node name="House" type="Sprite2D" parent="." unique_id=1958668727]
+texture_repeat = 2
+position = Vector2(0, -81)
+texture = ExtResource("1_8dc4u")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 160)
+
+[node name="Roof" type="Sprite2D" parent="." unique_id=1454444725]
+texture_repeat = 2
+position = Vector2(0, -177)
+texture = ExtResource("2_0kse8")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 80)
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=137175669]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_8dc4u")
+
+[node name="Window1" type="Sprite2D" parent="." unique_id=183051038]
+position = Vector2(46, -17)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window2" type="Sprite2D" parent="." unique_id=243964577]
+position = Vector2(45, -57)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window3" type="Sprite2D" parent="." unique_id=506423822]
+position = Vector2(44, -96)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window4" type="Sprite2D" parent="." unique_id=2006152592]
+position = Vector2(-47, -96)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window5" type="Sprite2D" parent="." unique_id=385207916]
+position = Vector2(-47, -57)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window6" type="Sprite2D" parent="." unique_id=487874967]
+position = Vector2(-47, -17)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window7" type="Sprite2D" parent="." unique_id=1127615547]
+position = Vector2(0, -57)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window8" type="Sprite2D" parent="." unique_id=98984178]
+position = Vector2(0, -17)
+texture = ExtResource("3_0kse8")
+hframes = 2
+
+[node name="Window9" type="Sprite2D" parent="." unique_id=1046130521]
+position = Vector2(0, -96)
+texture = ExtResource("3_0kse8")
+hframes = 2

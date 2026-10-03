@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
 [ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bl7568cacjjv2" path="res://scripts/street/traffic_lane.gd" id="11_traffic_lane"]
+[ext_resource type="PackedScene" uid="uid://dcpll4c8f6iix" path="res://scenes/street/brick_house.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://bvdxs668pifkp" path="res://scenes/street/lantern.tscn" id="13_trceg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 vertices = PackedVector2Array(532.47656, 489.9922, -159.5, 489.75, -159.5, 380, 532.27344, 380)
@@ -94,7 +96,7 @@ _spawnable_scenes = PackedStringArray("uid://cep8nonl3w4at")
 spawn_path = NodePath("..")
 
 [node name="Trash" parent="." index="14" unique_id=2128032258 instance=ExtResource("9_85g3d")]
-position = Vector2(74.25, 362.75)
+position = Vector2(83.5, 361.75)
 
 [node name="VehicleSpawner" type="MultiplayerSpawner" parent="." index="15" unique_id=76173513]
 _spawnable_scenes = PackedStringArray("uid://cmx2do5gbfegd")
@@ -132,3 +134,15 @@ position = Vector2(-99.5, 489.75)
 
 [node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1" unique_id=1707001651]
 position = Vector2(499.25, -200.25)
+
+[node name="BrickHouse1" parent="." index="20" unique_id=761605544 instance=ExtResource("12_eb6dy")]
+position = Vector2(-87.75, 359.5)
+
+[node name="BrickHouse2" parent="." index="21" unique_id=400617549 instance=ExtResource("12_eb6dy")]
+position = Vector2(447.75, 360)
+
+[node name="Lantern1" parent="." index="22" unique_id=1093253301 instance=ExtResource("13_trceg")]
+position = Vector2(1.75, 367.5)
+
+[node name="Lantern2" parent="." index="23" unique_id=1587735933 instance=ExtResource("13_trceg")]
+position = Vector2(357.75, 367.5)
