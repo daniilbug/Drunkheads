@@ -27,6 +27,14 @@ const STATE_MACHINE_TICK_DELTA_SECONDS = 1
 
 const SPEED_AI := 150.0
 const EXIT_DISTANCE := 10.0
+const STUCK_TICKS := 3
+const STUCK_PROGRESS_DISTANCE := 12.0
+const PASS_THROUGH_TICKS := 1
+
+var _last_progress_position := Vector2.ZERO
+var _stuck_ticks := 0
+var _pass_through_ticks := 0
+var _passing_through := false
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
@@ -34,6 +42,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	super._ready()
 	if multiplayer.is_server():
+		_last_progress_position = global_position
 		nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 func _unhandled_input(_event: InputEvent) -> void:
@@ -83,6 +92,53 @@ func _state_machine(delta: float) -> void:
 				_exiting()
 		if initial_state != state:
 			_state_machine_tick = 0
+			_reset_stuck_check()
+			if _passing_through and state != State.EXITING:
+				_end_pass_through()
+		else:
+			_check_stuck_movement()
+
+func _check_stuck_movement() -> void:
+	var progress := global_position.distance_to(_last_progress_position)
+	_last_progress_position = global_position
+	if _passing_through:
+		_pass_through_ticks += 1
+		if _pass_through_ticks >= PASS_THROUGH_TICKS:
+			_end_pass_through()
+		return
+	if state == State.EXITING or is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
+		_stuck_ticks = 0
+		return
+	if progress >= STUCK_PROGRESS_DISTANCE:
+		_stuck_ticks = 0
+		return
+	_stuck_ticks += 1
+	if _stuck_ticks >= STUCK_TICKS:
+		_begin_pass_through()
+
+func _begin_pass_through() -> void:
+	_passing_through = true
+	_pass_through_ticks = 0
+	_set_character_avoidance(false)
+	_reset_stuck_check()
+
+func _end_pass_through() -> void:
+	_passing_through = false
+	_set_character_avoidance(true)
+	_reset_stuck_check()
+
+func _set_character_avoidance(enabled: bool) -> void:
+	nav_agent.avoidance_enabled = enabled
+	for child in _level.get_children():
+		if child is Player and child != self:
+			if enabled:
+				remove_collision_exception_with(child as PhysicsBody2D)
+			else:
+				add_collision_exception_with(child as PhysicsBody2D)
+
+func _reset_stuck_check() -> void:
+	_stuck_ticks = 0
+	_last_progress_position = global_position
 
 func _looking_for_chair() -> void:
 	if _state_machine_tick == 1 or no_target():
@@ -140,15 +196,13 @@ func _drinking() -> void:
 		_drink(drink)
 
 func _begin_exit() -> void:
+	_passing_through = false
 	if is_sitting:
 		_stand_up()
 	if is_instance_valid(_hands_item) and _hands_item is Drink:
 		_hands_item.queue_free()
 	_hands_item = null
-	nav_agent.avoidance_enabled = false
-	for child in _level.get_children():
-		if child is Player and child != self:
-			add_collision_exception_with(child as PhysicsBody2D)
+	_set_character_avoidance(false)
 	nav_agent.target_position = _npc_manager.exit_point.global_position
 	state = State.EXITING
 

@@ -38,18 +38,15 @@ const PANTS_TEXTURES = [
 @onready var _top: Sprite2D = $Top
 @onready var _pants: Sprite2D = $Pants
 
-
 func _ready() -> void:
 	frame_changed.connect(_sync_layer_frames)
 	_sync_layer_frames()
-
 
 func set_appearance(hair_id: int, top_id: int, pants_id: int) -> void:
 	_hair.texture = HAIR_TEXTURES[clampi(hair_id, 0, HAIR_TEXTURES.size() - 1)]
 	_top.texture = TOP_TEXTURES[clampi(top_id, 0, TOP_TEXTURES.size() - 1)]
 	_pants.texture = PANTS_TEXTURES[clampi(pants_id, 0, PANTS_TEXTURES.size() - 1)]
 	_sync_layer_frames()
-
 
 func _sync_layer_frames() -> void:
 	_hair.frame = frame
