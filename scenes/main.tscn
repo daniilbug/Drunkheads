@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="2_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://c3fugibsy3h6o" path="res://assets/sprites/street/road_horizontal.png" id="2_road"]
 [ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/room/bar/bar.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://5eb3l2o6scfd" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
@@ -9,13 +10,15 @@
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
 [ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
 [ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://bl7568cacjjv2" path="res://scripts/street/traffic_lane.gd" id="11_traffic_lane"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
-vertices = PackedVector2Array(20, 370, 380, 370, 380, 500, 20, 500)
+vertices = PackedVector2Array(532.47656, 489.9922, -159.5, 489.75, -159.5, 380, 532.27344, 380)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(20, 370, 380, 370, 380, 500, 20, 500)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-169.5, 370, 542.25, 370, 542.5, 500, -169.5, 499.75)])
 
 [node name="Main" unique_id=85658459 instance=ExtResource("1_0wfyh")]
+position = Vector2(404, 803)
 scale = Vector2(4, 4)
 script = ExtResource("2_tbgi4")
 
@@ -35,19 +38,19 @@ position = Vector2(20, 56.5)
 
 [node name="Sprite" type="Sprite2D" parent="Asphalt" index="0" unique_id=1954105509]
 texture_repeat = 2
-position = Vector2(159.75, 42.875)
+position = Vector2(180.25, 43)
 scale = Vector2(1, 1.00125)
 texture = ExtResource("2_jyhfs")
 region_enabled = true
-region_rect = Rect2(0, 0, 360, 600)
+region_rect = Rect2(0, 0, 600, 600)
 
 [node name="HUD" type="CanvasLayer" parent="." index="4" unique_id=1125200463]
 
 [node name="Stats" type="VBoxContainer" parent="HUD" index="0" unique_id=1030069989]
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 480.0
-offset_bottom = 200.00003
+offset_left = 428.0
+offset_top = 827.0
+offset_right = 884.0
+offset_bottom = 1003.0
 
 [node name="RespectLabel" type="Label" parent="HUD/Stats" index="0" unique_id=1262082649]
 layout_mode = 2
@@ -70,7 +73,7 @@ blend_mode = 1
 script = ExtResource("3_npc_mgr")
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0" unique_id=210341260]
-position = Vector2(49.75, 467.25)
+position = Vector2(-155.75, 370.75)
 
 [node name="PlayerSpawn" type="Node2D" parent="." index="8" unique_id=1937828665]
 position = Vector2(316.75, 377.75)
@@ -92,3 +95,40 @@ spawn_path = NodePath("..")
 
 [node name="Trash" parent="." index="14" unique_id=2128032258 instance=ExtResource("9_85g3d")]
 position = Vector2(74.25, 362.75)
+
+[node name="VehicleSpawner" type="MultiplayerSpawner" parent="." index="15" unique_id=76173513]
+_spawnable_scenes = PackedStringArray("uid://cmx2do5gbfegd")
+spawn_path = NodePath("..")
+
+[node name="RightTrafficLane" type="Node2D" parent="." index="16" unique_id=1270432374]
+script = ExtResource("11_traffic_lane")
+
+[node name="Start" type="Marker2D" parent="RightTrafficLane" index="0" unique_id=1710735746]
+position = Vector2(-156, 417.25)
+
+[node name="End" type="Marker2D" parent="RightTrafficLane" index="1" unique_id=404661036]
+position = Vector2(545, 417.25)
+
+[node name="LeftTrafficLane" type="Node2D" parent="." index="17" unique_id=1908433273]
+script = ExtResource("11_traffic_lane")
+
+[node name="Start" type="Marker2D" parent="LeftTrafficLane" index="0" unique_id=1977633094]
+position = Vector2(546.5, 465.75)
+
+[node name="End" type="Marker2D" parent="LeftTrafficLane" index="1" unique_id=769068820]
+position = Vector2(-155.5, 465.75)
+
+[node name="Road" type="Sprite2D" parent="." index="18" unique_id=1507250676]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-100, 390)
+texture = ExtResource("2_road")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 600, 100)
+
+[node name="BottomLeft" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="0" unique_id=326883410]
+position = Vector2(-99.5, 489.75)
+
+[node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1" unique_id=1707001651]
+position = Vector2(499.25, -200.25)

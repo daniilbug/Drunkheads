@@ -14,3 +14,13 @@ spawn_path = NodePath("..")
 [node name="NPCSpawner" type="MultiplayerSpawner" parent="." unique_id=946226487]
 _spawnable_scenes = PackedStringArray("uid://bdvk4vs15fb0q")
 spawn_path = NodePath("..")
+
+[node name="LevelBounds" type="StaticBody2D" parent="." unique_id=53559245]
+collision_layer = 8
+collision_mask = 0
+
+[node name="BottomLeft" type="Marker2D" parent="LevelBounds" unique_id=326883410]
+position = Vector2(-100, 100)
+
+[node name="TopRight" type="Marker2D" parent="LevelBounds" unique_id=1707001651]
+position = Vector2(1999.8258, -799.9904)

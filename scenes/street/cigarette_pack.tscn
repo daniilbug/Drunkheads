@@ -21,8 +21,8 @@ properties/3/replication_mode = 2
 
 [node name="CigarettePack" unique_id=1884799502 instance=ExtResource("1_base")]
 script = ExtResource("2_script")
-can_be_discarded = true
 cigarettes_left = 5
+can_be_discarded = true
 
 [node name="Sprite" parent="." index="0" unique_id=700934381]
 position = Vector2(0, 0)
@@ -30,10 +30,10 @@ scale = Vector2(1, 1)
 texture = ExtResource("3_sprite")
 hframes = 1
 
-[node name="Smoke" type="Sprite2D" parent="Sprite"]
+[node name="Smoke" type="Sprite2D" parent="Sprite" index="0" unique_id=556345192]
 visible = false
 light_mask = 2
-position = Vector2(0, -7)
+position = Vector2(0.0078125, -13.125)
 texture = ExtResource("4_smoke")
 hframes = 8
 

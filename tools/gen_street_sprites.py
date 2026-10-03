@@ -63,5 +63,37 @@ def generate_cigarette_smoke() -> Path:
     return path
 
 
+def generate_horizontal_road() -> Path:
+    """Draw a two-lane road tile that repeats seamlessly along the X axis."""
+    asphalt = Image.open(OUT / "asphalt.png").convert("RGBA")
+    width, height = 64, 100
+    road = Image.new("RGBA", (width, height))
+    pixels = road.load()
+    for y in range(height):
+        for x in range(width):
+            base = asphalt.getpixel((x % asphalt.width, y % asphalt.height))
+            color = tuple(round(channel * 0.62 - 1) for channel in base[:3])
+            pixels[x, y] = (*color, 255)
+
+    draw = ImageDraw.Draw(road)
+    draw.rectangle((0, 0, width - 1, 2), fill="#424645")
+    draw.line((0, 3, width - 1, 3), fill="#777872")
+    draw.line((0, 7, width - 1, 7), fill="#acaea4")
+    draw.line((0, 8, width - 1, 8), fill="#777b77")
+    draw.rectangle((0, 96, width - 1, 99), fill="#424645")
+    draw.line((0, 95, width - 1, 95), fill="#777872")
+    draw.line((0, 91, width - 1, 91), fill="#acaea4")
+    draw.line((0, 92, width - 1, 92), fill="#777b77")
+    draw.line((0, 27, width - 1, 27), fill="#565958")
+    draw.line((0, 72, width - 1, 72), fill="#565958")
+    draw.rectangle((8, 49, 35, 50), fill="#c6c3ae")
+    draw.line((8, 51, 35, 51), fill="#8d8d80")
+
+    path = OUT / "road_horizontal.png"
+    road.save(path)
+    return path
+
+
 if __name__ == "__main__":
     print(generate_cigarette_smoke())
+    print(generate_horizontal_road())

@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/core/player.gd" id="1_q88xf"]
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
-[ext_resource type="Script" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
-[ext_resource type="Texture2D" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
-[ext_resource type="Texture2D" path="res://assets/sprites/characters/top_0.png" id="2_top"]
-[ext_resource type="Texture2D" path="res://assets/sprites/characters/pants_0.png" id="2_pants"]
+[ext_resource type="Script" uid="uid://md7jxbkt0tc8" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
+[ext_resource type="Texture2D" uid="uid://dnamvitjkmj0a" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
+[ext_resource type="Texture2D" uid="uid://cfln1lss4hesi" path="res://assets/sprites/characters/pants_0.png" id="2_pants"]
+[ext_resource type="Texture2D" uid="uid://dvcl5v1pcd327" path="res://assets/sprites/characters/top_0.png" id="2_top"]
 [ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
-[ext_resource type="Script" uid="uid://ccajbckjdpgmm" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
+[ext_resource type="Script" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 8)
@@ -43,6 +43,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
+collision_mask = 9
 script = ExtResource("1_q88xf")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
@@ -59,7 +60,7 @@ hframes = 4
 vframes = 10
 script = ExtResource("2_character_sprite")
 
-[node name="Pants" type="Sprite2D" parent="Sprite"]
+[node name="Pants" type="Sprite2D" parent="Sprite" unique_id=1432285718]
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_pants")
@@ -68,7 +69,7 @@ offset = Vector2(-6, -20)
 hframes = 4
 vframes = 10
 
-[node name="Top" type="Sprite2D" parent="Sprite"]
+[node name="Top" type="Sprite2D" parent="Sprite" unique_id=1201707499]
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_top")
@@ -77,7 +78,7 @@ offset = Vector2(-6, -20)
 hframes = 4
 vframes = 10
 
-[node name="Hair" type="Sprite2D" parent="Sprite"]
+[node name="Hair" type="Sprite2D" parent="Sprite" unique_id=167662397]
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_hair")
@@ -101,15 +102,15 @@ shape = SubResource("CircleShape2D_interact")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1000496576]
 stream = SubResource("AudioStreamMP3_q88xf")
-volume_db = -10.0
+volume_db = -30.0
 max_distance = 64.0
 
-[node name="NavigationObstacle" type="NavigationObstacle2D" parent="."]
-script = ExtResource("4_nav_obstacle")
+[node name="NavigationObstacle" type="NavigationObstacle2D" parent="." unique_id=1616468372]
 radius = 5.0
+script = ExtResource("4_nav_obstacle")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
 replication_config = SubResource("SceneReplicationConfig_5x06y")
 
-[node name="AppearanceSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="AppearanceSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=817894205]
 replication_config = SubResource("SceneReplicationConfig_appearance")
