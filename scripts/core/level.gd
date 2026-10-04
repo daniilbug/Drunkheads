@@ -4,6 +4,8 @@ extends Node2D
 const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 const BOUNDS_WALL_THICKNESS := 16.0
 
+@export var auto_spawn_players := true
+
 static func find_level_node(node: Node2D) -> Level:
 	var result: Node2D = null
 	var current := node
@@ -28,7 +30,7 @@ var _name_registry: Dictionary = {}  # peer_id -> final display name (server onl
 func _ready() -> void:
 	_create_bounds_walls()
 	player_spawner.spawned.connect(_on_spawned)
-	if multiplayer.is_server():
+	if multiplayer.is_server() and auto_spawn_players:
 		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_remove_player)
 		_spawn_player(multiplayer.get_unique_id())
@@ -45,8 +47,12 @@ func _spawn_player(peer_id: int) -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
 	player.name = str(peer_id)
 	player.randomize_appearance()
+	_prepare_player_spawn(player)
 	add_child(player)
 	player.global_position = player_spawn.global_position
+
+func _prepare_player_spawn(_player: Player) -> void:
+	pass
 
 func _on_spawned(node: Node) -> void:
 	if node is Player and not node is NPC:

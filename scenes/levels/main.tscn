@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://d1nd8va4ey5ij"]
+
+[ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/levels/bar.tscn" id="2_bar"]
+[ext_resource type="PackedScene" uid="uid://14grqjfbu4u6" path="res://scenes/levels/home.tscn" id="3_home"]
+
+[node name="Main" type="Node2D"]
+position = Vector2(404, 803)
+scale = Vector2(4, 4)
+script = ExtResource("1_main")
+
+[node name="Home" parent="." instance=ExtResource("3_home")]
+position = Vector2(900, 0)
+
+[node name="Bar" parent="." instance=ExtResource("2_bar")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Stats" type="VBoxContainer" parent="HUD"]
+offset_left = 428.0
+offset_top = 827.0
+offset_right = 884.0
+offset_bottom = 1003.0
+
+[node name="RespectLabel" type="Label" parent="HUD/Stats"]
+layout_mode = 2
+text = "Respect  50"
+
+[node name="MindLabel" type="Label" parent="HUD/Stats"]
+layout_mode = 2
+text = "Mind     50"
+
+[node name="MoneyLabel" type="Label" parent="HUD/Stats"]
+layout_mode = 2
+text = "Money   $50"

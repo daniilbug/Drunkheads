@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dlsykbulrs0d1"]
+
+[ext_resource type="PackedScene" uid="uid://cmx2do5gbfegd" path="res://scenes/street/car.tscn" id="1_car"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ncuhx"]
+load_path = "res://.godot/imported/taxi_body.png-0b7d7fb601b84bf0cbba93c1e34698ea.ctex"
+
+[sub_resource type="RectangleShape2D" id="TaxiInteraction"]
+size = Vector2(68, 70)
+
+[node name="Taxi" unique_id=1386739812 instance=ExtResource("1_car")]
+body_textures = Array[Texture2D]([SubResource("CompressedTexture2D_ncuhx")])
+paint_colors = Array[Color]([])
+interaction_detectable = true
+randomize_appearance_on_spawn = false
+
+[node name="Body" parent="Visuals" parent_id_path=PackedInt32Array(1116655528) index="0" unique_id=1232403058]
+texture = SubResource("CompressedTexture2D_ncuhx")
+
+[node name="Shape" parent="VehicleInteraction/Area" parent_id_path=PackedInt32Array(190683219) index="0" unique_id=1342870308]
+position = Vector2(0, -30)
+shape = SubResource("TaxiInteraction")

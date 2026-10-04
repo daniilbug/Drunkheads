@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://2juo7mim80ix"]
+
+[ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_room"]
+[ext_resource type="Script" uid="uid://da7hil3s5ss3h" path="res://scripts/room/home/home.gd" id="2_home"]
+[ext_resource type="Script" uid="uid://du61qjk44b81n" path="res://scripts/room/home/home_exit.gd" id="3_exit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkv2j"]
+size = Vector2(240, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouwl1"]
+size = Vector2(240, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4td4w"]
+size = Vector2(4, 147)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwg2a"]
+size = Vector2(4, 147)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_orbry"]
+size = Vector2(232, 139)
+
+[sub_resource type="RectangleShape2D" id="ExitArea"]
+size = Vector2(24, 15)
+
+[node name="HomeRoom" unique_id=218493587 instance=ExtResource("1_room")]
+script = ExtResource("2_home")
+room_size = Vector2(240, 147)
+
+[node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(120, 0)
+
+[node name="Shape" parent="Walls/Top" index="0" unique_id=6]
+shape = SubResource("RectangleShape2D_mkv2j")
+
+[node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
+position = Vector2(120, 147)
+
+[node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
+shape = SubResource("RectangleShape2D_ouwl1")
+
+[node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
+position = Vector2(0, 73.5)
+
+[node name="Shape" parent="Walls/Left" index="0" unique_id=10]
+shape = SubResource("RectangleShape2D_4td4w")
+
+[node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
+position = Vector2(240, 73.5)
+
+[node name="Shape" parent="Walls/Right" index="0" unique_id=12]
+shape = SubResource("RectangleShape2D_fwg2a")
+
+[node name="TransparencyZone" parent="." index="2" unique_id=13]
+position = Vector2(120, 73.5)
+
+[node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
+shape = SubResource("RectangleShape2D_orbry")
+
+[node name="Exit" type="Node2D" parent="." index="4" unique_id=191648221]
+position = Vector2(120, 141)
+script = ExtResource("3_exit")
+
+[node name="Area" type="Area2D" parent="Exit" index="0" unique_id=849607390]
+
+[node name="Shape" type="CollisionShape2D" parent="Exit/Area" index="0" unique_id=1414068216]
+position = Vector2(0, -5)
+shape = SubResource("ExitArea")

@@ -1,5 +1,5 @@
 @tool
-class_name PokerRoom
+class_name BarPokerRoom
 extends Room
 
 @onready var lamp: Lamp = $Lamp

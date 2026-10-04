@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cmx2do5gbfegd"]
 
 [ext_resource type="Script" uid="uid://ckbsfdsxr3xd1" path="res://scripts/street/car.gd" id="1_vehicle"]
-[ext_resource type="Texture2D" uid="uid://bfyj3yshq3sf0" path="res://assets/sprites/street/car_body.png" id="2_body"]
+[ext_resource type="Texture2D" uid="uid://b1tgwkj20bw3b" path="res://assets/sprites/street/car_body.png" id="2_body"]
 [ext_resource type="SpriteFrames" uid="uid://dlyr3if7ux7c8" path="res://assets/sprites/street/car_wheel_frames.tres" id="3_wheels"]
 [ext_resource type="Script" path="res://scripts/street/vehicle_interaction.gd" id="4_interaction"]
 [ext_resource type="Shader" path="res://assets/shaders/car_paint.gdshader" id="6_paint"]
@@ -60,18 +60,20 @@ properties/6/replication_mode = 2
 
 [node name="Car" type="AnimatableBody2D" unique_id=1598602884]
 script = ExtResource("1_vehicle")
+paint_colors = Array[Color]([Color(0.27451, 0.529412, 0.54902, 1), Color(0.654902, 0.364706, 0.352941, 1), Color(0.345098, 0.435294, 0.588235, 1), Color(0.443137, 0.533333, 0.352941, 1), Color(0.54902, 0.439216, 0.603922, 1)])
+randomize_appearance_on_spawn = true
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=1492730367]
 position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="NavigationAgent" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent" type="NavigationAgent2D" parent="." unique_id=381314033]
 avoidance_enabled = true
 radius = 18.0
 neighbor_distance = 120.0
-max_speed = 80.0
+max_speed = 120.0
 
-[node name="ForwardCast" type="ShapeCast2D" parent="."]
+[node name="ForwardCast" type="ShapeCast2D" parent="." unique_id=1273180313]
 position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_body")
 target_position = Vector2(60, 0)

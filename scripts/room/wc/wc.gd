@@ -1,4 +1,4 @@
-class_name WC
+class_name BarWC
 extends Room
 
 @onready var lamp: Lamp = $Lamp

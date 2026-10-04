@@ -1,5 +1,5 @@
 @tool
-class_name Bar
+class_name BarHall
 extends Room
 
 const BOOMBOX_SCENE := preload("res://scenes/room/bar/boombox.tscn")

@@ -1,6 +1,6 @@
 extends Control
 
-const HUB_SCENE := preload("res://scenes/main.tscn")
+const HUB_SCENE := preload("res://scenes/levels/main.tscn")
 const DEFAULT_PORT := 7777
 const MAX_PEERS := 16
 
@@ -63,7 +63,10 @@ func _on_join_pressed() -> void:
 
 func _on_connected() -> void:
 	_set_status("Connected!")
-	get_tree().change_scene_to_packed(HUB_SCENE)
+	var scene := HUB_SCENE.instantiate()
+	get_tree().root.add_child(scene)
+	get_tree().current_scene = scene
+	queue_free()
 
 
 func _on_connection_failed() -> void:

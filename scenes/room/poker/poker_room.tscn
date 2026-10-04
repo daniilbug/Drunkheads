@@ -35,7 +35,7 @@ size = Vector2(4, 100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pn4u5"]
 size = Vector2(72, 92)
 
-[node name="PokerRoom" unique_id=1 instance=ExtResource("1_brsjr")]
+[node name="BarPokerRoom" unique_id=1 instance=ExtResource("1_brsjr")]
 y_sort_enabled = true
 script = ExtResource("2_8ipd0")
 room_size = Vector2(80, 100)

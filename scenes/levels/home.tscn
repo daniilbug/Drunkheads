@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://14grqjfbu4u6"]
+
+[ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/home.tscn" id="2_room"]
+
+[node name="Home" unique_id=269715578 instance=ExtResource("1_level")]
+auto_spawn_players = false
+
+[node name="HomeRoom" parent="." index="0" unique_id=579288066 instance=ExtResource("2_room")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="." index="1" unique_id=285546114]
+position = Vector2(120, 128)
+
+[node name="BottomLeft" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="0" unique_id=326883410]
+position = Vector2(0, 147)
+
+[node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1" unique_id=1707001651]
+position = Vector2(240, 0)

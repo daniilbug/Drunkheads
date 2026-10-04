@@ -22,6 +22,14 @@ const ROW_DANCE_N := 9
 @export var seated_chair: Chair = null
 @export var peer_id: int = 0
 
+@export var in_vehicle := false:
+	set(value):
+		in_vehicle = value
+		if is_node_ready():
+			_apply_vehicle_state()
+
+@export var riding_vehicle_name := ""
+
 @export var hair_id: int = 0:
 	set(value):
 		hair_id = value
@@ -84,10 +92,19 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_refresh_appearance()
+	_apply_vehicle_state()
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
 	set_notify_transform(true)
 	call_deferred("_setup_authority")
+
+func _apply_vehicle_state() -> void:
+	visible = not in_vehicle
+	is_in_minigame = in_vehicle
+	$Shape.set_deferred("disabled", in_vehicle)
+	var obstacle := get_node_or_null("NavigationObstacle") as NavigationObstacle2D
+	if obstacle != null:
+		obstacle.avoidance_enabled = multiplayer.is_server() and not in_vehicle
 
 func randomize_appearance() -> void:
 	hair_id = randi_range(0, CharacterSprite.HAIR_TEXTURES.size() - 1)

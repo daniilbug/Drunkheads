@@ -12,7 +12,7 @@ enum State {
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
 @onready var _level: Level = Level.find_level_node(self)
-@onready var _bar: Bar = _level.find_child("Bar", true, false)
+@onready var _bar: Node2D = _level.get_node("BarHall")
 @onready var _bartender: Bartender = _level.find_child("Bartender", true, false)
 @onready var _npc_manager: NPCManager = _level.get_node("NPCManager")
 

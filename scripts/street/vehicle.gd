@@ -14,6 +14,8 @@ const ARRIVAL_TOLERANCE := 0.25
 @export var wheel_reference_speed := 70.0
 @export var obstacle_lookahead := 60.0
 @export var obstacle_gap := 4.0
+@export var interaction_detectable := false
+@export var randomize_appearance_on_spawn := false
 
 @export var boarding_enabled := false:
 	set(value):
@@ -155,8 +157,6 @@ func _finish_route() -> void:
 	route_finished.emit()
 
 func request_interaction(player: Player) -> void:
-	if not boarding_enabled or travel_state != TravelState.STOPPED:
-		return
 	if multiplayer.is_server():
 		_handle_interaction(int(player.name))
 	else:
@@ -200,4 +200,4 @@ func _update_driving_audio() -> void:
 		_driving_audio.stop()
 
 func _update_interaction() -> void:
-	_interaction.area.monitorable = boarding_enabled and travel_state == TravelState.STOPPED
+	_interaction.area.monitorable = interaction_detectable or (boarding_enabled and travel_state == TravelState.STOPPED)
