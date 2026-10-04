@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate pixel-art phone app icons using the game's taxi palette."""
+"""Generate a shared launcher tile and transparent phone app glyphs."""
 
 from pathlib import Path
 
@@ -17,11 +17,18 @@ TILE_DARK = "#ab7938"
 CAR = "#ad884b"
 
 
-def generate_taxi_icon() -> Path:
+def _save(icon: Image.Image, filename: str) -> Path:
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    path = OUTPUT / filename
+    icon.save(path)
+    return path
+
+
+def generate_app_icon_background() -> Path:
     icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
 
-    # Stepped corners and a two-pixel border follow the game's sprite palette.
+    # Both launcher buttons use this exact tile, including its stepped outline.
     draw.polygon(
         [(8, 1), (55, 1), (55, 3), (59, 3), (59, 5), (61, 5),
          (61, 58), (59, 58), (59, 60), (55, 60), (55, 62),
@@ -40,8 +47,14 @@ def generate_taxi_icon() -> Path:
     draw.line((5, 8, 5, 54), fill=TILE_LIGHT)
     draw.line((8, 58, 55, 58), fill=TILE_DARK)
     draw.line((58, 8, 58, 54), fill=TILE_DARK)
+    return _save(icon, "app_icon_background.png")
 
-    # One small car silhouette at the center: body and wheels, no trim or sign.
+
+def generate_taxi_icon() -> Path:
+    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+
+    # Transparent car glyph, layered over the shared tile in the Godot scene.
     draw.polygon(
         [(15, 31), (20, 30), (24, 24), (39, 24), (44, 30),
          (49, 31), (49, 38), (15, 38)],
@@ -54,12 +67,23 @@ def generate_taxi_icon() -> Path:
     )
     draw.rectangle((20, 37, 25, 40), fill=OUTLINE)
     draw.rectangle((39, 37, 44, 40), fill=OUTLINE)
+    return _save(icon, "taxi_icon.png")
 
-    OUTPUT.mkdir(parents=True, exist_ok=True)
-    path = OUTPUT / "taxi_icon.png"
-    icon.save(path)
-    return path
+
+def generate_wallpaper_icon() -> Path:
+    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+
+    # Only the landscape mark is opaque; the shared tile supplies all background.
+    draw.ellipse((39, 17, 49, 27), fill=OUTLINE)
+    draw.ellipse((41, 19, 47, 25), fill=TILE_LIGHT)
+    draw.polygon([(10, 48), (27, 25), (38, 39), (44, 31), (55, 48)], fill=OUTLINE)
+    draw.polygon([(15, 46), (27, 30), (39, 46)], fill="#3e6465")
+    draw.polygon([(35, 46), (44, 35), (50, 46)], fill="#789278")
+    return _save(icon, "wallpapers_icon.png")
 
 
 if __name__ == "__main__":
+    print(generate_app_icon_background())
     print(generate_taxi_icon())
+    print(generate_wallpaper_icon())

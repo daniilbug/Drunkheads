@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b8vq2800afair" path="res://scripts/core/phone.gd" id="1_phone"]
 [ext_resource type="Texture2D" uid="uid://dc1lr3kt508oy" path="res://assets/sprites/phone/taxi_icon.png" id="2_taxi_icon"]
+[ext_resource type="Texture2D" uid="uid://lwmyet5qhy2k" path="res://assets/sprites/phone/wallpapers_icon.png" id="3_wallpapers_icon"]
+[ext_resource type="Texture2D" uid="uid://bct6dk4405jwl" path="res://assets/sprites/phone/wallpaper_midnight.png" id="4_midnight"]
+[ext_resource type="Texture2D" uid="uid://dwuebvrnq4psu" path="res://assets/sprites/phone/wallpaper_amber.png" id="5_amber"]
+[ext_resource type="Texture2D" uid="uid://bk3pkq86ix534" path="res://assets/sprites/phone/wallpaper_sage.png" id="6_sage"]
+[ext_resource type="Texture2D" uid="uid://v3bxfticmaew" path="res://assets/sprites/phone/wallpaper_plum.png" id="7_plum"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/app_icon_background.png" id="8_app_background"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
 
@@ -43,7 +49,26 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0.1, 0.22, 0.31, 1)
 
-[node name="TaxiButton" type="Button" parent="Root/Screen" unique_id=1358990484]
+[node name="Wallpaper" type="TextureRect" parent="Root/Screen" unique_id=117835422]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_midnight")
+expand_mode = 1
+
+[node name="Launcher" type="Control" parent="Root/Screen" unique_id=786427394]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Taxi" type="Button" parent="Root/Screen/Launcher" unique_id=1358990484]
 texture_filter = 1
 layout_mode = 0
 offset_left = 22.0
@@ -54,5 +79,161 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
-icon = ExtResource("2_taxi_icon")
-icon_alignment = 1
+
+[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/Taxi"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = ExtResource("8_app_background")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Taxi"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = ExtResource("2_taxi_icon")
+expand_mode = 1
+
+[node name="WallpapersButton" type="Button" parent="Root/Screen/Launcher" unique_id=400404278]
+texture_filter = 1
+layout_mode = 0
+offset_left = 112.0
+offset_top = 28.0
+offset_right = 186.0
+offset_bottom = 102.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+
+[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = ExtResource("8_app_background")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = ExtResource("3_wallpapers_icon")
+expand_mode = 1
+
+[node name="WallpaperPicker" type="Control" parent="Root/Screen" unique_id=1957888793]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="Root/Screen/WallpaperPicker" unique_id=746586416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.06, 0.09, 0.12, 0.76)
+
+[node name="Preview1" type="Button" parent="Root/Screen/WallpaperPicker" unique_id=981897438]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 80.0
+offset_right = 125.0
+offset_bottom = 230.0
+
+[node name="Image" type="TextureRect" parent="Root/Screen/WallpaperPicker/Preview1" unique_id=951382242]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_midnight")
+expand_mode = 1
+
+[node name="Preview2" type="Button" parent="Root/Screen/WallpaperPicker" unique_id=1645663055]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 80.0
+offset_right = 265.0
+offset_bottom = 230.0
+
+[node name="Image" type="TextureRect" parent="Root/Screen/WallpaperPicker/Preview2" unique_id=1062948266]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_amber")
+expand_mode = 1
+
+[node name="Preview3" type="Button" parent="Root/Screen/WallpaperPicker" unique_id=1200920943]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 269.0
+offset_right = 125.0
+offset_bottom = 419.0
+
+[node name="Image" type="TextureRect" parent="Root/Screen/WallpaperPicker/Preview3" unique_id=357863299]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_sage")
+expand_mode = 1
+
+[node name="Preview4" type="Button" parent="Root/Screen/WallpaperPicker" unique_id=1465000084]
+layout_mode = 0
+offset_left = 175.0
+offset_top = 269.0
+offset_right = 265.0
+offset_bottom = 419.0
+
+[node name="Image" type="TextureRect" parent="Root/Screen/WallpaperPicker/Preview4" unique_id=1742757584]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_plum")
+expand_mode = 1
