@@ -9,7 +9,7 @@ var _canvas: CanvasLayer = null
 func open_game(player: Player) -> void:
 	var peer_id := player.get_multiplayer_authority()
 	_player_refs[peer_id] = player
-	player.is_in_minigame = true
+	player.is_world_input_blocked = true
 	if multiplayer.is_server():
 		_handle_join(peer_id)
 	else:
@@ -40,7 +40,7 @@ func _handle_leave(peer_id: int) -> void:
 func notify_local_exit(peer_id: int) -> void:
 	var player: Player = _player_refs.get(peer_id)
 	if player != null and is_instance_valid(player):
-		player.is_in_minigame = false
+		player.is_world_input_blocked = false
 	_player_refs.erase(peer_id)
 
 	if multiplayer.is_server():
@@ -112,7 +112,7 @@ func _rpc_close_game() -> void:
 	for pid in _player_refs:
 		var player: Player = _player_refs[pid]
 		if player != null and is_instance_valid(player):
-			player.is_in_minigame = false
+			player.is_world_input_blocked = false
 	_player_refs.clear()
 	player_slots = [-1, -1, -1, -1]
 	_cleanup_local_canvas()

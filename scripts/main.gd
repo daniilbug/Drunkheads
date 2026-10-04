@@ -1,6 +1,8 @@
 class_name Main
 extends Node2D
 
+const PHONE_SCENE := preload("res://scenes/core/phone.tscn")
+
 @onready var bar: Bar = $Bar
 @onready var home: Level = $Home
 @onready var taxi_stop: TaxiStop = $Bar/RightTrafficLane/TaxiStop
@@ -10,6 +12,8 @@ extends Node2D
 @onready var money_label: Label = $HUD/Stats/MoneyLabel
 
 var _players_at_home: Dictionary = {}
+var _phone: Phone
+var _can_order_taxi := true
 
 func _ready() -> void:
 	bar.local_player_initialized.connect(_init_hud)
@@ -18,11 +22,71 @@ func _ready() -> void:
 	taxi_stop.boarding_requested.connect(_on_taxi_boarding_requested)
 	taxi_stop.passenger_arrived.connect(_on_taxi_passenger_arrived)
 	taxi_stop.passenger_departed.connect(_on_taxi_passenger_departed)
+	taxi_stop.order_availability_changed.connect(_on_taxi_order_availability_changed)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func _init_hud(player: Player) -> void:
 	player.player_data.stats_changed.connect(_update_stats)
+	player.phone_requested.connect(_on_phone_requested)
 	_update_stats()
+
+func _on_phone_requested(player: Player) -> void:
+	if player != bar.local_player or _phone != null:
+		return
+	player.is_world_input_blocked = true
+	call_deferred("_open_phone")
+
+func _open_phone() -> void:
+	var player := bar.local_player
+	if player == null or player.in_vehicle:
+		return
+	_phone = PHONE_SCENE.instantiate() as Phone
+	add_child(_phone)
+	_phone.taxi_requested.connect(_on_phone_taxi_requested)
+	_phone.closed.connect(_on_phone_closed)
+	_phone.set_taxi_available(_can_order_taxi and not is_player_home(int(player.name)))
+
+func _on_phone_closed() -> void:
+	if _phone != null:
+		_phone.queue_free()
+		_phone = null
+	if bar.local_player != null:
+		bar.local_player.is_world_input_blocked = bar.local_player.in_vehicle
+
+func _on_phone_taxi_requested() -> void:
+	_can_order_taxi = false
+	if multiplayer.is_server():
+		_handle_taxi_request(multiplayer.get_unique_id())
+	else:
+		_request_taxi.rpc_id(1)
+
+@rpc("any_peer", "reliable")
+func _request_taxi() -> void:
+	if multiplayer.is_server():
+		_handle_taxi_request(multiplayer.get_remote_sender_id())
+
+func _handle_taxi_request(peer_id: int) -> void:
+	var player := bar.get_node_or_null(str(peer_id)) as Player
+	if player == null:
+		return
+	if player.in_vehicle or is_player_home(peer_id):
+		_on_taxi_order_availability_changed(peer_id, true)
+		return
+	taxi_stop.request_pickup(peer_id)
+
+func _on_taxi_order_availability_changed(peer_id: int, available: bool) -> void:
+	if not multiplayer.is_server() or peer_id <= 0:
+		return
+	if peer_id == multiplayer.get_unique_id():
+		_receive_taxi_availability(available)
+	elif multiplayer.get_peers().has(peer_id):
+		_receive_taxi_availability.rpc_id(peer_id, available)
+
+@rpc("authority", "reliable")
+func _receive_taxi_availability(available: bool) -> void:
+	_can_order_taxi = available
+	if _phone != null:
+		_phone.set_taxi_available(available and not is_player_home(multiplayer.get_unique_id()))
 
 func _update_stats() -> void:
 	if bar.local_player == null:

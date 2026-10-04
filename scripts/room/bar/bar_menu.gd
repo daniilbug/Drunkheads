@@ -4,11 +4,9 @@ extends CanvasLayer
 signal item_selected(item: BarMenuItem)
 signal closed
 
-@onready var panel: PanelContainer = $Panel
 @onready var list: VBoxContainer = $Panel/Margin/VBox/List
-@onready var close_btn: Button = $Panel/Margin/VBox/CloseBtn
 
-var _player_data: PlayerData
+var _player: Player
 
 static var beer_menu: Array[BarMenuItem] = [
 	BarMenuItem.new("Light Lager",  BarMenuItem.Type.BEER, "Crisp and watery. Goes down easy.",  8.0,  5, 0, 4),
@@ -38,17 +36,17 @@ static func get_all_items() -> Array[BarMenuItem]:
 	return beer_menu + shots_menu + cocktails_menu
 
 func _ready() -> void:
-	close_btn.pressed.connect(_on_close)
 	hide()
 
-func open(player_data: PlayerData) -> void:
-	_player_data = player_data
+func open(player: Player) -> void:
+	_player = player
+	_player.is_world_input_blocked = true
 	_rebuild(beer_menu)
 	show()
 
 func _on_buy(item: BarMenuItem) -> void:
 	item_selected.emit(item)
-	hide()
+	_on_close()
 	
 func _on_tabs_tab_changed(tab: int) -> void:
 	match tab:
@@ -56,9 +54,6 @@ func _on_tabs_tab_changed(tab: int) -> void:
 		1: _rebuild(shots_menu)
 		2: _rebuild(cocktails_menu)
 	
-func _on_close_btn_pressed() -> void:
-	_on_close()
-
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
 		_on_close()
@@ -71,8 +66,12 @@ func _rebuild(items: Array[BarMenuItem]) -> void:
 		list.add_child(_make_row(item))
 
 func _on_close() -> void:
-	closed.emit()
+	if not visible:
+		return
 	hide()
+	if is_instance_valid(_player):
+		_player.is_world_input_blocked = _player.in_vehicle
+	closed.emit()
 		
 func _make_row(item: BarMenuItem) -> Control:
 	var row := HBoxContainer.new()
@@ -97,7 +96,7 @@ func _make_row(item: BarMenuItem) -> Control:
 	buy_btn.text = "$%d" % int(item.cost)
 	buy_btn.add_theme_font_size_override("font_size", 18)
 	buy_btn.custom_minimum_size = Vector2(72, 0)
-	var can_afford := _player_data != null and _player_data.money >= item.cost
+	var can_afford := _player.player_data.money >= item.cost
 	buy_btn.disabled = not can_afford
 	buy_btn.pressed.connect(func(): _on_buy(item))
 

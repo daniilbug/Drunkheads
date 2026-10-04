@@ -14,11 +14,13 @@ var _anim_t := 0.0
 var _menu_open := false
 
 func order(player: Player) -> void:
+	if _menu_open or player.is_world_input_blocked:
+		return
 	var menu: BarMenu = preload("res://scenes/room/bar/bar_menu.tscn").instantiate()
 	add_child(menu)
 	_menu_open = true
-	menu.open(player.player_data)
-	menu.item_selected.connect(func(item: BarMenuItem): _on_menu_item_selected(item, menu))
+	menu.open(player)
+	menu.item_selected.connect(_on_menu_item_selected)
 	menu.closed.connect(func(): _on_menu_closed(menu))
 
 func order_item(player: Player, item: BarMenuItem) -> void:
@@ -32,7 +34,7 @@ func _process(delta: float) -> void:
 	var cycle := fmod(_anim_t, 3.0)
 	sprite.frame = 1 if cycle < 0.4 else 0
 	
-func _on_menu_item_selected(item: BarMenuItem, menu: BarMenu) -> void:
+func _on_menu_item_selected(item: BarMenuItem) -> void:
 	item_purchased.emit(item)
 	
 func _on_menu_closed(menu: BarMenu) -> void:

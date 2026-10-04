@@ -73,7 +73,7 @@ var player_name: String = ""
 
 var _hands_item: Draggable = null
 var _smoking := false
-var is_in_minigame := false
+var is_world_input_blocked := false
 
 var _anim_t := 0.0
 var _anim_row := ROW_IDLE
@@ -85,6 +85,7 @@ var _last_position: Vector2
 
 signal drink_action_requested(player_id: int, drink_name: String)
 signal smoke_action_requested(player_id: int, pack_name: String)
+signal phone_requested(player: Player)
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name), true)
@@ -100,7 +101,7 @@ func _ready() -> void:
 
 func _apply_vehicle_state() -> void:
 	visible = not in_vehicle
-	is_in_minigame = in_vehicle
+	is_world_input_blocked = in_vehicle
 	$Shape.set_deferred("disabled", in_vehicle)
 	var obstacle := get_node_or_null("NavigationObstacle") as NavigationObstacle2D
 	if obstacle != null:
@@ -131,7 +132,7 @@ func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	var dir := Input.get_vector("left", "right", "up", "down")
-	if is_in_minigame:
+	if is_world_input_blocked:
 		velocity = Vector2.ZERO
 		audio.stop()
 		return
@@ -203,7 +204,12 @@ func _dir_to_idle_row(d: Vector2) -> int:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
-	if is_in_minigame:
+	if event.is_action_pressed("phone") and not event.is_echo():
+		if not is_world_input_blocked and not _smoking:
+			phone_requested.emit(self)
+			get_viewport().set_input_as_handled()
+		return
+	if is_world_input_blocked:
 		return
 	if _smoking:
 		return

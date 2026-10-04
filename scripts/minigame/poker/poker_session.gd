@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func open_game(player: Player) -> void:
 	var peer_id := player.get_multiplayer_authority()
-	if player.is_in_minigame:
+	if player.is_world_input_blocked:
 		if game == null or not is_instance_valid(game) or not game.visible:
 			notify_local_exit(peer_id)
 		return
@@ -33,7 +33,7 @@ func open_game(player: Player) -> void:
 			return
 		player.player_data.adjust_money(-ENTRY_FEE)
 	player_refs[peer_id] = player
-	player.is_in_minigame  = true
+	player.is_world_input_blocked = true
 	if multiplayer.is_server():
 		_handle_join(peer_id, player.player_name)
 	else:
@@ -50,7 +50,7 @@ func notify_local_exit(peer_id: int) -> void:
 			player.player_data.adjust_money(chips / CHIP_RATE)
 	var player: Player = player_refs.get(peer_id)
 	if player != null and is_instance_valid(player):
-		player.is_in_minigame = false
+		player.is_world_input_blocked = false
 	player_refs.erase(peer_id)
 	_cleanup_local_canvas()
 	if multiplayer.is_server():
@@ -331,7 +331,7 @@ func _remote_buy_in_rejected() -> void:
 	var player: Player = player_refs.get(peer_id)
 	if player != null and is_instance_valid(player):
 		player.player_data.adjust_money(ENTRY_FEE)
-		player.is_in_minigame = false
+		player.is_world_input_blocked = false
 	player_refs.erase(peer_id)
 
 @rpc("authority", "reliable")
@@ -360,7 +360,7 @@ func _remote_spectate(slots: Array[int]) -> void:
 	var player: Player = player_refs.get(peer_id)
 	if player != null and is_instance_valid(player):
 		player.player_data.adjust_money(ENTRY_FEE)
-		player.is_in_minigame = false
+		player.is_world_input_blocked = false
 	player_refs.erase(peer_id)
 
 @rpc("any_peer", "reliable")

@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://cq0u780fj8mao"]
+
+[ext_resource type="Script" uid="uid://b8vq2800afair" path="res://scripts/core/phone.gd" id="1_phone"]
+[ext_resource type="Texture2D" uid="uid://dc1lr3kt508oy" path="res://assets/sprites/phone/taxi_icon.png" id="2_taxi_icon"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
+
+[node name="Phone" type="CanvasLayer" unique_id=1963600119]
+layer = 10
+script = ExtResource("1_phone")
+
+[node name="Root" type="Control" parent="." unique_id=566564016]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root" unique_id=119153110]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.7)
+
+[node name="Screen" type="ColorRect" parent="Root" unique_id=1040362872]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -250.0
+offset_right = 150.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.1, 0.22, 0.31, 1)
+
+[node name="TaxiButton" type="Button" parent="Root/Screen" unique_id=1358990484]
+texture_filter = 1
+layout_mode = 0
+offset_left = 22.0
+offset_top = 28.0
+offset_right = 96.0
+offset_bottom = 102.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
+icon = ExtResource("2_taxi_icon")
+icon_alignment = 1
