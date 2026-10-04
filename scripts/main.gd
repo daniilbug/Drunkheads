@@ -41,6 +41,7 @@ func _open_phone() -> void:
 	if player == null or player.in_vehicle:
 		return
 	_phone = PHONE_SCENE.instantiate() as Phone
+	_phone.set_player_settings(player.settings)
 	add_child(_phone)
 	_phone.taxi_requested.connect(_on_phone_taxi_requested)
 	_phone.closed.connect(_on_phone_closed)

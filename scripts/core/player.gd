@@ -18,6 +18,7 @@ const ROW_DANCE   := 8
 const ROW_DANCE_N := 9
 
 @export var player_data: PlayerData
+var settings: PlayerSettings
 @export var is_sitting := false
 @export var seated_chair: Chair = null
 @export var peer_id: int = 0

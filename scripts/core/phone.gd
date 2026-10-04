@@ -10,8 +10,6 @@ const WALLPAPERS := [
 	preload("res://assets/sprites/phone/wallpaper_sage.png"),
 	preload("res://assets/sprites/phone/wallpaper_plum.png"),
 ]
-const SETTINGS_PATH := "user://phone_settings.cfg"
-
 @onready var _wallpaper: TextureRect = $Root/Screen/Wallpaper
 @onready var _launcher: Control = $Root/Screen/Launcher
 @onready var _taxi_button: Button = $Root/Screen/Launcher/Taxi
@@ -24,14 +22,18 @@ const SETTINGS_PATH := "user://phone_settings.cfg"
 	$Root/Screen/WallpaperPicker/Preview4,
 ]
 
-var _wallpaper_index := 0
+var _settings: PlayerSettings
+
+func set_player_settings(settings: PlayerSettings) -> void:
+	_settings = settings
 
 func _ready() -> void:
+	if _settings == null:
+		_settings = PlayerSettings.new()
 	_taxi_button.pressed.connect(_on_taxi_pressed)
 	_wallpapers_button.pressed.connect(_show_picker)
 	for i in _preview_buttons.size():
 		_preview_buttons[i].pressed.connect(_select_wallpaper.bind(i))
-	_load_wallpaper()
 	_apply_wallpaper()
 	_show_launcher()
 
@@ -45,18 +47,11 @@ func set_taxi_available(available: bool) -> void:
 	else:
 		_wallpapers_button.grab_focus()
 
-func _load_wallpaper() -> void:
-	var settings := ConfigFile.new()
-	if settings.load(SETTINGS_PATH) != OK:
-		return
-	var saved_index: Variant = settings.get_value("phone", "wallpaper", 0)
-	if typeof(saved_index) == TYPE_INT and saved_index >= 0 and saved_index < WALLPAPERS.size():
-		_wallpaper_index = saved_index
-
 func _apply_wallpaper() -> void:
-	_wallpaper.texture = WALLPAPERS[_wallpaper_index]
+	var index := clampi(_settings.phone_wallpaper_index, 0, WALLPAPERS.size() - 1)
+	_wallpaper.texture = WALLPAPERS[index]
 	for i in _preview_buttons.size():
-		var selected := i == _wallpaper_index
+		var selected := i == index
 		var frame := StyleBoxFlat.new()
 		frame.bg_color = Color(0.08, 0.12, 0.15)
 		frame.border_color = Color(0.92, 0.76, 0.47) if selected else Color(0.28, 0.33, 0.34)
@@ -66,19 +61,14 @@ func _apply_wallpaper() -> void:
 		_preview_buttons[i].add_theme_stylebox_override("pressed", frame)
 
 func _select_wallpaper(index: int) -> void:
-	_wallpaper_index = index
+	_settings.phone_wallpaper_index = index
 	_apply_wallpaper()
-	var settings := ConfigFile.new()
-	settings.set_value("phone", "wallpaper", index)
-	var error := settings.save(SETTINGS_PATH)
-	if error != OK:
-		push_warning("Could not save phone wallpaper: %s" % error_string(error))
 	_show_launcher()
 
 func _show_picker() -> void:
 	_launcher.hide()
 	_picker.show()
-	_preview_buttons[_wallpaper_index].grab_focus()
+	_preview_buttons[clampi(_settings.phone_wallpaper_index, 0, _preview_buttons.size() - 1)].grab_focus()
 
 func _show_launcher() -> void:
 	_picker.hide()

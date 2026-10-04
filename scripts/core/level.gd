@@ -78,6 +78,7 @@ func _init_local_player(player: Player) -> void:
 	if local_player != null:
 		return
 	player.player_data = PlayerData.new()
+	player.settings = PlayerSettings.new()
 	local_player = player
 	var bounds := get_world_bounds()
 	player.camera.limit_left = floori(bounds.position.x)
