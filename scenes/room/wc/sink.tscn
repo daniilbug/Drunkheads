@@ -10,7 +10,6 @@ properties/0/spawn = true
 properties/0/replication_mode = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sk7no"]
-radius = 8.0
 
 [node name="Sink" type="Node2D" unique_id=208708157]
 script = ExtResource("1_6847f")
@@ -30,7 +29,6 @@ replication_config = SubResource("SceneReplicationConfig_sk7no")
 shape = SubResource("CircleShape2D_sk7no")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=2064312346]
-bus = &"World"
 stream = ExtResource("3_ikbha")
 max_distance = 1000.0
 attenuation = 1.5

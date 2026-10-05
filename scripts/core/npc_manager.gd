@@ -3,8 +3,8 @@ extends Node2D
 
 signal npc_added(npc: NPC)
 
-const MAX_NPCS := 4
-const SPAWN_INTERVAL := 30.0
+const MAX_NPCS := 5
+const SPAWN_INTERVAL := 10.0
 const NPC_SCENE := preload("res://scenes/core/npc.tscn")
 
 var _spawn_timer := 0.0

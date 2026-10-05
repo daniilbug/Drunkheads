@@ -11,6 +11,7 @@ func _ready() -> void:
 	npc_manager.npc_added.connect(_init_npc)
 	$CigaretteSpawner.spawned.connect(_on_cigarette_spawned)
 	super._ready()
+	$StreetNavigation.bake_navigation_polygon(false)
 
 func _prepare_player_spawn(player: Player) -> void:
 	player.in_vehicle = true

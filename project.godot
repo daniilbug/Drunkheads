@@ -94,6 +94,7 @@ tf_kick_down={
 [layer_names]
 
 2d_physics/layer_4="PlayerBounds"
+2d_physics/layer_5="NPC"
 
 [physics]
 

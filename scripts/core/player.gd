@@ -161,6 +161,15 @@ func _physics_process(delta: float) -> void:
 		return
 
 	velocity = dir * SPEED
+	_animate_movement(delta, dir)
+	if dir != Vector2.ZERO:
+		if not audio.playing:
+			audio.play()
+	else:
+		audio.stop()
+	move_and_slide()
+
+func _animate_movement(delta: float, dir: Vector2) -> void:
 	var walking := dir != Vector2.ZERO
 	if walking != _is_walking:
 		_is_walking = walking
@@ -181,11 +190,6 @@ func _physics_process(delta: float) -> void:
 		elif not is_zero_approx(dir.y):
 			_anim_row = ROW_WALK_S if dir.y > 0 else ROW_WALK_N
 		sprite.frame = _anim_row * 4 + (int(_anim_t * FPS_WALK) % 4)
-		if not audio.playing: 
-			audio.play()
-	else:
-		audio.stop()
-	move_and_slide()
 
 func _on_direction_change(direction: Vector2) -> void:
 	if is_dancing:

@@ -1,54 +1,75 @@
 class_name NPC
 extends Player
 
-enum State { 
+enum State {
+	ARRIVING,
+	GOING_TO_BENCH,
+	SITTING_ON_BENCH,
 	LOOKING_FOR_SEAT,
-	SITTING, 
-	GOING_TO_BARTENDER, 
+	SITTING,
+	GOING_TO_BARTENDER,
 	WAITING_FOR_DRINK,
 	DRINKING,
+	GOING_TO_CABIN,
+	ENTERING_CABIN,
+	USING_CABIN,
+	LEAVING_CABIN,
+	GOING_TO_SINK,
+	WASHING_HANDS,
 	EXITING
 }
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
 @onready var _level: Level = Level.find_level_node(self)
 @onready var _bar: Node2D = _level.get_node("BarHall")
+@onready var _wc: BarWC = _level.get_node("BarWC")
+@onready var _bench: Node2D = _level.get_node("Bench")
 @onready var _bartender: Bartender = _level.find_child("Bartender", true, false)
 @onready var _npc_manager: NPCManager = _level.get_node("NPCManager")
+@onready var _world_scale: float = global_transform.x.length()
 
-var _state_machine_delta: float = 0.0
-var _state_machine_tick: int = 0
+var _elapsed_ms := 0.0
 
-var state: State = State.LOOKING_FOR_SEAT
+var state: State = State.ARRIVING:
+	set(value):
+		state = value
+		_elapsed_ms = 0.0
 
-const MAX_SITTING_TIME_SECONDS = 5
-const STATE_MACHINE_TICK_DELTA_SECONDS = 1
+const ARRIVAL_DELAY_MS := 1000
+const SITTING_DURATION_MS := 5000
+const BENCH_SITTING_DURATION_MS := 5000
+const CABIN_DURATION_MS := 5000
+const WASHING_DURATION_MS := 3000
+const DRINK_INTERVAL_MS := 5000
+const DRINK_WAIT_TIMEOUT_MS := 11000
+const BENCH_VISIT_CHANCE := 0.33
+const BAR_VISIT_CHANCE := 0.80
+const ANOTHER_DRINK_CHANCE := 0.33
+const WC_VISIT_CHANCE := 0.33
+const INTERACTION_DISTANCE := 20.0
+const SEAT_INTERACTION_DISTANCE := 24.0
+const SINK_INTERACTION_DISTANCE := 16.0
+const CABIN_APPROACH_OFFSET := Vector2(40.0, -4.5)
+const CABIN_STAND_OFFSET := Vector2(21.0, -4.5)
 
 const SPEED_AI := 150.0
-const EXIT_DISTANCE := 10.0
-const STUCK_TICKS := 3
-const STUCK_PROGRESS_DISTANCE := 12.0
-const PASS_THROUGH_TICKS := 1
-const CHARACTER_AVOIDANCE_LAYER := 1
-const STATIC_AVOIDANCE_LAYER := 2
-const DOOR_PASS_THROUGH_DISTANCE := Door.NPC_PROXIMITY_THRESHOLD * 1.5
-
-var _last_progress_position := Vector2.ZERO
-var _stuck_ticks := 0
-var _pass_through_ticks := 0
-var _passing_through := false
-var _near_door := false
-var _doors: Array[Door] = []
+const EXIT_DISTANCE := 24.0
+var _target_seat: Seat
+var _target_cabin: WcCabin
+var _target_sink: Sink
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
 
 func _ready() -> void:
 	super._ready()
+	# NavigationAgent2D distances are world units; it does not inherit the world's scale.
+	nav_agent.path_desired_distance *= _world_scale
+	nav_agent.path_max_distance *= _world_scale
+	nav_agent.radius *= _world_scale
+	nav_agent.neighbor_distance *= _world_scale
+	nav_agent.avoidance_enabled = multiplayer.is_server()
 	if multiplayer.is_server():
-		for node in _level.find_children("*", "Door", true, false):
-			_doors.append(node as Door)
-		_last_progress_position = global_position
 		nav_agent.velocity_computed.connect(_on_velocity_computed)
 
 func _unhandled_input(_event: InputEvent) -> void:
@@ -60,154 +81,130 @@ func _setup_authority() -> void:
 func _physics_process(delta: float) -> void:
 	if not multiplayer.is_server():
 		return
-	
-	_state_machine(delta)
-	_update_door_pass_through()
-	var direction_to_target := Vector2.ZERO
-	if not nav_agent.is_navigation_finished():
-		var next_path_position: Vector2 = nav_agent.get_next_path_position()
-		direction_to_target = global_position.direction_to(next_path_position)
-	nav_agent.velocity = direction_to_target * SPEED_AI
-	if not nav_agent.avoidance_enabled:
-		velocity = nav_agent.velocity
-
-	if not is_sitting:
-		_animate_physics(delta, nav_agent.velocity)
-
-	if not is_sitting and not nav_agent.avoidance_enabled:
-		move_and_slide()
-
-func _state_machine(delta: float) -> void:
-	_state_machine_delta += delta
-	
-	if _state_machine_delta >= STATE_MACHINE_TICK_DELTA_SECONDS:
-		_state_machine_delta = 0.0
-		_state_machine_tick += 1
-	
-		var initial_state = state
-		match state:
-			State.LOOKING_FOR_SEAT:
-				_looking_for_seat()
-			State.SITTING:
-				_sitting()
-			State.GOING_TO_BARTENDER:
-				_going_to_bartender()
-			State.WAITING_FOR_DRINK:
-				_waiting_for_drink()
-			State.DRINKING:
-				_drinking()
-			State.EXITING:
-				_exiting()
-		if initial_state != state:
-			_state_machine_tick = 0
-			_reset_stuck_check()
-			if _passing_through and state != State.EXITING:
-				_end_pass_through()
-		else:
-			_check_stuck_movement()
-
-func _check_stuck_movement() -> void:
-	var progress := global_position.distance_to(_last_progress_position)
-	_last_progress_position = global_position
-	if _passing_through:
-		_pass_through_ticks += 1
-		if _pass_through_ticks >= PASS_THROUGH_TICKS:
-			_end_pass_through()
+	if NavigationServer2D.map_get_iteration_id(nav_agent.get_navigation_map()) == 0:
 		return
-	if state == State.EXITING or is_sitting or _state_machine_tick <= 1 or nav_agent.is_navigation_finished():
-		_stuck_ticks = 0
+
+	_elapsed_ms += delta * 1000.0
+	match state:
+		State.ARRIVING:
+			if _elapsed_ms >= ARRIVAL_DELAY_MS:
+				_arriving()
+		State.SITTING_ON_BENCH:
+			if _elapsed_ms >= BENCH_SITTING_DURATION_MS:
+				_stand_up()
+				state = State.LOOKING_FOR_SEAT
+		State.SITTING:
+			if _elapsed_ms >= SITTING_DURATION_MS:
+				_stand_up()
+				state = State.GOING_TO_BARTENDER
+		State.WAITING_FOR_DRINK:
+			_waiting_for_drink()
+		State.DRINKING:
+			_drinking()
+		State.USING_CABIN:
+			if _elapsed_ms >= CABIN_DURATION_MS:
+				state = State.LEAVING_CABIN
+		State.WASHING_HANDS:
+			if _elapsed_ms >= WASHING_DURATION_MS:
+				_target_sink.turn_off()
+				_target_sink = null
+				state = State.LOOKING_FOR_SEAT
+
+	var navigation_state := state
+	match state:
+		State.GOING_TO_BENCH:
+			_go_to_seat(_bench, State.SITTING_ON_BENCH)
+		State.LOOKING_FOR_SEAT:
+			_go_to_seat(_bar, State.DRINKING if _hands_item is Drink else State.SITTING)
+		State.GOING_TO_BARTENDER:
+			_going_to_bartender()
+		State.GOING_TO_CABIN:
+			_going_to_cabin()
+		State.GOING_TO_SINK:
+			_going_to_sink()
+		State.EXITING:
+			if nav_agent.is_target_reached():
+				queue_free()
+
+	nav_agent.velocity = Vector2.ZERO
+	# A new state must select its destination before we inspect the old path.
+	if state != navigation_state:
 		return
-	if progress >= STUCK_PROGRESS_DISTANCE:
-		_stuck_ticks = 0
-		return
-	_stuck_ticks += 1
-	if _stuck_ticks >= STUCK_TICKS:
-		_begin_pass_through()
-
-func _begin_pass_through() -> void:
-	_passing_through = true
-	_pass_through_ticks = 0
-	_set_character_avoidance(false)
-	_reset_stuck_check()
-
-func _end_pass_through() -> void:
-	_passing_through = false
-	if state == State.EXITING or _near_door:
-		_set_static_obstacle_avoidance()
-	else:
-		_set_character_avoidance(true)
-	_reset_stuck_check()
-
-func _set_character_avoidance(enabled: bool) -> void:
-	nav_agent.avoidance_enabled = enabled
-	nav_agent.avoidance_mask = STATIC_AVOIDANCE_LAYER | CHARACTER_AVOIDANCE_LAYER
-	_set_character_collision(enabled)
-
-func _set_static_obstacle_avoidance() -> void:
-	nav_agent.avoidance_enabled = true
-	nav_agent.avoidance_mask = STATIC_AVOIDANCE_LAYER
-	_set_character_collision(false)
-
-func _update_door_pass_through() -> void:
-	if state == State.EXITING or _passing_through:
-		return
-	var near_door := false
-	if not is_sitting:
-		for door in _doors:
-			if global_position.distance_to(door.global_position) <= DOOR_PASS_THROUGH_DISTANCE:
-				near_door = true
-				break
-	if near_door == _near_door:
-		return
-	_near_door = near_door
-	if near_door:
-		_set_static_obstacle_avoidance()
-	else:
-		_set_character_avoidance(true)
-
-func _set_character_collision(enabled: bool) -> void:
-	for child in _level.get_children():
-		if child is Player and child != self:
-			if enabled:
-				remove_collision_exception_with(child as PhysicsBody2D)
-			else:
-				add_collision_exception_with(child as PhysicsBody2D)
-
-func _reset_stuck_check() -> void:
-	_stuck_ticks = 0
-	_last_progress_position = global_position
-
-func _looking_for_seat() -> void:
-	if _state_machine_tick == 1 or no_target():
-		var seat := _get_random_free_seat()
-		if seat == null:
+	if state in [State.ENTERING_CABIN, State.LEAVING_CABIN]:
+		_move_through_cabin(delta)
+	elif _is_navigating():
+		if not nav_agent.is_navigation_finished():
+			var next_position := nav_agent.get_next_path_position()
+			nav_agent.velocity = (next_position - global_position).limit_length(SPEED_AI * delta) / delta
+		elif not nav_agent.is_target_reached() and state != State.EXITING:
+			# Reaching the end of a partial path does not mean reaching the object.
 			_begin_exit()
-		else:
-			nav_agent.target_position = seat.global_position
-	elif nav_agent.is_navigation_finished():
-		var nodes = _get_nodes_nearby()
-		var seats_to_sit = nodes.filter(
-			func(node: Node2D) -> bool: return node is Seat and node.available_to_npc and not node.is_occupied
-		)
-		if seats_to_sit.is_empty():
-			_drop_target()
-		else:
-			_sit_in(seats_to_sit[0])
-			if _hands_item and _hands_item is Drink:
-				state = State.DRINKING
-			else:
-				state = State.SITTING
 
-func _sitting() -> void:
-	if _state_machine_tick >= MAX_SITTING_TIME_SECONDS:
-		_stand_up()
-		state = _randomize_next_state()
+func _is_navigating() -> bool:
+	return state in [State.GOING_TO_BENCH, State.LOOKING_FOR_SEAT, State.GOING_TO_BARTENDER,
+		State.WAITING_FOR_DRINK, State.GOING_TO_CABIN, State.GOING_TO_SINK, State.EXITING]
+
+func _on_velocity_computed(safe_velocity: Vector2) -> void:
+	if state in [State.ENTERING_CABIN, State.LEAVING_CABIN] or is_sitting:
+		return
+	velocity = safe_velocity if _is_navigating() else Vector2.ZERO
+	move_and_slide()
+	_animate_movement(get_physics_process_delta_time(), velocity)
+
+func _move_through_cabin(delta: float) -> void:
+	# The cabin fits the rectangular body, but is narrower than the navmesh clearance.
+	var entering := state == State.ENTERING_CABIN
+	var offset := CABIN_STAND_OFFSET if entering else CABIN_APPROACH_OFFSET
+	var target := _target_cabin.to_global(offset)
+	velocity = (target - global_position).limit_length(SPEED_AI * delta) / delta
+	move_and_slide()
+	_animate_movement(delta, velocity)
+	if global_position.distance_to(target) <= 2.0 * _world_scale:
+		if entering:
+			state = State.USING_CABIN
+		else:
+			_target_cabin.is_being_used = false
+			_target_cabin = null
+			state = State.GOING_TO_SINK
+
+func _arriving() -> void:
+	var choice := randf()
+	if choice < BENCH_VISIT_CHANCE:
+		state = State.GOING_TO_BENCH
+	elif choice < BENCH_VISIT_CHANCE + BAR_VISIT_CHANCE:
+		state = State.LOOKING_FOR_SEAT
+	else:
+		_begin_exit()
+
+func _go_to_seat(parent: Node2D, seated_state: State) -> void:
+	if not is_instance_valid(_target_seat) or _target_seat.is_occupied:
+		_target_seat = _get_random_free_seat_in(parent)
+		if _target_seat == null:
+			if state == State.GOING_TO_BENCH:
+				state = State.LOOKING_FOR_SEAT
+			else:
+				_begin_exit()
+			return
+	_set_destination(_target_seat.global_position, SEAT_INTERACTION_DISTANCE)
+	if nav_agent.is_target_reached():
+		_sit_in(_target_seat)
+		_target_seat = null
+		if is_sitting:
+			state = seated_state
+
+func _set_destination(target: Vector2, arrival_distance: float = 4.0) -> void:
+	# Navigation and interaction must agree on when the destination is reached.
+	arrival_distance *= _world_scale
+	if not nav_agent.target_position.is_equal_approx(target) or nav_agent.target_desired_distance != arrival_distance:
+		nav_agent.target_desired_distance = arrival_distance
+		nav_agent.target_position = target
 
 func _going_to_bartender() -> void:
-	nav_agent.target_position = _bartender.purchase_area.global_position
-	if nav_agent.is_navigation_finished():
+	_set_destination(_bartender.purchase_area.global_position, INTERACTION_DISTANCE)
+	if nav_agent.is_target_reached():
 		var item = BarMenu.get_all_items().pick_random()
 		_bartender.order_item(self, item)
+		_set_destination(_bartender.purchase_area.global_position)
 		state = State.WAITING_FOR_DRINK
 
 func _waiting_for_drink() -> void:
@@ -215,96 +212,113 @@ func _waiting_for_drink() -> void:
 	if not drinks.is_empty():
 		var drink = drinks[0]
 		drink.pickup(self)
-		_hands_item = drink
-		drink.tree_exiting.connect(func(): _hands_item = null, CONNECT_ONE_SHOT)
+		take_spawned_item(drink)
 		state = State.LOOKING_FOR_SEAT
-	elif _state_machine_tick > 10:
+	elif _elapsed_ms >= DRINK_WAIT_TIMEOUT_MS:
 		_begin_exit()
-		
+
 func _drinking() -> void:
 	if not is_instance_valid(_hands_item) or not (_hands_item is Drink):
 		_begin_exit()
 		return
 	var drink := _hands_item as Drink
 	if drink.parts == 0:
-		_begin_exit()
+		_finish_drink()
 		return
-	if _state_machine_tick % 5 == 0:
+	if _elapsed_ms >= DRINK_INTERVAL_MS:
+		_elapsed_ms -= DRINK_INTERVAL_MS
+		var is_last_part := drink.parts == 1
 		_drink(drink)
+		if is_last_part:
+			_finish_drink()
+
+func _finish_drink() -> void:
+	if is_sitting:
+		_stand_up()
+	_hands_item = null
+	var choice := randf()
+	if choice < ANOTHER_DRINK_CHANCE:
+		state = State.GOING_TO_BARTENDER
+	elif choice < ANOTHER_DRINK_CHANCE + WC_VISIT_CHANCE:
+		state = State.GOING_TO_CABIN
+	else:
+		_begin_exit()
+
+func _going_to_cabin() -> void:
+	if not is_instance_valid(_target_cabin) or _target_cabin.is_being_used:
+		_target_cabin = _get_random_free_cabin()
+		if _target_cabin == null:
+			_set_destination(global_position)
+			return
+	_set_destination(_target_cabin.to_global(CABIN_APPROACH_OFFSET))
+	if nav_agent.is_target_reached():
+		if _target_cabin.is_being_used:
+			_target_cabin = null
+			return
+		_target_cabin.is_being_used = true
+		state = State.ENTERING_CABIN
+
+func _going_to_sink() -> void:
+	if not is_instance_valid(_target_sink):
+		_target_sink = _get_random_free_sink()
+		if _target_sink == null:
+			_set_destination(global_position)
+			return
+	_set_destination(_target_sink.global_position, SINK_INTERACTION_DISTANCE)
+	if nav_agent.is_target_reached():
+		_target_sink.turn_on()
+		state = State.WASHING_HANDS
 
 func _begin_exit() -> void:
-	_passing_through = false
+	_target_seat = null
+	if state in [State.ENTERING_CABIN, State.USING_CABIN, State.LEAVING_CABIN] and is_instance_valid(_target_cabin):
+		_target_cabin.is_being_used = false
+	if state == State.WASHING_HANDS and is_instance_valid(_target_sink):
+		_target_sink.turn_off()
+	_target_cabin = null
+	_target_sink = null
 	if is_sitting:
 		_stand_up()
 	if is_instance_valid(_hands_item) and _hands_item is Drink:
 		_hands_item.queue_free()
 	_hands_item = null
-	_set_static_obstacle_avoidance()
-	nav_agent.target_position = _npc_manager.exit_point.global_position
+	_set_destination(_npc_manager.exit_point.global_position, EXIT_DISTANCE)
 	state = State.EXITING
 
-func _exiting() -> void:
-	if nav_agent.is_navigation_finished() and global_position.distance_to(_npc_manager.exit_point.global_position) <= EXIT_DISTANCE:
-		_exit_bar()
-
-func _animate_physics(delta: float, dir: Vector2) -> void:
-	var walking := dir != Vector2.ZERO
-	if walking != _is_walking:
-		_is_walking = walking
-		if walking:
-			_idle_tween.pause()
-			sprite.scale.y = 1.0
-			_anim_t = 0.0
-		else:
-			sprite.position.y = 0.0
-			_idle_tween.play()
-			_anim_row = _dir_to_idle_row(direction)
-			sprite.frame = _anim_row * 4
-	if walking:
-		direction = dir
-		_anim_t += delta
-		if not is_zero_approx(dir.x):
-			_anim_row = ROW_WALK_E if dir.x > 0 else ROW_WALK_W
-		elif not is_zero_approx(dir.y):
-			_anim_row = ROW_WALK_S if dir.y > 0 else ROW_WALK_N
-		sprite.frame = _anim_row * 4 + (int(_anim_t * FPS_WALK) % 4)
-
-func _exit_bar() -> void:
-	queue_free()
-
-func _randomize_next_state() -> State:
-	return State.GOING_TO_BARTENDER
-
-func _get_random_free_seat() -> Seat:
-	var seats = _bar.find_children("*", "Seat", true, false)
-	var free_seats = seats.filter(func(seat: Seat): return seat.available_to_npc and not seat.is_occupied)
+func _get_random_free_seat_in(parent: Node2D) -> Seat:
+	var seats = parent.find_children("*", "Seat", true, false)
+	var free_seats = seats.filter(func(seat: Seat):
+		return seat.available_to_npc and not seat.is_occupied and not _is_targeted(seat))
 	if free_seats.is_empty():
 		return null
 
 	return free_seats.pick_random()
-	
+
+func _get_random_free_cabin() -> WcCabin:
+	var cabins = _wc.find_children("*", "WcCabin", true, false)
+	var free_cabins = cabins.filter(func(cabin: WcCabin): return not cabin.is_being_used)
+	if free_cabins.is_empty():
+		return null
+	return free_cabins.pick_random()
+
+func _get_random_free_sink() -> Sink:
+	var sinks = _wc.find_children("*", "Sink", true, false)
+	var available_sinks = sinks.filter(func(sink: Sink): return not _is_targeted(sink))
+	if available_sinks.is_empty():
+		return null
+	var dry_sinks = available_sinks.filter(func(sink: Sink): return not sink.is_watering)
+	return dry_sinks.pick_random() if not dry_sinks.is_empty() else available_sinks.pick_random()
+
+func _is_targeted(target: Node2D) -> bool:
+	# Reserve a place while approaching it, before its occupancy changes.
+	for child in _level.get_children():
+		if child is NPC and child != self and (child._target_seat == target or child._target_sink == target):
+			return true
+	return false
+
 func _get_drinks_nearby() -> Array[Drink]:
 	var drinks: Array[Drink] = []
-	for node in _get_nodes_nearby():
-		if node is Drink:
-			drinks.append(node)
-	return drinks
-	
-func _get_nodes_nearby() -> Array[Node2D]:
-	var nodes: Array[Node2D] = []
 	for area in interaction_area.get_overlapping_areas():
-		if area.get_parent() is Node2D:
-			nodes.append(area.get_parent())
-	return nodes
-	
-func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	if is_sitting or not nav_agent.avoidance_enabled:
-		return
-	velocity = safe_velocity
-	move_and_slide()
-	
-func no_target() -> bool:
-	return nav_agent.target_position == Vector2.ZERO
-
-func _drop_target() -> void:
-	nav_agent.target_position = Vector2.ZERO
+		if area.get_parent() is Drink and area.get_parent().holder_peer_id == 0:
+			drinks.append(area.get_parent())
+	return drinks

@@ -8,6 +8,7 @@ static var _next_pack_id := 0
 var _purchase_pending := false
 
 @onready var purchase_area: Area2D = $Area
+@onready var audio: AudioStreamPlayer2D = $Audio
 
 func interact(player: Player) -> void:
 	if player._hands_item != null or _purchase_pending:
@@ -45,6 +46,11 @@ func _buy_for(peer_id: int) -> void:
 	if player == level.local_player:
 		player.take_spawned_item(pack)
 	_purchase_result.rpc_id(peer_id, true)
+	_play_dispense_sound.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func _play_dispense_sound() -> void:
+	audio.play()
 
 @rpc("authority", "call_local", "reliable")
 func _purchase_result(accepted: bool) -> void:

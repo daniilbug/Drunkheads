@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="2_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://c3fugibsy3h6o" path="res://assets/sprites/street/road_horizontal.png" id="2_road"]
 [ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/room/bar/bar.tscn" id="2_sugp2"]
-[ext_resource type="Script" path="res://scripts/levels/bar.gd" id="2_tbgi4"]
+[ext_resource type="Script" uid="uid://dkkv5wia5wuoo" path="res://scripts/levels/bar.gd" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://5eb3l2o6scfd" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
 [ext_resource type="PackedScene" uid="uid://beou7oanjwgs3" path="res://scenes/room/wc/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
@@ -14,14 +14,19 @@
 [ext_resource type="PackedScene" uid="uid://dcpll4c8f6iix" path="res://scenes/street/brick_house.tscn" id="12_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://bvdxs668pifkp" path="res://scenes/street/lantern.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" path="res://scenes/street/taxi_stop.tscn" id="15_taxi_stop"]
-[ext_resource type="PackedScene" path="res://scenes/street/bench.tscn" id="15_xwirx"]
+[ext_resource type="PackedScene" uid="uid://csrj85emlopgi" path="res://scenes/street/bench.tscn" id="15_xwirx"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
-vertices = PackedVector2Array(532.47656, 489.9922, -159.5, 489.75, -159.5, 380, 532.27344, 380)
+resource_local_to_scene = true
+vertices = PackedVector2Array(570, 478, -179, 478, -179, 368, 570, 368)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-169.5, 370, 542.25, 370, 542.5, 500, -169.5, 499.75)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-189, 358, 580, 358, 580, 488, -189, 488)])
+parsed_geometry_type = 1
+parsed_collision_mask = 1
+source_geometry_mode = 1
+source_geometry_group_name = &"street_navigation_geometry"
 
-[node name="Bar" unique_id=85658459 instance=ExtResource("1_0wfyh")]
+[node name="Bar" unique_id=85658459 groups=["street_navigation_geometry"] instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_tbgi4")
 
 [node name="BarHall" parent="." index="0" unique_id=1 instance=ExtResource("2_sugp2")]
@@ -44,7 +49,7 @@ position = Vector2(180.25, 43)
 scale = Vector2(1, 1.00125)
 texture = ExtResource("2_jyhfs")
 region_enabled = true
-region_rect = Rect2(0, 0, 600, 600)
+region_rect = Rect2(0, 0, 800, 600)
 
 [node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1821277763]
 position = Vector2(-18.051575, 356.72577)
@@ -71,7 +76,6 @@ position = Vector2(-99.5, 489.75)
 position = Vector2(499.25, -200.25)
 
 [node name="StreetNavigation" type="NavigationRegion2D" parent="." index="11" unique_id=1657496319]
-position = Vector2(-19.5, -12)
 navigation_polygon = SubResource("NavigationPolygon_street")
 
 [node name="CigaretteMachine" parent="." index="12" unique_id=2138538464 instance=ExtResource("6_cigarette_machine")]
@@ -112,11 +116,11 @@ position = Vector2(-126.75, 465.75)
 [node name="Road" type="Sprite2D" parent="." index="18" unique_id=1507250676]
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(-100, 390)
+position = Vector2(-200, 390)
 texture = ExtResource("2_road")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 600, 100)
+region_rect = Rect2(0, 0, 800, 100)
 
 [node name="BrickHouse1" parent="." index="19" unique_id=761605544 instance=ExtResource("12_eb6dy")]
 position = Vector2(-87.75, 359.5)
@@ -134,4 +138,4 @@ position = Vector2(357.75, 367.5)
 position = Vector2(275, 380)
 
 [node name="Bench" parent="." index="24" unique_id=1020247493 instance=ExtResource("15_xwirx")]
-position = Vector2(221, 363)
+position = Vector2(221, 366)

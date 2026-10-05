@@ -41,6 +41,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 2
 
 [node name="NPC" type="CharacterBody2D" unique_id=1474730025]
+collision_layer = 16
 script = ExtResource("1_q88xf")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
@@ -100,10 +101,13 @@ volume_db = -10.0
 max_distance = 64.0
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." unique_id=1999999999]
+path_desired_distance = 3.0
+target_desired_distance = 4.0
+path_max_distance = 16.0
 avoidance_enabled = true
-avoidance_mask = 3
-radius = 20.0
-neighbor_distance = 160.0
+radius = 6.0
+neighbor_distance = 48.0
+time_horizon_agents = 0.25
 max_speed = 150.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=245744329]
