@@ -2,7 +2,7 @@ class_name NPC
 extends Player
 
 enum State { 
-	LOOKING_FOR_CHAIR,
+	LOOKING_FOR_SEAT,
 	SITTING, 
 	GOING_TO_BARTENDER, 
 	WAITING_FOR_DRINK,
@@ -18,9 +18,8 @@ enum State {
 
 var _state_machine_delta: float = 0.0
 var _state_machine_tick: int = 0
-var _sitting_delta: float = 0.0
 
-var state: State = State.LOOKING_FOR_CHAIR
+var state: State = State.LOOKING_FOR_SEAT
 
 const MAX_SITTING_TIME_SECONDS = 5
 const STATE_MACHINE_TICK_DELTA_SECONDS = 1
@@ -72,7 +71,8 @@ func _physics_process(delta: float) -> void:
 	if not nav_agent.avoidance_enabled:
 		velocity = nav_agent.velocity
 
-	_animate_physics(delta, nav_agent.velocity)
+	if not is_sitting:
+		_animate_physics(delta, nav_agent.velocity)
 
 	if not is_sitting and not nav_agent.avoidance_enabled:
 		move_and_slide()
@@ -86,8 +86,8 @@ func _state_machine(delta: float) -> void:
 	
 		var initial_state = state
 		match state:
-			State.LOOKING_FOR_CHAIR:
-				_looking_for_chair()
+			State.LOOKING_FOR_SEAT:
+				_looking_for_seat()
 			State.SITTING:
 				_sitting()
 			State.GOING_TO_BARTENDER:
@@ -177,22 +177,22 @@ func _reset_stuck_check() -> void:
 	_stuck_ticks = 0
 	_last_progress_position = global_position
 
-func _looking_for_chair() -> void:
+func _looking_for_seat() -> void:
 	if _state_machine_tick == 1 or no_target():
-		var chair := _get_random_free_chair()
-		if chair == null:
+		var seat := _get_random_free_seat()
+		if seat == null:
 			_begin_exit()
 		else:
-			nav_agent.target_position = chair.global_position
+			nav_agent.target_position = seat.global_position
 	elif nav_agent.is_navigation_finished():
 		var nodes = _get_nodes_nearby()
-		var chairs_to_sit = nodes.filter(
-			func(node: Node2D) -> bool: return node is Chair and not node.is_occupied
+		var seats_to_sit = nodes.filter(
+			func(node: Node2D) -> bool: return node is Seat and node.available_to_npc and not node.is_occupied
 		)
-		if chairs_to_sit.is_empty():
+		if seats_to_sit.is_empty():
 			_drop_target()
 		else:
-			_sit_in(chairs_to_sit[0])
+			_sit_in(seats_to_sit[0])
 			if _hands_item and _hands_item is Drink:
 				state = State.DRINKING
 			else:
@@ -217,7 +217,7 @@ func _waiting_for_drink() -> void:
 		drink.pickup(self)
 		_hands_item = drink
 		drink.tree_exiting.connect(func(): _hands_item = null, CONNECT_ONE_SHOT)
-		state = State.LOOKING_FOR_CHAIR
+		state = State.LOOKING_FOR_SEAT
 	elif _state_machine_tick > 10:
 		_begin_exit()
 		
@@ -275,13 +275,13 @@ func _exit_bar() -> void:
 func _randomize_next_state() -> State:
 	return State.GOING_TO_BARTENDER
 
-func _get_random_free_chair() -> Chair:
-	var chairs = _bar.find_children("*", "Chair", true, false)
-	var free_chairs = chairs.filter(func(chair: Chair): return not chair.is_occupied)
-	if free_chairs.is_empty():
+func _get_random_free_seat() -> Seat:
+	var seats = _bar.find_children("*", "Seat", true, false)
+	var free_seats = seats.filter(func(seat: Seat): return seat.available_to_npc and not seat.is_occupied)
+	if free_seats.is_empty():
 		return null
-	
-	return free_chairs.pick_random()
+
+	return free_seats.pick_random()
 	
 func _get_drinks_nearby() -> Array[Drink]:
 	var drinks: Array[Drink] = []
@@ -291,11 +291,11 @@ func _get_drinks_nearby() -> Array[Drink]:
 	return drinks
 	
 func _get_nodes_nearby() -> Array[Node2D]:
-	var owners: Array[Node2D] = []
+	var nodes: Array[Node2D] = []
 	for area in interaction_area.get_overlapping_areas():
-		if area.owner is Node2D:
-			owners.append(area.owner)
-	return owners
+		if area.get_parent() is Node2D:
+			nodes.append(area.get_parent())
+	return nodes
 	
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	if is_sitting or not nav_agent.avoidance_enabled:

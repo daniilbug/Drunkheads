@@ -65,9 +65,9 @@ func _on_spawned(node: Node) -> void:
 func _remove_player(peer_id: int) -> void:
 	_name_registry.erase(peer_id)
 	var player := get_node_or_null(str(peer_id)) as Player
-	for chair in find_children("*", "Chair", true, false):
-		if chair.occupant_name == str(peer_id):
-			chair.vacate(player)
+	for seat in find_children("*", "Seat", true, false):
+		if seat.occupant_name == str(peer_id):
+			seat.vacate(player)
 	if player:
 		player.queue_free()
 	for child in get_children():

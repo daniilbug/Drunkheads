@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dcpll4c8f6iix" path="res://scenes/street/brick_house.tscn" id="12_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://bvdxs668pifkp" path="res://scenes/street/lantern.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" path="res://scenes/street/taxi_stop.tscn" id="15_taxi_stop"]
+[ext_resource type="PackedScene" path="res://scenes/street/bench.tscn" id="15_xwirx"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 vertices = PackedVector2Array(532.47656, 489.9922, -159.5, 489.75, -159.5, 380, 532.27344, 380)
@@ -131,3 +132,6 @@ position = Vector2(357.75, 367.5)
 
 [node name="TaxiReturn" type="Marker2D" parent="." index="23" unique_id=1528486176]
 position = Vector2(275, 380)
+
+[node name="Bench" parent="." index="24" unique_id=1020247493 instance=ExtResource("15_xwirx")]
+position = Vector2(221, 363)

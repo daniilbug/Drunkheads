@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://csrj85emlopgi"]
+
+[ext_resource type="Texture2D" uid="uid://cyogmdrrxiofx" path="res://assets/sprites/street/bench.png" id="1_bench"]
+[ext_resource type="PackedScene" path="res://scenes/core/seat.tscn" id="2_seat"]
+
+[node name="Bench" type="Node2D" unique_id=1902109513]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1814169914]
+light_mask = 3
+texture_filter = 1
+texture = ExtResource("1_bench")
+centered = false
+offset = Vector2(-21, -16)
+
+[node name="SeatLeft" parent="." unique_id=1003110037 instance=ExtResource("2_seat")]
+position = Vector2(-13, 0)
+
+[node name="SeatMiddle" parent="." unique_id=1166080226 instance=ExtResource("2_seat")]
+
+[node name="SeatRight" parent="." unique_id=889112035 instance=ExtResource("2_seat")]
+position = Vector2(13, 0)
+seat_position_offset = Vector2(0, 2)

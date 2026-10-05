@@ -20,7 +20,7 @@ const ROW_DANCE_N := 9
 @export var player_data: PlayerData
 var settings: PlayerSettings
 @export var is_sitting := false
-@export var seated_chair: Chair = null
+var seated_seat: Seat = null
 @export var peer_id: int = 0
 
 @export var in_vehicle := false:
@@ -231,20 +231,29 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_take_drop()
 
 func _try_interact() -> void:
+	var areas := interaction_area.get_overlapping_areas()
 	if _hands_item != null:
-		for area in interaction_area.get_overlapping_areas():
+		for area in areas:
 			var owner_node := area.get_parent()
 			if owner_node is Trash:
 				owner_node.interact(self)
 				return
-	for area in interaction_area.get_overlapping_areas():
+	var nearest_seat: Seat = null
+	var nearest_distance := INF
+	if not is_sitting:
+		for area in areas:
+			var candidate := area.get_parent() as Seat
+			if candidate != null and not candidate.is_occupied:
+				var distance := global_position.distance_squared_to(candidate.global_position)
+				if distance < nearest_distance:
+					nearest_seat = candidate
+					nearest_distance = distance
+	if nearest_seat != null:
+		_sit_in(nearest_seat)
+		return
+	for area in areas:
 		var owner_node := area.get_parent()
-		if owner_node is Chair:
-			var chair = owner_node as Chair
-			if not chair.is_occupied:
-				_sit_in(chair)
-				return
-		elif owner_node is Boombox:
+		if owner_node is Boombox:
 			owner_node.switch()
 			return
 		elif owner_node is DanceFloorController:
@@ -294,20 +303,19 @@ func take_spawned_item(item: Draggable) -> void:
 			_hands_item = null
 	, CONNECT_ONE_SHOT)
 
-func _sit_in(chair: Chair) -> void:
-	if is_sitting:
+func _sit_in(seat: Seat) -> void:
+	if is_sitting or not seat.occupy(self):
 		return
-	chair.occupy(self)
-	seated_chair = chair
+	seated_seat = seat
 	is_sitting = true
-	global_position = chair.get_seat_position()
+	global_position = seat.get_seat_position()
 	_idle_tween.pause()
-	sprite.frame = (ROW_WALK_N if chair.facing_north else ROW_SIT) * 4
+	sprite.frame = (ROW_WALK_N if seat.facing_north else ROW_SIT) * 4
 
 func _stand_up() -> void:
-	if seated_chair:
-		seated_chair.vacate(self)
-		seated_chair = null
+	if seated_seat:
+		seated_seat.vacate(self)
+		seated_seat = null
 	is_sitting = false
 	_start_idle_bob()
 
@@ -365,8 +373,10 @@ func _animate_drink() -> void:
 	tween.tween_property(sprite, "rotation_degrees", 12.0, 0.12)
 	tween.tween_property(sprite, "rotation_degrees", -4.0, 0.1)
 	tween.tween_property(sprite, "rotation_degrees", 0.0, 0.18).set_trans(Tween.TRANS_SPRING)
-	var sit_row := ROW_WALK_N if seated_chair and seated_chair.facing_north else ROW_SIT
-	tween.tween_callback(func(): sprite.frame = sit_row * 4)
+	tween.tween_callback(func():
+		var idle_row := (ROW_WALK_N if direction.y < 0 else ROW_SIT) if is_sitting else _dir_to_idle_row(direction)
+		sprite.frame = idle_row * 4
+	)
 	var frame_t := create_tween()
 	frame_t.tween_interval(0.15)
 	frame_t.tween_callback(func(): sprite.frame = drink_row * 4 + 1)
