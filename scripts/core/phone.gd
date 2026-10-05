@@ -14,9 +14,9 @@ const PLAY_ICON := preload("res://assets/sprites/phone/play_icon.png")
 const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _wallpaper: TextureRect = $Root/Screen/Wallpaper
 @onready var _launcher: Control = $Root/Screen/Launcher
-@onready var _taxi_button: Button = $Root/Screen/Launcher/Taxi
-@onready var _wallpapers_button: Button = $Root/Screen/Launcher/WallpapersButton
-@onready var _music_button: Button = $Root/Screen/Launcher/MusicButton
+@onready var _taxi_button: Button = $Root/Screen/Launcher/Apps/Taxi
+@onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
+@onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
 @onready var _music_page: Control = $Root/Screen/MusicPlayer
 @onready var _previous_button: Button = $Root/Screen/MusicPlayer/Controls/Previous
 @onready var _toggle_button: Button = $Root/Screen/MusicPlayer/Controls/Toggle
@@ -24,10 +24,10 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _next_button: Button = $Root/Screen/MusicPlayer/Controls/Next
 @onready var _picker: Control = $Root/Screen/WallpaperPicker
 @onready var _preview_buttons: Array[Button] = [
-	$Root/Screen/WallpaperPicker/Preview1,
-	$Root/Screen/WallpaperPicker/Preview2,
-	$Root/Screen/WallpaperPicker/Preview3,
-	$Root/Screen/WallpaperPicker/Preview4,
+	$Root/Screen/WallpaperPicker/Previews/Preview1,
+	$Root/Screen/WallpaperPicker/Previews/Preview2,
+	$Root/Screen/WallpaperPicker/Previews/Preview3,
+	$Root/Screen/WallpaperPicker/Previews/Preview4,
 ]
 
 var _settings: PlayerSettings
