@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://52jx2xqypsum"
-path="res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"
+uid="uid://bna73fa5r3etb"
+path="res://.godot/imported/headphones.png-1e793027d65c540dbe1497327bf81827.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/phone/wallpapers_icon.png"
-dest_files=["res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"]
+source_file="res://assets/sprites/characters/headphones.png"
+dest_files=["res://.godot/imported/headphones.png-1e793027d65c540dbe1497327bf81827.ctex"]
 
 [params]
 

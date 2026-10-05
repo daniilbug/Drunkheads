@@ -6,3 +6,4 @@
 script = ExtResource("1_4xe8q")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=83979104]
+bus = &"World"

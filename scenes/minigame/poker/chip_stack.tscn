@@ -7,5 +7,6 @@
 script = ExtResource("1_cs")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1064084503]
+bus = &"World"
 stream = ExtResource("2_71ndt")
 max_distance = 500.0

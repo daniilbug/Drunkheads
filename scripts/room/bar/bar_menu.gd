@@ -70,7 +70,7 @@ func _on_close() -> void:
 		return
 	hide()
 	if is_instance_valid(_player):
-		_player.is_world_input_blocked = _player.in_vehicle
+		_player.is_world_input_blocked = false
 	closed.emit()
 		
 func _make_row(item: BarMenuItem) -> Control:

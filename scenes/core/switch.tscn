@@ -21,4 +21,5 @@ position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_xj72i")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1011595441]
+bus = &"World"
 stream = ExtResource("3_je46t")

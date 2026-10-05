@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
 [ext_resource type="Script" uid="uid://md7jxbkt0tc8" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
 [ext_resource type="Texture2D" uid="uid://dnamvitjkmj0a" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
+[ext_resource type="Texture2D" uid="uid://bna73fa5r3etb" path="res://assets/sprites/characters/headphones.png" id="2_headphones"]
 [ext_resource type="Texture2D" uid="uid://cfln1lss4hesi" path="res://assets/sprites/characters/pants_0.png" id="2_pants"]
 [ext_resource type="Texture2D" uid="uid://dvcl5v1pcd327" path="res://assets/sprites/characters/top_0.png" id="2_top"]
 [ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
@@ -30,6 +31,9 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath(".:direction")
 properties/3/spawn = true
 properties/3/replication_mode = 2
+properties/4/path = NodePath(".:headphones_enabled")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_appearance"]
 properties/0/path = NodePath(".:hair_id")
@@ -88,6 +92,16 @@ vframes = 10
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_hair")
+centered = false
+offset = Vector2(-6, -20)
+hframes = 4
+vframes = 10
+
+[node name="Headphones" type="Sprite2D" parent="Sprite" unique_id=494659896]
+light_mask = 3
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("2_headphones")
 centered = false
 offset = Vector2(-6, -20)
 hframes = 4

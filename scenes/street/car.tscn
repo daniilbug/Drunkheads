@@ -106,6 +106,7 @@ scale = Vector2(1.609375, 0.74999994)
 texture = SubResource("GradientTexture2D_headlight")
 
 [node name="DrivingAudio" type="AudioStreamPlayer2D" parent="." unique_id=1366210827]
+bus = &"World"
 position = Vector2(0, -10)
 stream = ExtResource("7_car_audio")
 volume_db = -15.0

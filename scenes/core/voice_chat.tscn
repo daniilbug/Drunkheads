@@ -15,6 +15,7 @@ autoplay = true
 bus = &"Record"
 
 [node name="Output" type="AudioStreamPlayer2D" parent="." unique_id=1929342251]
+bus = &"World"
 stream = SubResource("AudioStreamGenerator_5gpfh")
 volume_db = 5.0
 autoplay = true

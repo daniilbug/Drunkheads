@@ -31,6 +31,7 @@ hframes = 4
 shape = SubResource("CircleShape2D_7n1dm")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=244761860]
+bus = &"World"
 stream = ExtResource("3_n7ec0")
 max_distance = 64.0
 

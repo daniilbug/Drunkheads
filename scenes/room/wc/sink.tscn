@@ -30,6 +30,7 @@ replication_config = SubResource("SceneReplicationConfig_sk7no")
 shape = SubResource("CircleShape2D_sk7no")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=2064312346]
+bus = &"World"
 stream = ExtResource("3_ikbha")
 max_distance = 1000.0
 attenuation = 1.5

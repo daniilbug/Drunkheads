@@ -94,6 +94,7 @@ position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_interact")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1000496576]
+bus = &"World"
 stream = SubResource("AudioStreamMP3_q88xf")
 volume_db = -10.0
 max_distance = 64.0

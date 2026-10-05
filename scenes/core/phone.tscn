@@ -1,15 +1,29 @@
 [gd_scene format=3 uid="uid://cq0u780fj8mao"]
 
 [ext_resource type="Script" uid="uid://b8vq2800afair" path="res://scripts/core/phone.gd" id="1_phone"]
-[ext_resource type="Texture2D" uid="uid://dc1lr3kt508oy" path="res://assets/sprites/phone/taxi_icon.png" id="2_taxi_icon"]
-[ext_resource type="Texture2D" uid="uid://lwmyet5qhy2k" path="res://assets/sprites/phone/wallpapers_icon.png" id="3_wallpapers_icon"]
 [ext_resource type="Texture2D" uid="uid://bct6dk4405jwl" path="res://assets/sprites/phone/wallpaper_midnight.png" id="4_midnight"]
 [ext_resource type="Texture2D" uid="uid://dwuebvrnq4psu" path="res://assets/sprites/phone/wallpaper_amber.png" id="5_amber"]
 [ext_resource type="Texture2D" uid="uid://bk3pkq86ix534" path="res://assets/sprites/phone/wallpaper_sage.png" id="6_sage"]
 [ext_resource type="Texture2D" uid="uid://v3bxfticmaew" path="res://assets/sprites/phone/wallpaper_plum.png" id="7_plum"]
-[ext_resource type="Texture2D" path="res://assets/sprites/phone/app_icon_background.png" id="8_app_background"]
+[ext_resource type="Texture2D" uid="uid://ugwj643op6k6" path="res://assets/sprites/phone/previous_icon.png" id="12_previous"]
+[ext_resource type="Texture2D" uid="uid://dk6chnbymfas2" path="res://assets/sprites/phone/next_icon.png" id="13_next"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_28pym"]
+load_path = "res://.godot/imported/app_icon_background.png-26382a8537411521a7f3f1ccc014957f.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h0v7o"]
+load_path = "res://.godot/imported/taxi_icon.png-b426f34c53c3060e698b5b2ce8f26223.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jj4an"]
+load_path = "res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r36fv"]
+load_path = "res://.godot/imported/music_icon.png-42da6d89b21250831af5ef05b392726f.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_glghh"]
+load_path = "res://.godot/imported/play_icon.png-0b56e12321b6755398bf7a39420409b2.ctex"
 
 [node name="Phone" type="CanvasLayer" unique_id=1963600119]
 layer = 10
@@ -80,24 +94,24 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
 
-[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/Taxi"]
+[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/Taxi" unique_id=594468017]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = ExtResource("8_app_background")
+texture = SubResource("CompressedTexture2D_28pym")
 expand_mode = 1
 
-[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Taxi"]
+[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Taxi" unique_id=1502883391]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = ExtResource("2_taxi_icon")
+texture = SubResource("CompressedTexture2D_h0v7o")
 expand_mode = 1
 
 [node name="WallpapersButton" type="Button" parent="Root/Screen/Launcher" unique_id=400404278]
@@ -111,24 +125,178 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
 
-[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton"]
+[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton" unique_id=2127212600]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = ExtResource("8_app_background")
+texture = SubResource("CompressedTexture2D_28pym")
 expand_mode = 1
 
-[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton"]
+[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/WallpapersButton" unique_id=1424210148]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = ExtResource("3_wallpapers_icon")
+texture = SubResource("CompressedTexture2D_jj4an")
+expand_mode = 1
+
+[node name="MusicButton" type="Button" parent="Root/Screen/Launcher" unique_id=168588845]
+texture_filter = 1
+layout_mode = 0
+offset_left = 202.0
+offset_top = 28.0
+offset_right = 276.0
+offset_bottom = 102.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+
+[node name="Background" type="TextureRect" parent="Root/Screen/Launcher/MusicButton" unique_id=2110953985]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_28pym")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/MusicButton" unique_id=1961516632]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 69.0
+offset_bottom = 69.0
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_r36fv")
+expand_mode = 1
+
+[node name="MusicPlayer" type="Control" parent="Root/Screen" unique_id=1255900534]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="Root/Screen/MusicPlayer" unique_id=1718324973]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.06, 0.09, 0.12, 0.76)
+
+[node name="Controls" type="HBoxContainer" parent="Root/Screen/MusicPlayer"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -124.0
+offset_right = -22.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Previous" type="Button" parent="Root/Screen/MusicPlayer/Controls" unique_id=1260122037]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+
+[node name="Background" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Previous" unique_id=1655276934]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_28pym")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Previous" unique_id=932598185]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("12_previous")
+expand_mode = 1
+
+[node name="Toggle" type="Button" parent="Root/Screen/MusicPlayer/Controls" unique_id=824188962]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+
+[node name="Background" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Toggle" unique_id=1362026268]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_28pym")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Toggle" unique_id=1746594453]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_glghh")
+expand_mode = 1
+
+[node name="Next" type="Button" parent="Root/Screen/MusicPlayer/Controls" unique_id=688676799]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
+
+[node name="Background" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Next" unique_id=1213611660]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("CompressedTexture2D_28pym")
+expand_mode = 1
+
+[node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Next" unique_id=1307830746]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_next")
 expand_mode = 1
 
 [node name="WallpaperPicker" type="Control" parent="Root/Screen" unique_id=1957888793]

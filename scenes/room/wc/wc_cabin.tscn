@@ -57,6 +57,7 @@ position = Vector2(15.5, -8.5)
 shape = SubResource("RectangleShape2D_bkwlb")
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1178779473]
+bus = &"World"
 stream = ExtResource("3_6e4uq")
 max_distance = 300.0
 

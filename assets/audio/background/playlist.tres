@@ -1,0 +1,22 @@
+[gd_resource type="AudioStreamPlaylist" format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/background/1.mp3" id="1"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/2.mp3" id="2"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/3.mp3" id="3"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/4.mp3" id="4"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/5.mp3" id="5"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/6.mp3" id="6"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/7.mp3" id="7"]
+[ext_resource type="AudioStream" path="res://assets/audio/background/8.mp3" id="8"]
+
+[resource]
+shuffle = true
+stream_count = 8
+stream_0 = ExtResource("1")
+stream_1 = ExtResource("2")
+stream_2 = ExtResource("3")
+stream_3 = ExtResource("4")
+stream_4 = ExtResource("5")
+stream_5 = ExtResource("6")
+stream_6 = ExtResource("7")
+stream_7 = ExtResource("8")

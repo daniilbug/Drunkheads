@@ -10,6 +10,7 @@ const PHONE_SCENE := preload("res://scenes/core/phone.tscn")
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
 @onready var mind_label: Label = $HUD/Stats/MindLabel
 @onready var money_label: Label = $HUD/Stats/MoneyLabel
+@onready var headphone_player: HeadphonePlayer = $HeadphonePlayer
 
 var _players_at_home: Dictionary = {}
 var _phone: Phone
@@ -28,6 +29,7 @@ func _ready() -> void:
 func _init_hud(player: Player) -> void:
 	player.player_data.stats_changed.connect(_update_stats)
 	player.phone_requested.connect(_on_phone_requested)
+	headphone_player.player = player
 	_update_stats()
 
 func _on_phone_requested(player: Player) -> void:
@@ -38,21 +40,22 @@ func _on_phone_requested(player: Player) -> void:
 
 func _open_phone() -> void:
 	var player := bar.local_player
-	if player == null or player.in_vehicle:
+	if player == null:
 		return
 	_phone = PHONE_SCENE.instantiate() as Phone
 	_phone.set_player_settings(player.settings)
+	_phone.set_headphone_player(headphone_player)
 	add_child(_phone)
 	_phone.taxi_requested.connect(_on_phone_taxi_requested)
 	_phone.closed.connect(_on_phone_closed)
-	_phone.set_taxi_available(_can_order_taxi and not is_player_home(int(player.name)))
+	_phone.set_taxi_available(_can_order_taxi and not player.in_vehicle and not is_player_home(int(player.name)))
 
 func _on_phone_closed() -> void:
 	if _phone != null:
 		_phone.queue_free()
 		_phone = null
 	if bar.local_player != null:
-		bar.local_player.is_world_input_blocked = bar.local_player.in_vehicle
+		bar.local_player.is_world_input_blocked = false
 
 func _on_phone_taxi_requested() -> void:
 	_can_order_taxi = false
@@ -87,7 +90,7 @@ func _on_taxi_order_availability_changed(peer_id: int, available: bool) -> void:
 func _receive_taxi_availability(available: bool) -> void:
 	_can_order_taxi = available
 	if _phone != null:
-		_phone.set_taxi_available(available and not is_player_home(multiplayer.get_unique_id()))
+		_phone.set_taxi_available(available and not bar.local_player.in_vehicle and not is_player_home(multiplayer.get_unique_id()))
 
 func _update_stats() -> void:
 	if bar.local_player == null:
@@ -147,6 +150,7 @@ func _apply_trip(peer_id: int, to_home: bool) -> void:
 	if player != bar.local_player:
 		return
 	home.local_player = player if to_home else null
+	_receive_taxi_availability(_can_order_taxi)
 	_set_camera_bounds(player, home.get_world_bounds() if to_home else bar.get_world_bounds())
 
 func _set_camera_bounds(player: Player, bounds: Rect2) -> void:

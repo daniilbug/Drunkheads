@@ -42,5 +42,6 @@ hframes = 8
 replication_config = SubResource("SceneReplicationConfig_pack")
 
 [node name="SmokingAudio" type="AudioStreamPlayer2D" parent="." index="4"]
+bus = &"World"
 stream = ExtResource("5_smoking_audio")
 max_distance = 128.0

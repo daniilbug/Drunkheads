@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "assets" / "sprites" / "phone"
 
 ICON_SIZE = 64
+OUTPUT_ICON_SIZE = 32
 OUTLINE = "#3a2610"
 TILE = "#d9af5b"
 TILE_LIGHT = "#f1cf82"
@@ -20,7 +21,8 @@ CAR = "#ad884b"
 def _save(icon: Image.Image, filename: str) -> Path:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     path = OUTPUT / filename
-    icon.save(path)
+    # Keep the shared drawing coordinates; export crisp, lower-resolution pixels.
+    icon.resize((OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), Image.Resampling.NEAREST).save(path)
     return path
 
 
@@ -83,7 +85,43 @@ def generate_wallpaper_icon() -> Path:
     return _save(icon, "wallpapers_icon.png")
 
 
+def generate_music_icon() -> Path:
+    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    draw.polygon([(30, 21), (48, 17), (48, 42), (43, 42),
+                  (43, 24), (35, 26), (35, 46), (30, 46)], fill=OUTLINE)
+    draw.ellipse((20, 41, 35, 50), fill=OUTLINE)
+    draw.ellipse((38, 37, 49, 46), fill=OUTLINE)
+    draw.rectangle((34, 25, 44, 27), fill=TILE_LIGHT)
+    return _save(icon, "music_icon.png")
+
+
+def generate_control_icon(name: str) -> Path:
+    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    if name == "play":
+        draw.polygon([(24, 17), (48, 32), (24, 47)], fill=OUTLINE)
+        draw.polygon([(28, 23), (41, 32), (28, 41)], fill=TILE_LIGHT)
+    elif name == "pause":
+        for x in (21, 38):
+            draw.rectangle((x, 18, x + 7, 46), fill=OUTLINE)
+            draw.rectangle((x + 2, 21, x + 4, 43), fill=TILE_LIGHT)
+    elif name in ("previous", "next"):
+        if name == "previous":
+            draw.rectangle((16, 20, 21, 44), fill=OUTLINE)
+            draw.polygon([(43, 19), (23, 32), (43, 45)], fill=OUTLINE)
+        else:
+            draw.rectangle((43, 20, 48, 44), fill=OUTLINE)
+            draw.polygon([(21, 19), (41, 32), (21, 45)], fill=OUTLINE)
+    else:
+        raise ValueError(name)
+    return _save(icon, f"{name}_icon.png")
+
+
 if __name__ == "__main__":
     print(generate_app_icon_background())
     print(generate_taxi_icon())
     print(generate_wallpaper_icon())
+    print(generate_music_icon())
+    for control in ("play", "pause", "previous", "next"):
+        print(generate_control_icon(control))

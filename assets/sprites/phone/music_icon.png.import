@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://52jx2xqypsum"
-path="res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"
+uid="uid://c55sy0vwt0p54"
+path="res://.godot/imported/music_icon.png-42da6d89b21250831af5ef05b392726f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/phone/wallpapers_icon.png"
-dest_files=["res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"]
+source_file="res://assets/sprites/phone/music_icon.png"
+dest_files=["res://.godot/imported/music_icon.png-42da6d89b21250831af5ef05b392726f.ctex"]
 
 [params]
 

@@ -44,6 +44,7 @@ hframes = 4
 shape = SubResource("CircleShape2D_f44yl")
 
 [node name="PlacingAudio" type="AudioStreamPlayer2D" parent="." unique_id=1777630915]
+bus = &"World"
 stream = ExtResource("2_mdows")
 volume_db = -10.0
 autoplay = true

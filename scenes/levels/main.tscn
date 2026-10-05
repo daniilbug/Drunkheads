@@ -1,35 +1,40 @@
 [gd_scene format=3 uid="uid://d1nd8va4ey5ij"]
 
 [ext_resource type="Script" uid="uid://d1oovenu7ys20" path="res://scripts/main.gd" id="1_main"]
-[ext_resource type="PackedScene" path="res://scenes/levels/bar.tscn" id="2_bar"]
+[ext_resource type="PackedScene" uid="uid://1q5qopjnmf5o" path="res://scenes/levels/bar.tscn" id="2_bar"]
 [ext_resource type="PackedScene" uid="uid://14grqjfbu4u6" path="res://scenes/levels/home.tscn" id="3_home"]
+[ext_resource type="Script" uid="uid://csyn6xfjumvym" path="res://scripts/core/headphone_player.gd" id="4_headphones"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
 scale = Vector2(4, 4)
 script = ExtResource("1_main")
 
-[node name="Home" parent="." instance=ExtResource("3_home")]
+[node name="Home" parent="." unique_id=1924197594 instance=ExtResource("3_home")]
 position = Vector2(900, 0)
 
-[node name="Bar" parent="." instance=ExtResource("2_bar")]
+[node name="Bar" parent="." unique_id=1970715540 instance=ExtResource("2_bar")]
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HeadphonePlayer" type="AudioStreamPlayer" parent="." unique_id=1806567769]
+volume_db = -30.0
+script = ExtResource("4_headphones")
 
-[node name="Stats" type="VBoxContainer" parent="HUD"]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1498230204]
+
+[node name="Stats" type="VBoxContainer" parent="HUD" unique_id=1724038865]
 offset_left = 428.0
 offset_top = 827.0
 offset_right = 884.0
 offset_bottom = 1003.0
 
-[node name="RespectLabel" type="Label" parent="HUD/Stats"]
+[node name="RespectLabel" type="Label" parent="HUD/Stats" unique_id=1563725347]
 layout_mode = 2
 text = "Respect  50"
 
-[node name="MindLabel" type="Label" parent="HUD/Stats"]
+[node name="MindLabel" type="Label" parent="HUD/Stats" unique_id=930485238]
 layout_mode = 2
 text = "Mind     50"
 
-[node name="MoneyLabel" type="Label" parent="HUD/Stats"]
+[node name="MoneyLabel" type="Label" parent="HUD/Stats" unique_id=2048936289]
 layout_mode = 2
 text = "Money   $50"

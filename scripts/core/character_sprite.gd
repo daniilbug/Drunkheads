@@ -37,6 +37,7 @@ const PANTS_TEXTURES = [
 @onready var _hair: Sprite2D = $Hair
 @onready var _top: Sprite2D = $Top
 @onready var _pants: Sprite2D = $Pants
+@onready var _headphones: Sprite2D = get_node_or_null("Headphones")
 
 func _ready() -> void:
 	frame_changed.connect(_sync_layer_frames)
@@ -48,7 +49,13 @@ func set_appearance(hair_id: int, top_id: int, pants_id: int) -> void:
 	_pants.texture = PANTS_TEXTURES[clampi(pants_id, 0, PANTS_TEXTURES.size() - 1)]
 	_sync_layer_frames()
 
+func set_headphones_enabled(enabled: bool) -> void:
+	if _headphones != null:
+		_headphones.visible = enabled
+
 func _sync_layer_frames() -> void:
 	_hair.frame = frame
 	_top.frame = frame
 	_pants.frame = frame
+	if _headphones != null:
+		_headphones.frame = frame

@@ -46,6 +46,12 @@ var settings: PlayerSettings
 		pants_id = value
 		_refresh_appearance()
 
+@export var headphones_enabled := false:
+	set(value):
+		headphones_enabled = value
+		if is_node_ready():
+			sprite.set_headphones_enabled(value)
+
 var player_name: String = ""
 
 @export var id: int = 0
@@ -74,7 +80,12 @@ var player_name: String = ""
 
 var _hands_item: Draggable = null
 var _smoking := false
-var is_world_input_blocked := false
+var _is_modal_input_blocked := false
+var is_world_input_blocked: bool:
+	get:
+		return in_vehicle or _is_modal_input_blocked
+	set(value):
+		_is_modal_input_blocked = value
 
 var _anim_t := 0.0
 var _anim_row := ROW_IDLE
@@ -94,6 +105,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_refresh_appearance()
+	sprite.set_headphones_enabled(headphones_enabled)
 	_apply_vehicle_state()
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
@@ -102,7 +114,6 @@ func _ready() -> void:
 
 func _apply_vehicle_state() -> void:
 	visible = not in_vehicle
-	is_world_input_blocked = in_vehicle
 	$Shape.set_deferred("disabled", in_vehicle)
 	var obstacle := get_node_or_null("NavigationObstacle") as NavigationObstacle2D
 	if obstacle != null:
@@ -206,7 +217,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
 	if event.is_action_pressed("phone") and not event.is_echo():
-		if not is_world_input_blocked and not _smoking:
+		if not _is_modal_input_blocked and not _smoking:
 			phone_requested.emit(self)
 			get_viewport().set_input_as_handled()
 		return
