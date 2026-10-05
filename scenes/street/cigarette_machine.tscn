@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8di0x6vaqh1n" path="res://scripts/street/cigarette_machine.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://df2a8712gsvky" path="res://assets/sprites/street/cigarette_machine.png" id="2_sprite"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/cigarette_dispense.mp3" id="3_audio"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(14.875, 6)
@@ -43,3 +44,8 @@ shape = SubResource("RectangleShape2D_interact")
 [node name="Light" type="PointLight2D" parent="." unique_id=2029942206]
 position = Vector2(0, -11)
 texture = SubResource("GradientTexture2D_2dh35")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+bus = &"World"
+stream = ExtResource("3_audio")
+max_distance = 128.0
