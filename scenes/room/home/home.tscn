@@ -3,60 +3,147 @@
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_room"]
 [ext_resource type="Script" uid="uid://da7hil3s5ss3h" path="res://scripts/room/home/home.gd" id="2_home"]
 [ext_resource type="Script" uid="uid://du61qjk44b81n" path="res://scripts/room/home/home_exit.gd" id="3_exit"]
+[ext_resource type="Texture2D" uid="uid://c5tgvgru762q4" path="res://assets/sprites/home/floor.png" id="3_ouwl1"]
+[ext_resource type="Texture2D" uid="uid://b1clydwj0cljv" path="res://assets/sprites/home/wall.png" id="4_4td4w"]
+[ext_resource type="Texture2D" uid="uid://cpfs5ih4wt2ll" path="res://assets/sprites/home/kitchen_floor.png" id="4_fwg2a"]
+[ext_resource type="PackedScene" uid="uid://b44bb8ag3rjxu" path="res://scenes/room/home/kitchen.tscn" id="6_orbry"]
+[ext_resource type="PackedScene" uid="uid://15low5k4n0a" path="res://scenes/room/home/stove.tscn" id="7_1tmr5"]
+[ext_resource type="PackedScene" uid="uid://hsq27lrfn2p4" path="res://scenes/room/home/fridge.tscn" id="8_j3max"]
+[ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="9_lvli5"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkv2j"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcdik"]
 size = Vector2(240, 4)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ouwl1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j60k6"]
 size = Vector2(240, 4)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4td4w"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wbpeg"]
 size = Vector2(4, 147)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwg2a"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge72r"]
 size = Vector2(4, 147)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_orbry"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lvli5"]
+size = Vector2(16, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bmjcs"]
 size = Vector2(232, 139)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4fhdp"]
+vertices = PackedVector2Array(121, 89, 121, 12, 150.25, 12, 150.25, 14, 214, 14, 214, 18, 228, 18, 228, 135, 12, 135, 12, 12, 85, 12, 85, 89)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 4, 5, 0), PackedInt32Array(5, 6, 7, 0), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(7, 8, 11, 0)])
 
 [sub_resource type="RectangleShape2D" id="ExitArea"]
 size = Vector2(24, 15)
 
 [node name="HomeRoom" unique_id=218493587 instance=ExtResource("1_room")]
+light_mask = 0
 script = ExtResource("2_home")
 room_size = Vector2(240, 147)
+wall_hidden_alpha = 1.0
+
+[node name="Floor" parent="." index="0" unique_id=2]
+texture_repeat = 2
+texture = ExtResource("3_ouwl1")
+region_enabled = true
+region_rect = Rect2(0, 0, 240, 147)
+
+[node name="KitcherFloor" type="Sprite2D" parent="." index="1" unique_id=1342760709]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(200, 40)
+texture = ExtResource("4_fwg2a")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 80)
 
 [node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
 position = Vector2(120, 0)
 
 [node name="Shape" parent="Walls/Top" index="0" unique_id=6]
-shape = SubResource("RectangleShape2D_mkv2j")
+shape = SubResource("RectangleShape2D_dcdik")
+
+[node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -30)
+texture = ExtResource("4_4td4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 240, 60)
 
 [node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
 position = Vector2(120, 147)
 
 [node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
-shape = SubResource("RectangleShape2D_ouwl1")
+shape = SubResource("RectangleShape2D_j60k6")
+
+[node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
+texture_repeat = 2
+position = Vector2(0, 7)
+texture = ExtResource("4_4td4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 272, 16)
 
 [node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
 position = Vector2(0, 73.5)
 
 [node name="Shape" parent="Walls/Left" index="0" unique_id=10]
-shape = SubResource("RectangleShape2D_4td4w")
+shape = SubResource("RectangleShape2D_wbpeg")
+
+[node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
+texture_repeat = 2
+position = Vector2(-8, -31.5)
+texture = ExtResource("4_4td4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 207)
 
 [node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
 position = Vector2(240, 73.5)
 
 [node name="Shape" parent="Walls/Right" index="0" unique_id=12]
-shape = SubResource("RectangleShape2D_fwg2a")
+shape = SubResource("RectangleShape2D_ge72r")
 
-[node name="TransparencyZone" parent="." index="2" unique_id=13]
+[node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+texture_repeat = 2
+position = Vector2(8, -31.5)
+texture = ExtResource("4_4td4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 207)
+
+[node name="Middle" type="StaticBody2D" parent="Walls" parent_id_path=PackedInt32Array(4) index="4" unique_id=215694835]
+z_as_relative = false
+position = Vector2(103, 39)
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/Middle" index="0" unique_id=544468160]
+shape = SubResource("RectangleShape2D_lvli5")
+
+[node name="Sprite" type="Sprite2D" parent="Walls/Middle" index="1" unique_id=8781042]
+texture_repeat = 2
+texture = ExtResource("4_4td4w")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 80)
+
+[node name="TransparencyZone" parent="." index="3" unique_id=13]
 position = Vector2(120, 73.5)
 
 [node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
-shape = SubResource("RectangleShape2D_orbry")
+shape = SubResource("RectangleShape2D_bmjcs")
 
-[node name="Exit" type="Node2D" parent="." index="4" unique_id=191648221]
+[node name="NavigationRegion" parent="." index="4" unique_id=887136184]
+navigation_polygon = SubResource("NavigationPolygon_4fhdp")
+
+[node name="Kitchen" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=1494824485 instance=ExtResource("6_orbry")]
+position = Vector2(184, 8.000001)
+
+[node name="Stove" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=624699926 instance=ExtResource("7_1tmr5")]
+position = Vector2(216, 8.000001)
+
+[node name="Fridge" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=231095920 instance=ExtResource("8_j3max")]
+position = Vector2(232, 8.000001)
+
+[node name="Lamp" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=909148239 instance=ExtResource("9_lvli5")]
+position = Vector2(200, 18)
+
+[node name="Exit" type="Node2D" parent="." index="5" unique_id=191648221]
 position = Vector2(120, 141)
 script = ExtResource("3_exit")
 

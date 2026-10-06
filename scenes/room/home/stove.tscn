@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://15low5k4n0a"]
+
+[ext_resource type="Texture2D" uid="uid://c121ha4qy73qc" path="res://assets/sprites/home/stove.png" id="1_667da"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="2_gyf1h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sq2cx"]
+size = Vector2(15.75, 8)
+
+[node name="Stove" type="StaticBody2D" unique_id=1494824485]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=275127158]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -8)
+texture = ExtResource("1_667da")
+region_rect = Rect2(0, 0, 48, 16)
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=1375335798]
+position = Vector2(0.125, -8)
+shape = SubResource("RectangleShape2D_sq2cx")
+
+[node name="DropPlace" parent="." unique_id=16125788 instance=ExtResource("2_gyf1h")]
+position = Vector2(0, -14)
