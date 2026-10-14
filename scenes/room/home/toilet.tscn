@@ -1,0 +1,183 @@
+[gd_scene format=4 uid="uid://gk5fn3pi0fov"]
+
+[ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_room"]
+[ext_resource type="Script" uid="uid://bwibwyq3d0hek" path="res://scripts/room/home/toilet.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://bv5s38an5qany" path="res://assets/sprites/home/toilet_floor.png" id="3_floor"]
+[ext_resource type="Texture2D" uid="uid://dwq7q1rbg5odb" path="res://assets/sprites/home/toilet_top_wall.png" id="4_top_tile"]
+[ext_resource type="Texture2D" uid="uid://b1clydwj0cljv" path="res://assets/sprites/home/wall.png" id="4_wall"]
+[ext_resource type="Shader" uid="uid://ce2xlrwtd401r" path="res://assets/shaders/toilet_front_wall.gdshader" id="5_clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/toilet_fixture.tscn" id="6_toilet"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/toilet_sink.tscn" id="7_sink"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/toilet_door.tscn" id="8_door"]
+[ext_resource type="PackedScene" uid="uid://gnxvp6i0h2tc" path="res://scenes/room/home/lightbulb.tscn" id="9_lamp"]
+[ext_resource type="PackedScene" path="res://scenes/core/light_switch.tscn" id="10_switch"]
+[ext_resource type="PackedScene" uid="uid://bqeechwstedx7" path="res://scenes/room/home/shower.tscn" id="11_shower"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbi0n"]
+size = Vector2(40, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhr6r"]
+size = Vector2(40, 4)
+
+[sub_resource type="ShaderMaterial" id="BottomWallDoorway"]
+shader = ExtResource("5_clip")
+shader_parameter/active_cutouts = 1
+shader_parameter/cutouts = PackedVector4Array(13, 12, 14, 28)
+shader_parameter/outside_shadow_offset = Vector2(0, 42)
+shader_parameter/excluded_light_local_position = Vector2(0, -37)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drenc"]
+size = Vector2(4, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqkv7"]
+size = Vector2(4, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52tto"]
+size = Vector2(32, 56)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_iyor3"]
+vertices = PackedVector2Array(28, 52, 12, 52, 12, 45.65625, 24, 45.65625, 28, 21.5, 24, 21.5, 12.5, 12.34375, 12, 12.34375, 12, 12, 12.5, 12)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(6, 7, 8, 9)])
+
+[sub_resource type="OccluderPolygon2D" id="TopWallOccluder"]
+closed = false
+polygon = PackedVector2Array(-20, 0, 20, 0)
+
+[sub_resource type="OccluderPolygon2D" id="SideWallOccluder"]
+closed = false
+polygon = PackedVector2Array(0, -64, 0, 32)
+
+[sub_resource type="OccluderPolygon2D" id="BottomLeftOccluder"]
+closed = false
+polygon = PackedVector2Array(-20, 0, -7, 0)
+
+[sub_resource type="OccluderPolygon2D" id="BottomRightOccluder"]
+closed = false
+polygon = PackedVector2Array(7, 0, 20, 0)
+
+[node name="HomeToiletRoom" unique_id=660596135 instance=ExtResource("1_room")]
+light_mask = 0
+y_sort_enabled = true
+script = ExtResource("2_script")
+room_size = Vector2(40, 64)
+
+[node name="Floor" parent="." index="0" unique_id=2]
+texture_repeat = 2
+texture = ExtResource("3_floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 64)
+
+[node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(20, 0)
+
+[node name="Shape" parent="Walls/Top" index="0" unique_id=6]
+shape = SubResource("RectangleShape2D_vbi0n")
+
+[node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -15)
+texture = ExtResource("4_top_tile")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 32)
+
+[node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
+position = Vector2(20, 64)
+
+[node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
+shape = SubResource("RectangleShape2D_fhr6r")
+
+[node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
+light_mask = 2
+texture_repeat = 2
+material = SubResource("BottomWallDoorway")
+position = Vector2(0, -20)
+texture = ExtResource("4_wall")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 40)
+
+[node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
+position = Vector2(0, 32)
+
+[node name="Shape" parent="Walls/Left" index="0" unique_id=10]
+shape = SubResource("RectangleShape2D_drenc")
+
+[node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-2, 0)
+texture = ExtResource("4_wall")
+region_enabled = true
+region_rect = Rect2(0, 0, 4, 64)
+
+[node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
+position = Vector2(40, 32)
+
+[node name="Shape" parent="Walls/Right" index="0" unique_id=12]
+shape = SubResource("RectangleShape2D_lqkv7")
+
+[node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(2, 0)
+texture = ExtResource("4_wall")
+region_enabled = true
+region_rect = Rect2(0, 0, 4, 64)
+
+[node name="TransparencyZone" parent="." index="2" unique_id=13]
+position = Vector2(20, 32)
+
+[node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
+shape = SubResource("RectangleShape2D_52tto")
+
+[node name="NavigationRegion" parent="." index="3" unique_id=887136184]
+navigation_polygon = SubResource("NavigationPolygon_iyor3")
+
+[node name="Toilet" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="0" unique_id=1892542712 instance=ExtResource("6_toilet")]
+position = Vector2(8, 37)
+scale = Vector2(0.666667, 0.666667)
+
+[node name="Sink" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="1" unique_id=2040937340 instance=ExtResource("7_sink")]
+position = Vector2(9, 2.000001)
+
+[node name="Shower" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="2" unique_id=1940049059 instance=ExtResource("11_shower")]
+position = Vector2(31, 15.000001)
+
+[node name="Lightbulb" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="3" unique_id=779114099 instance=ExtResource("9_lamp")]
+position = Vector2(20, 7)
+
+[node name="LightSwitch" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=152422475 node_paths=PackedStringArray("target_lamp") instance=ExtResource("10_switch")]
+position = Vector2(5, 57)
+target_lamp = NodePath("../Lightbulb")
+
+[node name="Door" parent="." index="4" unique_id=1291399484 instance=ExtResource("8_door")]
+position = Vector2(20, 64)
+
+[node name="LightOccluders" type="Node2D" parent="." index="5" unique_id=441884489]
+
+[node name="Top" type="LightOccluder2D" parent="LightOccluders" index="0" unique_id=352152421]
+position = Vector2(20, -32)
+occluder = SubResource("TopWallOccluder")
+occluder_light_mask = 2
+
+[node name="Left" type="LightOccluder2D" parent="LightOccluders" index="1" unique_id=1440106167]
+position = Vector2(1, 32)
+occluder = SubResource("SideWallOccluder")
+occluder_light_mask = 2
+
+[node name="Right" type="LightOccluder2D" parent="LightOccluders" index="2" unique_id=925638408]
+position = Vector2(39, 32)
+occluder = SubResource("SideWallOccluder")
+occluder_light_mask = 2
+
+[node name="BottomLeft" type="LightOccluder2D" parent="LightOccluders" index="3" unique_id=162430963]
+position = Vector2(20, 63)
+occluder = SubResource("BottomLeftOccluder")
+sdf_collision = false
+occluder_light_mask = 2
+
+[node name="BottomRight" type="LightOccluder2D" parent="LightOccluders" index="4" unique_id=1056962766]
+position = Vector2(20, 63)
+occluder = SubResource("BottomRightOccluder")
+sdf_collision = false
+occluder_light_mask = 2

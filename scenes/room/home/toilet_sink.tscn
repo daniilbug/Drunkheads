@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/wc/sink.tscn" id="1_sink"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home/toilet_sink.png" id="2_sprite"]
+
+[node name="ToiletSink" instance=ExtResource("1_sink")]
+
+[node name="Sprite" parent="." index="0"]
+texture_filter = 1
+texture = ExtResource("2_sprite")
+
+[node name="Audio" parent="." index="3"]
+bus = &"World"

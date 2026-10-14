@@ -33,7 +33,7 @@ size = Vector2(4, 147)
 size = Vector2(4, 147)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvli5"]
-size = Vector2(16, 80)
+size = Vector2(16, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h8iys"]
 size = Vector2(232, 139)
@@ -114,7 +114,7 @@ region_rect = Rect2(0, 0, 16, 207)
 
 [node name="Middle" type="StaticBody2D" parent="Walls" parent_id_path=PackedInt32Array(4) index="4" unique_id=215694835]
 z_as_relative = false
-position = Vector2(86, 39)
+position = Vector2(86, 32)
 
 [node name="Shape" type="CollisionShape2D" parent="Walls/Middle" index="0" unique_id=544468160]
 shape = SubResource("RectangleShape2D_lvli5")
@@ -124,7 +124,7 @@ light_mask = 2
 texture_repeat = 2
 texture = ExtResource("4_4td4w")
 region_enabled = true
-region_rect = Rect2(0, 0, 16, 80)
+region_rect = Rect2(0, 0, 16, 64)
 
 [node name="TransparencyZone" parent="." index="2" unique_id=13]
 position = Vector2(120, 73.5)
@@ -162,7 +162,7 @@ position = Vector2(204, 85)
 position = Vector2(184, 8.000001)
 
 [node name="KitchenTrash" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1059641695 instance=ExtResource("13_trash")]
-position = Vector2(172, 4.000001)
+position = Vector2(180, 14)
 
 [node name="DiningTable" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=341360599 instance=ExtResource("14_table")]
 position = Vector2(204, 36)
@@ -171,7 +171,7 @@ position = Vector2(204, 36)
 position = Vector2(15, 7)
 
 [node name="KitchenSwitch" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="11" unique_id=1045764594 node_paths=PackedStringArray("target_lamp") instance=ExtResource("16_switch")]
-position = Vector2(90, 78)
+position = Vector2(90, 63)
 target_lamp = NodePath("../KitchenLightbulb")
 
 [node name="Wardrobe" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="12" unique_id=1305607919 instance=ExtResource("17_wardrobe")]
@@ -181,7 +181,7 @@ position = Vector2(16, 99)
 position = Vector2(65, 7)
 
 [node name="BedroomSwitch" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="14" unique_id=1848867168 node_paths=PackedStringArray("target_lamp") instance=ExtResource("16_switch")]
-position = Vector2(82, 78)
+position = Vector2(82, 63)
 target_lamp = NodePath("../BedroomLightbulb")
 
 [node name="Exit" parent="." index="4" unique_id=191648221 instance=ExtResource("3_exit")]
