@@ -8,7 +8,7 @@ light_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_light"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.73493975)
+offsets = PackedFloat32Array(0, 0.939759)
 colors = PackedColorArray(1, 1, 1, 0.1764706, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="Texture_light"]
@@ -27,21 +27,25 @@ properties/0/replication_mode = 2
 
 [node name="Lightbulb" type="Node2D" unique_id=130817484]
 script = ExtResource("1_script")
+is_turned_on = false
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=851455580]
+modulate = Color(1, 1, 1, 0.5)
 light_mask = 2
+z_index = 1000
+z_as_relative = false
 texture_filter = 1
 material = SubResource("Material_bulb")
 position = Vector2(0, -3)
 texture = ExtResource("2_sprite")
 
 [node name="Light" type="PointLight2D" parent="." unique_id=1322983147]
+visible = false
 texture_filter = 2
 color = Color(1, 0.91, 0.76, 1)
 energy = 2.0
 range_item_cull_mask = 2
 shadow_enabled = true
-shadow_filter = 2
 shadow_item_cull_mask = 2
 texture = SubResource("Texture_light")
 

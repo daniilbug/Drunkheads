@@ -37,7 +37,11 @@ const PANTS_TEXTURES = [
 @onready var _hair: Sprite2D = $Hair
 @onready var _top: Sprite2D = $Top
 @onready var _pants: Sprite2D = $Pants
+@onready var _naked_overlay: Sprite2D = get_node_or_null("NakedOverlay")
 @onready var _headphones: Sprite2D = get_node_or_null("Headphones")
+
+var _in_shower := false
+var _headphones_enabled := false
 
 func _ready() -> void:
 	frame_changed.connect(_sync_layer_frames)
@@ -50,12 +54,24 @@ func set_appearance(hair_id: int, top_id: int, pants_id: int) -> void:
 	_sync_layer_frames()
 
 func set_headphones_enabled(enabled: bool) -> void:
+	_headphones_enabled = enabled
 	if _headphones != null:
-		_headphones.visible = enabled
+		_headphones.visible = enabled and not _in_shower
+
+func set_in_shower(enabled: bool) -> void:
+	_in_shower = enabled
+	_top.visible = not enabled
+	_pants.visible = not enabled
+	if _naked_overlay != null:
+		_naked_overlay.visible = enabled
+	if _headphones != null:
+		_headphones.visible = _headphones_enabled and not enabled
 
 func _sync_layer_frames() -> void:
 	_hair.frame = frame
 	_top.frame = frame
 	_pants.frame = frame
+	if _naked_overlay != null:
+		_naked_overlay.frame = frame
 	if _headphones != null:
 		_headphones.frame = frame

@@ -46,6 +46,12 @@ var seated_seat: Seat = null
 		pants_id = value
 		_refresh_appearance()
 
+@export var in_shower := false:
+	set(value):
+		in_shower = value
+		if is_node_ready():
+			sprite.set_in_shower(value)
+
 @export var headphones_enabled := false:
 	set(value):
 		headphones_enabled = value
@@ -106,6 +112,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	_refresh_appearance()
 	sprite.set_headphones_enabled(headphones_enabled)
+	sprite.set_in_shower(in_shower)
 	_apply_vehicle_state()
 	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()

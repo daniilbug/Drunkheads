@@ -14,7 +14,7 @@ shader_parameter/outside_shadow_offset = Vector2(0, 42)
 [sub_resource type="ShaderMaterial" id="OpenDoorLightFilter"]
 shader = ExtResource("4_light_filter")
 shader_parameter/active_cutouts = 0
-shader_parameter/excluded_light_local_position = Vector2(11, -29)
+shader_parameter/excluded_light_local_position = Vector2(9, -29)
 shader_parameter/outside_shadow_offset = Vector2(0, 42)
 
 [sub_resource type="ShaderMaterial" id="DoorFrameLightFilter"]
@@ -44,7 +44,7 @@ occluder = SubResource("ClosedDoorOccluder")
 [node name="OpenSprite" parent="." index="1"]
 light_mask = 2
 material = SubResource("OpenDoorLightFilter")
-position = Vector2(-11, -28)
+position = Vector2(-9, -28)
 texture = ExtResource("2_sprite")
 hframes = 2
 frame = 1
@@ -53,7 +53,7 @@ frame = 1
 show_behind_parent = true
 light_mask = 2
 material = SubResource("DoorFrameLightFilter")
-position = Vector2(4, 0)
+position = Vector2(2, 0)
 texture = ExtResource("3_frame")
 centered = false
 

@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://csk8fgp2aay1x" path="res://scenes/room/home/trash.tscn" id="13_trash"]
 [ext_resource type="PackedScene" uid="uid://3vbv4rkjnggq" path="res://scenes/room/home/table.tscn" id="14_table"]
 [ext_resource type="PackedScene" path="res://scenes/room/home/nightstand.tscn" id="15_nightstand"]
-[ext_resource type="PackedScene" path="res://scenes/core/light_switch.tscn" id="16_switch"]
+[ext_resource type="PackedScene" uid="uid://dm51yqm6v3rm6" path="res://scenes/core/light_switch.tscn" id="16_switch"]
 [ext_resource type="PackedScene" path="res://scenes/room/home/wardrobe.tscn" id="17_wardrobe"]
 [ext_resource type="PackedScene" path="res://scenes/room/home/doormat.tscn" id="18_doormat"]
 
@@ -39,8 +39,8 @@ size = Vector2(16, 64)
 size = Vector2(232, 139)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_iibkr"]
-vertices = PackedVector2Array(214, 16, 167.9375, 16, 167.9375, 14, 214, 14, 161, 93, 223, 93, 228, 135, 12, 135, 38, 109, 144.0625, 16.5, 166, 16.5, 166, 56, 226, 56, 226, 18, 228, 18, 223, 67, 161, 67, 12, 109, 12, 79, 12, 17, 14, 17, 14, 46, 38, 79, 66, 46, 66, 17, 68, 17, 68, 89, 104, 89, 104, 10, 144.0625, 10)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11), PackedInt32Array(12, 13, 14, 6), PackedInt32Array(12, 6, 5, 15), PackedInt32Array(11, 12, 15, 16), PackedInt32Array(7, 17, 8), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 18, 21, 23), PackedInt32Array(23, 24, 25, 26), PackedInt32Array(22, 23, 26, 8), PackedInt32Array(4, 8, 26, 27), PackedInt32Array(16, 4, 27, 28), PackedInt32Array(11, 16, 28, 9), PackedInt32Array(29, 9, 28)])
+vertices = PackedVector2Array(159.0625, 16.5, 174, 16.5, 174, 56, 228, 56, 228, 67, 173, 67, 173, 93, 228, 93, 228, 135, 12, 135, 38, 109, 12, 109, 38, 79, 68, 74, 104, 74, 12, 79, 12, 17, 14, 17, 14, 46, 66, 46, 66, 17, 68, 17, 104, 10, 159.0625, 10, 214, 16, 182.9375, 16, 182.9375, 14, 214, 14)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(2, 3, 4, 5), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(9, 11, 10), PackedInt32Array(6, 10, 12, 13, 14), PackedInt32Array(15, 16, 17, 18), PackedInt32Array(12, 15, 18, 19, 13), PackedInt32Array(19, 20, 21, 13), PackedInt32Array(5, 6, 14, 22), PackedInt32Array(2, 5, 22, 0), PackedInt32Array(23, 0, 22), PackedInt32Array(24, 25, 26, 27)])
 
 [node name="HomeRoom" unique_id=218493587 instance=ExtResource("1_room")]
 light_mask = 0
@@ -153,7 +153,7 @@ light_mask = 2
 position = Vector2(40, 61)
 
 [node name="Bed" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="5" unique_id=518215192 instance=ExtResource("10_bed")]
-position = Vector2(40, 37)
+position = Vector2(40, 33)
 
 [node name="Sofa" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="6" unique_id=303266590 instance=ExtResource("11_sofa")]
 position = Vector2(204, 85)
@@ -162,7 +162,7 @@ position = Vector2(204, 85)
 position = Vector2(184, 8.000001)
 
 [node name="KitchenTrash" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=1059641695 instance=ExtResource("13_trash")]
-position = Vector2(180, 14)
+position = Vector2(171, 6)
 
 [node name="DiningTable" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="9" unique_id=341360599 instance=ExtResource("14_table")]
 position = Vector2(204, 36)

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqeechwstedx7"]
 
-[ext_resource type="Script" path="res://scripts/room/home/shower.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://6grj0toayfxp" path="res://scripts/room/home/shower.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bs5ye85kaqobw" path="res://assets/sprites/home/shower.png" id="2_sprite"]
 [ext_resource type="AudioStream" uid="uid://ckfid4vq8q4u4" path="res://assets/audio/interactions/sink.mp3" id="3_audio"]
 
@@ -12,6 +12,9 @@ size = Vector2(2, 27)
 
 [sub_resource type="CircleShape2D" id="InteractionShape"]
 radius = 4.0
+
+[sub_resource type="RectangleShape2D" id="InsideShape"]
+size = Vector2(10, 22)
 
 [sub_resource type="SceneReplicationConfig" id="Replication"]
 properties/0/path = NodePath(".:is_watering")
@@ -31,7 +34,7 @@ hframes = 6
 [node name="Body" type="StaticBody2D" parent="." unique_id=176557520]
 
 [node name="BackShape" type="CollisionShape2D" parent="Body" unique_id=1406713440]
-position = Vector2(0, -21)
+position = Vector2(0, -25)
 shape = SubResource("BackShape")
 
 [node name="LeftGlassShape" type="CollisionShape2D" parent="Body" unique_id=2127740082]
@@ -48,6 +51,12 @@ shape = SubResource("GlassShape")
 position = Vector2(0, -13)
 shape = SubResource("InteractionShape")
 
+[node name="InsideArea" type="Area2D" parent="." unique_id=671025241]
+
+[node name="Shape" type="CollisionShape2D" parent="InsideArea" unique_id=1786813223]
+position = Vector2(0, -15)
+shape = SubResource("InsideShape")
+
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=673679663]
 stream = ExtResource("3_audio")
 max_distance = 300.0
@@ -55,3 +64,6 @@ bus = &"World"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=155256006]
 replication_config = SubResource("Replication")
+
+[connection signal="body_entered" from="InsideArea" to="." method="_on_inside_body_entered"]
+[connection signal="body_exited" from="InsideArea" to="." method="_on_inside_body_exited"]

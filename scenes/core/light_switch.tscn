@@ -1,7 +1,10 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dm51yqm6v3rm6"]
 
-[ext_resource type="PackedScene" path="res://scenes/core/switch.tscn" id="1_switch"]
+[ext_resource type="PackedScene" uid="uid://fow4hkarxeti" path="res://scenes/core/switch.tscn" id="1_switch"]
 [ext_resource type="Script" path="res://scripts/core/light_switch.gd" id="2_script"]
 
-[node name="LightSwitch" instance=ExtResource("1_switch")]
+[node name="LightSwitch" unique_id=1504656616 instance=ExtResource("1_switch")]
 script = ExtResource("2_script")
+
+[node name="Sprite" parent="." index="0" unique_id=981908747]
+position = Vector2(0, -9)

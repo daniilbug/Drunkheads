@@ -19,9 +19,11 @@ position = Vector2(120, 128)
 
 [node name="BottomLeft" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="0" unique_id=326883410]
 position = Vector2(0, 147)
+gizmo_extents = 0.0
 
 [node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1" unique_id=1707001651]
 position = Vector2(240, -132)
+gizmo_extents = 0.0
 
 [node name="StreetAmbience" type="AudioStreamPlayer" parent="." index="4" unique_id=2052096818]
 stream = ExtResource("5_ambience")
