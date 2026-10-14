@@ -29,7 +29,7 @@ func _request_purchase() -> void:
 
 func _buy_for(peer_id: int) -> void:
 	var level := Level.find_level_node(self)
-	var player := level.get_node_or_null(str(peer_id)) as Player
+	var player := level.get_player(peer_id)
 	if player == null or not purchase_area.overlaps_area(player.interaction_area):
 		_purchase_result.rpc_id(peer_id, false)
 		return

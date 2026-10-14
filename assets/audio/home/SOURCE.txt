@@ -1,0 +1,16 @@
+city_ambience.wav
+
+Source: City traffic background ambience, Mixkit sound effect 2930.
+Listing: https://mixkit.co/free-sound-effects/traffic/
+Original WAV: https://assets.mixkit.co/active_storage/sfx/2930/2930.wav
+License: Mixkit Sound Effects Free License
+https://mixkit.co/license/#sfxFree
+Checked: 2026-10-14
+
+Commercial and non-commercial video game use and modifications are permitted.
+Do not redistribute the sound as a standalone asset, stock, template, or with
+source files. This asset is licensed separately from the game's source code.
+
+Processing: 0.75-second linear tail/head crossfade for looping; original stereo
+channels and 44100 Hz sample rate preserved. Prepared with:
+python3 tools/prepare_city_ambience.py /path/to/2930.wav

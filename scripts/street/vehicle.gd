@@ -173,7 +173,7 @@ func _handle_interaction(peer_id: int) -> void:
 	var level := Level.find_level_node(self)
 	if level == null:
 		return
-	var player := level.get_node_or_null(str(peer_id)) as Player
+	var player := level.get_player(peer_id)
 	if player == null or not _interaction.area.overlaps_area(player.interaction_area):
 		return
 	boarding_requested.emit(player)

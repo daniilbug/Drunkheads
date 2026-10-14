@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://hwfrpacqj7r5"]
+
+[ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/room/bar/chair.tscn" id="1_chair"]
+[ext_resource type="Texture2D" uid="uid://bc04r7w1ni527" path="res://assets/sprites/home/chair.png" id="2_sprite"]
+
+[node name="KitchenChair" unique_id=533419728 instance=ExtResource("1_chair")]
+
+[node name="Sprite" parent="." index="0" unique_id=1108814879]
+light_mask = 2
+texture = ExtResource("2_sprite")
+
+[node name="Seat" parent="." index="1"]
+seat_position_offset = Vector2(0, 2)

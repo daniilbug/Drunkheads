@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://di6cqotutkx6s"]
+
+[ext_resource type="Texture2D" uid="uid://dpm3jo6lgfj5u" path="res://assets/sprites/home/sofa.png" id="1_sofa"]
+[ext_resource type="PackedScene" path="res://scenes/core/seat.tscn" id="2_seat"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sofa"]
+size = Vector2(42, 6)
+
+[node name="Sofa" type="StaticBody2D" unique_id=747780786]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1138093966]
+light_mask = 2
+texture_filter = 1
+position = Vector2(-4, 4)
+texture = ExtResource("1_sofa")
+centered = false
+offset = Vector2(-18, -18)
+
+[node name="SeatLeft" parent="." unique_id=1293041147 instance=ExtResource("2_seat")]
+position = Vector2(-11, -1)
+seat_position_offset = Vector2(0, 2)
+
+[node name="SeatRight" parent="." unique_id=1605188802 instance=ExtResource("2_seat")]
+position = Vector2(11, -1)
+seat_position_offset = Vector2(0, 2)
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=1851505756]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_sofa")

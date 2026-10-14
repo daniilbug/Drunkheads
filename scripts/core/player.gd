@@ -279,6 +279,15 @@ func _try_interact() -> void:
 			var bartender = owner_node as Bartender
 			bartender.order(self)
 			return
+		elif owner_node is Switch:
+			# Adjacent switches can both overlap the player's interaction area.
+			var nearest_switch := owner_node as Switch
+			for switch_area in areas:
+				var candidate := switch_area.get_parent() as Switch
+				if candidate != null and global_position.distance_squared_to(candidate.global_position) < global_position.distance_squared_to(nearest_switch.global_position):
+					nearest_switch = candidate
+			nearest_switch.interact(self)
+			return
 		elif owner_node is Interactable:
 			owner_node.interact(self)
 			return

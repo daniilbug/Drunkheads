@@ -21,7 +21,7 @@ func _try_exit(peer_id: int) -> void:
 	var main := home.get_parent() as Main
 	if main == null or not main.is_player_home(peer_id):
 		return
-	var player := main.bar.get_node_or_null(str(peer_id)) as Player
+	var player := main.get_player(peer_id)
 	if player == null or not area.overlaps_area(player.interaction_area):
 		return
 	main.return_from_home(peer_id)

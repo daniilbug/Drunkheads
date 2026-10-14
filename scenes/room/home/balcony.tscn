@@ -1,0 +1,140 @@
+[gd_scene format=4 uid="uid://bahskkc15wlxf"]
+
+[ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_room"]
+[ext_resource type="Texture2D" uid="uid://c5tgvgru762q4" path="res://assets/sprites/home/floor.png" id="2_lwobe"]
+[ext_resource type="Texture2D" uid="uid://cd37a6s17hcvr" path="res://assets/sprites/home/balcony_railing.png" id="4_railing"]
+[ext_resource type="Texture2D" uid="uid://b1clydwj0cljv" path="res://assets/sprites/home/wall.png" id="5_wall"]
+[ext_resource type="PackedScene" uid="uid://dj5ab3rrqlrh5" path="res://scenes/room/home/balcony_door.tscn" id="6_door"]
+[ext_resource type="Texture2D" uid="uid://caanrwyp5ppwp" path="res://assets/sprites/home/balcony_side_railing.png" id="7_side_railing"]
+[ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="8_clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/window.tscn" id="9_window"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yn1rl"]
+size = Vector2(44, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4fqo"]
+size = Vector2(44, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_balcony_wall"]
+shader = ExtResource("8_clip")
+shader_parameter/active_cutouts = 5
+shader_parameter/cutouts = PackedVector4Array(107, 33, 14, 27, 30, 33, 8, 12, 42, 33, 8, 12, 182, 33, 8, 12, 194, 33, 8, 12)
+
+[sub_resource type="RectangleShape2D" id="BalconyWallLeftSegment"]
+size = Vector2(107, 4)
+
+[sub_resource type="RectangleShape2D" id="BalconyWallRightSegment"]
+size = Vector2(119, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mt6of"]
+size = Vector2(4, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nyrda"]
+size = Vector2(4, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wk360"]
+size = Vector2(36, 24)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_xdf2p"]
+vertices = PackedVector2Array(32, 20, 12, 20, 12, 12, 32, 12)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+
+[node name="BalconyRoom" unique_id=814807673 instance=ExtResource("1_room")]
+y_sort_enabled = true
+room_size = Vector2(44, 32)
+wall_sort_with_player = true
+
+[node name="Floor" parent="." index="0" unique_id=2]
+texture_repeat = 2
+texture = ExtResource("2_lwobe")
+region_enabled = true
+region_rect = Rect2(0, 0, 44, 32)
+
+[node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
+position = Vector2(22, 0)
+
+[node name="Shape" parent="Walls/Top" index="0" unique_id=6]
+shape = SubResource("RectangleShape2D_yn1rl")
+
+[node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-22, -13)
+texture = ExtResource("4_railing")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 44, 16)
+
+[node name="Bottom" parent="Walls" parent_id_path=PackedInt32Array(4) index="1" unique_id=7]
+position = Vector2(22, 32)
+
+[node name="Shape" parent="Walls/Bottom" index="0" unique_id=8]
+shape = SubResource("RectangleShape2D_p4fqo")
+disabled = true
+
+[node name="Sprite" parent="Walls/Bottom" index="1" unique_id=1318119623]
+light_mask = 2
+texture_repeat = 2
+material = SubResource("ShaderMaterial_balcony_wall")
+position = Vector2(-114, -60)
+texture = ExtResource("5_wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 240, 60)
+
+[node name="KitchenWindow" parent="Walls/Bottom/Sprite" index="0" unique_id=2120240861 instance=ExtResource("9_window")]
+position = Vector2(178, 30)
+
+[node name="BedroomWindow" parent="Walls/Bottom/Sprite" index="1" unique_id=1841068452 instance=ExtResource("9_window")]
+position = Vector2(26, 30)
+
+[node name="LeftConnector" type="CollisionShape2D" parent="Walls/Bottom" index="2" unique_id=775055199]
+position = Vector2(-60.5, 0)
+shape = SubResource("BalconyWallLeftSegment")
+
+[node name="RightConnector" type="CollisionShape2D" parent="Walls/Bottom" index="3" unique_id=1484637732]
+position = Vector2(66.5, 0)
+shape = SubResource("BalconyWallRightSegment")
+
+[node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
+position = Vector2(0, 16)
+
+[node name="Shape" parent="Walls/Left" index="0" unique_id=10]
+shape = SubResource("RectangleShape2D_mt6of")
+
+[node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
+texture_filter = 1
+position = Vector2(-2, -28)
+texture = ExtResource("7_side_railing")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 4, 44)
+
+[node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
+position = Vector2(44, 16)
+
+[node name="Shape" parent="Walls/Right" index="0" unique_id=12]
+shape = SubResource("RectangleShape2D_nyrda")
+
+[node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
+texture_filter = 1
+position = Vector2(-2, -28)
+texture = ExtResource("7_side_railing")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 4, 44)
+
+[node name="TransparencyZone" parent="." index="2" unique_id=13]
+position = Vector2(22, 16)
+
+[node name="Shape" parent="TransparencyZone" index="0" unique_id=14]
+shape = SubResource("RectangleShape2D_wk360")
+
+[node name="NavigationRegion" parent="." index="3" unique_id=887136184]
+navigation_polygon = SubResource("NavigationPolygon_xdf2p")
+
+[node name="YSort" parent="NavigationRegion" index="0" unique_id=15]
+position = Vector2(0.0052723885, 0.009690285)
+
+[node name="BalconyDoor" parent="." index="4" unique_id=1802782040 instance=ExtResource("6_door")]
+position = Vector2(22, 34)

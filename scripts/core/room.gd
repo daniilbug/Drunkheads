@@ -18,6 +18,7 @@ extends Node2D
 			_update_layout()
 
 @export_range(0.0, 1.0) var wall_hidden_alpha: float = 0.4
+@export var wall_sort_with_player := false
 
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion
 @onready var y_sort: Node2D = $NavigationRegion/YSort
@@ -112,7 +113,7 @@ func _place_wall(body: StaticBody2D, pos: Vector2, size: Vector2) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if _is_local_player(body):
-		_wall_bottom.z_index = 1
+		_wall_bottom.z_index = 0 if wall_sort_with_player else 1
 		_tween_wall_alpha(wall_hidden_alpha)
 
 func _on_body_exited(body: Node2D) -> void:

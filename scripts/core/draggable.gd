@@ -23,7 +23,7 @@ func _process(_delta: float) -> void:
 		return
 	if holder_peer_id == 0:
 		return
-	var holder := _level.get_node_or_null(str(holder_peer_id)) as Player
+	var holder := _level.get_player(holder_peer_id)
 	if holder == null:
 		holder_peer_id = 0
 		return

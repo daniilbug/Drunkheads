@@ -8,7 +8,12 @@
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
 scale = Vector2(4, 4)
+y_sort_enabled = true
 script = ExtResource("1_main")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
+spawn_path = NodePath("..")
 
 [node name="Home" parent="." unique_id=1924197594 instance=ExtResource("3_home")]
 position = Vector2(900, 0)

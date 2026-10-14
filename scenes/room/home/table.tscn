@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://3vbv4rkjnggq"]
+
+[ext_resource type="Texture2D" uid="uid://cg8t703crwcxh" path="res://assets/sprites/home/table.png" id="1_sprite"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="2_drop_place"]
+[ext_resource type="PackedScene" uid="uid://hwfrpacqj7r5" path="res://scenes/room/home/chair.tscn" id="3_chair"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
+size = Vector2(48, 24)
+
+[node name="KitchenTableWithChairs" type="Node2D" unique_id=667181550]
+y_sort_enabled = true
+
+[node name="Table" type="StaticBody2D" parent="." unique_id=1060188593]
+
+[node name="Sprite" type="Sprite2D" parent="Table" unique_id=81422036]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, 12)
+texture = ExtResource("1_sprite")
+centered = false
+offset = Vector2(-24, -24)
+
+[node name="Shape" type="CollisionShape2D" parent="Table" unique_id=1997658237]
+shape = SubResource("RectangleShape2D_table")
+
+[node name="DropPlaces" type="Node2D" parent="Table" unique_id=835928482]
+
+[node name="DropPlace" parent="Table/DropPlaces" unique_id=46734046 instance=ExtResource("2_drop_place")]
+position = Vector2(-11, -7)
+
+[node name="DropPlace2" parent="Table/DropPlaces" unique_id=52122935 instance=ExtResource("2_drop_place")]
+position = Vector2(-11, 2)
+
+[node name="DropPlace3" parent="Table/DropPlaces" unique_id=858915330 instance=ExtResource("2_drop_place")]
+position = Vector2(12, -7)
+
+[node name="DropPlace4" parent="Table/DropPlaces" unique_id=1238380249 instance=ExtResource("2_drop_place")]
+position = Vector2(12, 2)
+
+[node name="ChairSouthWest" parent="." unique_id=1805287377 instance=ExtResource("3_chair")]
+position = Vector2(-13, -11)
+
+[node name="ChairSouthEast" parent="." unique_id=2097029890 instance=ExtResource("3_chair")]
+position = Vector2(13, -11)
+
+[node name="ChairNorthWest" parent="." unique_id=1237851844 instance=ExtResource("3_chair")]
+position = Vector2(-13, 20)
+facing_north = true
+
+[node name="ChairNorthEast" parent="." unique_id=617466783 instance=ExtResource("3_chair")]
+position = Vector2(13, 20)
+facing_north = true

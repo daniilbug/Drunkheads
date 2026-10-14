@@ -2,9 +2,13 @@ class_name Main
 extends Node2D
 
 const PHONE_SCENE := preload("res://scenes/core/phone.tscn")
+const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
+
+@export var auto_spawn_players := true
 
 @onready var bar: Bar = $Bar
 @onready var home: Level = $Home
+@onready var player_spawner: MultiplayerSpawner = $PlayerSpawner
 @onready var taxi_stop: TaxiStop = $Bar/RightTrafficLane/TaxiStop
 @onready var taxi_return: Marker2D = $Bar/TaxiReturn
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
@@ -13,18 +17,88 @@ const PHONE_SCENE := preload("res://scenes/core/phone.tscn")
 @onready var headphone_player: HeadphonePlayer = $HeadphonePlayer
 
 var _players_at_home: Dictionary = {}
+var _name_registry: Dictionary = {}  # peer_id -> final display name (server only)
+var local_player: Player
 var _phone: Phone
 var _can_order_taxi := true
 
 func _ready() -> void:
-	bar.local_player_initialized.connect(_init_hud)
-	if bar.local_player != null:
-		_init_hud(bar.local_player)
+	player_spawner.spawned.connect(_on_player_spawned)
 	taxi_stop.boarding_requested.connect(_on_taxi_boarding_requested)
 	taxi_stop.passenger_arrived.connect(_on_taxi_passenger_arrived)
 	taxi_stop.passenger_departed.connect(_on_taxi_passenger_departed)
 	taxi_stop.order_availability_changed.connect(_on_taxi_order_availability_changed)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	if multiplayer.is_server() and auto_spawn_players:
+		multiplayer.peer_connected.connect(_on_peer_connected)
+		_spawn_player(multiplayer.get_unique_id())
+		_init_local_player(get_player(multiplayer.get_unique_id()))
+		_register_player_setup(multiplayer.get_unique_id(), Player.local_setup)
+
+func get_player(peer_id: int) -> Player:
+	return get_node_or_null(str(peer_id)) as Player
+
+func get_players() -> Array[Player]:
+	var players: Array[Player] = []
+	for child in get_children():
+		if child is Player and not child is NPC:
+			players.append(child)
+	return players
+
+func _on_peer_connected(peer_id: int) -> void:
+	_spawn_player(peer_id)
+
+func _spawn_player(peer_id: int) -> void:
+	var player := PLAYER_SCENE.instantiate() as Player
+	player.name = str(peer_id)
+	player.randomize_appearance()
+	bar._prepare_player_spawn(player)
+	add_child(player)
+	player.global_position = bar.player_spawn.global_position
+
+func _on_player_spawned(node: Node) -> void:
+	if node is Player and int(node.name) == multiplayer.get_unique_id() and local_player == null:
+		var player := node as Player
+		player.global_position = bar.player_spawn.global_position
+		_init_local_player(player)
+		if not multiplayer.is_server():
+			_request_player_setup.rpc_id(1, Player.local_setup)
+
+func _init_local_player(player: Player) -> void:
+	if player == null or local_player != null:
+		return
+	local_player = player
+	bar._init_local_player(player)
+	_init_hud(player)
+
+func _resolve_name(desired: String, exclude_peer: int) -> String:
+	var base := desired.strip_edges()
+	if base.is_empty():
+		base = "Player"
+	var taken: Array[String] = []
+	for pid in _name_registry:
+		if pid != exclude_peer:
+			taken.append(_name_registry[pid])
+	if base not in taken:
+		return base
+	var idx := 2
+	while ("%s %d" % [base, idx]) in taken:
+		idx += 1
+	return "%s %d" % [base, idx]
+
+func _register_player_setup(peer_id: int, setup: Dictionary) -> void:
+	var final_name := _resolve_name(setup.get("name", "Player"), peer_id)
+	_name_registry[peer_id] = final_name
+	var final_setup := setup.duplicate()
+	final_setup["name"] = final_name
+	var player := get_player(peer_id)
+	if player != null:
+		player.rpc_apply_player_setup.rpc(final_setup)
+
+@rpc("any_peer", "reliable")
+func _request_player_setup(setup: Dictionary) -> void:
+	if multiplayer.is_server():
+		_register_player_setup(multiplayer.get_remote_sender_id(), setup)
 
 func _init_hud(player: Player) -> void:
 	player.player_data.stats_changed.connect(_update_stats)
@@ -33,13 +107,13 @@ func _init_hud(player: Player) -> void:
 	_update_stats()
 
 func _on_phone_requested(player: Player) -> void:
-	if player != bar.local_player or _phone != null:
+	if player != local_player or _phone != null:
 		return
 	player.is_world_input_blocked = true
 	call_deferred("_open_phone")
 
 func _open_phone() -> void:
-	var player := bar.local_player
+	var player := local_player
 	if player == null:
 		return
 	_phone = PHONE_SCENE.instantiate() as Phone
@@ -54,8 +128,8 @@ func _on_phone_closed() -> void:
 	if _phone != null:
 		_phone.queue_free()
 		_phone = null
-	if bar.local_player != null:
-		bar.local_player.is_world_input_blocked = false
+	if local_player != null:
+		local_player.is_world_input_blocked = false
 
 func _on_phone_taxi_requested() -> void:
 	_can_order_taxi = false
@@ -70,7 +144,7 @@ func _request_taxi() -> void:
 		_handle_taxi_request(multiplayer.get_remote_sender_id())
 
 func _handle_taxi_request(peer_id: int) -> void:
-	var player := bar.get_node_or_null(str(peer_id)) as Player
+	var player := get_player(peer_id)
 	if player == null:
 		return
 	if player.in_vehicle or is_player_home(peer_id):
@@ -90,12 +164,12 @@ func _on_taxi_order_availability_changed(peer_id: int, available: bool) -> void:
 func _receive_taxi_availability(available: bool) -> void:
 	_can_order_taxi = available
 	if _phone != null:
-		_phone.set_taxi_available(available and not bar.local_player.in_vehicle and not is_player_home(multiplayer.get_unique_id()))
+		_phone.set_taxi_available(available and not local_player.in_vehicle and not is_player_home(multiplayer.get_unique_id()))
 
 func _update_stats() -> void:
-	if bar.local_player == null:
+	if local_player == null:
 		return
-	var data := bar.local_player.player_data
+	var data := local_player.player_data
 	respect_label.text = "Respect  %d" % int(data.respect)
 	mind_label.text = "Mind     %d" % int(data.mind)
 	money_label.text = "Money   $%d" % int(data.money)
@@ -119,14 +193,14 @@ func return_from_home(peer_id: int) -> void:
 @rpc("authority", "call_local", "reliable")
 func _begin_arrival(peer_id: int) -> void:
 	_players_at_home.erase(peer_id)
-	var player := bar.get_node_or_null(str(peer_id)) as Player
+	var player := get_player(peer_id)
 	if player == null:
 		return
 	player.in_vehicle = true
 	player.riding_vehicle_name = ""
 	player.velocity = Vector2.ZERO
 	player.global_position = taxi_return.global_position
-	if player == bar.local_player:
+	if player == local_player:
 		home.local_player = null
 		_set_camera_bounds(player, bar.get_world_bounds())
 
@@ -135,7 +209,7 @@ func is_player_home(peer_id: int) -> bool:
 
 @rpc("authority", "call_local", "reliable")
 func _apply_trip(peer_id: int, to_home: bool) -> void:
-	var player := bar.get_node_or_null(str(peer_id)) as Player
+	var player := get_player(peer_id)
 	if player == null:
 		return
 	player.in_vehicle = false
@@ -147,7 +221,7 @@ func _apply_trip(peer_id: int, to_home: bool) -> void:
 	var destination := home.get_node("PlayerSpawn") as Marker2D if to_home else taxi_return
 	player.velocity = Vector2.ZERO
 	player.global_position = destination.global_position
-	if player != bar.local_player:
+	if player != local_player:
 		return
 	home.local_player = player if to_home else null
 	_receive_taxi_availability(_can_order_taxi)
@@ -161,4 +235,11 @@ func _set_camera_bounds(player: Player, bounds: Rect2) -> void:
 	player.camera.reset_smoothing()
 
 func _on_peer_disconnected(peer_id: int) -> void:
+	if multiplayer.is_server():
+		bar._cleanup_player(peer_id)
+		home._cleanup_player(peer_id)
+		var player := get_player(peer_id)
+		if player != null:
+			player.queue_free()
+		_name_registry.erase(peer_id)
 	_players_at_home.erase(peer_id)

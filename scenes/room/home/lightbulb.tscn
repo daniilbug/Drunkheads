@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://gnxvp6i0h2tc"]
+
+[ext_resource type="Script" uid="uid://db0svsgyr1fng" path="res://scripts/room/home/lightbulb.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://be1e0r5a4t1xj" path="res://assets/sprites/home/lightbulb.png" id="2_sprite"]
+
+[sub_resource type="CanvasItemMaterial" id="Material_bulb"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_light"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 0.4509804, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="Texture_light"]
+gradient = SubResource("Gradient_light")
+width = 256
+height = 256
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="SceneReplicationConfig" id="Replication_light"]
+properties/0/path = NodePath(".:is_turned_on")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="Lightbulb" type="Node2D" unique_id=130817484]
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=851455580]
+texture_filter = 1
+material = SubResource("Material_bulb")
+position = Vector2(0, -3)
+texture = ExtResource("2_sprite")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=1322983147]
+texture_filter = 2
+color = Color(1, 0.91, 0.76, 1)
+energy = 2.0
+range_item_cull_mask = 2
+texture = SubResource("Texture_light")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1292012319]
+replication_config = SubResource("Replication_light")

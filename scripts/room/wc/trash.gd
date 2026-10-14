@@ -27,7 +27,7 @@ func _discard(peer_id: int, item_path: NodePath) -> void:
 	var level := Level.find_level_node(self)
 	if level == null or item_path.is_absolute():
 		return
-	var player := level.get_node_or_null(str(peer_id)) as Player
+	var player := level.get_player(peer_id)
 	var item := level.get_node_or_null(item_path) as Draggable
 	if player == null or item == null:
 		return

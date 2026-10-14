@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/home/doormat.png" id="1_sprite"]
+
+[node name="Doormat" type="Sprite2D"]
+light_mask = 2
+texture_filter = 1
+texture = ExtResource("1_sprite")

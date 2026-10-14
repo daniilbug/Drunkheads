@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dbohfth3y2656"]
+
+[ext_resource type="Texture2D" uid="uid://bqfo6r0p1qdx8" path="res://assets/sprites/home/bed.png" id="1_bed"]
+[ext_resource type="PackedScene" path="res://scenes/core/seat.tscn" id="2_seat"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bed"]
+size = Vector2(32, 36)
+
+[node name="Bed" type="StaticBody2D" unique_id=2084509208]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=66203437]
+light_mask = 2
+position = Vector2(0, -19)
+texture = ExtResource("1_bed")
+
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=1328698724]
+position = Vector2(0, -19)
+shape = SubResource("RectangleShape2D_bed")
+
+[node name="SeatLeft" parent="." unique_id=2134334284 instance=ExtResource("2_seat")]
+position = Vector2(-8, -2)
+seat_position_offset = Vector2(0, 2)
+
+[node name="SeatRight" parent="." unique_id=830801915 instance=ExtResource("2_seat")]
+position = Vector2(8, -2)
+seat_position_offset = Vector2(0, 2)

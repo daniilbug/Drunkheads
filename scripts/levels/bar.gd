@@ -1,8 +1,6 @@
 class_name Bar
 extends Level
 
-signal local_player_initialized(player: Player)
-
 @onready var taxi_stop: TaxiStop = $RightTrafficLane/TaxiStop
 @onready var npc_manager: NPCManager = $NPCManager
 
@@ -17,9 +15,9 @@ func _prepare_player_spawn(player: Player) -> void:
 	player.in_vehicle = true
 	taxi_stop.queue_arrival(int(player.name))
 
-func _remove_player(peer_id: int) -> void:
+func _cleanup_player(peer_id: int) -> void:
 	taxi_stop.remove_passenger(peer_id)
-	super._remove_player(peer_id)
+	super._cleanup_player(peer_id)
 
 func _init_npc(npc: NPC) -> void:
 	super._init_npc(npc)
@@ -29,7 +27,6 @@ func _init_local_player(player: Player) -> void:
 	super._init_local_player(player)
 	player.drink_action_requested.connect(_on_drink_action_requested)
 	player.smoke_action_requested.connect(_on_smoke_action_requested)
-	local_player_initialized.emit(player)
 
 func _on_cigarette_spawned(node: Node) -> void:
 	if node is CigarettePack and local_player != null:

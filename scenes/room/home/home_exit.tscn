@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/home/home_exit.gd" id="1_exit"]
+
+[sub_resource type="RectangleShape2D" id="Shape_exit"]
+size = Vector2(24, 15)
+
+[node name="HomeExit" type="Node2D"]
+script = ExtResource("1_exit")
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+position = Vector2(0, -5)
+shape = SubResource("Shape_exit")

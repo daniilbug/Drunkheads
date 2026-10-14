@@ -7,10 +7,6 @@ z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_jv1nx")
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1819118617]
-_spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
-spawn_path = NodePath("..")
-
 [node name="NPCSpawner" type="MultiplayerSpawner" parent="." unique_id=946226487]
 _spawnable_scenes = PackedStringArray("uid://bdvk4vs15fb0q")
 spawn_path = NodePath("..")

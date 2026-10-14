@@ -45,14 +45,18 @@ func _request_occupy() -> void:
 	if not multiplayer.is_server():
 		return
 	var peer_id := multiplayer.get_remote_sender_id()
-	var level := Level.find_level_node(self)
-	var player := level.get_node_or_null(str(peer_id)) as Player if level else null
+	var player := _find_player(peer_id)
 	if player == null or player is NPC:
+		_reject_occupy.rpc_id(peer_id)
 		return
 	if (is_occupied and occupant_name != player.name) or player.global_position.distance_to(global_position) > 32.0:
 		_reject_occupy.rpc_id(peer_id)
 		return
 	occupy(player)
+
+func _find_player(peer_id: int) -> Player:
+	var level := Level.find_level_node(self)
+	return level.get_player(peer_id) if level != null else null
 
 @rpc("any_peer", "reliable")
 func _request_vacate() -> void:

@@ -2,11 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_level"]
 [ext_resource type="PackedScene" uid="uid://2juo7mim80ix" path="res://scenes/room/home/home.tscn" id="2_room"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/balcony.tscn" id="3_balcony"]
+[ext_resource type="Script" path="res://scripts/levels/home.gd" id="4_home"]
+[ext_resource type="AudioStream" path="res://assets/audio/home/city_ambience.wav" id="5_ambience"]
 
 [node name="Home" unique_id=269715578 instance=ExtResource("1_level")]
-auto_spawn_players = false
+script = ExtResource("4_home")
+
+[node name="StreetAmbience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ambience")
+volume_db = -16.0
+bus = &"World"
 
 [node name="HomeRoom" parent="." index="0" unique_id=579288066 instance=ExtResource("2_room")]
+
+[node name="BalconyRoom" parent="." instance=ExtResource("3_balcony")]
+position = Vector2(92, -32)
 
 [node name="PlayerSpawn" type="Marker2D" parent="." index="1" unique_id=285546114]
 position = Vector2(120, 128)

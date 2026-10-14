@@ -69,9 +69,8 @@ func _process(delta: float) -> void:
 			_wait_remaining -= delta
 			if _wait_remaining <= 0.0:
 				_expire_pickup()
-	for child in level.get_children():
-		var passenger := child as Player
-		if passenger == null or not passenger.in_vehicle or passenger.riding_vehicle_name.is_empty():
+	for passenger in level.get_players():
+		if not passenger.in_vehicle or passenger.riding_vehicle_name.is_empty():
 			continue
 		var vehicle := level.get_node_or_null(passenger.riding_vehicle_name) as Vehicle
 		if vehicle != null:
@@ -79,10 +78,10 @@ func _process(delta: float) -> void:
 
 func _prune_requests() -> void:
 	for i in range(_arrival_queue.size() - 1, -1, -1):
-		if level.get_node_or_null(str(_arrival_queue[i])) == null:
+		if level.get_player(_arrival_queue[i]) == null:
 			_arrival_queue.remove_at(i)
 	for i in range(_pickup_queue.size() - 1, -1, -1):
-		var player := level.get_node_or_null(str(_pickup_queue[i])) as Player
+		var player := level.get_player(_pickup_queue[i])
 		if player == null or player.in_vehicle:
 			if player != null:
 				order_availability_changed.emit(_pickup_queue[i], true)
@@ -99,7 +98,7 @@ func _spawn_next_taxi() -> void:
 	if not _arrival_queue.is_empty():
 		_arrival_passenger_id = _arrival_queue.pop_front()
 		_state = State.ARRIVING
-		var player := level.get_node_or_null(str(_arrival_passenger_id)) as Player
+		var player := level.get_player(_arrival_passenger_id)
 		if player != null:
 			player.riding_vehicle_name = taxi.name
 	else:
@@ -158,7 +157,7 @@ func _on_boarding_requested(player: Player) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _set_passenger(peer_id: int, vehicle_name: String) -> void:
-	var player := level.get_node_or_null(str(peer_id)) as Player
+	var player := level.get_player(peer_id)
 	if player == null:
 		return
 	player.in_vehicle = true
