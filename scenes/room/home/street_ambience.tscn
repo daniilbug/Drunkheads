@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bpxkpen2s05p5"]
+
+[ext_resource type="AudioStream" uid="uid://dwcavxwyhr6qp" path="res://assets/audio/home/city_ambience.wav" id="2_audio"]
+
+[node name="StreetAmbience" unique_id=1128499508]
+stream = ExtResource("2_audio")
+volume_db = -16.0

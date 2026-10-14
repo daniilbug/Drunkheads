@@ -1,18 +1,17 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://csk8fgp2aay1x"]
 
 [ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/room/wc/trash.tscn" id="1_trash"]
-[ext_resource type="Texture2D" path="res://assets/sprites/home/trash.png" id="2_sprite"]
+[ext_resource type="Texture2D" uid="uid://dw24djvky24hj" path="res://assets/sprites/home/trash.png" id="2_sprite"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(8, 4)
+size = Vector2(3.875, 3)
 
-[node name="KitchenTrash" instance=ExtResource("1_trash")]
+[node name="KitchenTrash" unique_id=1081730892 instance=ExtResource("1_trash")]
 
-[node name="Sprite" parent="." index="0"]
+[node name="Sprite" parent="." index="0" unique_id=1157179690]
 texture_filter = 1
-position = Vector2(0, -7)
+position = Vector2(0, -4.5)
 texture = ExtResource("2_sprite")
 
-[node name="Shape" parent="Body" index="0"]
-position = Vector2(0, -2)
+[node name="Shape" parent="Body" parent_id_path=PackedInt32Array(1959355598) index="0" unique_id=783985651]
 shape = SubResource("RectangleShape2D_body")

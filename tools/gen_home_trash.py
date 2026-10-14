@@ -11,25 +11,24 @@ SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 
 
 def make_trash() -> Image.Image:
-    image = Image.new("RGBA", (10, 14))
+    image = Image.new("RGBA", (7, 9))
     draw = ImageDraw.Draw(image)
     outline = "#405760"
     metal = "#5a727a"
     light = "#8ba0a2"
 
     # Slightly tapered body, with a restrained highlight on the left face.
-    draw.rectangle((1, 3, 8, 12), fill=outline)
-    draw.rectangle((2, 4, 7, 11), fill=metal)
-    draw.line((2, 5, 2, 10), fill=light)
-    draw.line((2, 13, 7, 13), fill=outline)
-    draw.line((2, 12, 7, 12), fill=metal)
+    draw.rectangle((1, 2, 5, 7), fill=outline)
+    draw.rectangle((2, 3, 4, 7), fill=metal)
+    draw.line((2, 4, 2, 6), fill=light)
+    draw.line((2, 8, 4, 8), fill=outline)
 
     # Visible open mouth viewed from above; the front lip overlaps the body.
-    draw.line((2, 0, 7, 0), fill=outline)
-    draw.line((1, 1, 8, 1), fill=light)
-    draw.rectangle((0, 2, 9, 3), fill=outline)
-    draw.rectangle((2, 2, 7, 3), fill="#293b43")
-    draw.line((1, 4, 8, 4), fill=light)
+    draw.line((1, 0, 5, 0), fill=outline)
+    draw.line((1, 1, 5, 1), fill=light)
+    draw.line((0, 2, 6, 2), fill=outline)
+    draw.line((2, 2, 4, 2), fill="#293b43")
+    draw.line((1, 3, 5, 3), fill=light)
     return image
 
 
@@ -52,8 +51,8 @@ def main() -> None:
                     draw.rectangle((x, y, x + 3, y + 3), fill="#5d6269")
         floor = Image.open(SPRITES / "floor.png").convert("RGBA")
         preview.alpha_composite(floor.crop((0, 0, 20, 24)), (24, 0))
-        preview.alpha_composite(sprite, (5, 5))
-        preview.alpha_composite(sprite, (29, 5))
+        preview.alpha_composite(sprite, (6, 7))
+        preview.alpha_composite(sprite, (30, 7))
         args.preview.parent.mkdir(parents=True, exist_ok=True)
         preview.resize((440, 240), Image.Resampling.NEAREST).save(args.preview)
         print(args.preview)

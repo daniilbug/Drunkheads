@@ -2,22 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://bxiejuvupdj01" path="res://scenes/core/level.tscn" id="1_level"]
 [ext_resource type="PackedScene" uid="uid://2juo7mim80ix" path="res://scenes/room/home/home.tscn" id="2_room"]
-[ext_resource type="PackedScene" path="res://scenes/room/home/balcony.tscn" id="3_balcony"]
-[ext_resource type="Script" path="res://scripts/levels/home.gd" id="4_home"]
-[ext_resource type="AudioStream" path="res://assets/audio/home/city_ambience.wav" id="5_ambience"]
+[ext_resource type="PackedScene" uid="uid://bahskkc15wlxf" path="res://scenes/room/home/balcony.tscn" id="3_balcony"]
+[ext_resource type="Script" uid="uid://c0u8dtb3eksge" path="res://scripts/levels/home.gd" id="4_home"]
+[ext_resource type="AudioStream" uid="uid://dwcavxwyhr6qp" path="res://assets/audio/home/city_ambience.wav" id="5_ambience"]
+[ext_resource type="PackedScene" path="res://scenes/street/traffic_road.tscn" id="6_traffic_road"]
+[ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="7_asphalt"]
 
 [node name="Home" unique_id=269715578 instance=ExtResource("1_level")]
 script = ExtResource("4_home")
 
-[node name="StreetAmbience" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_ambience")
-volume_db = -16.0
-bus = &"World"
-
 [node name="HomeRoom" parent="." index="0" unique_id=579288066 instance=ExtResource("2_room")]
-
-[node name="BalconyRoom" parent="." instance=ExtResource("3_balcony")]
-position = Vector2(92, -32)
 
 [node name="PlayerSpawn" type="Marker2D" parent="." index="1" unique_id=285546114]
 position = Vector2(120, 128)
@@ -26,4 +20,26 @@ position = Vector2(120, 128)
 position = Vector2(0, 147)
 
 [node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1" unique_id=1707001651]
-position = Vector2(240, -100)
+position = Vector2(240, -132)
+
+[node name="StreetAmbience" type="AudioStreamPlayer" parent="." index="4" unique_id=2052096818]
+stream = ExtResource("5_ambience")
+volume_db = -16.0
+bus = &"World"
+
+[node name="BalconyRoom" parent="." index="5" unique_id=2131663325 instance=ExtResource("3_balcony")]
+position = Vector2(92, -32)
+
+[node name="TrafficRoad" parent="." index="6" unique_id=115645688 instance=ExtResource("6_traffic_road")]
+position = Vector2(-40, -97)
+scale = Vector2(0.5, 0.5)
+road_width = 640.0
+
+[node name="Asphalt" type="Sprite2D" parent="." index="7" unique_id=47106035]
+z_index = -1
+texture_repeat = 2
+position = Vector2(-40, -132)
+texture = ExtResource("7_asphalt")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 279)

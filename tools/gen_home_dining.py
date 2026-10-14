@@ -17,20 +17,20 @@ FABRIC_LIGHT = "#e8d9ba"
 
 
 def make_table() -> Image.Image:
-    image = Image.new("RGBA", (48, 24))
+    image = Image.new("RGBA", (40, 20))
     draw = ImageDraw.Draw(image)
-    # Same 48x24 silhouette and usable surface as the bar table.
-    draw.rectangle((3, 20, 5, 23), fill=WOOD_DARK)
-    draw.rectangle((42, 20, 44, 23), fill=WOOD_DARK)
-    draw.rectangle((1, 17, 46, 20), fill=WOOD_DARK)
-    draw.line((2, 18, 45, 18), fill=WOOD)
-    draw.rectangle((0, 0, 47, 17), fill=WOOD_DARK)
-    draw.rectangle((1, 1, 46, 16), fill=WOOD)
-    draw.line((1, 1, 46, 1), fill=WOOD_LIGHT)
-    draw.rectangle((2, 2, 45, 15), fill="#d9c7a4")
-    draw.line((2, 2, 45, 2), fill="#e8d9ba")
-    draw.line((2, 3, 2, 14), fill="#e8d9ba")
-    draw.line((3, 15, 45, 15), fill="#c7b18f")
+    # 1.2 times smaller than the bar table, retaining crisp pixel borders.
+    draw.rectangle((3, 17, 4, 19), fill=WOOD_DARK)
+    draw.rectangle((35, 17, 36, 19), fill=WOOD_DARK)
+    draw.rectangle((1, 14, 38, 17), fill=WOOD_DARK)
+    draw.line((2, 15, 37, 15), fill=WOOD)
+    draw.rectangle((0, 0, 39, 14), fill=WOOD_DARK)
+    draw.rectangle((1, 1, 38, 13), fill=WOOD)
+    draw.line((1, 1, 38, 1), fill=WOOD_LIGHT)
+    draw.rectangle((2, 2, 37, 12), fill="#d9c7a4")
+    draw.line((2, 2, 37, 2), fill="#e8d9ba")
+    draw.line((2, 3, 2, 11), fill="#e8d9ba")
+    draw.line((3, 12, 37, 12), fill="#c7b18f")
     return image
 
 
@@ -58,17 +58,17 @@ def make_chair(north: bool, occupied: bool) -> Image.Image:
 
 
 def make_preview(table: Image.Image, chairs: list[Image.Image]) -> Image.Image:
-    # Sprite mockup: same offsets and Y order as scenes/room/bar/table.tscn.
+    # Sprite mockup: same offsets and Y order as scenes/room/home/table.tscn.
     layout = Image.new("RGBA", (80, 64))
     floor = Image.open(SPRITES / "kitchen_floor.png").convert("RGBA")
     for y in range(0, layout.height, floor.height):
         for x in range(0, layout.width, floor.width):
             layout.alpha_composite(floor, (x, y))
-    for x in (20, 46):
+    for x in (23, 43):
         layout.alpha_composite(chairs[0], (x, 11))
-    layout.alpha_composite(table, (16, 26))
-    for x in (20, 46):
-        layout.alpha_composite(chairs[2], (x, 42))
+    layout.alpha_composite(table, (20, 28))
+    for x in (23, 43):
+        layout.alpha_composite(chairs[2], (x, 36))
 
     preview = Image.new("RGB", (720, 710), "#333940")
     preview.paste(layout.resize((640, 512), Image.Resampling.NEAREST), (40, 16))

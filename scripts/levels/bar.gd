@@ -1,7 +1,7 @@
 class_name Bar
 extends Level
 
-@onready var taxi_stop: TaxiStop = $RightTrafficLane/TaxiStop
+@onready var taxi_stop: TaxiStop = $TrafficRoad/RightTrafficLane/TaxiStop
 @onready var npc_manager: NPCManager = $NPCManager
 
 func _ready() -> void:

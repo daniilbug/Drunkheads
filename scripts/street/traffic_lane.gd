@@ -52,6 +52,8 @@ func spawn_vehicle(scene: PackedScene, destination: Vector2, stop_at_end: bool, 
 		return null
 	_next_car_id += 1
 	car.name = vehicle_name if not vehicle_name.is_empty() else "TrafficCar%d" % _next_car_id
+	# Vehicles are spawned under Level, so carry over the lane's scale.
+	car.scale = (_level.global_transform.affine_inverse() * global_transform).get_scale()
 	if car.randomize_appearance_on_spawn:
 		car.randomize_appearance()
 	car.configure_route(start_position, end_position, randf_range(min_speed, max_speed), stop_at_end)
