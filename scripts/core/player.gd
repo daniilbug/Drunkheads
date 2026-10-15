@@ -254,7 +254,7 @@ func _try_interact() -> void:
 	if not is_sitting:
 		for area in areas:
 			var candidate := area.get_parent() as Seat
-			if candidate != null and not candidate.is_occupied:
+			if candidate != null and not candidate.is_occupied and candidate.is_player_in_reach(self):
 				var distance := global_position.distance_squared_to(candidate.global_position)
 				if distance < nearest_distance:
 					nearest_seat = candidate
@@ -262,6 +262,8 @@ func _try_interact() -> void:
 	if nearest_seat != null:
 		_sit_in(nearest_seat)
 		return
+	var nearest_door: Door = null
+	var nearest_door_distance := INF
 	for area in areas:
 		var owner_node := area.get_parent()
 		if owner_node is Boombox:
@@ -271,9 +273,16 @@ func _try_interact() -> void:
 			owner_node.next_mode()
 			return
 		elif owner_node is Door:
-			owner_node.toggle()
-			return
-		elif owner_node is TableFootballInteract:
+			var distance := global_position.distance_squared_to(owner_node.global_position)
+			if distance < nearest_door_distance:
+				nearest_door = owner_node
+				nearest_door_distance = distance
+	if nearest_door != null:
+		nearest_door.toggle()
+		return
+	for area in areas:
+		var owner_node := area.get_parent()
+		if owner_node is TableFootballInteract:
 			owner_node.open_game(self)
 			return
 		elif owner_node is PokerSession:

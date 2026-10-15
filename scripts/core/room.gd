@@ -17,8 +17,13 @@ extends Node2D
 		if is_node_ready():
 			_update_layout()
 
-@export_range(0.0, 1.0) var wall_hidden_alpha: float = 0.4
+@export_range(0.0, 1.0) var wall_hidden_alpha: float = 0.12
+@export_range(0.0, 1.0) var door_hidden_alpha: float = 0.1
 @export var wall_sort_with_player := false
+## Wall and door roots to fade together; their children inherit the transparency.
+@export var wall_transparency_targets: Array[CanvasItem] = []
+
+var _wall_transparency_tween: Tween
 
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion
 @onready var y_sort: Node2D = $NavigationRegion/YSort
@@ -114,17 +119,22 @@ func _place_wall(body: StaticBody2D, pos: Vector2, size: Vector2) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if _is_local_player(body):
 		_wall_bottom.z_index = 0 if wall_sort_with_player else 1
-		_tween_wall_alpha(wall_hidden_alpha)
+		_tween_wall_alpha(wall_hidden_alpha, door_hidden_alpha)
 
 func _on_body_exited(body: Node2D) -> void:
 	if _is_local_player(body):
 		_wall_bottom.z_index = 0
-		_tween_wall_alpha(1.0)
+		_tween_wall_alpha(1.0, 1.0)
 
 func _is_local_player(body: Node2D) -> bool:
 	var level := Level.find_level_node(self)
 	return level != null and body == level.local_player
 
-func _tween_wall_alpha(alpha: float) -> void:
-	var tween := create_tween()
-	tween.tween_property(_wall_bottom, "modulate:a", alpha, 0.2)
+func _tween_wall_alpha(wall_alpha: float, door_alpha: float) -> void:
+	if _wall_transparency_tween != null:
+		_wall_transparency_tween.kill()
+	_wall_transparency_tween = create_tween().set_parallel()
+	for target in wall_transparency_targets:
+		if is_instance_valid(target):
+			var alpha := door_alpha if target is Door else wall_alpha
+			_wall_transparency_tween.tween_property(target, "modulate:a", alpha, 0.2)

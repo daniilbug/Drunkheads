@@ -29,3 +29,9 @@ position = Vector2(0, -7)
 
 [node name="Audio" parent="." index="4" unique_id=415454640]
 stream = ExtResource("3_y877b")
+
+[node name="NPCApproachZone" parent="." index="7"]
+position = Vector2(0, -6)
+
+[node name="PassageZone" parent="." index="8"]
+position = Vector2(0, -6)

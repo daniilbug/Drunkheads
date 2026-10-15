@@ -22,9 +22,10 @@ vertices = PackedVector2Array(70.00781, 50.007813, 10.0078125, 50.007813, 10, 10
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 80.00527, 0.009690285, 80.00527, 60.00969, 0.0052723885, 60.00969)])
 
-[node name="Room" type="Node2D" unique_id=1]
+[node name="Room" type="Node2D" unique_id=1 node_paths=PackedStringArray("wall_transparency_targets")]
 z_as_relative = false
 script = ExtResource("1_room")
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom")])
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=2]
 light_mask = 2

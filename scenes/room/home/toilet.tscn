@@ -24,15 +24,6 @@ size = Vector2(40, 4)
 shader = ExtResource("5_clip")
 shader_parameter/active_cutouts = 1
 shader_parameter/cutouts = PackedVector4Array(13, 12, 14, 28)
-shader_parameter/outside_shadow_offset = Vector2(0, 42)
-shader_parameter/excluded_light_local_position = Vector2(0, -37)
-
-[sub_resource type="ShaderMaterial" id="ExteriorSwitchLightFilter"]
-shader = ExtResource("5_clip")
-shader_parameter/active_cutouts = 0
-shader_parameter/cutouts = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/outside_shadow_offset = Vector2(0, 32)
-shader_parameter/excluded_light_local_position = Vector2(-15, -47)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lqkv7"]
 size = Vector2(4, 64)
@@ -47,29 +38,18 @@ size = Vector2(32, 56)
 vertices = PackedVector2Array(28, 52, 12, 52, 12, 49.65625, 24, 49.65625, 28, 24.5, 24, 24.5, 12.5, 16.34375, 12, 16.34375, 12, 12, 12.5, 12)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(6, 7, 8, 9)])
 
-[sub_resource type="OccluderPolygon2D" id="TopWallOccluder"]
-closed = false
-polygon = PackedVector2Array(-20, 0, 20, 0)
+[sub_resource type="RectangleShape2D" id="LightingZoneShape"]
+size = Vector2(72, 96)
 
-[sub_resource type="OccluderPolygon2D" id="SideWallOccluder"]
-closed = false
-polygon = PackedVector2Array(0, -64, 0, 32)
-
-[sub_resource type="OccluderPolygon2D" id="BottomLeftOccluder"]
-closed = false
-polygon = PackedVector2Array(-20, 0, -6, 0)
-
-[sub_resource type="OccluderPolygon2D" id="BottomRightOccluder"]
-closed = false
-polygon = PackedVector2Array(6.5, 0, 20, 0)
-
-[node name="HomeToiletRoom" unique_id=660596135 instance=ExtResource("1_room")]
+[node name="HomeToiletRoom" unique_id=660596135 node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("1_room")]
 light_mask = 0
 y_sort_enabled = true
 script = ExtResource("2_script")
 room_size = Vector2(40, 64)
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Door")])
 
 [node name="Floor" parent="." index="0" unique_id=2]
+light_mask = 4
 texture_repeat = 2
 texture = ExtResource("3_floor")
 region_enabled = true
@@ -82,7 +62,7 @@ position = Vector2(20, 0)
 shape = SubResource("RectangleShape2D_fhr6r")
 
 [node name="Sprite" parent="Walls/Top" index="1" unique_id=1759582406]
-light_mask = 2
+light_mask = 4
 texture_repeat = 2
 position = Vector2(0, -15)
 texture = ExtResource("4_top_tile")
@@ -108,9 +88,6 @@ region_rect = Rect2(0, 0, 40, 40)
 light_mask = 2
 position = Vector2(15, -1)
 target_lamp = NodePath("../../../NavigationRegion/YSort/Lightbulb")
-
-[node name="Sprite" parent="Walls/Bottom/LightSwitch" index="0" unique_id=981908747]
-material = SubResource("ExteriorSwitchLightFilter")
 
 [node name="Left" parent="Walls" parent_id_path=PackedInt32Array(4) index="2" unique_id=9]
 position = Vector2(0, 32)
@@ -166,36 +143,20 @@ position = Vector2(31, 18)
 [node name="Lightbulb" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="4" unique_id=779114099 instance=ExtResource("9_lamp")]
 position = Vector2(20, 7)
 
-[node name="Door" parent="." index="4" unique_id=1291399484 instance=ExtResource("8_door")]
+[node name="Light" parent="NavigationRegion/YSort/Lightbulb" index="1"]
+range_item_cull_mask = 4
+
+[node name="Door" parent="." index="4" unique_id=1291399484 node_paths=PackedStringArray("light_source") instance=ExtResource("8_door")]
 position = Vector2(20, 64)
+light_source = NodePath("../NavigationRegion/YSort/Lightbulb")
 
-[node name="LightOccluders" type="Node2D" parent="." index="5" unique_id=441884489]
+[node name="LightingZone" type="Area2D" parent="." index="5"]
+position = Vector2(20, 32)
+collision_layer = 0
+collision_mask = 17
+monitorable = false
 
-[node name="Top" type="LightOccluder2D" parent="LightOccluders" index="0" unique_id=352152421]
-position = Vector2(20, -32)
-occluder = SubResource("TopWallOccluder")
-occluder_light_mask = 2
-
-[node name="Left" type="LightOccluder2D" parent="LightOccluders" index="1" unique_id=1440106167]
-position = Vector2(1, 32)
-occluder = SubResource("SideWallOccluder")
-occluder_light_mask = 2
-
-[node name="Right" type="LightOccluder2D" parent="LightOccluders" index="2" unique_id=925638408]
-position = Vector2(39, 32)
-occluder = SubResource("SideWallOccluder")
-occluder_light_mask = 2
-
-[node name="BottomLeft" type="LightOccluder2D" parent="LightOccluders" index="3" unique_id=162430963]
-position = Vector2(20, 63)
-occluder = SubResource("BottomLeftOccluder")
-sdf_collision = false
-occluder_light_mask = 2
-
-[node name="BottomRight" type="LightOccluder2D" parent="LightOccluders" index="4" unique_id=1056962766]
-position = Vector2(20, 63)
-occluder = SubResource("BottomRightOccluder")
-sdf_collision = false
-occluder_light_mask = 2
+[node name="Shape" type="CollisionShape2D" parent="LightingZone"]
+shape = SubResource("LightingZoneShape")
 
 [editable path="Walls/Bottom/LightSwitch"]

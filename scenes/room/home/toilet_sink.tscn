@@ -6,6 +6,7 @@
 [node name="ToiletSink" instance=ExtResource("1_sink")]
 
 [node name="Sprite" parent="." index="0"]
+light_mask = 4
 texture_filter = 1
 texture = ExtResource("2_sprite")
 

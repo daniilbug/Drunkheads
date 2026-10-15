@@ -8,6 +8,9 @@ size = Vector2(14, 3.8592024)
 [sub_resource type="RectangleShape2D" id="RectInteract"]
 size = Vector2(22, 12)
 
+[sub_resource type="RectangleShape2D" id="RectNPCApproach"]
+size = Vector2(22, 48)
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_77t7i"]
 properties/0/path = NodePath(".:is_open")
 properties/0/spawn = true
@@ -46,3 +49,19 @@ end_position = Vector2(0, 20)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1219028353]
 replication_config = SubResource("SceneReplicationConfig_77t7i")
+
+[node name="NPCApproachZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 17
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="NPCApproachZone"]
+shape = SubResource("RectNPCApproach")
+
+[node name="PassageZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 17
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="PassageZone"]
+shape = SubResource("RectBody")

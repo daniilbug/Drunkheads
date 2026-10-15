@@ -39,10 +39,11 @@ size = Vector2(36, 24)
 vertices = PackedVector2Array(32, 20, 12, 20, 12, 12, 32, 12)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 
-[node name="BalconyRoom" unique_id=814807673 instance=ExtResource("1_room")]
+[node name="BalconyRoom" unique_id=814807673 node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("1_room")]
 y_sort_enabled = true
 room_size = Vector2(44, 32)
 wall_sort_with_player = true
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("BalconyDoor")])
 
 [node name="Floor" parent="." index="0" unique_id=2]
 texture_repeat = 2

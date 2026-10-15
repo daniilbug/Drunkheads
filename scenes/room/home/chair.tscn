@@ -11,3 +11,4 @@ texture = ExtResource("2_sprite")
 
 [node name="Seat" parent="." index="1"]
 seat_position_offset = Vector2(0, 2)
+interaction_radius = 6.0

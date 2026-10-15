@@ -3,47 +3,28 @@
 [ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_door"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home/toilet_door.png" id="2_sprite"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home/balcony_door_frame.png" id="3_frame"]
-[ext_resource type="Shader" path="res://assets/shaders/toilet_front_wall.gdshader" id="4_light_filter"]
+[ext_resource type="Script" path="res://scripts/room/home/toilet_door.gd" id="4_script"]
 
-[sub_resource type="ShaderMaterial" id="ClosedDoorLightFilter"]
-shader = ExtResource("4_light_filter")
-shader_parameter/active_cutouts = 0
-shader_parameter/excluded_light_local_position = Vector2(15, -29)
-shader_parameter/outside_shadow_offset = Vector2(0, 42)
+[sub_resource type="Gradient" id="DoorwayGradient"]
 
-[sub_resource type="ShaderMaterial" id="OpenDoorLightFilter"]
-shader = ExtResource("4_light_filter")
-shader_parameter/active_cutouts = 0
-shader_parameter/excluded_light_local_position = Vector2(9, -29)
-shader_parameter/outside_shadow_offset = Vector2(0, 42)
-
-[sub_resource type="ShaderMaterial" id="DoorFrameLightFilter"]
-shader = ExtResource("4_light_filter")
-shader_parameter/active_cutouts = 0
-shader_parameter/excluded_light_local_position = Vector2(7, -29)
-shader_parameter/outside_shadow_offset = Vector2(0, 42)
-
-[sub_resource type="OccluderPolygon2D" id="ClosedDoorOccluder"]
-closed = false
-polygon = PackedVector2Array(-7, 0, 7, 0)
+[sub_resource type="GradientTexture2D" id="DoorwayLightTexture"]
+gradient = SubResource("DoorwayGradient")
+width = 16
+height = 24
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
 
 [node name="HomeToiletDoor" instance=ExtResource("1_door")]
+script = ExtResource("4_script")
 
 [node name="ClosedSprite" parent="." index="0"]
 light_mask = 2
-material = SubResource("ClosedDoorLightFilter")
 position = Vector2(-15, -28)
 texture = ExtResource("2_sprite")
 hframes = 2
 
-[node name="LightOccluder" type="LightOccluder2D" parent="ClosedSprite" index="0"]
-position = Vector2(15, 28)
-occluder_light_mask = 2
-occluder = SubResource("ClosedDoorOccluder")
-
 [node name="OpenSprite" parent="." index="1"]
 light_mask = 2
-material = SubResource("OpenDoorLightFilter")
 position = Vector2(-9, -28)
 texture = ExtResource("2_sprite")
 hframes = 2
@@ -52,10 +33,18 @@ frame = 1
 [node name="Frame" type="Sprite2D" parent="OpenSprite" index="0"]
 show_behind_parent = true
 light_mask = 2
-material = SubResource("DoorFrameLightFilter")
 position = Vector2(2, 0)
 texture = ExtResource("3_frame")
 centered = false
 
 [node name="Shape" parent="InteractionZone" index="0"]
 position = Vector2(0, -4)
+
+[node name="Light" type="PointLight2D" parent="." index="9"]
+position = Vector2(0, 12)
+scale = Vector2(0.875, 1)
+enabled = false
+color = Color(1, 0.91, 0.76, 1)
+energy = 0.7
+range_item_cull_mask = 2
+texture = SubResource("DoorwayLightTexture")

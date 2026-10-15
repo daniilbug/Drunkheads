@@ -7,6 +7,8 @@ signal occupancy_changed
 @export var facing_north := false
 @export var available_to_npc := true
 @export var seat_position_offset := Vector2.ZERO
+## Maximum distance from the seat in local pixels; 0 uses only the interaction areas.
+@export_range(0.0, 64.0, 0.5, "or_greater") var interaction_radius: float = 0.0
 
 @export var occupant_name := "":
 	set(value):
@@ -22,8 +24,15 @@ var is_occupied: bool:
 func get_seat_position() -> Vector2:
 	return to_global(seat_position_offset)
 
+func is_player_in_reach(player: Player) -> bool:
+	if player == null:
+		return false
+	if interaction_radius <= 0.0:
+		return true
+	return to_local(player.global_position).length_squared() <= interaction_radius * interaction_radius
+
 func occupy(player: Player) -> bool:
-	if player == null or (is_occupied and occupant_name != player.name):
+	if not is_player_in_reach(player) or (is_occupied and occupant_name != player.name):
 		return false
 	occupant_name = player.name
 	player.direction = Vector2.UP if facing_north else Vector2.DOWN
@@ -49,7 +58,11 @@ func _request_occupy() -> void:
 	if player == null or player is NPC:
 		_reject_occupy.rpc_id(peer_id)
 		return
-	if (is_occupied and occupant_name != player.name) or player.global_position.distance_to(global_position) > 32.0:
+	if (
+		(is_occupied and occupant_name != player.name)
+		or not is_player_in_reach(player)
+		or player.global_position.distance_to(global_position) > 32.0
+	):
 		_reject_occupy.rpc_id(peer_id)
 		return
 	occupy(player)

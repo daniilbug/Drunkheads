@@ -19,7 +19,7 @@ properties/0/replication_mode = 2
 script = ExtResource("1_script")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-light_mask = 2
+light_mask = 4
 texture_filter = 1
 position = Vector2(0, -12)
 texture = ExtResource("2_sprite")

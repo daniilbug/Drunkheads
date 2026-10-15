@@ -37,10 +37,11 @@ size = Vector2(4, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wyiue"]
 size = Vector2(72, 72)
 
-[node name="BarWC" unique_id=1 instance=ExtResource("1_krdbx")]
+[node name="BarWC" unique_id=1 node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("1_krdbx")]
 y_sort_enabled = true
 script = ExtResource("2_bl6vp")
 room_size = Vector2(80, 80)
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("WCDoor")])
 
 [node name="Floor" parent="." index="0" unique_id=2]
 texture_repeat = 2
