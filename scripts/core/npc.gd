@@ -16,13 +16,18 @@ enum State {
 	LEAVING_CABIN,
 	GOING_TO_SINK,
 	WASHING_HANDS,
-	EXITING
+	EXITING,
+	RESTING
 }
+
+@export var hall_path: NodePath = ^"BarHall"
+@export var wc_path: NodePath = ^"BarWC"
+@export var order_before_sitting := false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
 @onready var _level: Level = Level.find_level_node(self)
-@onready var _bar: Node2D = _level.get_node("BarHall")
-@onready var _wc: BarWC = _level.get_node("BarWC")
+@onready var _hall: Node2D = _level.get_node_or_null(hall_path)
+@onready var _wc: Room = _level.get_node_or_null(wc_path)
 @onready var _bench: Node2D = _level.get_node("Bench")
 @onready var _bartender: Bartender = _level.find_child("Bartender", true, false)
 @onready var _npc_manager: NPCManager = _level.get_node("NPCManager")
@@ -101,6 +106,9 @@ func _physics_process(delta: float) -> void:
 			_waiting_for_drink()
 		State.DRINKING:
 			_drinking()
+		State.RESTING:
+			if _elapsed_ms >= SITTING_DURATION_MS:
+				_begin_exit()
 		State.USING_CABIN:
 			if _elapsed_ms >= CABIN_DURATION_MS:
 				state = State.LEAVING_CABIN
@@ -115,7 +123,7 @@ func _physics_process(delta: float) -> void:
 		State.GOING_TO_BENCH:
 			_go_to_seat(_bench, State.SITTING_ON_BENCH)
 		State.LOOKING_FOR_SEAT:
-			_go_to_seat(_bar, State.DRINKING if _hands_item is Drink else State.SITTING)
+			_go_to_seat(_hall, State.DRINKING if _hands_item is Drink else State.SITTING)
 		State.GOING_TO_BARTENDER:
 			_going_to_bartender()
 		State.GOING_TO_CABIN:
@@ -168,6 +176,9 @@ func _move_through_cabin(delta: float) -> void:
 			state = State.GOING_TO_SINK
 
 func _arriving() -> void:
+	if order_before_sitting:
+		state = State.GOING_TO_BARTENDER
+		return
 	var choice := randf()
 	if choice < BENCH_VISIT_CHANCE:
 		state = State.GOING_TO_BENCH
@@ -185,7 +196,10 @@ func _go_to_seat(parent: Node2D, seated_state: State) -> void:
 			else:
 				_begin_exit()
 			return
-	_set_destination(_target_seat.global_position, SEAT_INTERACTION_DISTANCE)
+	var arrival_distance := SEAT_INTERACTION_DISTANCE
+	if _target_seat.interaction_radius > 0.0:
+		arrival_distance = minf(arrival_distance, _target_seat.interaction_radius * 0.75)
+	_set_destination(_target_seat.global_position, arrival_distance)
 	if nav_agent.is_target_reached():
 		_sit_in(_target_seat)
 		_target_seat = null
@@ -202,8 +216,11 @@ func _set_destination(target: Vector2, arrival_distance: float = 4.0) -> void:
 func _going_to_bartender() -> void:
 	_set_destination(_bartender.purchase_area.global_position, INTERACTION_DISTANCE)
 	if nav_agent.is_target_reached():
-		var item = BarMenu.get_all_items().pick_random()
-		_bartender.order_item(self, item)
+		var item: BarMenuItem = _bartender.get_menu_items().pick_random()
+		if not _bartender.order_item(self, item):
+			if _elapsed_ms >= DRINK_WAIT_TIMEOUT_MS:
+				_begin_exit()
+			return
 		_set_destination(_bartender.purchase_area.global_position)
 		state = State.WAITING_FOR_DRINK
 
@@ -233,6 +250,12 @@ func _drinking() -> void:
 			_finish_drink()
 
 func _finish_drink() -> void:
+	if order_before_sitting:
+		if is_instance_valid(_hands_item):
+			_hands_item.queue_free()
+		_hands_item = null
+		state = State.RESTING
+		return
 	if is_sitting:
 		_stand_up()
 	_hands_item = null
@@ -270,6 +293,9 @@ func _going_to_sink() -> void:
 		state = State.WASHING_HANDS
 
 func _begin_exit() -> void:
+	for child in _level.get_children():
+		if child is Drink and child.customer_id == int(name):
+			child.queue_free()
 	_target_seat = null
 	if state in [State.ENTERING_CABIN, State.USING_CABIN, State.LEAVING_CABIN] and is_instance_valid(_target_cabin):
 		_target_cabin.is_being_used = false
@@ -319,6 +345,7 @@ func _is_targeted(target: Node2D) -> bool:
 func _get_drinks_nearby() -> Array[Drink]:
 	var drinks: Array[Drink] = []
 	for area in interaction_area.get_overlapping_areas():
-		if area.get_parent() is Drink and area.get_parent().holder_peer_id == 0:
-			drinks.append(area.get_parent())
+		var drink := area.get_parent() as Drink
+		if drink != null and drink.holder_peer_id == 0 and drink.customer_id in [0, int(name)]:
+			drinks.append(drink)
 	return drinks

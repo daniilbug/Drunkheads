@@ -1,0 +1,6 @@
+[gd_scene format=3]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/cafe_sign.png" id="1_texture"]
+[node name="CafeSign" type="Node2D"]
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture = ExtResource("1_texture")

@@ -13,21 +13,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("Sprite:position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:parts")
+properties/2/path = NodePath(".:holder_peer_id")
 properties/2/spawn = true
 properties/2/replication_mode = 2
-properties/3/path = NodePath(".:max_parts")
-properties/3/spawn = true
-properties/3/replication_mode = 2
-properties/4/path = NodePath(".:sprite_frame")
-properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath(".:type")
-properties/5/spawn = true
-properties/5/replication_mode = 1
-properties/6/path = NodePath(".:holder_peer_id")
-properties/6/spawn = true
-properties/6/replication_mode = 2
 
 [node name="Draggable" type="Node2D" unique_id=972279722]
 script = ExtResource("1_nr3oe")

@@ -431,3 +431,49 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("7_plum")
 expand_mode = 1
+
+[node name="TaxiDestinations" type="Control" parent="Root/Screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options" type="VBoxContainer" parent="Root/Screen/TaxiDestinations"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 46.0
+offset_right = 278.0
+offset_bottom = 400.0
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Root/Screen/TaxiDestinations/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Where to?"
+horizontal_alignment = 1
+
+[node name="Bar" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "Bar"
+
+[node name="Cafe" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "Café"
+
+[node name="Home" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "Home"
+
+[node name="Back" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Back"

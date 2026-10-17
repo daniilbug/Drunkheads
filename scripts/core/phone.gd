@@ -1,7 +1,7 @@
 class_name Phone
 extends CanvasLayer
 
-signal taxi_requested
+signal taxi_requested(destination: String)
 signal closed
 
 const WALLPAPERS := [
@@ -15,6 +15,12 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _wallpaper: TextureRect = $Root/Screen/Wallpaper
 @onready var _launcher: Control = $Root/Screen/Launcher
 @onready var _taxi_button: Button = $Root/Screen/Launcher/Apps/Taxi
+@onready var _taxi_page: Control = $Root/Screen/TaxiDestinations
+@onready var _destination_buttons: Array[Button] = [
+	$Root/Screen/TaxiDestinations/Options/Bar,
+	$Root/Screen/TaxiDestinations/Options/Cafe,
+	$Root/Screen/TaxiDestinations/Options/Home,
+]
 @onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
 @onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
 @onready var _music_page: Control = $Root/Screen/MusicPlayer
@@ -34,6 +40,8 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 
 var _settings: PlayerSettings
 var _headphone_player: HeadphonePlayer
+var _current_level := "bar"
+var _taxi_available := true
 
 func set_player_settings(settings: PlayerSettings) -> void:
 	_settings = settings
@@ -45,6 +53,9 @@ func _ready() -> void:
 	if _settings == null:
 		_settings = PlayerSettings.new()
 	_taxi_button.pressed.connect(_on_taxi_pressed)
+	for i in _destination_buttons.size():
+		_destination_buttons[i].pressed.connect(_order_taxi.bind(["bar", "cafe", "home"][i]))
+	$Root/Screen/TaxiDestinations/Options/Back.pressed.connect(_show_launcher)
 	_wallpapers_button.pressed.connect(_show_picker)
 	_music_button.pressed.connect(_show_music)
 	_music_button.disabled = _headphone_player == null
@@ -64,14 +75,24 @@ func _process(_delta: float) -> void:
 		_update_music_visuals()
 
 func set_taxi_available(available: bool) -> void:
+	_taxi_available = available
+	_refresh_destinations()
 	_taxi_button.disabled = not available
 	_taxi_button.modulate = Color.WHITE if available else Color(0.55, 0.55, 0.55)
-	if _picker.visible or _music_page.visible:
+	if _picker.visible or _music_page.visible or _taxi_page.visible:
 		return
 	if available:
 		_taxi_button.grab_focus()
 	else:
 		_wallpapers_button.grab_focus()
+
+func set_taxi_context(current_level: String) -> void:
+	_current_level = current_level
+	_refresh_destinations()
+
+func _refresh_destinations() -> void:
+	for i in _destination_buttons.size():
+		_destination_buttons[i].disabled = not _taxi_available or ["bar", "cafe", "home"][i] == _current_level
 
 func _apply_wallpaper() -> void:
 	var index := clampi(_settings.phone_wallpaper_index, 0, WALLPAPERS.size() - 1)
@@ -92,12 +113,14 @@ func _select_wallpaper(index: int) -> void:
 	_show_launcher()
 
 func _show_picker() -> void:
+	_taxi_page.hide()
 	_launcher.hide()
 	_music_page.hide()
 	_picker.show()
 	_preview_buttons[clampi(_settings.phone_wallpaper_index, 0, _preview_buttons.size() - 1)].grab_focus()
 
 func _show_music() -> void:
+	_taxi_page.hide()
 	_launcher.hide()
 	_picker.hide()
 	_music_page.show()
@@ -122,6 +145,7 @@ func _update_music_visuals() -> void:
 	_music_wave.update_playback(position, playing)
 
 func _show_launcher() -> void:
+	_taxi_page.hide()
 	_picker.hide()
 	_music_page.hide()
 	_launcher.show()
@@ -131,9 +155,21 @@ func _show_launcher() -> void:
 		_taxi_button.grab_focus()
 
 func _on_taxi_pressed() -> void:
-	_taxi_button.disabled = true
-	_taxi_button.modulate = Color(0.55, 0.55, 0.55)
-	taxi_requested.emit()
+	_launcher.hide()
+	_picker.hide()
+	_music_page.hide()
+	_taxi_page.show()
+	_refresh_destinations()
+	for button in _destination_buttons:
+		if not button.disabled:
+			button.grab_focus()
+			break
+
+func _order_taxi(destination: String) -> void:
+	if not _taxi_available or destination == _current_level:
+		return
+	set_taxi_available(false)
+	taxi_requested.emit(destination)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_echo():
@@ -143,7 +179,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		closed.emit()
 	elif event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		if _picker.visible or _music_page.visible:
+		if _picker.visible or _music_page.visible or _taxi_page.visible:
 			_show_launcher()
 		else:
 			closed.emit()

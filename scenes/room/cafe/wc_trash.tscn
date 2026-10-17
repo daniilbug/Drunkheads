@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/wc/trash.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wc_trash.png" id="2_texture"]
+
+[node name="WcTrash" instance=ExtResource("1_base")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_texture")
+position = Vector2(0, -8)

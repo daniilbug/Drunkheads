@@ -1,0 +1,142 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="Script" path="res://scripts/room/cafe/wc.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wc_floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wc_wall.png" id="wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wall.png" id="front"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/wc_door.tscn" id="door"]
+
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/wc_cabin.tscn" id="cabin"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/wc_sink.tscn" id="sink"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/wc_trash.tscn" id="trash"]
+[ext_resource type="PackedScene" path="res://scenes/room/wc/mirror.tscn" id="mirror"]
+[ext_resource type="PackedScene" path="res://scenes/room/wc/towel.tscn" id="towel"]
+[ext_resource type="PackedScene" path="res://scenes/core/lamp.tscn" id="lamp"]
+[ext_resource type="PackedScene" path="res://scenes/core/switch.tscn" id="switch"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="side"]
+
+[sub_resource type="ShaderMaterial" id="FrontClip"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 1
+shader_parameter/cutouts = PackedVector4Array(155, 3, 16, 28)
+
+[sub_resource type="RectangleShape2D" id="TopShape"]
+size = Vector2(100, 4)
+
+[sub_resource type="RectangleShape2D" id="BottomShape"]
+size = Vector2(100, 4)
+
+[sub_resource type="RectangleShape2D" id="LeftShape"]
+size = Vector2(4, 80)
+
+[sub_resource type="RectangleShape2D" id="RightShape"]
+size = Vector2(4, 80)
+
+[node name="CafeWC" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+y_sort_enabled = true
+script = ExtResource("script")
+room_size = Vector2(100, 80)
+wall_hidden_alpha = 0.08
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("WCDoor")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 100, 80)
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -19)
+texture = ExtResource("wall")
+region_enabled = true
+region_rect = Rect2(0, 0, 100, 42)
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-50, -30)
+texture = ExtResource("front")
+centered = false
+region_enabled = true
+region_rect = Rect2(113, 0, 100, 32)
+material = SubResource("FrontClip")
+
+[node name="Sprite" parent="Walls/Left" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-8, -66)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(41, 15, 8, 109)
+
+[node name="Sprite" parent="Walls/Right" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -66)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(21, 15, 8, 109)
+
+[node name="WCDoor" parent="." instance=ExtResource("door")]
+position = Vector2(50, 80)
+
+[node name="Cabin1" parent="NavigationRegion/YSort" instance=ExtResource("cabin")]
+position = Vector2(0, 47)
+
+[node name="Cabin2" parent="NavigationRegion/YSort" instance=ExtResource("cabin")]
+position = Vector2(0, 71)
+
+[node name="Sink1" parent="NavigationRegion/YSort" instance=ExtResource("sink")]
+position = Vector2(57, 8)
+
+[node name="Sink2" parent="NavigationRegion/YSort" instance=ExtResource("sink")]
+position = Vector2(85, 8)
+
+[node name="Mirror1" parent="NavigationRegion/YSort" instance=ExtResource("mirror")]
+position = Vector2(57, 0)
+
+[node name="Mirror2" parent="NavigationRegion/YSort" instance=ExtResource("mirror")]
+position = Vector2(85, 0)
+
+[node name="Towel" parent="NavigationRegion/YSort" instance=ExtResource("towel")]
+position = Vector2(71, 9)
+
+[node name="Trash" parent="NavigationRegion/YSort" instance=ExtResource("trash")]
+position = Vector2(89, 65)
+
+[node name="Switch" parent="NavigationRegion/YSort" instance=ExtResource("switch")]
+position = Vector2(68, 80)
+
+[node name="Lamp" parent="." instance=ExtResource("lamp")]
+position = Vector2(56, 40)
+
+[node name="Top" parent="Walls"]
+position = Vector2(50.0, 0)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("TopShape")
+
+[node name="Bottom" parent="Walls"]
+position = Vector2(50.0, 80)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("BottomShape")
+
+[node name="Left" parent="Walls"]
+position = Vector2(0, 40.0)
+
+[node name="Shape" parent="Walls/Left" index="0"]
+shape = SubResource("LeftShape")
+
+[node name="Right" parent="Walls"]
+position = Vector2(100, 40.0)
+
+[node name="Shape" parent="Walls/Right" index="0"]
+shape = SubResource("RightShape")

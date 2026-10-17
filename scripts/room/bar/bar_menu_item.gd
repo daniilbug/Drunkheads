@@ -1,7 +1,7 @@
 class_name BarMenuItem
 extends Resource
 
-enum Type { BEER, SHOT, COCTAIL }
+enum Type { BEER, SHOT, COCTAIL, COFFEE }
 
 var name: String
 var type: Type

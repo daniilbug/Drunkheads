@@ -35,6 +35,9 @@ func _process(_delta: float) -> void:
 		global_position = Vector2(hands_pos.x, holder.global_position.y + 5.0)
 		sprite.position = to_local(hands_pos)
 
+func can_pickup(player: Player) -> bool:
+	return player != null and holder_peer_id == 0
+
 func pickup(player: Player) -> void:
 	if multiplayer.is_server():
 		_local_pickup(int(player.name))
@@ -57,17 +60,32 @@ func drop(player: Player, place: DropPlace) -> void:
 func _remote_pickup(player_id: int) -> void:
 	if not multiplayer.is_server() or multiplayer.get_remote_sender_id() != player_id:
 		return
-	_local_pickup(player_id)
+	if not _local_pickup(player_id):
+		_pickup_rejected.rpc_id(player_id)
+
+@rpc("authority", "reliable")
+func _pickup_rejected() -> void:
+	var player := _level.get_player(multiplayer.get_unique_id())
+	if player != null and player._hands_item == self:
+		player._hands_item = null
 
 @rpc("any_peer", "reliable")
 func _remote_drop(player_id: int, sort_pos: Vector2, visual_pos: Vector2) -> void:
 	if not multiplayer.is_server() or multiplayer.get_remote_sender_id() != player_id:
 		return
-	_local_drop(sort_pos, visual_pos)
+	if holder_peer_id == player_id and sort_pos.is_finite() and visual_pos.is_finite():
+		_local_drop(sort_pos, visual_pos)
 
-func _local_pickup(player_id: int) -> void:
+func _local_pickup(player_id: int) -> bool:
+	var player := _level.get_player(player_id)
+	if not can_pickup(player) or not $Area.overlaps_area(player.interaction_area):
+		return false
+	for item in _level.get_children():
+		if item is Draggable and item != self and item.holder_peer_id == player_id:
+			return false
 	sprite.position = Vector2.ZERO
 	holder_peer_id = player_id
+	return true
 
 func _local_drop(sort_pos: Vector2, visual_pos: Vector2) -> void:
 	holder_peer_id = 0

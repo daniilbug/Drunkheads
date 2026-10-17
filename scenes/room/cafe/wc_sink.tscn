@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/wc/sink.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wc_sink.png" id="2_texture"]
+
+[sub_resource type="RectangleShape2D" id="VanityShape"]
+size = Vector2(18, 8)
+
+[node name="WcSink" instance=ExtResource("1_base")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_texture")
+position = Vector2(0, -9)
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Body"]
+position = Vector2(0, -2)
+shape = SubResource("VanityShape")

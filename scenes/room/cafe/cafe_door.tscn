@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/bar/bar_door.tscn" id="base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/entrance_door.png" id="texture"]
+
+[node name="CafeDoor" instance=ExtResource("base")]
+
+[node name="ClosedSprite" parent="." index="0"]
+light_mask = 2
+texture = ExtResource("texture")
+
+[node name="OpenSprite" parent="." index="1"]
+texture = ExtResource("texture")
+
+[node name="Roof" parent="." index="5"]
+visible = false

@@ -26,8 +26,8 @@ func apply_drink_effects(drink: Drink) -> void:
 	stats_changed.emit()
 
 func apply_drink_part(drink: Drink) -> void:
-	_apply("respect", drink.get_respect_bonus() / 4.0)
-	_apply("mind", -drink.get_mind_penalty() / 4.0)
+	_apply("respect", drink.get_respect_bonus() / drink.max_parts)
+	_apply("mind", -drink.get_mind_penalty() / drink.max_parts)
 	stats_changed.emit()
 
 func apply_cigarette() -> void:

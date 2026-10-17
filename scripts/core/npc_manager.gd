@@ -7,6 +7,10 @@ const MAX_NPCS := 5
 const SPAWN_INTERVAL := 10.0
 const NPC_SCENE := preload("res://scenes/core/npc.tscn")
 
+@export var hall_path: NodePath = ^"BarHall"
+@export var wc_path: NodePath = ^"BarWC"
+@export var order_before_sitting := false
+
 var _spawn_timer := 0.0
 var _available_slots := MAX_NPCS
 var _next_npc_id := -1
@@ -31,6 +35,9 @@ func _spawn_npc() -> void:
 
 	var npc: NPC = NPC_SCENE.instantiate()
 	npc.name = str(_next_npc_id)
+	npc.hall_path = hall_path
+	npc.wc_path = wc_path
+	npc.order_before_sitting = order_before_sitting
 	npc.randomize_appearance()
 	_next_npc_id -= 1
 

@@ -1,0 +1,170 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="Script" path="res://scripts/room/cafe/cafe.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wall.png" id="wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="front"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/cafe_door.tscn" id="door"]
+
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/counter.tscn" id="counter"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/table.tscn" id="table"]
+[ext_resource type="PackedScene" path="res://scenes/room/bar/plant.tscn" id="plant"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/cafe_sign.tscn" id="sign"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/roof.tscn" id="roof"]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="side"]
+
+[sub_resource type="ShaderMaterial" id="FrontClip"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 4
+shader_parameter/cutouts = PackedVector4Array(19, 70, 16, 28, 61, 72, 24, 24, 114, 72, 24, 24, 167, 72, 24, 24)
+
+[sub_resource type="RectangleShape2D" id="TopLeftSegment"]
+size = Vector2(156, 4)
+[sub_resource type="RectangleShape2D" id="TopRightSegment"]
+size = Vector2(43, 4)
+
+[sub_resource type="RectangleShape2D" id="TopShape"]
+size = Vector2(213, 4)
+
+[sub_resource type="RectangleShape2D" id="BottomShape"]
+size = Vector2(213, 4)
+
+[sub_resource type="RectangleShape2D" id="LeftShape"]
+size = Vector2(4, 200)
+
+[sub_resource type="RectangleShape2D" id="RightShape"]
+size = Vector2(4, 200)
+
+[node name="CafeHall" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+y_sort_enabled = true
+script = ExtResource("script")
+room_size = Vector2(213, 200)
+wall_hidden_alpha = 0.08
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("CafeDoor")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 213, 200)
+region_filter_clip_enabled = false
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-107, -30)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 113, 32)
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-107, -69)
+texture = ExtResource("front")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 28, 213, 72)
+material = SubResource("FrontClip")
+
+[node name="Sprite" parent="Walls/Left" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-8, -126)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(56, 31, 8, 229)
+
+[node name="Sprite" parent="Walls/Right" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(0, -126)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(21, 31, 8, 229)
+
+[node name="CafeDoor" parent="." instance=ExtResource("door")]
+position = Vector2(27, 200)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("TopShape")
+disabled = true
+[node name="LeftSegment" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(-28.5, 0)
+shape = SubResource("TopLeftSegment")
+[node name="RightSegment" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(85, 0)
+shape = SubResource("TopRightSegment")
+[node name="Bartender" parent="NavigationRegion/YSort" instance=ExtResource("counter")]
+position = Vector2(78, 13)
+
+[node name="Table1" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(58, 57)
+
+[node name="Table2" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(153, 57)
+
+[node name="Table3" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(58, 112)
+
+[node name="Table4" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(153, 112)
+
+[node name="Table5" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(58, 167)
+
+[node name="Table6" parent="NavigationRegion/YSort" instance=ExtResource("table")]
+position = Vector2(153, 167)
+
+[node name="Plant1" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
+position = Vector2(11, 14)
+
+[node name="Plant2" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
+position = Vector2(202, 14)
+
+[node name="Window1" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(-34, -1)
+
+[node name="Window2" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(19, -1)
+
+[node name="Window3" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(72, -1)
+
+[node name="Roof" parent="Walls/Bottom" instance=ExtResource("roof")]
+position = Vector2(0, -69)
+
+[node name="Sprite" parent="Walls/Bottom/Roof" index="0"]
+position = Vector2(-117, -12)
+centered = false
+
+[node name="CafeSign" parent="Walls/Bottom" instance=ExtResource("sign")]
+position = Vector2(-80, -43)
+
+[node name="Top" parent="Walls"]
+position = Vector2(106.5, 0)
+
+[node name="Bottom" parent="Walls"]
+position = Vector2(106.5, 200)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("BottomShape")
+
+[node name="Left" parent="Walls"]
+position = Vector2(0, 100)
+
+[node name="Shape" parent="Walls/Left" index="0"]
+shape = SubResource("LeftShape")
+
+[node name="Right" parent="Walls"]
+position = Vector2(213, 100)
+
+[node name="Shape" parent="Walls/Right" index="0"]
+shape = SubResource("RightShape")

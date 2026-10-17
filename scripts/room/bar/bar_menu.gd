@@ -7,6 +7,13 @@ signal closed
 @onready var list: VBoxContainer = $Panel/Margin/VBox/List
 
 var _player: Player
+var _coffee_only := false
+
+static var coffee_menu: Array[BarMenuItem] = [
+	BarMenuItem.new("Espresso", BarMenuItem.Type.COFFEE, "Small, rich and aromatic. Restores 8 Mind.", 6.0, 0, 0, 4),
+	BarMenuItem.new("Americano", BarMenuItem.Type.COFFEE, "A long black coffee. Restores 8 Mind.", 8.0, 0, 1, 4),
+	BarMenuItem.new("Cappuccino", BarMenuItem.Type.COFFEE, "Espresso with silky milk foam. Restores 8 Mind.", 10.0, 0, 2, 4),
+]
 
 static var beer_menu: Array[BarMenuItem] = [
 	BarMenuItem.new("Light Lager",  BarMenuItem.Type.BEER, "Crisp and watery. Goes down easy.",  8.0,  5, 0, 4),
@@ -38,13 +45,18 @@ static func get_all_items() -> Array[BarMenuItem]:
 func _ready() -> void:
 	hide()
 
-func open(player: Player) -> void:
+func open(player: Player, coffee_only := false) -> void:
 	_player = player
+	_coffee_only = coffee_only
 	_player.is_world_input_blocked = true
-	_rebuild(beer_menu)
+	$Panel/Margin/VBox/Title.text = "Coffee, please" if coffee_only else "What'll it be?"
+	$Panel/Margin/VBox/Tabs.visible = not coffee_only
+	_rebuild(coffee_menu if coffee_only else beer_menu)
 	show()
 
 func _on_buy(item: BarMenuItem) -> void:
+	if _player.player_data.money < item.cost:
+		return
 	item_selected.emit(item)
 	_on_close()
 	
@@ -86,6 +98,7 @@ func _make_row(item: BarMenuItem) -> Control:
 
 	var flavor_lbl := Label.new()
 	flavor_lbl.text = item.flavor
+	flavor_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	flavor_lbl.add_theme_font_size_override("font_size", 14)
 	flavor_lbl.modulate = Color(0.75, 0.75, 0.75)
 

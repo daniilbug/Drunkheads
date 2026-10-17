@@ -30,6 +30,8 @@ var seated_seat: Seat = null
 			_apply_vehicle_state()
 
 @export var riding_vehicle_name := ""
+@export var level_id := "bar"
+@export var return_level_id := "bar"
 
 @export var hair_id: int = 0:
 	set(value):
@@ -338,7 +340,7 @@ func _try_take_drop() -> void:
 			_hands_item.drop(self, place)
 			_hands_item = null
 			return
-		elif owner_node is Draggable and _hands_item == null:
+		elif owner_node is Draggable and _hands_item == null and owner_node.can_pickup(self):
 			take_spawned_item(owner_node)
 			_hands_item.pickup(self)
 			return

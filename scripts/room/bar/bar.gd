@@ -4,7 +4,6 @@ extends Room
 
 const BOOMBOX_SCENE := preload("res://scenes/room/bar/boombox.tscn")
 const DANCE_FLOOR_CONTROLLER := preload("res://scenes/room/bar/dance_floor_controller.tscn")
-const DRINK_SCENE  := preload("res://scenes/room/bar/drink.tscn")
 
 @onready var bartender: Bartender = $NavigationRegion/YSort/Bartender
 @onready var dance_floor: DanceFloor = $FloorDecorations/DanceFloor
@@ -18,64 +17,3 @@ func init_room() -> void:
 		boombox.drop(null, bartender.boombox_place)
 		dance_floor_controller.on_mode_change.connect(func(mode: int): dance_floor.set_mode(mode))
 		dance_floor_controller.drop(null, bartender.dance_floor_controller_place)
-
-func _on_bartender_item_purchased(item: BarMenuItem) -> void:
-	if multiplayer.is_server():
-		handle_drink_spawn(
-			item.name, 
-			item.type,
-			item.flavor, 
-			item.cost, 
-			item.alcohol, 
-			item.sprite,
-			item.parts,
-		)
-	else:
-		_spawn_drink.rpc_id(
-			1, 
-			item.name, 
-			item.type,
-			item.flavor, 
-			item.cost, 
-			item.alcohol, 
-			item.sprite,
-			item.parts,
-		)
-
-@rpc("any_peer", "reliable")
-func _spawn_drink(
-	drink_name: String,
-	type: BarMenuItem.Type,
-	flavor: String,
-	cost: float,
-	alcohol: float,
-	sprite: int,
-	parts: int,
-) -> void:
-	if not multiplayer.is_server():
-		return
-	handle_drink_spawn(drink_name, type, flavor, cost, alcohol, sprite, parts)
-	
-static var _drink_id: int = 0
-
-func handle_drink_spawn(
-	drink_name: String,
-	type: BarMenuItem.Type,
-	flavor: String,
-	cost: float,
-	alcohol: float,
-	sprite: int,
-	parts: int,
-) -> void:
-	var drink: Drink = DRINK_SCENE.instantiate()
-	_drink_id += 1
-	drink.name = "Drink" + str(_drink_id)
-	drink.drink_name = drink_name
-	drink.type = type
-	drink.flavor = flavor
-	drink.cost = cost
-	drink.alcohol = alcohol
-	drink.sprite_frame = sprite
-	drink.max_parts = parts
-	get_parent().add_child(drink)
-	drink.drop(null, bartender.order_place)

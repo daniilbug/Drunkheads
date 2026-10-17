@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/bar/window_transparent.tscn" id="window"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/window.png" id="texture"]
+
+[sub_resource type="Gradient" id="Gradient_window"]
+
+[sub_resource type="GradientTexture2D" id="WindowLight"]
+gradient = SubResource("Gradient_window")
+width = 32
+height = 64
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+
+[node name="CafeWindow" instance=ExtResource("window")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("texture")
+
+[node name="Light" parent="." index="1"]
+position = Vector2(0, -2)
+color = Color(1, 0.92, 0.78, 1)
+texture = SubResource("WindowLight")
+texture_scale = 0.625

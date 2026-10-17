@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/bench.tscn" id="bench"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/bench.png" id="texture"]
+
+[node name="CafeBench" instance=ExtResource("bench")]
+y_sort_enabled = true
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, 0)
+texture = ExtResource("texture")
+offset = Vector2(-21, -12)

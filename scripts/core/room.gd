@@ -123,8 +123,11 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_body_exited(body: Node2D) -> void:
 	if _is_local_player(body):
-		_wall_bottom.z_index = 0
-		_tween_wall_alpha(1.0, 1.0)
+		reset_wall_visibility()
+
+func reset_wall_visibility() -> void:
+	_wall_bottom.z_index = 0
+	_tween_wall_alpha(1.0, 1.0)
 
 func _is_local_player(body: Node2D) -> bool:
 	var level := Level.find_level_node(self)

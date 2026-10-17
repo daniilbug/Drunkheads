@@ -230,5 +230,3 @@ position = Vector2(111, 249)
 
 [node name="Table6" parent="NavigationRegion/YSort" parent_id_path=PackedInt32Array(15) index="8" unique_id=650857141 instance=ExtResource("11_bxo4q")]
 position = Vector2(216, 249)
-
-[connection signal="item_purchased" from="NavigationRegion/YSort/Bartender" to="." method="_on_bartender_item_purchased"]

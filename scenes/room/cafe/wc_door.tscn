@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/wc/wc_door.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/wc_door.png" id="2_texture"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+
+[sub_resource type="ShaderMaterial" id="OpenClip"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 1
+shader_parameter/cutouts = PackedVector4Array(33, 1, 14, 26)
+
+[node name="WcDoor" instance=ExtResource("1_base")]
+
+[node name="ClosedSprite" parent="."]
+texture = ExtResource("2_texture")
+
+[node name="OpenSprite" parent="."]
+texture = ExtResource("2_texture")
+material = SubResource("OpenClip")

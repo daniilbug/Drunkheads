@@ -1,0 +1,8 @@
+[gd_scene format=3]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/roof_tiles.png" id="1_texture"]
+[node name="Roof" type="Node2D"]
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("1_texture")
+region_enabled = true
+region_rect = Rect2(0, 0, 233, 24)

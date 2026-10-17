@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://14grqjfbu4u6" path="res://scenes/levels/home.tscn" id="3_home"]
 [ext_resource type="Script" uid="uid://csyn6xfjumvym" path="res://scripts/core/headphone_player.gd" id="4_headphones"]
 
+[ext_resource type="PackedScene" path="res://scenes/levels/cafe.tscn" id="5_cafe"]
+
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
 scale = Vector2(4, 4)
@@ -19,6 +21,9 @@ spawn_path = NodePath("..")
 position = Vector2(900, 0)
 
 [node name="Bar" parent="." unique_id=1970715540 instance=ExtResource("2_bar")]
+
+[node name="Cafe" parent="." instance=ExtResource("5_cafe")]
+position = Vector2(1800, 0)
 
 [node name="HeadphonePlayer" type="AudioStreamPlayer" parent="." unique_id=1806567769]
 volume_db = -30.0

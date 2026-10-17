@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/bar/chair.tscn" id="chair"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/chair.png" id="sprite"]
+
+[node name="CafeChair" instance=ExtResource("chair")]
+
+[node name="Sprite" parent="." index="0"]
+light_mask = 2
+texture = ExtResource("sprite")
+
+[node name="Seat" parent="." index="1"]
+seat_position_offset = Vector2(0, 2)
+interaction_radius = 6.0

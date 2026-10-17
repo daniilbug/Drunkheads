@@ -37,7 +37,9 @@ func _spawn_standalone_player() -> void:
 	player.randomize_appearance()
 	_prepare_player_spawn(player)
 	add_child(player)
-	var spawn_point := player_spawn if player_spawn != null else get_node_or_null("PlayerSpawn") as Node2D
+	var spawn_point := get_node_or_null("TaxiReturn") as Node2D
+	if spawn_point == null:
+		spawn_point = player_spawn if player_spawn != null else get_node_or_null("PlayerSpawn") as Node2D
 	if spawn_point != null:
 		player.global_position = spawn_point.global_position
 	_init_local_player(player)
@@ -50,6 +52,8 @@ func _cleanup_player(peer_id: int) -> void:
 		if seat.occupant_name == str(peer_id):
 			seat.vacate()
 	for child in get_children():
+		if child is Drink and child.customer_id == peer_id:
+			child.queue_free()
 		if child is Draggable and (child as Draggable).holder_peer_id == peer_id:
 			child.holder_peer_id = 0
 
@@ -72,8 +76,13 @@ func get_players() -> Array[Player]:
 func _init_local_player(player: Player) -> void:
 	if local_player != null:
 		return
-	player.player_data = PlayerData.new()
-	player.settings = PlayerSettings.new()
+	if player.player_data == null:
+		player.player_data = PlayerData.new()
+	if player.settings == null:
+		player.settings = PlayerSettings.new()
+	if not player.drink_action_requested.is_connected(_on_drink_action_requested):
+		player.drink_action_requested.connect(_on_drink_action_requested)
+		player.smoke_action_requested.connect(_on_smoke_action_requested)
 	local_player = player
 	var bounds := get_world_bounds()
 	player.camera.limit_left = floori(bounds.position.x)
@@ -115,3 +124,77 @@ func _create_bounds_wall(wall_name: String, wall_position: Vector2, size: Vector
 
 func _init_npc(npc: NPC) -> void:
 	npc.player_data = PlayerData.new()
+	npc.drink_action_requested.connect(_on_drink_action_requested)
+
+func _on_cigarette_spawned(node: Node) -> void:
+	if node is CigarettePack and local_player != null:
+		var pack := node as CigarettePack
+		if pack.holder_peer_id == int(local_player.name):
+			local_player.take_spawned_item(pack)
+
+func _on_drink_action_requested(player_id: int, drink_name: String) -> void:
+	if get_node_or_null(drink_name) is not Drink:
+		return
+	if multiplayer.is_server():
+		_handle_drink_action(player_id, drink_name)
+	else:
+		_request_drink_action.rpc_id(1, player_id, drink_name)
+
+@rpc("any_peer", "reliable")
+func _request_drink_action(player_id: int, drink_name: String) -> void:
+	if not multiplayer.is_server() or player_id != multiplayer.get_remote_sender_id():
+		return
+	_handle_drink_action(player_id, drink_name)
+
+func _handle_drink_action(player_id: int, drink_name: String) -> void:
+	var drink := get_node_or_null(drink_name) as Drink
+	if drink == null or drink.holder_peer_id != player_id:
+		return
+	if drink.parts == 0:
+		return
+	drink.parts -= 1
+	if drink.parts == 0:
+		drink.holder_peer_id = 0
+		drink.queue_free()
+
+func _on_smoke_action_requested(player_id: int, pack_name: String) -> void:
+	if get_node_or_null(pack_name) is not CigarettePack:
+		return
+	if multiplayer.is_server():
+		_handle_smoke_action(player_id, pack_name)
+	else:
+		_request_smoke_action.rpc_id(1, player_id, pack_name)
+
+@rpc("any_peer", "reliable")
+func _request_smoke_action(player_id: int, pack_name: String) -> void:
+	if not multiplayer.is_server() or player_id != multiplayer.get_remote_sender_id():
+		return
+	_handle_smoke_action(player_id, pack_name)
+
+func _handle_smoke_action(player_id: int, pack_name: String) -> void:
+	var pack := get_node_or_null(pack_name) as CigarettePack
+	if pack == null or pack.holder_peer_id != player_id:
+		return
+	if pack.cigarettes_left <= 0 or pack.is_smoking:
+		return
+	pack.is_smoking = true
+	pack.play_smoke.rpc()
+	_finish_smoking(pack, player_id)
+
+func _finish_smoking(pack: CigarettePack, player_id: int) -> void:
+	await get_tree().create_timer(CigarettePack.SMOKE_DURATION).timeout
+	if not is_instance_valid(pack):
+		return
+	pack.is_smoking = false
+	if pack.holder_peer_id != player_id or pack.cigarettes_left <= 0:
+		return
+	pack.cigarettes_left -= 1
+	_smoke_finished.rpc_id(player_id)
+	if pack.cigarettes_left == 0:
+		pack.holder_peer_id = 0
+		pack.queue_free()
+
+@rpc("authority", "call_local", "reliable")
+func _smoke_finished() -> void:
+	if local_player != null:
+		local_player.on_cigarette_smoked()

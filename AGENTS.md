@@ -11,7 +11,7 @@
 ## Карта проекта
 
 - Godot 4.6, GDScript, 2D; `project.godot` запускает `scenes/menu.tscn`, затем меню создаёт ENet host/client и открывает `scenes/levels/main.tscn`.
-- `scripts/main.gd` координирует игроков, HUD, телефон и поездки между уровнями Bar и Home, которые одновременно находятся в дереве Main.
+- `scripts/main.gd` координирует игроков, HUD, телефон и поездки между уровнями Bar, Cafe и Home, которые одновременно находятся в дереве Main. Текущий уровень и место возврата из дома хранятся в серверных свойствах Player.
 - Мир собирается из сцен: Main содержит Level, Level — Room и уличные объекты, Room — интерьер; игроки в общем мире находятся непосредственно под Main.
 - Общие сцены и классы — `scenes/core/` и `scripts/core/`; специализации — `levels/`, `room/`, `street/`; мини-игры — `minigame/poker/` и `minigame/table-football/`.
 - Текстуры, аудио и шейдеры — `assets/`; воспроизводимые генераторы спрайтов на Python/Pillow — `tools/`.
