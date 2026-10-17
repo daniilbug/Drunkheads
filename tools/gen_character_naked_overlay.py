@@ -4,6 +4,8 @@ from pathlib import Path
 
 from PIL import Image
 
+from gen_sprites import build_player_layers
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CHARACTERS = ROOT / "assets/sprites/characters"
@@ -12,9 +14,9 @@ SHOE = (55, 40, 28, 255)
 
 
 def main() -> None:
-    base = Image.open(ROOT / "assets/sprites/player.png").convert("RGBA")
-    top = Image.open(CHARACTERS / "top_0.png").convert("RGBA")
-    pants = Image.open(CHARACTERS / "pants_0.png").convert("RGBA")
+    # Naked anatomy comes from the body poses, independent of clothing styles.
+    layers = build_player_layers()
+    base, top, pants = (layers[name] for name in ("base", "top", "pants"))
     assert base.size == top.size == pants.size == (48, 200)
     skin = Image.new("RGBA", base.size)
 

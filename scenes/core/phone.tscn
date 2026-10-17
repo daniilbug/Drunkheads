@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cq0u780fj8mao"]
 
 [ext_resource type="Script" uid="uid://b8vq2800afair" path="res://scripts/core/phone.gd" id="1_phone"]
+[ext_resource type="Script" uid="uid://btx7catsvl3m5" path="res://scripts/core/phone_music_wave.gd" id="2_wave"]
 [ext_resource type="Texture2D" uid="uid://bct6dk4405jwl" path="res://assets/sprites/phone/wallpaper_midnight.png" id="4_midnight"]
 [ext_resource type="Texture2D" uid="uid://dwuebvrnq4psu" path="res://assets/sprites/phone/wallpaper_amber.png" id="5_amber"]
 [ext_resource type="Texture2D" uid="uid://bk3pkq86ix534" path="res://assets/sprites/phone/wallpaper_sage.png" id="6_sage"]
@@ -9,6 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://dk6chnbymfas2" path="res://assets/sprites/phone/next_icon.png" id="13_next"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_track"]
+bg_color = Color(0.19, 0.3, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
+bg_color = Color(0.85, 0.69, 0.36, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_28pym"]
 load_path = "res://.godot/imported/app_icon_background.png-26382a8537411521a7f3f1ccc014957f.ctex"
@@ -192,6 +199,28 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.06, 0.09, 0.12, 0.76)
+
+[node name="Wave" type="Control" parent="Root/Screen/MusicPlayer"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 164.0
+offset_right = 182.0
+offset_bottom = 208.0
+mouse_filter = 2
+script = ExtResource("2_wave")
+
+[node name="Progress" type="ProgressBar" parent="Root/Screen/MusicPlayer"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 266.0
+offset_right = 246.0
+offset_bottom = 270.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_progress_track")
+theme_override_styles/fill = SubResource("StyleBoxFlat_progress_fill")
+max_value = 1.0
+step = 0.0
+show_percentage = false
 
 [node name="Controls" type="HBoxContainer" parent="Root/Screen/MusicPlayer"]
 layout_mode = 1

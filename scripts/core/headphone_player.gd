@@ -37,3 +37,4 @@ func select_relative(offset: int) -> void:
 	stream = PLAYLIST.get_list_stream(track_index)
 	if enabled:
 		play()
+	changed.emit()

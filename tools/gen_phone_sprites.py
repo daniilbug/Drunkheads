@@ -11,26 +11,42 @@ OUTPUT = ROOT / "assets" / "sprites" / "phone"
 
 ICON_SIZE = 64
 OUTPUT_ICON_SIZE = 32
+GLYPH_SIZE = 20
 OUTLINE = "#3a2610"
 TILE = "#d9af5b"
 TILE_LIGHT = "#f1cf82"
 TILE_DARK = "#ab7938"
-CAR = "#ad884b"
 
 
 def _save(icon: Image.Image, filename: str) -> Path:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     path = OUTPUT / filename
-    # Keep the shared drawing coordinates; export crisp, lower-resolution pixels.
-    icon.resize((OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), Image.Resampling.NEAREST).save(path)
+    # Only the legacy background uses the larger drawing canvas.
+    if icon.size != (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE):
+        icon = icon.resize((OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), Image.Resampling.NEAREST)
+    icon.save(path)
     return path
+
+
+def _save_glyph(icon: Image.Image, filename: str) -> Path:
+    """Center native-resolution artwork without resampling its pixels."""
+    bounds = icon.getbbox()
+    if bounds is None:
+        raise ValueError(f"Empty phone glyph: {filename}")
+    mark = icon.crop(bounds)
+    if max(mark.size) != GLYPH_SIZE:
+        raise ValueError(f"Phone glyph must fit the {GLYPH_SIZE}px grid: {filename}")
+    centered = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
+    centered.alpha_composite(mark, ((OUTPUT_ICON_SIZE - mark.width) // 2,
+                                    (OUTPUT_ICON_SIZE - mark.height) // 2))
+    return _save(centered, filename)
 
 
 def generate_app_icon_background() -> Path:
     icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
 
-    # Both launcher buttons use this exact tile, including its stepped outline.
+    # All launcher buttons use this exact tile, including its stepped outline.
     draw.polygon(
         [(8, 1), (55, 1), (55, 3), (59, 3), (59, 5), (61, 5),
          (61, 58), (59, 58), (59, 60), (55, 60), (55, 62),
@@ -53,69 +69,75 @@ def generate_app_icon_background() -> Path:
 
 
 def generate_taxi_icon() -> Path:
-    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
 
-    # Transparent car glyph, layered over the shared tile in the Godot scene.
+    # Front-facing cab with a roof sign, broad windshield and two headlights.
+    # Draw directly on the final pixel grid, keeping the cab wider than tall.
     draw.polygon(
-        [(15, 31), (20, 30), (24, 24), (39, 24), (44, 30),
-         (49, 31), (49, 38), (15, 38)],
+        [(11, 11), (20, 11), (23, 16), (24, 17),
+         (24, 22), (7, 22), (7, 17), (8, 16)],
         fill=OUTLINE,
     )
-    draw.polygon(
-        [(17, 33), (22, 31), (25, 26), (38, 26), (43, 31),
-         (47, 33), (47, 36), (17, 36)],
-        fill=CAR,
-    )
-    draw.rectangle((20, 37, 25, 40), fill=OUTLINE)
-    draw.rectangle((39, 37, 44, 40), fill=OUTLINE)
-    return _save(icon, "taxi_icon.png")
+    draw.polygon([(12, 13), (19, 13), (21, 16), (10, 16)], fill=(0, 0, 0, 0))
+    draw.rectangle((13, 8, 18, 10), fill=OUTLINE)
+    draw.point((14, 9), fill=(0, 0, 0, 0))
+    draw.point((17, 9), fill=(0, 0, 0, 0))
+    for x in (7, 21):
+        draw.rectangle((x, 22, x + 3, 24), fill=OUTLINE)
+    for x in (10, 20):
+        draw.rectangle((x, 19, x + 1, 20), fill=(0, 0, 0, 0))
+    draw.rectangle((12, 22, 19, 22), fill=(0, 0, 0, 0))
+    draw.rectangle((6, 16, 7, 18), fill=OUTLINE)
+    draw.rectangle((24, 16, 25, 18), fill=OUTLINE)
+    return _save_glyph(icon, "taxi_icon.png")
 
 
 def generate_wallpaper_icon() -> Path:
-    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
 
-    # Only the landscape mark is opaque; the shared tile supplies all background.
-    draw.ellipse((39, 17, 49, 27), fill=OUTLINE)
-    draw.ellipse((41, 19, 47, 25), fill=TILE_LIGHT)
-    draw.polygon([(10, 48), (27, 25), (38, 39), (44, 31), (55, 48)], fill=OUTLINE)
-    draw.polygon([(15, 46), (27, 30), (39, 46)], fill="#3e6465")
-    draw.polygon([(35, 46), (44, 35), (50, 46)], fill="#789278")
-    return _save(icon, "wallpapers_icon.png")
+    # A compact photo with a moon and two clean mountain silhouettes.
+    draw.rectangle((6, 8, 25, 23), fill=OUTLINE)
+    draw.rectangle((8, 10, 23, 21), fill=(0, 0, 0, 0))
+    draw.rectangle((19, 11, 21, 13), fill=OUTLINE)
+    draw.polygon([(8, 21), (13, 14), (18, 21)], fill=OUTLINE)
+    draw.polygon([(15, 21), (20, 16), (23, 21)], fill=OUTLINE)
+    return _save_glyph(icon, "wallpapers_icon.png")
 
 
 def generate_music_icon() -> Path:
-    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
-    draw.polygon([(30, 21), (48, 17), (48, 42), (43, 42),
-                  (43, 24), (35, 26), (35, 46), (30, 46)], fill=OUTLINE)
-    draw.ellipse((20, 41, 35, 50), fill=OUTLINE)
-    draw.ellipse((38, 37, 49, 46), fill=OUTLINE)
-    draw.rectangle((34, 25, 44, 27), fill=TILE_LIGHT)
-    return _save(icon, "music_icon.png")
+    # Headphones: one stepped arch and two solid ear pads, no tiny details.
+    draw.rectangle((12, 7, 19, 8), fill=OUTLINE)
+    for left, right in ((9, 11), (20, 22)):
+        draw.rectangle((left, 8, right, 9), fill=OUTLINE)
+    for left in (8, 22):
+        draw.rectangle((left, 10, left + 1, 12), fill=OUTLINE)
+    for left in (6, 24):
+        draw.rectangle((left, 12, left + 1, 23), fill=OUTLINE)
+    draw.rectangle((6, 16, 10, 23), fill=OUTLINE)
+    draw.rectangle((21, 16, 25, 23), fill=OUTLINE)
+    return _save_glyph(icon, "music_icon.png")
 
 
 def generate_control_icon(name: str) -> Path:
-    icon = Image.new("RGBA", (ICON_SIZE, ICON_SIZE), (0, 0, 0, 0))
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
     if name == "play":
-        draw.polygon([(24, 17), (48, 32), (24, 47)], fill=OUTLINE)
-        draw.polygon([(28, 23), (41, 32), (28, 41)], fill=TILE_LIGHT)
+        draw.polygon([(8, 6), (23, 15), (23, 16), (8, 25)], fill=OUTLINE)
     elif name == "pause":
-        for x in (21, 38):
-            draw.rectangle((x, 18, x + 7, 46), fill=OUTLINE)
-            draw.rectangle((x + 2, 21, x + 4, 43), fill=TILE_LIGHT)
+        for x in (7, 19):
+            draw.rectangle((x, 6, x + 4, 25), fill=OUTLINE)
     elif name in ("previous", "next"):
-        if name == "previous":
-            draw.rectangle((16, 20, 21, 44), fill=OUTLINE)
-            draw.polygon([(43, 19), (23, 32), (43, 45)], fill=OUTLINE)
-        else:
-            draw.rectangle((43, 20, 48, 44), fill=OUTLINE)
-            draw.polygon([(21, 19), (41, 32), (21, 45)], fill=OUTLINE)
+        draw.rectangle((6, 7, 9, 24), fill=OUTLINE)
+        draw.polygon([(25, 6), (11, 15), (11, 16), (25, 25)], fill=OUTLINE)
+        if name == "next":
+            icon = icon.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
     else:
         raise ValueError(name)
-    return _save(icon, f"{name}_icon.png")
+    return _save_glyph(icon, f"{name}_icon.png")
 
 
 if __name__ == "__main__":

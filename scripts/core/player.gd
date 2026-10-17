@@ -36,14 +36,29 @@ var seated_seat: Seat = null
 		hair_id = value
 		_refresh_appearance()
 
+@export var hair_color_id: int = 2:
+	set(value):
+		hair_color_id = value
+		_refresh_appearance()
+
 @export var top_id: int = 0:
 	set(value):
 		top_id = value
 		_refresh_appearance()
 
+@export var top_color_id: int = 4:
+	set(value):
+		top_color_id = value
+		_refresh_appearance()
+
 @export var pants_id: int = 0:
 	set(value):
 		pants_id = value
+		_refresh_appearance()
+
+@export var pants_color_id: int = 3:
+	set(value):
+		pants_color_id = value
 		_refresh_appearance()
 
 @export var in_shower := false:
@@ -127,13 +142,18 @@ func _apply_vehicle_state() -> void:
 		obstacle.avoidance_enabled = multiplayer.is_server() and not in_vehicle
 
 func randomize_appearance() -> void:
-	hair_id = randi_range(0, CharacterSprite.HAIR_TEXTURES.size() - 1)
-	top_id = randi_range(0, CharacterSprite.TOP_TEXTURES.size() - 1)
-	pants_id = randi_range(0, CharacterSprite.PANTS_TEXTURES.size() - 1)
+	# All three slots use the same masculine/feminine ID ranges.
+	var group_start := randi_range(0, 1) * CharacterSprite.STYLES_PER_GROUP
+	hair_id = group_start + randi_range(0, CharacterSprite.STYLES_PER_GROUP - 1)
+	hair_color_id = randi_range(0, CharacterSprite.HAIR_COLORS.size() - 1)
+	top_id = group_start + randi_range(0, CharacterSprite.STYLES_PER_GROUP - 1)
+	pants_id = group_start + randi_range(0, CharacterSprite.STYLES_PER_GROUP - 1)
+	top_color_id = randi_range(0, CharacterSprite.CLOTHING_COLORS.size() - 1)
+	pants_color_id = randi_range(0, CharacterSprite.CLOTHING_COLORS.size() - 1)
 
 func _refresh_appearance() -> void:
 	if is_node_ready():
-		sprite.set_appearance(hair_id, top_id, pants_id)
+		sprite.set_appearance(hair_id, top_id, pants_id, hair_color_id, top_color_id, pants_color_id)
 
 func _setup_authority() -> void:
 	if is_multiplayer_authority():

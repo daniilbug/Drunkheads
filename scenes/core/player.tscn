@@ -10,6 +10,19 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/characters/naked_overlay.png" id="2_naked_overlay"]
 [ext_resource type="PackedScene" uid="uid://cs3d5c4yygunn" path="res://scenes/core/voice_chat.tscn" id="3_kmdga"]
 [ext_resource type="Script" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
+[ext_resource type="Shader" path="res://assets/shaders/hair_color.gdshader" id="hair_color_shader"]
+[ext_resource type="Shader" path="res://assets/shaders/clothing_color.gdshader" id="clothing_color_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hair"]
+shader = ExtResource("hair_color_shader")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_top"]
+shader = ExtResource("clothing_color_shader")
+shader_parameter/clothing_color = Color(0.27451, 0.42353, 0.60392, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pants"]
+shader = ExtResource("clothing_color_shader")
+shader_parameter/clothing_color = Color(0.2, 0.26275, 0.37255, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(10, 8)
@@ -55,6 +68,15 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath(".:in_shower")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath(".:hair_color_id")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath(".:top_color_id")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+properties/8/path = NodePath(".:pants_color_id")
+properties/8/spawn = true
+properties/8/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
 collision_mask = 9
@@ -75,6 +97,7 @@ vframes = 10
 script = ExtResource("2_character_sprite")
 
 [node name="Pants" type="Sprite2D" parent="Sprite" unique_id=1432285718]
+material = SubResource("ShaderMaterial_pants")
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_pants")
@@ -84,6 +107,7 @@ hframes = 4
 vframes = 10
 
 [node name="Top" type="Sprite2D" parent="Sprite" unique_id=1201707499]
+material = SubResource("ShaderMaterial_top")
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_top")
@@ -103,6 +127,7 @@ hframes = 4
 vframes = 10
 
 [node name="Hair" type="Sprite2D" parent="Sprite" unique_id=167662397]
+material = SubResource("ShaderMaterial_hair")
 light_mask = 3
 texture_filter = 1
 texture = ExtResource("2_hair")

@@ -18,6 +18,8 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
 @onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
 @onready var _music_page: Control = $Root/Screen/MusicPlayer
+@onready var _music_wave: PhoneMusicWave = $Root/Screen/MusicPlayer/Wave
+@onready var _music_progress: ProgressBar = $Root/Screen/MusicPlayer/Progress
 @onready var _previous_button: Button = $Root/Screen/MusicPlayer/Controls/Previous
 @onready var _toggle_button: Button = $Root/Screen/MusicPlayer/Controls/Toggle
 @onready var _toggle_glyph: TextureRect = $Root/Screen/MusicPlayer/Controls/Toggle/Glyph
@@ -57,6 +59,10 @@ func _ready() -> void:
 	_apply_wallpaper()
 	_show_launcher()
 
+func _process(_delta: float) -> void:
+	if _music_page.visible:
+		_update_music_visuals()
+
 func set_taxi_available(available: bool) -> void:
 	_taxi_button.disabled = not available
 	_taxi_button.modulate = Color.WHITE if available else Color(0.55, 0.55, 0.55)
@@ -95,12 +101,25 @@ func _show_music() -> void:
 	_launcher.hide()
 	_picker.hide()
 	_music_page.show()
+	_update_music_visuals()
 	_toggle_button.grab_focus()
 
 func _refresh_music() -> void:
 	if _headphone_player == null:
 		return
 	_toggle_glyph.texture = PAUSE_ICON if _headphone_player.enabled else PLAY_ICON
+	_update_music_visuals()
+
+func _update_music_visuals() -> void:
+	if _headphone_player == null:
+		return
+	var position := _headphone_player.get_playback_position()
+	var playing := _headphone_player.enabled and _headphone_player.playing
+	if playing:
+		position += AudioServer.get_time_since_last_mix()
+	var duration := _headphone_player.stream.get_length()
+	_music_progress.value = clampf(position / duration, 0.0, 1.0) if duration > 0.0 else 0.0
+	_music_wave.update_playback(position, playing)
 
 func _show_launcher() -> void:
 	_picker.hide()
