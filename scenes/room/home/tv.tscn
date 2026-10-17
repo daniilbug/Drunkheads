@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/switch.tscn" id="1_switch"]
+[ext_resource type="Script" path="res://scripts/room/home/tv.gd" id="2_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home/tv.png" id="3_tv"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home/tv_light.png" id="4_light"]
+
+[sub_resource type="Gradient" id="BroadcastColors"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.333333, 0.666667, 1)
+colors = PackedColorArray(0.4, 0.65, 1, 1, 0.85, 0.4, 0.7, 1, 1, 0.74, 0.45, 1, 0.35, 0.9, 0.8, 1)
+
+[sub_resource type="RectangleShape2D" id="InteractionShape"]
+size = Vector2(56, 16)
+
+[sub_resource type="RectangleShape2D" id="BodyShape"]
+size = Vector2(44, 10)
+
+[sub_resource type="Gradient" id="LEDColor"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="LEDTexture"]
+gradient = SubResource("LEDColor")
+width = 1
+height = 1
+
+[sub_resource type="CanvasItemMaterial" id="LEDMaterial"]
+light_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="TVReplication"]
+properties/0/path = NodePath(".:is_turned_on")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:color_index")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="TV" instance=ExtResource("1_switch")]
+script = ExtResource("2_script")
+broadcast_colors = SubResource("BroadcastColors")
+
+[node name="Sprite" parent="." index="0"]
+texture_filter = 1
+position = Vector2(0, -17)
+texture = ExtResource("3_tv")
+
+[node name="Shape" parent="Area" index="0"]
+position = Vector2(0, -5)
+shape = SubResource("InteractionShape")
+
+[node name="Body" type="StaticBody2D" parent="." index="3"]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" index="0"]
+position = Vector2(0, -5)
+shape = SubResource("BodyShape")
+
+[node name="Light" type="PointLight2D" parent="." index="4"]
+visible = false
+texture_filter = 2
+position = Vector2(0, -57)
+color = Color(0.4, 0.65, 1, 1)
+energy = 0.45
+range_item_cull_mask = 2
+texture = ExtResource("4_light")
+
+[node name="PowerLED" type="Sprite2D" parent="." index="5"]
+texture_filter = 1
+material = SubResource("LEDMaterial")
+position = Vector2(11.5, -18.5)
+texture = SubResource("LEDTexture")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="6"]
+replication_config = SubResource("TVReplication")
+
+[node name="ColorTimer" type="Timer" parent="." index="7"]
+one_shot = true
