@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_tree.tscn" id="19_tree"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_shrub.tscn" id="20_shrub"]
 
+[ext_resource type="Resource" path="res://assets/transport/cafe.tres" id="transport_destination"]
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 resource_local_to_scene = true
 vertices = PackedVector2Array(570, 478, -230, 478, -230, 368, 570, 368)
@@ -31,6 +33,7 @@ radius = 3.0
 
 [node name="Cafe" groups=["cafe_street_navigation_geometry"] instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_tbgi4")
+transport_destination = ExtResource("transport_destination")
 
 [node name="CafeHall" parent="." index="0" instance=ExtResource("2_sugp2")]
 light_mask = 0

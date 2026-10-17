@@ -4,7 +4,7 @@ extends CanvasLayer
 signal taxi_requested(destination: String)
 signal closed
 
-const TAXI_DESTINATIONS := ["home", "cafe", "bar"]
+const DESTINATION_BUTTON_SCENE := preload("res://scenes/core/taxi_destination_button.tscn")
 const WALLPAPERS := [
 	preload("res://assets/sprites/phone/wallpaper_midnight.png"),
 	preload("res://assets/sprites/phone/wallpaper_amber.png"),
@@ -18,11 +18,7 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _launcher: Control = $Root/Screen/Launcher
 @onready var _taxi_button: Button = $Root/Screen/Launcher/Apps/Taxi
 @onready var _taxi_page: Control = $Root/Screen/TaxiDestinations
-@onready var _destination_buttons: Array[Button] = [
-	$Root/Screen/TaxiDestinations/Options/Home,
-	$Root/Screen/TaxiDestinations/Options/Cafe,
-	$Root/Screen/TaxiDestinations/Options/Bar,
-]
+@onready var _destination_options: GridContainer = $Root/Screen/TaxiDestinations/Options
 @onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
 @onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
 @onready var _music_page: Control = $Root/Screen/MusicPlayer
@@ -45,6 +41,28 @@ var _headphone_player: HeadphonePlayer
 var _world_time: WorldTime
 var _current_level := "bar"
 var _taxi_available := true
+var _destinations: Array[TransportDestination] = []
+var _destination_buttons: Array[Button] = []
+
+func set_transport_destinations(destinations: Array[TransportDestination]) -> void:
+	_destinations = destinations
+	if is_node_ready():
+		_build_destination_buttons()
+
+func _build_destination_buttons() -> void:
+	for child in _destination_options.get_children():
+		_destination_options.remove_child(child)
+		child.queue_free()
+	_destination_buttons.clear()
+	for destination in _destinations:
+		var button := DESTINATION_BUTTON_SCENE.instantiate() as Button
+		button.name = destination.id.to_pascal_case()
+		button.tooltip_text = destination.display_name
+		(button.get_node("Glyph") as TextureRect).texture = destination.icon
+		button.pressed.connect(_order_taxi.bind(destination.id))
+		_destination_options.add_child(button)
+		_destination_buttons.append(button)
+	_refresh_destinations()
 
 func set_player_settings(settings: PlayerSettings) -> void:
 	_settings = settings
@@ -75,8 +93,7 @@ func _ready() -> void:
 	if is_instance_valid(_world_time):
 		_update_time(_world_time.get_hour())
 	_taxi_button.pressed.connect(_on_taxi_pressed)
-	for i in _destination_buttons.size():
-		_destination_buttons[i].pressed.connect(_order_taxi.bind(TAXI_DESTINATIONS[i]))
+	_build_destination_buttons()
 	_wallpapers_button.pressed.connect(_show_picker)
 	_music_button.pressed.connect(_show_music)
 	_music_button.disabled = _headphone_player == null
@@ -114,7 +131,7 @@ func set_taxi_context(current_level: String) -> void:
 func _refresh_destinations() -> void:
 	for i in _destination_buttons.size():
 		var button := _destination_buttons[i]
-		button.disabled = not _taxi_available or TAXI_DESTINATIONS[i] == _current_level
+		button.disabled = not _taxi_available or _destinations[i].id == _current_level
 		button.modulate = Color(0.55, 0.55, 0.55) if button.disabled else Color.WHITE
 
 func _apply_wallpaper() -> void:

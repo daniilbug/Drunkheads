@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/vehicle.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/street/bus.gd" id="2_bus"]
+[ext_resource type="Texture2D" path="res://assets/sprites/street/bus_body.png" id="3_body"]
+[ext_resource type="PackedScene" path="res://scenes/street/bus_destination_icon.tscn" id="4_icon"]
+
+[sub_resource type="RectangleShape2D" id="BusBody"]
+size = Vector2(104, 20)
+
+[sub_resource type="RectangleShape2D" id="BusEntrance"]
+size = Vector2(26, 56)
+
+[sub_resource type="RectangleShape2D" id="BusPavementEntrance"]
+size = Vector2(112, 24)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vehicle"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:travel_state")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:current_speed")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:facing_right")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:boarding_enabled")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:scale")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+
+properties/6/path = NodePath(".:destination_id")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath(".:service_state")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+
+[node name="Bus" instance=ExtResource("1_base")]
+script = ExtResource("2_bus")
+interaction_detectable = true
+
+[node name="Shape" parent="." index="0" unique_id=1492730367]
+position = Vector2(0, -12)
+shape = SubResource("BusBody")
+
+[node name="ForwardCast" parent="." index="2" unique_id=1273180313]
+position = Vector2(0, -12)
+shape = SubResource("BusBody")
+
+[node name="Body" parent="Visuals" index="0" unique_id=1232403058]
+texture = ExtResource("3_body")
+offset = Vector2(-56, -46)
+
+[node name="RearWheel" parent="Visuals/Body" index="0" unique_id=47208534]
+position = Vector2(-36, -5)
+
+[node name="FrontWheel" parent="Visuals/Body" index="1" unique_id=116934311]
+position = Vector2(19, -5)
+
+[node name="Headlight" parent="Visuals" index="1" unique_id=770002230]
+position = Vector2(55, -15)
+
+[node name="DestinationIcon" parent="Visuals" index="3" instance=ExtResource("4_icon")]
+position = Vector2(-41, -26)
+
+[node name="Shape" parent="VehicleInteraction/Area" index="0" unique_id=1342870308]
+position = Vector2(34, -28)
+shape = SubResource("BusEntrance")
+
+[node name="PavementShape" type="CollisionShape2D" parent="VehicleInteraction/Area" index="1"]
+position = Vector2(0, -49)
+shape = SubResource("BusPavementEntrance")
+
+[node name="MultiplayerSynchronizer" parent="." index="6" unique_id=328169659]
+replication_config = SubResource("SceneReplicationConfig_vehicle")

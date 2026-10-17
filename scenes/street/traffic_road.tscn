@@ -16,7 +16,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 240, 100)
 
 [node name="VehicleSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cmx2do5gbfegd")
+_spawnable_scenes = PackedStringArray("res://scenes/street/car.tscn", "res://scenes/street/taxi.tscn", "res://scenes/street/bus.tscn")
 spawn_path = NodePath("../..")
 
 [node name="RightTrafficLane" type="Node2D" parent="."]

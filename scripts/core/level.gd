@@ -7,6 +7,10 @@ const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 const WORLD_TIME_SCENE := preload("res://scenes/core/world_time.tscn")
 const BOUNDS_WALL_THICKNESS := 16.0
 
+@export var transport_destination: TransportDestination
+@export var transport_arrival_interior := false
+@export var transport_arrival_path: NodePath = ^"PlayerSpawn"
+
 static func find_level_node(node: Node2D) -> Level:
 	var current: Node = node
 	while current.get_parent() != null:
@@ -43,6 +47,8 @@ func _ready() -> void:
 func _spawn_standalone_player() -> void:
 	var player := PLAYER_SCENE.instantiate() as Player
 	player.name = str(multiplayer.get_unique_id())
+	if transport_destination != null:
+		player.level_id = transport_destination.id
 	player.player_name = Player.local_setup.get("name", "Player")
 	player.randomize_appearance()
 	_prepare_player_spawn(player)
@@ -57,7 +63,38 @@ func _spawn_standalone_player() -> void:
 func _prepare_player_spawn(_player: Player) -> void:
 	pass
 
+func get_transport_stop() -> TransportStop:
+	for stop in find_children("*", "TransportStop", true, false):
+		return stop as TransportStop
+	return null
+
+func get_taxi_stop() -> TaxiStop:
+	var stop := get_transport_stop()
+	return stop.get_node("TaxiStop") as TaxiStop if stop != null else null
+
+func get_bus_stop() -> BusStop:
+	var stop := get_transport_stop()
+	return stop.get_node("BusStop") as BusStop if stop != null else null
+
+func get_transport_arrival_position() -> Vector2:
+	var stop := get_transport_stop()
+	if not transport_arrival_interior and stop != null:
+		return stop.get_exit_position()
+	var marker := get_node_or_null(transport_arrival_path) as Node2D
+	return marker.global_position if marker != null else global_position
+
+func supports_transport() -> bool:
+	if transport_arrival_interior:
+		return get_node_or_null(transport_arrival_path) != null
+	return get_transport_stop() != null
+
 func _cleanup_player(peer_id: int) -> void:
+	var taxi_stop := get_taxi_stop()
+	if taxi_stop != null:
+		taxi_stop.remove_passenger(peer_id)
+	var bus_stop := get_bus_stop()
+	if bus_stop != null:
+		bus_stop.remove_passenger(peer_id)
 	for seat in find_children("*", "Seat", true, false):
 		if seat.occupant_name == str(peer_id):
 			seat.vacate()

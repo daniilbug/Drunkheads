@@ -174,7 +174,9 @@ func _handle_interaction(peer_id: int) -> void:
 	if level == null:
 		return
 	var player := level.get_player(peer_id)
-	if player == null or not _interaction.area.overlaps_area(player.interaction_area):
+	if player == null or player.in_vehicle or player.is_sitting or not _interaction.area.overlaps_area(player.interaction_area):
+		return
+	if level.transport_destination != null and player.level_id != level.transport_destination.id:
 		return
 	boarding_requested.emit(player)
 

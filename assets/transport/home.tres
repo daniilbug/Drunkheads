@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TransportDestination" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/transport_destination.gd" id="1_destination"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/home_icon.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_destination")
+id = "home"
+display_name = "Home"
+icon = ExtResource("2_icon")
+sort_order = 0

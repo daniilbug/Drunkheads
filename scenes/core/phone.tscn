@@ -10,9 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dk6chnbymfas2" path="res://assets/sprites/phone/next_icon.png" id="13_next"]
 [ext_resource type="Texture2D" path="res://assets/sprites/phone/status_signal.png" id="14_signal"]
 [ext_resource type="Texture2D" path="res://assets/sprites/phone/status_battery.png" id="15_battery"]
-[ext_resource type="Texture2D" path="res://assets/sprites/phone/home_icon.png" id="16_home"]
-[ext_resource type="Texture2D" path="res://assets/sprites/phone/cafe_icon.png" id="17_cafe"]
-[ext_resource type="Texture2D" path="res://assets/sprites/phone/bar_icon.png" id="18_bar"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
 
@@ -446,103 +443,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Options" type="HBoxContainer" parent="Root/Screen/TaxiDestinations"]
+[node name="Options" type="GridContainer" parent="Root/Screen/TaxiDestinations"]
 layout_mode = 0
 offset_left = 22.0
 offset_top = 36.0
 offset_right = 276.0
 offset_bottom = 110.0
-theme_override_constants/separation = 16
-
-[node name="Home" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
-texture_filter = 1
-custom_minimum_size = Vector2(74, 74)
-layout_mode = 2
-tooltip_text = "Home"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
-
-[node name="Background" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Home"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
-expand_mode = 1
-
-[node name="Glyph" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Home"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = ExtResource("16_home")
-expand_mode = 1
-
-[node name="Cafe" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
-texture_filter = 1
-custom_minimum_size = Vector2(74, 74)
-layout_mode = 2
-tooltip_text = "Café"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
-
-[node name="Background" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Cafe"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
-expand_mode = 1
-
-[node name="Glyph" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Cafe"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = ExtResource("17_cafe")
-expand_mode = 1
-
-[node name="Bar" type="Button" parent="Root/Screen/TaxiDestinations/Options"]
-texture_filter = 1
-custom_minimum_size = Vector2(74, 74)
-layout_mode = 2
-tooltip_text = "Bar"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_app")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_app")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_app")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_app")
-
-[node name="Background" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Bar"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
-expand_mode = 1
-
-[node name="Glyph" type="TextureRect" parent="Root/Screen/TaxiDestinations/Options/Bar"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 69.0
-offset_bottom = 69.0
-mouse_filter = 2
-texture = ExtResource("18_bar")
-expand_mode = 1
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 3
 
 [node name="StatusBar" type="ColorRect" parent="Root/Screen"]
 layout_mode = 1

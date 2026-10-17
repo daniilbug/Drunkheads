@@ -1,15 +1,9 @@
 [gd_scene format=3 uid="uid://cmx2do5gbfegd"]
 
-[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
-[ext_resource type="Script" uid="uid://ckbsfdsxr3xd1" path="res://scripts/street/car.gd" id="1_vehicle"]
-[ext_resource type="Texture2D" uid="uid://b1tgwkj20bw3b" path="res://assets/sprites/street/car_body.png" id="2_body"]
-[ext_resource type="SpriteFrames" uid="uid://dlyr3if7ux7c8" path="res://assets/sprites/street/car_wheel_frames.tres" id="3_wheels"]
-[ext_resource type="Script" path="res://scripts/street/vehicle_interaction.gd" id="4_interaction"]
+[ext_resource type="PackedScene" path="res://scenes/street/vehicle.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://ckbsfdsxr3xd1" path="res://scripts/street/car.gd" id="2_car"]
+[ext_resource type="Texture2D" uid="uid://b1tgwkj20bw3b" path="res://assets/sprites/street/car_body.png" id="3_body"]
 [ext_resource type="Shader" path="res://assets/shaders/car_paint.gdshader" id="6_paint"]
-[ext_resource type="AudioStream" uid="uid://dxglln3w1shh" path="res://assets/audio/car/car.mp3" id="7_car_audio"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(54, 14)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_paint"]
 shader = ExtResource("6_paint")
@@ -20,21 +14,6 @@ shader_parameter/roof_source = Color(0.35294, 0.58824, 0.60784, 1)
 shader_parameter/sill_source = Color(0.13333, 0.27843, 0.30588, 1)
 shader_parameter/paint_color = Color(0.27451, 0.52941, 0.54902, 1)
 
-[sub_resource type="Gradient" id="Gradient_headlight"]
-offsets = PackedFloat32Array(0, 0.54518074, 1)
-colors = PackedColorArray(1, 0.91, 0.72, 0.65, 1, 0.91, 0.72, 0.49924695, 1, 0.91, 0.72, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_headlight"]
-gradient = SubResource("Gradient_headlight")
-width = 32
-height = 24
-use_hdr = true
-fill = 1
-fill_from = Vector2(0.45, 0.5)
-fill_to = Vector2(1, 0.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaction"]
-size = Vector2(68, 30)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vehicle"]
 properties/0/path = NodePath(".:position")
@@ -62,78 +41,15 @@ properties/7/path = NodePath(".:scale")
 properties/7/spawn = true
 properties/7/replication_mode = 2
 
-[node name="Car" type="AnimatableBody2D" unique_id=1598602884]
-script = ExtResource("1_vehicle")
+
+[node name="Car" unique_id=1598602884 instance=ExtResource("1_base")]
+script = ExtResource("2_car")
 paint_colors = Array[Color]([Color(0.27451, 0.529412, 0.54902, 1), Color(0.654902, 0.364706, 0.352941, 1), Color(0.345098, 0.435294, 0.588235, 1), Color(0.443137, 0.533333, 0.352941, 1), Color(0.54902, 0.439216, 0.603922, 1)])
 randomize_appearance_on_spawn = true
 
-[node name="Shape" type="CollisionShape2D" parent="." unique_id=1492730367]
-position = Vector2(0, -10)
-shape = SubResource("RectangleShape2D_body")
-
-[node name="NavigationAgent" type="NavigationAgent2D" parent="." unique_id=381314033]
-avoidance_enabled = true
-radius = 18.0
-neighbor_distance = 120.0
-max_speed = 120.0
-
-[node name="ForwardCast" type="ShapeCast2D" parent="." unique_id=1273180313]
-position = Vector2(0, -10)
-shape = SubResource("RectangleShape2D_body")
-target_position = Vector2(60, 0)
-max_results = 1
-
-[node name="Visuals" type="Node2D" parent="." unique_id=1116655528]
-
-[node name="Body" type="Sprite2D" parent="Visuals" unique_id=1232403058]
-texture_filter = 1
+[node name="Body" parent="Visuals" index="0" unique_id=1232403058]
 material = SubResource("ShaderMaterial_paint")
-texture = ExtResource("2_body")
-centered = false
-offset = Vector2(-30, -28)
+texture = ExtResource("3_body")
 
-[node name="RearWheel" type="AnimatedSprite2D" parent="Visuals/Body" unique_id=47208534]
-texture_filter = 1
-position = Vector2(-15, -5)
-sprite_frames = ExtResource("3_wheels")
-animation = &"spin"
-
-[node name="FrontWheel" type="AnimatedSprite2D" parent="Visuals/Body" unique_id=116934311]
-texture_filter = 1
-position = Vector2(14, -5)
-sprite_frames = ExtResource("3_wheels")
-animation = &"spin"
-
-[node name="Headlight" type="PointLight2D" parent="Visuals" unique_id=770002230]
-position = Vector2(47.25, -7.9999995)
-scale = Vector2(1.609375, 0.74999994)
-texture = SubResource("GradientTexture2D_headlight")
-
-[node name="DrivingAudio" type="AudioStreamPlayer2D" parent="." unique_id=1366210827]
-bus = &"World"
-position = Vector2(0, -10)
-stream = ExtResource("7_car_audio")
-volume_db = -15.0
-max_distance = 500.0
-playback_type = 1
-
-[node name="VehicleInteraction" type="Node2D" parent="." unique_id=1764163204]
-script = ExtResource("4_interaction")
-
-[node name="Area" type="Area2D" parent="VehicleInteraction" unique_id=190683219]
-monitorable = false
-
-[node name="Shape" type="CollisionShape2D" parent="VehicleInteraction/Area" unique_id=1342870308]
-position = Vector2(0, -10)
-shape = SubResource("RectangleShape2D_interaction")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=328169659]
+[node name="MultiplayerSynchronizer" parent="." index="6" unique_id=328169659]
 replication_config = SubResource("SceneReplicationConfig_vehicle")
-
-[node name="Lighting" parent="Visuals" node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
-lighting_enabled = true
-automatic_lighting = true
-switch_on_hour = 18.0
-switch_off_hour = 8.0
-fade_duration_hours = 2.0
-light_sources = Array[NodePath]([NodePath("../Headlight")])

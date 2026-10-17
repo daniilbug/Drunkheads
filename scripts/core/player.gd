@@ -121,6 +121,7 @@ var _last_position: Vector2
 signal drink_action_requested(player_id: int, drink_name: String)
 signal smoke_action_requested(player_id: int, pack_name: String)
 signal phone_requested(player: Player)
+signal bus_exit_requested(player: Player)
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name), true)
@@ -168,6 +169,17 @@ func _start_idle_bob() -> void:
 	_idle_tween = create_tween().set_loops()
 	_idle_tween.tween_property(sprite, "scale:y", 0.95, 0.45).set_trans(Tween.TRANS_SINE)
 	_idle_tween.tween_property(sprite, "scale:y", 1.0, 0.45).set_trans(Tween.TRANS_SINE)
+
+func _process(_delta: float) -> void:
+	if not in_vehicle or riding_vehicle_name.is_empty():
+		return
+	var main := get_parent() as Main
+	var level := main.get_player_level(int(name)) if main != null else Level.find_level_node(self)
+	if level == null:
+		return
+	var vehicle := level.get_node_or_null(NodePath(riding_vehicle_name)) as Vehicle
+	if vehicle != null:
+		global_position = vehicle.global_position + Vector2(0, -15)
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
@@ -255,6 +267,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if is_world_input_blocked:
+		if in_vehicle and not _is_modal_input_blocked and not _smoking and event.is_action_pressed("interact") and not event.is_echo():
+			bus_exit_requested.emit(self)
+			get_viewport().set_input_as_handled()
 		return
 	if _smoking:
 		return

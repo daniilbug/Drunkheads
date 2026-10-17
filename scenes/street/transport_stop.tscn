@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/street/transport_stop.gd" id="1_stop"]
+[ext_resource type="PackedScene" path="res://scenes/street/taxi_stop.tscn" id="2_taxi"]
+[ext_resource type="PackedScene" path="res://scenes/street/bus_stop.tscn" id="3_bus"]
+[ext_resource type="Texture2D" path="res://assets/sprites/street/bus_stop_sign.png" id="4_sign"]
+
+[node name="Stop" type="Marker2D"]
+script = ExtResource("1_stop")
+
+[node name="TaxiStop" parent="." instance=ExtResource("2_taxi")]
+
+[node name="BusStop" parent="." instance=ExtResource("3_bus")]
+
+[node name="Sign" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(60, -27.25)
+texture = ExtResource("4_sign")
+centered = false
+offset = Vector2(-7, -31)
+
+[node name="PassengerExit" type="Marker2D" parent="."]
+position = Vector2(34, -37.25)

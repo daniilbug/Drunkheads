@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/street/traffic_road.tscn" id="1_traffic_road"]
-[ext_resource type="PackedScene" path="res://scenes/street/taxi_stop.tscn" id="2_taxi_stop"]
+[ext_resource type="PackedScene" path="res://scenes/street/transport_stop.tscn" id="2_stop"]
 
 [node name="TrafficRoad" instance=ExtResource("1_traffic_road")]
 road_width = 800.0
@@ -10,8 +10,5 @@ right_lane_end_from_right = -55.0
 left_lane_start_from_right = -53.5
 left_lane_end_from_left = 73.25
 
-[node name="VehicleSpawner" parent="." index="1"]
-_spawnable_scenes = PackedStringArray("uid://cmx2do5gbfegd", "uid://dlsykbulrs0d1")
-
-[node name="TaxiStop" parent="RightTrafficLane" index="2" instance=ExtResource("2_taxi_stop")]
+[node name="Stop" parent="RightTrafficLane" index="2" instance=ExtResource("2_stop")]
 position = Vector2(475, 27.25)

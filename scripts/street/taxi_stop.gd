@@ -12,7 +12,8 @@ enum State { IDLE, TO_PICKUP, WAITING, DEPARTING, ARRIVING, LEAVING }
 
 @export_range(5.0, 120.0, 1.0) var pickup_wait_seconds := 30.0
 
-@onready var lane: TrafficLane = get_parent() as TrafficLane
+@onready var stop: TransportStop = get_parent() as TransportStop
+@onready var lane: TrafficLane = stop.get_parent() as TrafficLane
 @onready var level: Level = Level.find_level_node(self)
 @onready var road_end: Marker2D = lane.get_node("End") as Marker2D
 
@@ -69,12 +70,6 @@ func _process(delta: float) -> void:
 			_wait_remaining -= delta
 			if _wait_remaining <= 0.0:
 				_expire_pickup()
-	for passenger in level.get_players():
-		if not passenger.in_vehicle or passenger.riding_vehicle_name.is_empty():
-			continue
-		var vehicle := level.get_node_or_null(passenger.riding_vehicle_name) as Vehicle
-		if vehicle != null:
-			passenger.global_position = vehicle.global_position + Vector2(0, -15)
 
 func _prune_requests() -> void:
 	for i in range(_arrival_queue.size() - 1, -1, -1):
@@ -89,9 +84,13 @@ func _prune_requests() -> void:
 
 func _spawn_next_taxi() -> void:
 	if _arrival_queue.is_empty() and _pickup_queue.is_empty():
+		stop.release_bay(self)
+		return
+	if not stop.request_bay(self):
 		return
 	taxi = lane.spawn_vehicle(TAXI_SCENE, global_position, true)
 	if taxi == null:
+		stop.release_bay(self)
 		return
 	taxi.route_finished.connect(_on_route_finished)
 	taxi.boarding_requested.connect(_on_boarding_requested)
@@ -121,6 +120,7 @@ func _on_route_finished() -> void:
 				order_availability_changed.emit(_active_pickup_id, true)
 			_active_pickup_id = 0
 			_state = State.IDLE
+			stop.release_bay(self)
 			taxi.queue_free()
 
 func _expire_pickup() -> void:
@@ -136,6 +136,7 @@ func _depart_taxi() -> void:
 	taxi.configure_route(taxi.position, level.to_local(road_end.global_position), taxi.cruise_speed, false)
 
 func _handle_missing_taxi() -> void:
+	stop.release_bay(self)
 	match _state:
 		State.ARRIVING:
 			if _arrival_passenger_id != 0:
