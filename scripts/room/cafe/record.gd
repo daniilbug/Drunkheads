@@ -15,7 +15,7 @@ func _local_pickup(player_id: int) -> bool:
 	if not super._local_pickup(player_id):
 		return false
 	dock_path = NodePath()
-	_play_handling_sound.rpc()
+	_play_handling_sound.rpc(false)
 	return true
 
 func place_nearby(player: Player, areas: Array[Area2D]) -> void:
@@ -54,12 +54,15 @@ func _dock(player_id: int, path: NodePath) -> bool:
 				return false
 	super.drop(player, place)
 	dock_path = place.get_path() if place is CafeRecordSlot else NodePath()
-	_play_handling_sound.rpc()
+	_play_handling_sound.rpc(true)
 	return true
 
 @rpc("authority", "call_local", "reliable")
-func _play_handling_sound() -> void:
-	$HandlingAudio.play()
+func _play_handling_sound(placed: bool) -> void:
+	if placed:
+		$PlaceAudio.play()
+	else:
+		$RemoveAudio.play()
 
 @rpc("authority", "reliable")
 func _dock_result(player_id: int, accepted: bool) -> void:

@@ -4,6 +4,7 @@ extends CanvasLayer
 signal taxi_requested(destination: String)
 signal closed
 
+const TAXI_DESTINATIONS := ["home", "cafe", "bar"]
 const WALLPAPERS := [
 	preload("res://assets/sprites/phone/wallpaper_midnight.png"),
 	preload("res://assets/sprites/phone/wallpaper_amber.png"),
@@ -18,9 +19,9 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _taxi_button: Button = $Root/Screen/Launcher/Apps/Taxi
 @onready var _taxi_page: Control = $Root/Screen/TaxiDestinations
 @onready var _destination_buttons: Array[Button] = [
-	$Root/Screen/TaxiDestinations/Options/Bar,
-	$Root/Screen/TaxiDestinations/Options/Cafe,
 	$Root/Screen/TaxiDestinations/Options/Home,
+	$Root/Screen/TaxiDestinations/Options/Cafe,
+	$Root/Screen/TaxiDestinations/Options/Bar,
 ]
 @onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
 @onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
@@ -75,8 +76,7 @@ func _ready() -> void:
 		_update_time(_world_time.get_hour())
 	_taxi_button.pressed.connect(_on_taxi_pressed)
 	for i in _destination_buttons.size():
-		_destination_buttons[i].pressed.connect(_order_taxi.bind(["bar", "cafe", "home"][i]))
-	$Root/Screen/TaxiDestinations/Options/Back.pressed.connect(_show_launcher)
+		_destination_buttons[i].pressed.connect(_order_taxi.bind(TAXI_DESTINATIONS[i]))
 	_wallpapers_button.pressed.connect(_show_picker)
 	_music_button.pressed.connect(_show_music)
 	_music_button.disabled = _headphone_player == null
@@ -113,7 +113,9 @@ func set_taxi_context(current_level: String) -> void:
 
 func _refresh_destinations() -> void:
 	for i in _destination_buttons.size():
-		_destination_buttons[i].disabled = not _taxi_available or ["bar", "cafe", "home"][i] == _current_level
+		var button := _destination_buttons[i]
+		button.disabled = not _taxi_available or TAXI_DESTINATIONS[i] == _current_level
+		button.modulate = Color(0.55, 0.55, 0.55) if button.disabled else Color.WHITE
 
 func _apply_wallpaper() -> void:
 	var index := clampi(_settings.phone_wallpaper_index, 0, WALLPAPERS.size() - 1)

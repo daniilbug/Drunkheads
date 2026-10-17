@@ -3,7 +3,8 @@
 [ext_resource type="PackedScene" path="res://scenes/core/draggable.tscn" id="base"]
 [ext_resource type="Script" path="res://scripts/room/cafe/record.gd" id="script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cafe/records.png" id="texture"]
-[ext_resource type="AudioStream" path="res://assets/audio/cafe/record_handling.wav" id="handling"]
+[ext_resource type="AudioStream" path="res://assets/audio/cafe/record_place.wav" id="place"]
+[ext_resource type="AudioStream" path="res://assets/audio/cafe/record_remove.wav" id="remove"]
 
 [sub_resource type="CircleShape2D" id="Reach"]
 radius = 4.0
@@ -41,9 +42,18 @@ shape = SubResource("Reach")
 stream = null
 autoplay = false
 
-[node name="HandlingAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="PlaceAudio" type="AudioStreamPlayer2D" parent="."]
 bus = &"World"
-stream = ExtResource("handling")
+stream = ExtResource("place")
+volume_db = -14.0
+max_distance = 256.0
+attenuation = 3.0
+max_polyphony = 2
+playback_type = 1
+
+[node name="RemoveAudio" type="AudioStreamPlayer2D" parent="."]
+bus = &"World"
+stream = ExtResource("remove")
 volume_db = -14.0
 max_distance = 256.0
 attenuation = 3.0

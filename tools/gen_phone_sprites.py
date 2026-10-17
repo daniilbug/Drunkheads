@@ -122,6 +122,50 @@ def generate_music_icon() -> Path:
     return _save_glyph(icon, "music_icon.png")
 
 
+def generate_home_icon() -> Path:
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    draw.polygon([(6, 15), (15, 6), (16, 6), (25, 15),
+                  (23, 17), (16, 10), (15, 10), (8, 17)], fill=OUTLINE)
+    draw.rectangle((9, 15, 22, 24), fill=OUTLINE)
+    draw.rectangle((14, 18, 17, 24), fill=(0, 0, 0, 0))
+    draw.rectangle((11, 16, 12, 18), fill=(0, 0, 0, 0))
+    draw.rectangle((19, 16, 20, 18), fill=(0, 0, 0, 0))
+    return _save_glyph(icon, "home_icon.png")
+
+
+def generate_cafe_icon() -> Path:
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    # Each continuous wave bends in both directions, rather than forming a hook.
+    for x in (10, 16):
+        for y, offset in enumerate((1, 0, 0, 1, 2, 2, 1, 0), start=6):
+            draw.rectangle((x + offset, y, x + offset + 1, y), fill=OUTLINE)
+    # Draw a rounded handle behind the cup, with the same two-pixel stroke.
+    draw.ellipse((17, 16, 24, 21), fill=OUTLINE)
+    draw.ellipse((19, 18, 22, 19), fill=(0, 0, 0, 0))
+    draw.polygon([(7, 15), (20, 15), (20, 19), (19, 21),
+                  (17, 22), (10, 22), (8, 21), (7, 19)], fill=OUTLINE)
+    draw.polygon([(9, 17), (18, 17), (18, 19), (17, 20),
+                  (10, 20), (9, 19)], fill=(0, 0, 0, 0))
+    draw.line((6, 24, 25, 24), fill=OUTLINE, width=2)
+    return _save_glyph(icon, "cafe_icon.png")
+
+
+def generate_bar_icon() -> Path:
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    # Match the two-pixel rim with mirrored diagonal strokes; even-width Pillow
+    # lines otherwise put their extra pixels on different sides of each edge.
+    draw.line((6, 8, 25, 8), fill=OUTLINE, width=2)
+    draw.line((6, 8, 15, 17), fill=OUTLINE, width=2)
+    icon.paste(icon.crop((0, 0, 16, OUTPUT_ICON_SIZE)).transpose(Image.Transpose.FLIP_LEFT_RIGHT),
+               (16, 0))
+    draw.rectangle((15, 17, 16, 23), fill=OUTLINE)
+    draw.rectangle((11, 24, 20, 25), fill=OUTLINE)
+    return _save_glyph(icon, "bar_icon.png")
+
+
 def generate_control_icon(name: str) -> Path:
     icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
@@ -168,6 +212,9 @@ if __name__ == "__main__":
     print(generate_taxi_icon())
     print(generate_wallpaper_icon())
     print(generate_music_icon())
+    print(generate_home_icon())
+    print(generate_cafe_icon())
+    print(generate_bar_icon())
     for control in ("play", "pause", "previous", "next"):
         print(generate_control_icon(control))
     for path in generate_status_icons():
