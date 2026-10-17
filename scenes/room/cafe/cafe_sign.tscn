@@ -1,6 +1,30 @@
 [gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/lamp.tscn" id="lamp"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cafe/cafe_sign.png" id="1_texture"]
-[node name="CafeSign" type="Node2D"]
-[node name="Sprite" type="Sprite2D" parent="."]
+
+[sub_resource type="Gradient" id="Gradient_sign"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="Texture_sign"]
+gradient = SubResource("Gradient_sign")
+width = 96
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="CafeSign" instance=ExtResource("lamp")]
+automatic_lighting = true
+
+[node name="Sprite" parent="." index="0"]
+modulate = Color(1, 1, 1, 1)
 light_mask = 2
+position = Vector2(0, 0)
 texture = ExtResource("1_texture")
+
+[node name="Light" parent="." index="1"]
+color = Color(1, 0.91, 0.74, 1)
+energy = 0.7
+texture = SubResource("Texture_sign")

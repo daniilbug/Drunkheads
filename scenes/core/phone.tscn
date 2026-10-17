@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://v3bxfticmaew" path="res://assets/sprites/phone/wallpaper_plum.png" id="7_plum"]
 [ext_resource type="Texture2D" uid="uid://ugwj643op6k6" path="res://assets/sprites/phone/previous_icon.png" id="12_previous"]
 [ext_resource type="Texture2D" uid="uid://dk6chnbymfas2" path="res://assets/sprites/phone/next_icon.png" id="13_next"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/status_signal.png" id="14_signal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/status_battery.png" id="15_battery"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
 
@@ -92,9 +94,9 @@ grow_vertical = 2
 [node name="Apps" type="HBoxContainer" parent="Root/Screen/Launcher"]
 layout_mode = 0
 offset_left = 22.0
-offset_top = 28.0
+offset_top = 36.0
 offset_right = 276.0
-offset_bottom = 102.0
+offset_bottom = 110.0
 theme_override_constants/separation = 16
 
 [node name="Taxi" type="Button" parent="Root/Screen/Launcher/Apps" unique_id=1358990484]
@@ -477,3 +479,60 @@ text = "Home"
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 text = "Back"
+
+[node name="StatusBar" type="ColorRect" parent="Root/Screen"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Time" type="Label" parent="Root/Screen/StatusBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_right = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.76, 1)
+theme_override_font_sizes/font_size = 16
+text = "--:--"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Indicators" type="HBoxContainer" parent="Root/Screen/StatusBar"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -5.0
+offset_right = -12.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Signal" type="TextureRect" parent="Root/Screen/StatusBar/Indicators"]
+texture_filter = 1
+custom_minimum_size = Vector2(14, 10)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_signal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Battery" type="TextureRect" parent="Root/Screen/StatusBar/Indicators"]
+texture_filter = 1
+custom_minimum_size = Vector2(19, 10)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("15_battery")
+expand_mode = 1
+stretch_mode = 5

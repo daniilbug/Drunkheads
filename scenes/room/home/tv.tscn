@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
 [ext_resource type="PackedScene" path="res://scenes/core/switch.tscn" id="1_switch"]
 [ext_resource type="Script" path="res://scripts/room/home/tv.gd" id="2_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home/tv.png" id="3_tv"]
@@ -74,3 +75,9 @@ replication_config = SubResource("TVReplication")
 
 [node name="ColorTimer" type="Timer" parent="." index="7"]
 one_shot = true
+
+[node name="Lighting" parent="." node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
+lighting_enabled = true
+automatic_lighting = false
+is_turned_on = false
+light_sources = Array[NodePath]([NodePath("../Light")])

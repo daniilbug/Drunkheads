@@ -1,11 +1,14 @@
 class_name Level
 extends Node2D
 
+signal world_time_ready(clock: WorldTime)
+
 const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
+const WORLD_TIME_SCENE := preload("res://scenes/core/world_time.tscn")
 const BOUNDS_WALL_THICKNESS := 16.0
 
 static func find_level_node(node: Node2D) -> Level:
-	var current := node
+	var current: Node = node
 	while current.get_parent() != null:
 		var parent := current.get_parent()
 		if parent is not Level:
@@ -21,8 +24,15 @@ var player_spawn: Node2D
 @onready var _top_right_bound: Marker2D = $LevelBounds/TopRight
 
 var local_player: Player = null
+var world_time: WorldTime
 
 func _ready() -> void:
+	if get_parent() is Main:
+		world_time = get_parent().get_node("WorldTime") as WorldTime
+	else:
+		world_time = WORLD_TIME_SCENE.instantiate() as WorldTime
+		add_child(world_time)
+	world_time_ready.emit(world_time)
 	_create_bounds_walls()
 	if get_parent() is not Main and multiplayer.is_server():
 		_spawn_standalone_player()

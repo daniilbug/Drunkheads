@@ -1,6 +1,6 @@
 extends Switch
 
-@export var target_lamp: Lamp
+@export var target_lamp: LightSource
 
 func _ready() -> void:
 	on_switch.connect(_toggle_light)

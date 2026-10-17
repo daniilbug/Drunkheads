@@ -6,12 +6,15 @@
 [ext_resource type="Script" uid="uid://csyn6xfjumvym" path="res://scripts/core/headphone_player.gd" id="4_headphones"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/cafe.tscn" id="5_cafe"]
+[ext_resource type="PackedScene" path="res://scenes/core/world_time.tscn" id="6_world_time"]
 
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
 scale = Vector2(4, 4)
 y_sort_enabled = true
 script = ExtResource("1_main")
+
+[node name="WorldTime" parent="." instance=ExtResource("6_world_time")]
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")

@@ -20,6 +20,7 @@ const MAX_COLOR_HOLD_SECONDS := 3.0
 			_update_color()
 
 @onready var _light: PointLight2D = $Light
+@onready var _lighting: LightSource = $Lighting
 @onready var _power_led: Sprite2D = $PowerLED
 @onready var _area: Area2D = $Area
 @onready var _color_timer: Timer = $ColorTimer
@@ -64,7 +65,10 @@ func _play_switch_sound() -> void:
 	audio.play()
 
 func _update_power() -> void:
-	_light.visible = is_turned_on
+	if Engine.is_editor_hint():
+		_light.visible = is_turned_on
+	else:
+		_lighting.is_turned_on = is_turned_on
 	_power_led.self_modulate = Color("91cbb0") if is_turned_on else Color("80564f")
 	if not Engine.is_editor_hint() and multiplayer.is_server():
 		_color_timer.paused = not is_turned_on

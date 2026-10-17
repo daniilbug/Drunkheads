@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://22wbiojb1ic3"]
 
 [ext_resource type="Script" uid="uid://b7txdtjq74nv3" path="res://scripts/core/neon_sign.gd" id="1_0bjqw"]
+[ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
 
 [sub_resource type="Gradient" id="Gradient_asdnn"]
 offsets = PackedFloat32Array(0.3192771, 1)
@@ -15,8 +16,15 @@ fill = 1
 fill_from = Vector2(0.50652176, 0.51304346)
 fill_to = Vector2(0, 0)
 
-[node name="Sign" type="Node2D" unique_id=1798872972]
+[node name="Sign" type="Node2D" unique_id=1798872972 node_paths=PackedStringArray("light_sources", "glow_sprites")]
 script = ExtResource("1_0bjqw")
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+light_sources = Array[NodePath]([NodePath("Light")])
+glow_sprites = Array[NodePath]([NodePath("Sprite")])
 
 [node name="Light" type="PointLight2D" parent="." unique_id=1985183862]
 position = Vector2(1, 0)
@@ -27,3 +35,6 @@ texture = SubResource("GradientTexture2D_2fumy")
 light_mask = 2
 position = Vector2(0, -9)
 hframes = 2
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = ExtResource("lighting_sync")

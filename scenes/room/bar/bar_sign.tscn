@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bbo0itl4kau50"]
 
 [ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/room/bar/bar_sign.gd" id="1_ygby0"]
+[ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
 [ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar_sign.png" id="2_my1w7"]
 
 [sub_resource type="Gradient" id="Gradient_er6gy"]
@@ -16,8 +17,15 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
 
-[node name="BarSign" type="Node2D" unique_id=1758219415]
+[node name="BarSign" type="Node2D" unique_id=1758219415 node_paths=PackedStringArray("light_sources", "glow_sprites")]
 script = ExtResource("1_ygby0")
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+light_sources = Array[NodePath]([NodePath("Light")])
+glow_sprites = Array[NodePath]([NodePath("Sprite")])
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1180024161]
 scale = Vector2(0.8, 0.8)
@@ -27,3 +35,6 @@ hframes = 2
 [node name="Light" type="PointLight2D" parent="." unique_id=871723839]
 position = Vector2(1, 0)
 texture = SubResource("GradientTexture2D_brj26")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = ExtResource("lighting_sync")

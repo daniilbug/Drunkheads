@@ -34,3 +34,4 @@ position = Vector2(0, 18)
 facing_north = true
 
 [node name="Lamp" parent="." instance=ExtResource("lamp")]
+automatic_lighting = true

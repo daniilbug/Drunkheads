@@ -7,7 +7,6 @@ extends Level
 func _ready() -> void:
 	player_spawn = $PlayerSpawn
 	npc_manager.npc_added.connect(_init_npc)
-	$Darkness.enabled = get_parent() is not Main
 	super._ready()
 	$StreetNavigation.bake_navigation_polygon(false)
 

@@ -49,11 +49,6 @@ texture = ExtResource("2_jyhfs")
 region_enabled = true
 region_rect = Rect2(0, 0, 800, 600)
 
-[node name="Darkness" type="DirectionalLight2D" parent="." index="5" unique_id=1821277763]
-position = Vector2(-18.051575, 356.72577)
-color = Color(1, 1, 1, 0.75000006)
-blend_mode = 1
-
 [node name="NPCManager" type="Node2D" parent="." index="6" unique_id=2072928996]
 script = ExtResource("3_npc_mgr")
 

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bvdxs668pifkp"]
 
 [ext_resource type="Texture2D" uid="uid://crag0mdkjlkdj" path="res://assets/sprites/street/lantern.png" id="1_xuupk"]
+[ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
+[ext_resource type="Script" path="res://scripts/street/lantern.gd" id="2_lantern"]
 
 [sub_resource type="Gradient" id="Gradient_jphar"]
 offsets = PackedFloat32Array(0, 0.7198795)
@@ -13,7 +15,14 @@ fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xuupk"]
 
-[node name="Lantern" type="StaticBody2D" unique_id=1093253301]
+[node name="Lantern" type="Node2D" unique_id=1093253301 node_paths=PackedStringArray("light_sources")]
+script = ExtResource("2_lantern")
+light_sources = Array[NodePath]([NodePath("Right"), NodePath("Left")])
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=687976412]
 position = Vector2(0, -18)
@@ -27,9 +36,14 @@ texture = SubResource("GradientTexture2D_kgj5c")
 position = Vector2(-7.615837, -29.763142)
 texture = SubResource("GradientTexture2D_kgj5c")
 
-[node name="Shape" type="CollisionShape2D" parent="." unique_id=1413806791]
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Body" unique_id=1413806791]
 shape = SubResource("CircleShape2D_xuupk")
 
 [node name="Obstacle" type="NavigationObstacle2D" parent="." unique_id=2086381986]
 avoidance_layers = 2
 radius = 20.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = ExtResource("lighting_sync")

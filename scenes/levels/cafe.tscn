@@ -53,12 +53,6 @@ texture = ExtResource("2_jyhfs")
 region_enabled = true
 region_rect = Rect2(0, 0, 800, 600)
 
-[node name="Darkness" type="DirectionalLight2D" parent="." index="5"]
-position = Vector2(-18.051575, 356.72577)
-color = Color(1, 1, 1, 0.75000006)
-blend_mode = 1
-enabled = false
-
 [node name="NPCManager" type="Node2D" parent="." index="6"]
 script = ExtResource("3_npc_mgr")
 hall_path = NodePath("CafeHall")
@@ -114,13 +108,13 @@ texture = ExtResource("18_roof")
 [node name="Lantern1" parent="." index="21" instance=ExtResource("13_trceg")]
 position = Vector2(1.75, 367.5)
 
-[node name="Shape" parent="Lantern1" index="3"]
+[node name="Shape" parent="Lantern1/Body" index="0"]
 shape = SubResource("LanternFootprint")
 
 [node name="Lantern2" parent="." index="22" instance=ExtResource("13_trceg")]
 position = Vector2(250.75, 367.5)
 
-[node name="Shape" parent="Lantern2" index="3"]
+[node name="Shape" parent="Lantern2/Body" index="0"]
 shape = SubResource("LanternFootprint")
 
 [node name="TaxiReturn" type="Marker2D" parent="." index="23"]

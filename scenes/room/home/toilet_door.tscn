@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
 [ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_door"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home/toilet_door.png" id="2_sprite"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home/balcony_door_frame.png" id="3_frame"]
@@ -43,8 +44,13 @@ position = Vector2(0, -4)
 [node name="Light" type="PointLight2D" parent="." index="9"]
 position = Vector2(0, 12)
 scale = Vector2(0.875, 1)
-enabled = false
 color = Color(1, 0.91, 0.76, 1)
 energy = 0.7
 range_item_cull_mask = 2
 texture = SubResource("DoorwayLightTexture")
+
+[node name="Lighting" parent="." node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
+lighting_enabled = true
+automatic_lighting = false
+is_turned_on = false
+light_sources = Array[NodePath]([NodePath("../Light")])

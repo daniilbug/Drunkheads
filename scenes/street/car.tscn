@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cmx2do5gbfegd"]
 
+[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
 [ext_resource type="Script" uid="uid://ckbsfdsxr3xd1" path="res://scripts/street/car.gd" id="1_vehicle"]
 [ext_resource type="Texture2D" uid="uid://b1tgwkj20bw3b" path="res://assets/sprites/street/car_body.png" id="2_body"]
 [ext_resource type="SpriteFrames" uid="uid://dlyr3if7ux7c8" path="res://assets/sprites/street/car_wheel_frames.tres" id="3_wheels"]
@@ -128,3 +129,11 @@ shape = SubResource("RectangleShape2D_interaction")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=328169659]
 replication_config = SubResource("SceneReplicationConfig_vehicle")
+
+[node name="Lighting" parent="Visuals" node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+light_sources = Array[NodePath]([NodePath("../Headlight")])

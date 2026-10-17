@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a shared launcher tile and transparent phone app glyphs."""
+"""Generate phone app glyphs, their shared tile, and native-size status icons."""
 
 from pathlib import Path
 
@@ -140,6 +140,29 @@ def generate_control_icon(name: str) -> Path:
     return _save_glyph(icon, f"{name}_icon.png")
 
 
+def generate_status_icons() -> list[Path]:
+    """Draw native-size status marks without the app icons' 32px padding."""
+    ink = "#f5e6c2"
+    signal = Image.new("RGBA", (14, 10), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(signal)
+    for x, top in ((0, 7), (4, 5), (8, 2), (12, 0)):
+        draw.rectangle((x, top, x + 1, 9), fill=ink)
+
+    battery = Image.new("RGBA", (19, 10), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(battery)
+    draw.rectangle((0, 0, 16, 9), outline=ink)
+    draw.rectangle((17, 3, 18, 6), fill=ink)
+    draw.rectangle((2, 2, 12, 7), fill=ink)
+
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for name, icon in (("signal", signal), ("battery", battery)):
+        path = OUTPUT / f"status_{name}.png"
+        icon.save(path)
+        paths.append(path)
+    return paths
+
+
 if __name__ == "__main__":
     print(generate_app_icon_background())
     print(generate_taxi_icon())
@@ -147,3 +170,5 @@ if __name__ == "__main__":
     print(generate_music_icon())
     for control in ("play", "pause", "previous", "next"):
         print(generate_control_icon(control))
+    for path in generate_status_icons():
+        print(path)

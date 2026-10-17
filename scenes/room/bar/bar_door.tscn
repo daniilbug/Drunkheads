@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ii7raidpoyu3"]
 
+[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
 [ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_ursfd"]
 [ext_resource type="Script" uid="uid://y44udfb05x5e" path="res://scripts/room/bar/bar_door.gd" id="2_n63ls"]
 [ext_resource type="Texture2D" uid="uid://cngimup6sdcts" path="res://assets/sprites/bar_door.png" id="2_us2di"]
@@ -50,8 +51,18 @@ region_rect = Rect2(0, 0, 28, 8)
 [node name="Light" type="PointLight2D" parent="." index="6" unique_id=2081444264]
 position = Vector2(4.7683716e-07, -1.5)
 scale = Vector2(0.87500006, 1.0208334)
-enabled = false
 texture = SubResource("GradientTexture2D_nfd3w")
 
 [node name="Lamp" parent="." index="7" unique_id=909148239 instance=ExtResource("6_n63ls")]
 position = Vector2(0.11633682, -34.25649)
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+
+[node name="Lighting" parent="." node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
+lighting_enabled = true
+automatic_lighting = false
+is_turned_on = false
+light_sources = Array[NodePath]([NodePath("../Light")])

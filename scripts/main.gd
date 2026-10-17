@@ -6,6 +6,7 @@ const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 
 @export var auto_spawn_players := true
 
+@onready var world_time: WorldTime = $WorldTime
 @onready var bar: Bar = $Bar
 @onready var home: Level = $Home
 @onready var cafe: Level = $Cafe
@@ -120,6 +121,7 @@ func _open_phone() -> void:
 	_phone = PHONE_SCENE.instantiate() as Phone
 	_phone.set_player_settings(player.settings)
 	_phone.set_headphone_player(headphone_player)
+	_phone.set_world_time(world_time)
 	add_child(_phone)
 	_phone.taxi_requested.connect(_on_phone_taxi_requested)
 	_phone.closed.connect(_on_phone_closed)

@@ -13,6 +13,7 @@ const WALLPAPERS := [
 const PLAY_ICON := preload("res://assets/sprites/phone/play_icon.png")
 const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _wallpaper: TextureRect = $Root/Screen/Wallpaper
+@onready var _time_label: Label = $Root/Screen/StatusBar/Time
 @onready var _launcher: Control = $Root/Screen/Launcher
 @onready var _taxi_button: Button = $Root/Screen/Launcher/Apps/Taxi
 @onready var _taxi_page: Control = $Root/Screen/TaxiDestinations
@@ -40,6 +41,7 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 
 var _settings: PlayerSettings
 var _headphone_player: HeadphonePlayer
+var _world_time: WorldTime
 var _current_level := "bar"
 var _taxi_available := true
 
@@ -49,9 +51,28 @@ func set_player_settings(settings: PlayerSettings) -> void:
 func set_headphone_player(player: HeadphonePlayer) -> void:
 	_headphone_player = player
 
+func set_world_time(clock: WorldTime) -> void:
+	if is_instance_valid(_world_time) and _world_time.time_changed.is_connected(_update_time):
+		_world_time.time_changed.disconnect(_update_time)
+	_world_time = clock
+	if is_instance_valid(_world_time):
+		_world_time.time_changed.connect(_update_time)
+		_update_time(_world_time.get_hour())
+	elif is_node_ready():
+		_time_label.text = "--:--"
+
+func _update_time(hour: float) -> void:
+	if not is_node_ready():
+		return
+	# Float32 network snapshots can fall just below an exact minute boundary.
+	var minutes := floori(hour * 60.0 + 0.0001) % 1440
+	_time_label.text = "%02d:%02d" % [floori(minutes / 60.0), minutes % 60]
+
 func _ready() -> void:
 	if _settings == null:
 		_settings = PlayerSettings.new()
+	if is_instance_valid(_world_time):
+		_update_time(_world_time.get_hour())
 	_taxi_button.pressed.connect(_on_taxi_pressed)
 	for i in _destination_buttons.size():
 		_destination_buttons[i].pressed.connect(_order_taxi.bind(["bar", "cafe", "home"][i]))

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ds0moei40y8mg"]
 
+[ext_resource type="PackedScene" path="res://scenes/core/light_source.tscn" id="lighting"]
 [ext_resource type="Script" uid="uid://c8di0x6vaqh1n" path="res://scripts/street/cigarette_machine.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://df2a8712gsvky" path="res://assets/sprites/street/cigarette_machine.png" id="2_sprite"]
 [ext_resource type="AudioStream" uid="uid://2o0gnj2us78x" path="res://assets/audio/interactions/cigarette_dispense.mp3" id="3_audio"]
@@ -48,3 +49,11 @@ texture = SubResource("GradientTexture2D_2dh35")
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1903214210]
 stream = ExtResource("3_audio")
 max_distance = 128.0
+
+[node name="Lighting" parent="." node_paths=PackedStringArray("light_sources") instance=ExtResource("lighting")]
+lighting_enabled = true
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+light_sources = Array[NodePath]([NodePath("../Light")])

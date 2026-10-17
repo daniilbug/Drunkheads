@@ -1,5 +1,5 @@
 class_name DanceFloor
-extends Node2D
+extends LightSource
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var area: Area2D = $Area
@@ -9,11 +9,18 @@ extends Node2D
 @export var mode: int = 0:
 	set(value):
 		mode = value
-		_update_collision()
-		_update_animation()
-		_update_light()
+		if is_node_ready():
+			_update_collision()
+			_update_animation()
+			_update_light()
 
 var _tween: Tween
+
+func _ready() -> void:
+	super._ready()
+	_update_collision()
+	_update_animation()
+	_update_light()
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
@@ -56,10 +63,7 @@ func _update_animation():
 		sprite.frame = 0
 
 func _update_light():
-	if mode > 0:
-		light.enabled = true
-	else:
-		light.enabled = false
+	is_turned_on = mode > 0
 
 func _on_area_body_entered(body: Node2D) -> void:
 	if body is Player:
