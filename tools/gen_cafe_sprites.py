@@ -283,11 +283,29 @@ def sign():
         x+=8
     d.line((36,3,38,2),fill=P['cream']);save(im,'cafe_sign')
 
+def menu():
+    """Native 14x11 chalkboard, displayed at unit scale in the Cafe."""
+    im,d=canvas(14,11)
+    box(d,(0,0,13,10),'wood_outline')
+    d.line((0,0,13,0),fill=P['wood'])
+    d.line((0,1,0,9),fill=P['wood_dark'])
+    box(d,(1,1,12,9),'#29332f')
+    # Short chalk marks suggest a heading, a cup and three menu rows.
+    d.line((2,2,5,2),fill='#e3e0cb')
+    d.point((7,2),fill='#b9c3af')
+    d.line((9,2,11,2,11,3,9,3,9,2),fill='#cdd1bd')
+    d.line((2,4,11,4),fill='#829681')
+    for y,end in [(5,6),(7,7),(9,5)]:
+        d.line((2,y,end,y),fill='#d5d8c4')
+        d.point((4,y),fill='#9ba994')
+        d.line((10,y,11,y),fill='#ddd3b3')
+    save(im,'menu')
+
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     tiles('floor','#d7c8ad','#e1d5be');tiles('wc_floor','#dfd8c4','#eae4d4')
     wall('wall',32,32);wall('wc_wall',32,42)
-    facade_brick();roof_tiles();table();chair();bench();window();barista();machine();coffee();sink();trash();cabin();door();entrance_door();sign()
-    print('Generated 20 Cafe textures in',OUT)
+    facade_brick();roof_tiles();table();chair();bench();window();barista();machine();coffee();sink();trash();cabin();door();entrance_door();sign();menu()
+    print('Generated 21 Cafe textures in',OUT)
 
 if __name__=='__main__':main()

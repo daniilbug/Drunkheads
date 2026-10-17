@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/cafe/record_player.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_console.png" id="console"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_player.png" id="player"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_tonearm.png" id="arm"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_platter.png" id="platter"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/record_slot.tscn" id="slot"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(26, 10)
+
+[sub_resource type="SceneReplicationConfig" id="Playback"]
+properties/0/path = NodePath(".:playback_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="RecordPlayer" type="StaticBody2D"]
+script = ExtResource("script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(0, -10)
+texture = ExtResource("console")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("Body")
+
+[node name="Player" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(0, -14)
+texture = ExtResource("player")
+
+[node name="Platter" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(-4, -14)
+texture = ExtResource("platter")
+hframes = 4
+vframes = 4
+visible = false
+
+[node name="Tonearm" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(0, -14)
+texture = ExtResource("arm")
+hframes = 2
+
+[node name="RecordSlot" parent="." instance=ExtResource("slot")]
+position = Vector2(-3, -4)
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+bus = &"World"
+volume_db = -10.0
+attenuation = 5.0
+playback_type = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("Playback")

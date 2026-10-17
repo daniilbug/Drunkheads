@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cu56bo547yqpp"]
 
-[ext_resource type="Script" path="res://scripts/room/bar/bartender.gd" id="1_611q6"]
-[ext_resource type="Texture2D" path="res://assets/sprites/cafe/barista.png" id="2_juoo6"]
-[ext_resource type="PackedScene" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
+[ext_resource type="Script" uid="uid://dt7djvcshklde" path="res://scripts/room/bar/bartender.gd" id="1_611q6"]
+[ext_resource type="Texture2D" uid="uid://btgffnfbryit8" path="res://assets/sprites/cafe/barista.png" id="2_juoo6"]
+[ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/coffee_machine.tscn" id="4_machine"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
@@ -11,51 +11,51 @@ size = Vector2(112, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(21.5, 13)
 
-[node name="Bartender" type="StaticBody2D"]
+[node name="Bartender" type="StaticBody2D" unique_id=1559491674]
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_611q6")
 serves_coffee = true
 
-[node name="Shape" type="CollisionShape2D" parent="."]
+[node name="Shape" type="CollisionShape2D" parent="." unique_id=991558053]
 shape = SubResource("RectangleShape2D_counter")
 
-[node name="CounterTop" type="Polygon2D" parent="."]
+[node name="CounterTop" type="Polygon2D" parent="." unique_id=1315110222]
 light_mask = 2
 color = Color(0.5019608, 0.3764706, 0.26666668, 1)
 polygon = PackedVector2Array(-56, -16, 56, -16, 56, 0, -56, 0)
 
-[node name="Surface" type="Polygon2D" parent="CounterTop"]
+[node name="Surface" type="Polygon2D" parent="CounterTop" unique_id=1485845966]
 light_mask = 2
 color = Color(0.7647059, 0.60784316, 0.40392157, 1)
 polygon = PackedVector2Array(-55, -15, 55, -15, 55, -1, -55, -1)
 
-[node name="EdgeHighlight" type="Polygon2D" parent="CounterTop"]
+[node name="EdgeHighlight" type="Polygon2D" parent="CounterTop" unique_id=1374766196]
 light_mask = 2
 color = Color(0.8352941, 0.70980394, 0.52156866, 1)
 polygon = PackedVector2Array(-55, -15, 55, -15, 55, -14, -55, -14)
 
-[node name="WoodGrainLeft" type="Polygon2D" parent="CounterTop"]
+[node name="WoodGrainLeft" type="Polygon2D" parent="CounterTop" unique_id=1908428123]
 light_mask = 2
 color = Color(0.8156863, 0.65882355, 0.45882353, 1)
 polygon = PackedVector2Array(-51, -11, -10, -11, -10, -10, -51, -10)
 
-[node name="WoodGrainRight" type="Polygon2D" parent="CounterTop"]
+[node name="WoodGrainRight" type="Polygon2D" parent="CounterTop" unique_id=786844269]
 light_mask = 2
 color = Color(0.8156863, 0.65882355, 0.45882353, 1)
 polygon = PackedVector2Array(8, -6, 50, -6, 50, -5, 8, -5)
 
-[node name="CounterFront" type="Polygon2D" parent="."]
+[node name="CounterFront" type="Polygon2D" parent="." unique_id=1560222581]
 light_mask = 2
 color = Color(0.5019608, 0.3764706, 0.26666668, 1)
 polygon = PackedVector2Array(-56, 0, 56, 0, 56, 4, -56, 4)
 
-[node name="Surface" type="Polygon2D" parent="CounterFront"]
+[node name="Surface" type="Polygon2D" parent="CounterFront" unique_id=285134609]
 light_mask = 2
 color = Color(0.6117647, 0.44313726, 0.28627452, 1)
 polygon = PackedVector2Array(-55, 0, 55, 0, 55, 3, -55, 3)
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1445769938]
 light_mask = 2
 texture_filter = 1
 texture = ExtResource("2_juoo6")
@@ -63,44 +63,43 @@ centered = false
 offset = Vector2(-6, -36)
 hframes = 2
 
-[node name="PurchaseArea" type="Area2D" parent="."]
+[node name="PurchaseArea" type="Area2D" parent="." unique_id=1032146401]
 position = Vector2(0, 17)
 
-[node name="Shape" type="CollisionShape2D" parent="PurchaseArea"]
+[node name="Shape" type="CollisionShape2D" parent="PurchaseArea" unique_id=868021259]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_zone")
 
-[node name="DropPlaces" type="Node2D" parent="."]
+[node name="DropPlaces" type="Node2D" parent="." unique_id=723403034]
 z_as_relative = false
 y_sort_enabled = true
 
-[node name="OrderPlace" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="OrderPlace" parent="DropPlaces" unique_id=1525711662 instance=ExtResource("3_611q6")]
 position = Vector2(0, -5)
 
-[node name="DropPlace1" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace1" parent="DropPlaces" unique_id=80248594 instance=ExtResource("3_611q6")]
 position = Vector2(43, -5)
 
-[node name="DropPlace2" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace2" parent="DropPlaces" unique_id=545717176 instance=ExtResource("3_611q6")]
 position = Vector2(-16, -5)
 
-[node name="DropPlace3" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace3" parent="DropPlaces" unique_id=36511701 instance=ExtResource("3_611q6")]
 position = Vector2(24, -5)
 
-[node name="DropPlace4" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace4" parent="DropPlaces" unique_id=411094042 instance=ExtResource("3_611q6")]
 position = Vector2(-24, -5)
 
-[node name="DropPlace5" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace5" parent="DropPlaces" unique_id=1696289213 instance=ExtResource("3_611q6")]
 position = Vector2(36, -5)
 
-[node name="DropPlace6" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace6" parent="DropPlaces" unique_id=789301933 instance=ExtResource("3_611q6")]
 position = Vector2(-36, -5)
 
-[node name="DropPlace7" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace7" parent="DropPlaces" unique_id=1203120093 instance=ExtResource("3_611q6")]
 position = Vector2(-48, -5)
 
-[node name="DropPlace8" parent="DropPlaces" instance=ExtResource("3_611q6")]
+[node name="DropPlace8" parent="DropPlaces" unique_id=648966348 instance=ExtResource("3_611q6")]
 position = Vector2(48, -5)
 
-
-[node name="CoffeeMachine" parent="." instance=ExtResource("4_machine")]
+[node name="CoffeeMachine" parent="." unique_id=558155151 instance=ExtResource("4_machine")]
 position = Vector2(-32, 0)

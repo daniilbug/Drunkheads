@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/roof.tscn" id="roof"]
 
 [ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="side"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/record_player.tscn" id="record_player"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/record_table.tscn" id="record_table"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/menu.tscn" id="menu"]
 
 [sub_resource type="ShaderMaterial" id="FrontClip"]
 shader = ExtResource("clip")
@@ -62,6 +65,16 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 113, 32)
 
+[node name="BuildingWall" type="Sprite2D" parent="Walls/Top/Sprite"]
+light_mask = 2
+show_behind_parent = true
+texture_repeat = 2
+position = Vector2(0.5, -8)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 19, 113, 40)
+
 [node name="Sprite" parent="Walls/Bottom" index="1"]
 light_mask = 2
 texture_repeat = 2
@@ -75,11 +88,11 @@ material = SubResource("FrontClip")
 [node name="Sprite" parent="Walls/Left" index="1"]
 light_mask = 2
 texture_repeat = 2
-position = Vector2(-8, -126)
+position = Vector2(-8, -138)
 texture = ExtResource("side")
 centered = false
 region_enabled = true
-region_rect = Rect2(56, 31, 8, 229)
+region_rect = Rect2(56, 19, 8, 241)
 
 [node name="Sprite" parent="Walls/Right" index="1"]
 light_mask = 2
@@ -126,9 +139,6 @@ position = Vector2(153, 167)
 [node name="Plant1" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
 position = Vector2(11, 14)
 
-[node name="Plant2" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
-position = Vector2(202, 14)
-
 [node name="Window1" parent="Walls/Bottom" instance=ExtResource("window")]
 position = Vector2(-34, -1)
 
@@ -168,3 +178,12 @@ position = Vector2(213, 100)
 
 [node name="Shape" parent="Walls/Right" index="0"]
 shape = SubResource("RightShape")
+
+[node name="RecordPlayer" parent="NavigationRegion/YSort" instance=ExtResource("record_player")]
+position = Vector2(194, 30)
+
+[node name="RecordTable" parent="NavigationRegion/YSort" instance=ExtResource("record_table")]
+position = Vector2(194, 82)
+
+[node name="Menu" parent="Walls/Top" instance=ExtResource("menu")]
+position = Vector2(-5, -15)

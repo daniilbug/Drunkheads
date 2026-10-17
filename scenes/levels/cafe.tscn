@@ -13,16 +13,21 @@
 [ext_resource type="PackedScene" path="res://scenes/street/bar_traffic_road.tscn" id="16_bar_traffic_road"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="17_facade"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cafe/roof_tiles.png" id="18_roof"]
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_tree.tscn" id="19_tree"]
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_shrub.tscn" id="20_shrub"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_street"]
 resource_local_to_scene = true
-vertices = PackedVector2Array(570, 478, -179, 478, -179, 368, 570, 368)
+vertices = PackedVector2Array(570, 478, -230, 478, -230, 368, 570, 368)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-189, 358, 580, 358, 580, 488, -189, 488)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-240, 358, 580, 358, 580, 488, -240, 488)])
 parsed_geometry_type = 1
 parsed_collision_mask = 1
 source_geometry_mode = 1
 source_geometry_group_name = &"cafe_street_navigation_geometry"
+
+[sub_resource type="CircleShape2D" id="LanternFootprint"]
+radius = 3.0
 
 [node name="Cafe" groups=["cafe_street_navigation_geometry"] instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_tbgi4")
@@ -58,23 +63,24 @@ enabled = false
 script = ExtResource("3_npc_mgr")
 hall_path = NodePath("CafeHall")
 wc_path = NodePath("CafeWC")
-order_before_sitting = true
+order_on_arrival = true
+leave_after_drink = true
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0"]
-position = Vector2(-155.75, 370.75)
+position = Vector2(-220, 371)
 
 [node name="PlayerSpawn" type="Node2D" parent="." index="8"]
 position = Vector2(465, 374)
 
 [node name="DrinkSpawner" type="MultiplayerSpawner" parent="." index="9"]
-_spawnable_scenes = PackedStringArray("res://scenes/room/bar/drink.tscn")
+_spawnable_scenes = PackedStringArray("res://scenes/room/bar/drink.tscn", "res://scenes/room/cafe/record.tscn")
 spawn_path = NodePath("..")
 
 [node name="BottomLeft" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="0"]
-position = Vector2(-99.5, 489.75)
+position = Vector2(-176, 490)
 
 [node name="TopRight" parent="LevelBounds" parent_id_path=PackedInt32Array(53559245) index="1"]
-position = Vector2(499.25, -200.25)
+position = Vector2(430, 20)
 
 [node name="StreetNavigation" type="NavigationRegion2D" parent="." index="11"]
 navigation_polygon = SubResource("NavigationPolygon_street")
@@ -84,6 +90,8 @@ position = Vector2(117, 372)
 
 [node name="TrafficRoad" parent="." index="15" instance=ExtResource("16_bar_traffic_road")]
 position = Vector2(-200, 390)
+right_lane_start_from_left = -64.0
+left_lane_end_from_left = -64.0
 
 [node name="BrickHouse1" parent="." index="19" instance=ExtResource("12_eb6dy")]
 position = Vector2(-87.75, 359.5)
@@ -106,11 +114,35 @@ texture = ExtResource("18_roof")
 [node name="Lantern1" parent="." index="21" instance=ExtResource("13_trceg")]
 position = Vector2(1.75, 367.5)
 
+[node name="Shape" parent="Lantern1" index="3"]
+shape = SubResource("LanternFootprint")
+
 [node name="Lantern2" parent="." index="22" instance=ExtResource("13_trceg")]
 position = Vector2(250.75, 367.5)
+
+[node name="Shape" parent="Lantern2" index="3"]
+shape = SubResource("LanternFootprint")
 
 [node name="TaxiReturn" type="Marker2D" parent="." index="23"]
 position = Vector2(275, 380)
 
 [node name="Bench" parent="." index="24" instance=ExtResource("15_xwirx")]
 position = Vector2(146, 368)
+
+[node name="TreeLeft" parent="." instance=ExtResource("19_tree")]
+position = Vector2(-65, 365)
+
+[node name="TreeRight" parent="." instance=ExtResource("19_tree")]
+position = Vector2(365, 365)
+
+[node name="ShrubLeftHouse" parent="." instance=ExtResource("20_shrub")]
+position = Vector2(-20, 365)
+
+[node name="ShrubLeftWindow" parent="." instance=ExtResource("20_shrub")]
+position = Vector2(93, 365)
+
+[node name="ShrubRightWindow" parent="." instance=ExtResource("20_shrub")]
+position = Vector2(199, 365)
+
+[node name="ShrubRightHouse" parent="." instance=ExtResource("20_shrub")]
+position = Vector2(333, 365)

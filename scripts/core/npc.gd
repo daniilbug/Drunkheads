@@ -22,7 +22,8 @@ enum State {
 
 @export var hall_path: NodePath = ^"BarHall"
 @export var wc_path: NodePath = ^"BarWC"
-@export var order_before_sitting := false
+@export var order_on_arrival := false
+@export var leave_after_drink := false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
 @onready var _level: Level = Level.find_level_node(self)
@@ -176,7 +177,7 @@ func _move_through_cabin(delta: float) -> void:
 			state = State.GOING_TO_SINK
 
 func _arriving() -> void:
-	if order_before_sitting:
+	if order_on_arrival:
 		state = State.GOING_TO_BARTENDER
 		return
 	var choice := randf()
@@ -250,7 +251,7 @@ func _drinking() -> void:
 			_finish_drink()
 
 func _finish_drink() -> void:
-	if order_before_sitting:
+	if leave_after_drink:
 		if is_instance_valid(_hands_item):
 			_hands_item.queue_free()
 		_hands_item = null

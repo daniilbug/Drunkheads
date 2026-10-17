@@ -56,6 +56,16 @@ texture = ExtResource("wall")
 region_enabled = true
 region_rect = Rect2(0, 0, 100, 42)
 
+[node name="BuildingWall" type="Sprite2D" parent="Walls/Top/Sprite"]
+light_mask = 2
+show_behind_parent = true
+texture_repeat = 2
+position = Vector2(-50, -29)
+texture = ExtResource("side")
+centered = false
+region_enabled = true
+region_rect = Rect2(49, 25, 100, 50)
+
 [node name="Sprite" parent="Walls/Bottom" index="1"]
 light_mask = 2
 texture_repeat = 2
@@ -69,20 +79,20 @@ material = SubResource("FrontClip")
 [node name="Sprite" parent="Walls/Left" index="1"]
 light_mask = 2
 texture_repeat = 2
-position = Vector2(-8, -66)
+position = Vector2(-8, -88)
 texture = ExtResource("side")
 centered = false
 region_enabled = true
-region_rect = Rect2(41, 15, 8, 109)
+region_rect = Rect2(41, 25, 8, 131)
 
 [node name="Sprite" parent="Walls/Right" index="1"]
 light_mask = 2
 texture_repeat = 2
-position = Vector2(0, -66)
+position = Vector2(0, -88)
 texture = ExtResource("side")
 centered = false
 region_enabled = true
-region_rect = Rect2(21, 15, 8, 109)
+region_rect = Rect2(21, 25, 8, 131)
 
 [node name="WCDoor" parent="." instance=ExtResource("door")]
 position = Vector2(50, 80)

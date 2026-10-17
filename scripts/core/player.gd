@@ -333,10 +333,27 @@ func _try_interact() -> void:
 		_hands_interact()
 
 func _try_take_drop() -> void:
-	for area in interaction_area.get_overlapping_areas():
+	var areas := interaction_area.get_overlapping_areas()
+	if _hands_item is CafeRecord:
+		(_hands_item as CafeRecord).place_nearby(self, areas)
+		return
+	# Q selects the closest record on the tabletop.
+	if _hands_item == null:
+		var nearest_record: CafeRecord
+		for area in areas:
+			var record := area.get_parent() as CafeRecord
+			if record != null and record.can_pickup(self) and (nearest_record == null or global_position.distance_squared_to(area.global_position) < global_position.distance_squared_to(nearest_record.get_node("Area").global_position)):
+				nearest_record = record
+		if nearest_record != null:
+			take_spawned_item(nearest_record)
+			nearest_record.pickup(self)
+			return
+	for area in areas:
 		var owner_node := area.get_parent()
 		if owner_node is DropPlace and _hands_item != null:
 			var place = owner_node as DropPlace
+			if place is CafeRecordSlot:
+				continue
 			_hands_item.drop(self, place)
 			_hands_item = null
 			return

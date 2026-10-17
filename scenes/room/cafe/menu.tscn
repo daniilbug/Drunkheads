@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/menu.png" id="2_chalkboard"]
+
+[node name="Menu" type="Node2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(0, -6)
+texture = ExtResource("2_chalkboard")

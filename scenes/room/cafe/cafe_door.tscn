@@ -14,3 +14,6 @@ texture = ExtResource("texture")
 
 [node name="Roof" parent="." index="5"]
 visible = false
+
+[node name="Light" parent="Lamp" index="1"]
+enabled = false

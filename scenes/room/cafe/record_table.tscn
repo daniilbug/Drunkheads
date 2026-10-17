@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/cafe/record_table.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_table.png" id="table"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/record_covers.png" id="covers"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/record_slot.tscn" id="slot"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(26, 12)
+
+[node name="RecordTable" type="StaticBody2D"]
+script = ExtResource("script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+position = Vector2(0, -8)
+texture = ExtResource("table")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("Body")
+
+[node name="Slots" type="Node2D" parent="."]
+
+[node name="Slot0" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(-6, -15)
+record_id = 0
+
+[node name="Cover" type="Sprite2D" parent="Slots/Slot0"]
+light_mask = 2
+texture = ExtResource("covers")
+hframes = 4
+frame = 0
+
+[node name="Slot1" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(6, -15)
+record_id = 1
+
+[node name="Cover" type="Sprite2D" parent="Slots/Slot1"]
+light_mask = 2
+texture = ExtResource("covers")
+hframes = 4
+frame = 1
+
+[node name="Slot2" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(-6, -8)
+record_id = 2
+
+[node name="Cover" type="Sprite2D" parent="Slots/Slot2"]
+light_mask = 2
+texture = ExtResource("covers")
+hframes = 4
+frame = 2
+
+[node name="Slot3" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(6, -8)
+record_id = 3
+
+[node name="Cover" type="Sprite2D" parent="Slots/Slot3"]
+light_mask = 2
+texture = ExtResource("covers")
+hframes = 4
+frame = 3
