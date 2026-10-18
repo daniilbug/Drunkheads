@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate only the five approved home entrance textures with Pillow.
+"""Generate the approved home entrance textures with Pillow.
 
-The entrance door uses two 32x28 frames, with a centered 16-pixel
+The entrance door uses two 48x28 frames, with a centered 24-pixel
 opening. Both leaves open outwards, preserving left/right symmetry.
 Optional review images are saved outside the project sprite directory.
 Use flat material colors and one-sided shading, without perimeter strokes.
@@ -16,6 +16,8 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 SPRITES = ROOT / "assets/sprites"
 OUTPUT = SPRITES / "home_entrance"
+ENTRANCE_DOOR_OPENING_WIDTH = 24
+ENTRANCE_DOOR_FRAME_SIZE = (ENTRANCE_DOOR_OPENING_WIDTH * 2, 28)
 PALETTE = {
     "steel_frame": "#85938e",
     "steel_dark": "#718079",
@@ -49,59 +51,78 @@ def canvas(width: int, height: int) -> tuple[Image.Image, ImageDraw.ImageDraw]:
 
 def entrance_door() -> Image.Image:
     """Two flat mirrored steel leaves, with handles and no perimeter stroke."""
-    leaf, draw = canvas(7, 26)
-    draw.rectangle((0, 0, 6, 25), fill=PALETTE["door"])
-    draw.line((6, 0, 6, 25), fill=PALETTE["door_dark"])
-    draw.line((1, 1, 5, 1), fill=PALETTE["door_light"])
-    draw.line((5, 12, 5, 15), fill=PALETTE["steel"])
-    image = Image.new("RGBA", (64, 28))
+    half_width = ENTRANCE_DOOR_FRAME_SIZE[0] // 2
+    leaf_width = ENTRANCE_DOOR_OPENING_WIDTH // 2 - 1
+    opening_left = half_width - leaf_width - 1
+    leaf, draw = canvas(leaf_width, 26)
+    draw.rectangle((0, 0, leaf_width - 1, 25), fill=PALETTE["door"])
+    draw.line((leaf_width - 1, 0, leaf_width - 1, 25), fill=PALETTE["door_dark"])
+    draw.line((1, 1, leaf_width - 2, 1), fill=PALETTE["door_light"])
+    draw.line((leaf_width - 2, 12, leaf_width - 2, 15), fill=PALETTE["steel"])
+    image = Image.new("RGBA", (ENTRANCE_DOOR_FRAME_SIZE[0] * 2, 28))
     for index in range(2):
-        half, draw = canvas(16, 28)
+        half, draw = canvas(half_width, 28)
         # Draw the left half and mirror it, including frame and handles.
-        draw.line((8, 0, 15, 0), fill=PALETTE["door_light"])
-        draw.line((8, 1, 8, 26), fill=PALETTE["door_light"])
-        draw.line((8, 27, 15, 27), fill=PALETTE["steel"])
+        draw.line((opening_left, 0, half_width - 1, 0), fill=PALETTE["door_light"])
+        draw.line((opening_left, 1, opening_left, 26), fill=PALETTE["door_light"])
+        draw.line((opening_left, 27, half_width - 1, 27), fill=PALETTE["steel"])
         if index == 0:
-            half.alpha_composite(leaf, (9, 1))
+            half.alpha_composite(leaf, (opening_left + 1, 1))
         else:
             half.alpha_composite(leaf.transpose(Image.Transpose.FLIP_LEFT_RIGHT), (1, 1))
-        image.alpha_composite(half, (index * 32, 0))
-        image.alpha_composite(half.transpose(Image.Transpose.FLIP_LEFT_RIGHT), (index * 32 + 16, 0))
+        frame_x = index * ENTRANCE_DOOR_FRAME_SIZE[0]
+        image.alpha_composite(half, (frame_x, 0))
+        image.alpha_composite(half.transpose(Image.Transpose.FLIP_LEFT_RIGHT), (frame_x + half_width, 0))
+    return image
+
+
+def entrance_step() -> Image.Image:
+    """Widen the existing concrete step by extending only its flat middle."""
+    source = Image.open(SPRITES / "porch.png").convert("RGBA")
+    width = ENTRANCE_DOOR_OPENING_WIDTH + 6
+    middle = source.width // 2
+    extra = width - source.width
+    image = Image.new("RGBA", (width, source.height))
+    image.alpha_composite(source.crop((0, 0, middle, source.height)))
+    column = source.crop((middle, 0, middle + 1, source.height))
+    for x in range(middle, middle + extra):
+        image.alpha_composite(column, (x, 0))
+    image.alpha_composite(source.crop((middle, 0, source.width, source.height)), (middle + extra, 0))
     return image
 
 
 def elevator() -> Image.Image:
-    """32x30 flat metal elevator, a 6x3 indicator and one left call button."""
-    half, draw = canvas(16, 30)
-    draw.rectangle((4, 4, 15, 29), fill=PALETTE["steel_frame"])
+    """32x32 flat metal elevator, a 6x3 indicator and one left call button."""
+    half, draw = canvas(16, 32)
+    draw.rectangle((4, 4, 15, 31), fill=PALETTE["steel_frame"])
     draw.line((5, 5, 15, 5), fill=PALETTE["silver"])
-    draw.rectangle((7, 7, 14, 26), fill=PALETTE["steel"])
-    draw.line((7, 7, 7, 25), fill=PALETTE["silver"])
-    draw.line((7, 26, 14, 26), fill=PALETTE["steel_dark"])
-    draw.line((15, 7, 15, 26), fill=PALETTE["steel_dark"])
-    draw.line((5, 28, 15, 28), fill=PALETTE["silver"])
+    draw.rectangle((7, 7, 14, 28), fill=PALETTE["steel"])
+    draw.line((7, 7, 7, 27), fill=PALETTE["silver"])
+    draw.line((7, 28, 14, 28), fill=PALETTE["steel_dark"])
+    draw.line((15, 7, 15, 28), fill=PALETTE["steel_dark"])
+    draw.line((5, 30, 15, 30), fill=PALETTE["silver"])
     draw.rectangle((13, 0, 15, 2), fill=PALETTE["steel_dark"])
     draw.point((15, 1), fill=PALETTE["silver"])
-    image = Image.new("RGBA", (32, 30))
+    image = Image.new("RGBA", (32, 32))
     image.alpha_composite(half)
     image.alpha_composite(half.transpose(Image.Transpose.FLIP_LEFT_RIGHT), (16, 0))
     # Keep the call button at its original height, only on the left wall.
     draw = ImageDraw.Draw(image)
-    draw.rectangle((0, 15, 2, 20), fill=PALETTE["steel_frame"])
-    draw.line((1, 16, 1, 19), fill=PALETTE["steel_dark"])
-    draw.point((1, 18), fill=PALETTE["silver"])
+    draw.rectangle((0, 17, 2, 22), fill=PALETTE["steel_frame"])
+    draw.line((1, 18, 1, 21), fill=PALETTE["steel_dark"])
+    draw.point((1, 20), fill=PALETTE["silver"])
     return image
 
 
 def stair_door() -> Image.Image:
-    """12x22 wooden door; a flat leaf, handle and stair sign, without a stroke."""
-    image, draw = canvas(12, 22)
-    draw.rectangle((0, 0, 11, 21), fill=PALETTE["brown"])
-    draw.line((1, 1, 10, 1), fill=PALETTE["brown_light"])
-    draw.rectangle((3, 3, 8, 8), fill=PALETTE["brown_dark"])
-    draw.line((4, 7, 5, 7, 5, 5, 6, 5, 6, 4, 7, 4), fill=PALETTE["cream"])
-    draw.rectangle((8, 11, 9, 15), fill=PALETTE["brown_dark"])
-    draw.line((7, 12, 9, 12), fill=PALETTE["steel"])
+    """16x28 wooden door; a flat leaf, handle and stair sign, without a stroke."""
+    image, draw = canvas(16, 28)
+    draw.rectangle((0, 0, 15, 27), fill=PALETTE["brown"])
+    draw.line((1, 1, 14, 1), fill=PALETTE["brown_light"])
+    draw.rectangle((5, 4, 10, 9), fill=PALETTE["brown_dark"])
+    draw.line((6, 8, 7, 8, 7, 6, 8, 6, 8, 5, 9, 5), fill=PALETTE["cream"])
+    draw.rectangle((12, 14, 13, 18), fill=PALETTE["brown_dark"])
+    draw.line((11, 15, 13, 15), fill=PALETTE["steel"])
     return image
 
 
@@ -155,10 +176,10 @@ def review_sheet(textures: dict[str, Image.Image]) -> Image.Image:
               font=font(17), fill="#667064")
     door = textures["entrance_door"]
     entries = [
-        ("1. Входная дверь — закрыта", "Кадр 32×28 · проём 16 пикселей", door.crop((0, 0, 32, 28))),
-        ("2. Входная дверь — открыта", "Две створки · проём по центру", door.crop((32, 0, 64, 28))),
-        ("3. Лифт", "32×30 · индикатор 6×3 · 4 цвета", textures["elevator"]),
-        ("4. Дверь лестницы", "12×22 · постоянно закрыта", textures["stair_door"]),
+        ("1. Входная дверь — закрыта", "Кадр 48×28 · проём 24 пикселя", door.crop((0, 0, 48, 28))),
+        ("2. Входная дверь — открыта", "Две створки · проём по центру", door.crop((48, 0, 96, 28))),
+        ("3. Лифт", "32×32 · индикатор 6×3 · 4 цвета", textures["elevator"]),
+        ("4. Дверь лестницы", "16×28 · постоянно закрыта", textures["stair_door"]),
         ("5. Отделка стен", "Фрагмент стены · тайл 32×35", tiled(textures["wall"], (48, 35))),
         ("6. Керамогранит пола", "Однородный фон · тайл 16×16", tiled(textures["floor"], (48, 32))),
     ]
@@ -202,9 +223,9 @@ def lobby_mockup(textures: dict[str, Image.Image]) -> Image.Image:
         layer = Image.open(SPRITES / f"characters/{name}.png").convert("RGBA")
         player.alpha_composite(layer.crop((0, 20, 12, 40)))
     room.alpha_composite(player, (55, 66))
-    draw.line((24, 108, 55, 108), fill=WALL_PALETTE["plinth"], width=2)
-    draw.line((72, 108, 103, 108), fill=WALL_PALETTE["plinth"], width=2)
-    room.alpha_composite(textures["entrance_door"].crop((32, 0, 64, 28)), (48, 81))
+    draw.line((24, 108, 51, 108), fill=WALL_PALETTE["plinth"], width=2)
+    draw.line((76, 108, 103, 108), fill=WALL_PALETTE["plinth"], width=2)
+    room.alpha_composite(textures["entrance_door"].crop((48, 0, 96, 28)), (40, 81))
     image = Image.new("RGB", (1080, 690), "#f0ede4")
     image.paste(room.resize((512, 504), Image.Resampling.NEAREST), (36, 108))
     draw = ImageDraw.Draw(image)
@@ -231,6 +252,7 @@ def main() -> None:
     textures = {
         "entrance_door": entrance_door(), "elevator": elevator(),
         "stair_door": stair_door(), "wall": wall(), "floor": floor(),
+        "entrance_step": entrance_step(),
     }
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for name, image in textures.items():

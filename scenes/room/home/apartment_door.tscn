@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/door.tscn" id="door"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home/apartment_door.png" id="texture"]
+
+[node name="ApartmentDoor" instance=ExtResource("door")]
+y_sort_enabled = true
+
+[node name="ClosedSprite" parent="." index="0"]
+light_mask = 2
+position = Vector2(0, 1)
+texture = ExtResource("texture")
+offset = Vector2(-16, -31)
+hframes = 2
+
+[node name="OpenSprite" parent="." index="1"]
+light_mask = 2
+position = Vector2(0, 1)
+texture = ExtResource("texture")
+offset = Vector2(-16, -31)
+hframes = 2
+frame = 1
+
+[node name="Shape" parent="InteractionZone" index="0"]
+position = Vector2(0, -4)

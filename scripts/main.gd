@@ -277,8 +277,8 @@ func enter_home(peer_id: int) -> void:
 	var player := get_player(peer_id)
 	if player == null or player.level_id != home_entrance.level_id or player.in_vehicle or player.is_sitting:
 		return
-	var marker := home.get_node("PlayerSpawn") as Marker2D
-	var room := home.get_node("HomeRoom") as Room
+	var marker := home.get_node("CorridorRoom/ElevatorReturn") as Marker2D
+	var room := home.get_node("CorridorRoom") as Room
 	var arrival := home.get_available_arrival_position(player, marker, room)
 	if not arrival.is_finite():
 		return

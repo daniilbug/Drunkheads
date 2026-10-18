@@ -11,6 +11,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+from gen_home_entrance_sprites import ENTRANCE_DOOR_OPENING_WIDTH
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SPRITES = ROOT / "assets/sprites"
@@ -128,9 +130,9 @@ def assemble_facade(parts: dict[str, Image.Image]) -> Image.Image:
             else:
                 pane = parts["window"]
                 image.alpha_composite(pane, (center_x - pane.width // 2, center_y - pane.height // 2))
-    # Door and its opening retain the dimensions approved for the existing art.
-    draw.rectangle((HALF_WIDTH - 10, SIZE[1] - 30, HALF_WIDTH + 9, SIZE[1] - 1), fill="#657266")
-    draw.rectangle((HALF_WIDTH - 8, SIZE[1] - 28, HALF_WIDTH + 7, SIZE[1] - 1), fill=(0, 0, 0, 0))
+    half_opening = ENTRANCE_DOOR_OPENING_WIDTH // 2
+    draw.rectangle((HALF_WIDTH - half_opening - 2, SIZE[1] - 30, HALF_WIDTH + half_opening + 1, SIZE[1] - 1), fill="#657266")
+    draw.rectangle((HALF_WIDTH - half_opening, SIZE[1] - 28, HALF_WIDTH + half_opening - 1, SIZE[1] - 1), fill=(0, 0, 0, 0))
     if "balcony" in parts:
         for floor in range(1, FLOORS):
             center_y = SIZE[1] - 17 - floor * FLOOR_HEIGHT
@@ -166,10 +168,12 @@ def preview_panel(exterior: Image.Image, inside: bool) -> Image.Image:
     image = tiled(sprite("street/asphalt.png"), (SIZE[0] + 32, SIZE[1] + 31))
     origin = (16, 8)
     room_origin = (origin[0] + HALF_WIDTH - 40, origin[1] + SIZE[1] - 65)
-    door_origin = (origin[0] + HALF_WIDTH - 16, origin[1] + SIZE[1] - 28)
+    door_atlas = sprite("home_entrance/entrance_door.png")
+    frame_width = door_atlas.width // 2
+    door_origin = (origin[0] + HALF_WIDTH - frame_width // 2, origin[1] + SIZE[1] - 28)
     if not inside:
         image.alpha_composite(exterior, origin)
-        door = sprite("home_entrance/entrance_door.png").crop((0, 0, 32, 28))
+        door = door_atlas.crop((0, 0, frame_width, 28))
         image.alpha_composite(door, door_origin)
         return image
 
@@ -195,7 +199,7 @@ def preview_panel(exterior: Image.Image, inside: bool) -> Image.Image:
         player.alpha_composite(sprite(f"characters/{layer}.png").crop((0, 20, 12, 40)))
     image.alpha_composite(player, (room_origin[0] + 34, room_origin[1] + 12))
     image.alpha_composite(sprite("home/lightbulb.png"), (room_origin[0] + 36, room_origin[1] + 1))
-    door = sprite("home_entrance/entrance_door.png").crop((32, 0, 64, 28))
+    door = door_atlas.crop((frame_width, 0, frame_width * 2, 28))
     door.putalpha(door.getchannel("A").point(lambda value: value // 10))
     image.alpha_composite(door, door_origin)
     return image

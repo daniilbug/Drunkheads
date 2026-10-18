@@ -2,6 +2,7 @@ class_name HomeElevator
 extends Interactable
 
 @export var ding_scene: PackedScene
+@export var returns_to_entrance := false
 
 @onready var area: Area2D = $Area
 
@@ -29,8 +30,12 @@ func _try_enter(peer_id: int) -> void:
 		return
 	if not area.overlaps_area(player.interaction_area):
 		return
-	main.enter_home(peer_id)
-	if player.level_id == main.home.level_id:
+	if returns_to_entrance:
+		main.return_from_home(peer_id)
+	else:
+		main.enter_home(peer_id)
+	var destination := main.home_entrance if returns_to_entrance else main.home
+	if player.level_id == destination.level_id:
 		_play_ding.rpc(peer_id)
 
 @rpc("authority", "call_local", "reliable")

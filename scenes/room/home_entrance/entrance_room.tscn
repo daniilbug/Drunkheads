@@ -49,16 +49,16 @@ position = Vector2(-40, -13)
 texture = ExtResource("wall")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 22, 33, 13)
+region_rect = Rect2(0, 22, 29, 13)
 
 [node name="RightSprite" type="Sprite2D" parent="Walls/Bottom"]
 light_mask = 2
 texture_repeat = 2
-position = Vector2(7, -13)
+position = Vector2(11, -13)
 texture = ExtResource("wall")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 22, 33, 13)
+region_rect = Rect2(0, 22, 29, 13)
 
 [node name="Left" parent="Walls" index="2"]
 position = Vector2(0, 32)

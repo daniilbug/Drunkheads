@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/elevator.tscn" id="elevator"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/neighbor_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/corridor_lamp.tscn" id="lamp"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/stair_door.tscn" id="stairs"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/wall.png" id="wall"]
+
+[sub_resource type="RectangleShape2D" id="TopWallShape"]
+size = Vector2(272, 4)
+
+[sub_resource type="RectangleShape2D" id="BottomWallShape"]
+size = Vector2(272, 4)
+
+[sub_resource type="RectangleShape2D" id="SideWallShape"]
+size = Vector2(4, 56)
+
+[sub_resource type="RectangleShape2D" id="LeftPassageWall"]
+size = Vector2(233, 4)
+
+[sub_resource type="RectangleShape2D" id="RightPassageWall"]
+size = Vector2(25, 4)
+
+[node name="CorridorRoom" instance=ExtResource("room")]
+y_sort_enabled = true
+room_size = Vector2(272, 56)
+wall_hidden_alpha = 1.0
+wall_sort_with_player = true
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 272, 56)
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(136, 0)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("TopWallShape")
+disabled = true
+
+[node name="LeftPassageWall" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(-19.5, 0)
+shape = SubResource("LeftPassageWall")
+
+[node name="RightPassageWall" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(123.5, 0)
+shape = SubResource("RightPassageWall")
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-136, -35)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 208, 35)
+
+[node name="Edge" type="Polygon2D" parent="Walls/Top"]
+light_mask = 2
+polygon = PackedVector2Array(-138, -39, 72, -39, 72, -35, -138, -35)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(136, 56)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("BottomWallShape")
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+visible = false
+
+[node name="Edge" type="Polygon2D" parent="Walls/Bottom"]
+light_mask = 2
+polygon = PackedVector2Array(-138, -2, 138, -2, 138, 2, -138, 2)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(0, 28)
+
+[node name="Shape" parent="Walls/Left" index="0"]
+shape = SubResource("SideWallShape")
+
+[node name="Edge" type="Polygon2D" parent="Walls/Left"]
+light_mask = 2
+polygon = PackedVector2Array(-2, -67, 2, -67, 2, 28, -2, 28)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(272, 28)
+
+[node name="Shape" parent="Walls/Right" index="0"]
+shape = SubResource("SideWallShape")
+
+[node name="Edge" type="Polygon2D" parent="Walls/Right"]
+light_mask = 2
+polygon = PackedVector2Array(-2, -28, 2, -28, 2, 28, -2, 28)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="TransparencyZone" parent="." index="2"]
+position = Vector2(136, 28)
+
+[node name="NavigationRegion" parent="." index="3"]
+position = Vector2(0, 0)
+
+[node name="YSort" parent="NavigationRegion" index="0"]
+position = Vector2(0, 0)
+
+[node name="Elevator" parent="NavigationRegion/YSort" instance=ExtResource("elevator")]
+position = Vector2(44, 0)
+returns_to_entrance = true
+
+[node name="StairDoor" parent="NavigationRegion/YSort" instance=ExtResource("stairs")]
+position = Vector2(72, 0)
+
+[node name="NeighborDoor1" parent="NavigationRegion/YSort" instance=ExtResource("door")]
+position = Vector2(128, 0)
+
+[node name="NeighborDoor2" parent="NavigationRegion/YSort" instance=ExtResource("door")]
+position = Vector2(184, 0)
+
+[node name="LampLeft" parent="NavigationRegion/YSort" instance=ExtResource("lamp")]
+position = Vector2(64, 32)
+
+[node name="LampMiddle" parent="NavigationRegion/YSort" instance=ExtResource("lamp")]
+position = Vector2(144, 32)
+
+[node name="LampRight" parent="NavigationRegion/YSort" instance=ExtResource("lamp")]
+position = Vector2(224, 32)
+
+[node name="ElevatorReturn" type="Marker2D" parent="."]
+position = Vector2(44, 20)

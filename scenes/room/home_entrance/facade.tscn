@@ -24,15 +24,15 @@ position = Vector2(-172, -27)
 texture = ExtResource("brick")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 189, 164, 28)
+region_rect = Rect2(0, 189, 160, 28)
 
 [node name="LowerRightWall" type="Sprite2D" parent="."]
 texture_repeat = 2
-position = Vector2(8, -27)
+position = Vector2(12, -27)
 texture = ExtResource("brick")
 centered = false
 region_enabled = true
-region_rect = Rect2(180, 189, 164, 28)
+region_rect = Rect2(184, 189, 160, 28)
 
 [node name="Roof" type="Polygon2D" parent="."]
 texture_repeat = 2
@@ -61,11 +61,11 @@ polygon = PackedVector2Array(-171, -215, 171, -215, 171, -214, -171, -214)
 color = Color(0.33333334, 0.3647059, 0.30980393, 1)
 
 [node name="DoorFrameOuter" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-10, -29, 10, -29, 10, 1, 8, 1, 8, -27, -8, -27, -8, 1, -10, 1)
+polygon = PackedVector2Array(-14, -29, 14, -29, 14, 1, 12, 1, 12, -27, -12, -27, -12, 1, -14, 1)
 color = Color(0.39607844, 0.44705883, 0.4, 1)
 
 [node name="DoorFrameInner" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-9, -28, 9, -28, 9, 1, 8, 1, 8, -27, -8, -27, -8, 1, -9, 1)
+polygon = PackedVector2Array(-13, -28, 13, -28, 13, 1, 12, 1, 12, -27, -12, -27, -12, 1, -13, 1)
 color = Color(0.39607844, 0.44705883, 0.4, 1)
 
 [node name="LeftWing" type="StaticBody2D" parent="."]

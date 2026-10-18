@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/porch.png" id="porch"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/entrance_step.png" id="porch"]
 
 [node name="EntranceStep" type="Sprite2D"]
 texture_filter = 1
