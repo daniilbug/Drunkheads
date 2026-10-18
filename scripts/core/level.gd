@@ -7,6 +7,7 @@ const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 const WORLD_TIME_SCENE := preload("res://scenes/core/world_time.tscn")
 const BOUNDS_WALL_THICKNESS := 16.0
 
+@export var level_id := ""
 @export var transport_destination: TransportDestination
 @export var transport_arrival_interior := false
 @export var transport_arrival_path: NodePath = ^"PlayerSpawn"
@@ -47,8 +48,7 @@ func _ready() -> void:
 func _spawn_standalone_player() -> void:
 	var player := PLAYER_SCENE.instantiate() as Player
 	player.name = str(multiplayer.get_unique_id())
-	if transport_destination != null:
-		player.level_id = transport_destination.id
+	player.level_id = level_id
 	player.player_name = Player.local_setup.get("name", "Player")
 	player.randomize_appearance()
 	_prepare_player_spawn(player)
@@ -84,9 +84,46 @@ func get_transport_arrival_position() -> Vector2:
 	return marker.global_position if marker != null else global_position
 
 func supports_transport() -> bool:
+	if transport_destination == null:
+		return false
 	if transport_arrival_interior:
 		return get_node_or_null(transport_arrival_path) != null
 	return get_transport_stop() != null
+
+func get_available_arrival_position(player: Player, marker: Marker2D, room: Room) -> Vector2:
+	var origin := room.to_local(marker.global_position)
+	var interior := Rect2(Vector2(6, 8), room.room_size - Vector2(12, 14))
+	var body := player.get_node("Shape") as CollisionShape2D
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = body.shape
+	query.collision_mask = player.collision_mask
+	query.exclude = [player.get_rid()]
+	# Keep simultaneous arrivals apart without moving either player's body
+	# through the room's walls or furniture. Coordinates follow the room scale.
+	for row in 4:
+		for column in 15:
+			var side := 1.0 if column % 2 == 1 else -1.0
+			var offset := Vector2(ceilf(column / 2.0) * 12.0 * side, row * 12.0)
+			var candidate := origin + offset
+			if not interior.has_point(candidate):
+				continue
+			var occupied := false
+			for other in get_players():
+				if other == player or other.level_id != level_id or other.in_vehicle:
+					continue
+				var separation := room.to_local(other.global_position) - candidate
+				if absf(separation.x) < 12.0 and absf(separation.y) < 10.0:
+					occupied = true
+					break
+			if occupied:
+				continue
+			var world_position := room.to_global(candidate)
+			var body_transform := body.global_transform
+			body_transform.origin += world_position - player.global_position
+			query.transform = body_transform
+			if get_world_2d().direct_space_state.intersect_shape(query, 1).is_empty():
+				return world_position
+	return Vector2.INF
 
 func _cleanup_player(peer_id: int) -> void:
 	var taxi_stop := get_taxi_stop()

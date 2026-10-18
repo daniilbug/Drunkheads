@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_tree.tscn" id="tree"]
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_shrub.tscn" id="shrub"]
+
+[node name="FrontGreenery" type="Node2D"]
+y_sort_enabled = true
+
+[node name="TreeLeft" parent="." instance=ExtResource("tree")]
+position = Vector2(-122, 5)
+
+[node name="TreeRight" parent="." instance=ExtResource("tree")]
+position = Vector2(122, 5)
+
+[node name="Sprite" parent="TreeRight" index="1"]
+flip_h = true
+
+[node name="ShrubLeft" parent="." instance=ExtResource("shrub")]
+position = Vector2(-48, 5)
+
+[node name="ShrubRight" parent="." instance=ExtResource("shrub")]
+position = Vector2(48, 5)
+
+[node name="Sprite" parent="ShrubRight" index="0"]
+flip_h = true
+
+[editable path="TreeRight"]
+[editable path="ShrubRight"]

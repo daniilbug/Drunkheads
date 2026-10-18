@@ -10,6 +10,7 @@ const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 @onready var bar: Bar = $Bar
 @onready var home: Level = $Home
 @onready var cafe: Level = $Cafe
+@onready var home_entrance: Level = $HomeEntrance
 @onready var player_spawner: MultiplayerSpawner = $PlayerSpawner
 @onready var respect_label: Label = $HUD/Stats/RespectLabel
 @onready var mind_label: Label = $HUD/Stats/MindLabel
@@ -26,7 +27,7 @@ var _phone: Phone
 var _can_order_taxi := true
 
 func _ready() -> void:
-	_register_transport_levels()
+	_register_levels()
 	player_spawner.spawned.connect(_on_player_spawned)
 	for level_id: String in _levels:
 		var stop := _get_taxi_stop(level_id)
@@ -43,15 +44,18 @@ func _ready() -> void:
 		_init_local_player(get_player(multiplayer.get_unique_id()))
 		_register_player_setup(multiplayer.get_unique_id(), Player.local_setup)
 
-func _register_transport_levels() -> void:
+func _register_levels() -> void:
 	for child in get_children():
-		if child is not Level or child.transport_destination == null:
+		if child is not Level:
 			continue
-		var destination := (child as Level).transport_destination
-		if destination.id.is_empty() or _levels.has(destination.id):
-			push_error("Transport destinations need unique, nonempty IDs: %s" % child.name)
+		var level := child as Level
+		if level.level_id.is_empty() or _levels.has(level.level_id):
+			push_error("Levels need unique, nonempty IDs: %s" % child.name)
 			continue
-		_levels[destination.id] = child
+		if level.transport_destination != null and level.transport_destination.id != level.level_id:
+			push_error("Transport destination must match its level ID: %s" % child.name)
+			continue
+		_levels[level.level_id] = level
 
 func get_transport_destination(destination_id: String) -> TransportDestination:
 	var level := _levels.get(destination_id) as Level
@@ -82,7 +86,7 @@ func _on_peer_connected(peer_id: int) -> void:
 func _spawn_player(peer_id: int) -> void:
 	var player := PLAYER_SCENE.instantiate() as Player
 	player.name = str(peer_id)
-	player.level_id = bar.transport_destination.id
+	player.level_id = bar.level_id
 	player.randomize_appearance()
 	bar._prepare_player_spawn(player)
 	add_child(player)
@@ -157,7 +161,13 @@ func _open_phone() -> void:
 	_phone.taxi_requested.connect(_on_phone_taxi_requested)
 	_phone.closed.connect(_on_phone_closed)
 	_phone.set_taxi_context(player.level_id)
-	_phone.set_taxi_available(_can_order_taxi and not player.in_vehicle)
+	_phone.set_taxi_available(_is_local_taxi_available())
+
+func _is_local_taxi_available() -> bool:
+	if local_player == null:
+		return false
+	var level := get_player_level(int(local_player.name))
+	return _can_order_taxi and not local_player.in_vehicle and level != null and level.supports_transport()
 
 func _on_phone_closed() -> void:
 	if _phone != null:
@@ -193,7 +203,7 @@ func _handle_taxi_request(peer_id: int, destination: String) -> void:
 		return
 	var target := _levels.get(destination) as Level
 	var source := _levels.get(player.level_id) as Level
-	if player.in_vehicle or player.is_sitting or source == null or target == null or not target.supports_transport() or destination == player.level_id:
+	if player.in_vehicle or player.is_sitting or source == null or target == null or not source.supports_transport() or not target.supports_transport() or destination == player.level_id:
 		_on_taxi_order_availability_changed(peer_id, true)
 		return
 	if _taxi_destinations.has(peer_id):
@@ -226,7 +236,7 @@ func _receive_taxi_availability(available: bool) -> void:
 	_can_order_taxi = available
 	if _phone != null:
 		_phone.set_taxi_context(local_player.level_id)
-		_phone.set_taxi_available(available and not local_player.in_vehicle)
+		_phone.set_taxi_available(_is_local_taxi_available())
 
 func _update_stats() -> void:
 	if local_player == null:
@@ -261,10 +271,34 @@ func _on_taxi_boarding_requested(player: Player, level_id: String) -> void:
 	if player.level_id == level_id and _taxi_destinations.has(int(player.name)):
 		_get_taxi_stop(level_id).board_player(player)
 
+func enter_home(peer_id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	var player := get_player(peer_id)
+	if player == null or player.level_id != home_entrance.level_id or player.in_vehicle or player.is_sitting:
+		return
+	var marker := home.get_node("PlayerSpawn") as Marker2D
+	var room := home.get_node("HomeRoom") as Room
+	var arrival := home.get_available_arrival_position(player, marker, room)
+	if not arrival.is_finite():
+		return
+	# Entering the lift cancels a taxi still waiting outside.
+	home_entrance.get_taxi_stop().remove_passenger(peer_id)
+	_taxi_destinations.erase(peer_id)
+	player.return_level_id = home_entrance.level_id
+	_apply_trip.rpc(peer_id, home.level_id, arrival)
+
 func return_from_home(peer_id: int) -> void:
 	if not multiplayer.is_server() or not is_player_home(peer_id):
 		return
-	_handle_taxi_request(peer_id, get_player(peer_id).return_level_id)
+	var player := get_player(peer_id)
+	if player.in_vehicle or player.is_sitting:
+		return
+	var marker := home_entrance.get_node("EntranceRoom/ElevatorReturn") as Marker2D
+	var room := home_entrance.get_node("EntranceRoom") as Room
+	var arrival := home_entrance.get_available_arrival_position(player, marker, room)
+	if arrival.is_finite():
+		_apply_trip.rpc(peer_id, home_entrance.level_id, arrival)
 
 @rpc("authority", "call_local", "reliable")
 func _begin_arrival(peer_id: int, destination: String, arrival_position: Vector2) -> void:
@@ -282,7 +316,7 @@ func _begin_arrival(peer_id: int, destination: String, arrival_position: Vector2
 
 func is_player_home(peer_id: int) -> bool:
 	var player := get_player(peer_id)
-	return player != null and player.level_id == "home"
+	return player != null and player.level_id == home.level_id
 
 @rpc("authority", "call_local", "reliable")
 func _apply_trip(peer_id: int, destination: String, arrival_position: Vector2) -> void:

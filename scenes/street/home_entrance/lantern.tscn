@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
+
+[sub_resource type="CircleShape2D" id="PostShape"]
+radius = 3.0
+
+[node name="EntranceLantern" instance=ExtResource("lantern")]
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, -17)
+
+[node name="Shape" parent="Body" index="0"]
+shape = SubResource("PostShape")
+
+[node name="Obstacle" parent="." index="4"]
+radius = 3.0

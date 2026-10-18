@@ -1,0 +1,120 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/facade.tscn" id="facade"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/building_volume.tscn" id="volume"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/entrance_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/elevator.tscn" id="elevator"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/stair_door.tscn" id="stair_door"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/lightbulb.tscn" id="lamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/wall.png" id="wall"]
+
+[node name="EntranceRoom" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+y_sort_enabled = true
+room_size = Vector2(80, 64)
+wall_hidden_alpha = 0.0
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Facade"), NodePath("EntranceDoor")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 64)
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(40, 0)
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-40, -35)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 35)
+
+[node name="Edge" type="Polygon2D" parent="Walls/Top"]
+light_mask = 2
+polygon = PackedVector2Array(-42, -39, 42, -39, 42, -35, -42, -35)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(40, 64)
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-40, -13)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 22, 33, 13)
+
+[node name="RightSprite" type="Sprite2D" parent="Walls/Bottom"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(7, -13)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 22, 33, 13)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(0, 32)
+
+[node name="Edge" type="Polygon2D" parent="Walls/Left"]
+light_mask = 2
+polygon = PackedVector2Array(-2, -71, 2, -71, 2, 32, -2, 32)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(80, 32)
+
+[node name="Edge" type="Polygon2D" parent="Walls/Right"]
+light_mask = 2
+polygon = PackedVector2Array(-2, -71, 2, -71, 2, 32, -2, 32)
+color = Color(0.2509804, 0.2392157, 0.2196078, 1)
+
+[node name="TransparencyZone" parent="." index="2"]
+position = Vector2(40, 32)
+
+[node name="NavigationRegion" parent="." index="3"]
+position = Vector2(0, 0)
+
+[node name="YSort" parent="NavigationRegion" index="0"]
+position = Vector2(0, 0)
+
+[node name="Elevator" parent="NavigationRegion/YSort" instance=ExtResource("elevator")]
+position = Vector2(22, 0)
+
+[node name="StairDoor" parent="NavigationRegion/YSort" instance=ExtResource("stair_door")]
+position = Vector2(66, 0)
+
+[node name="Lightbulb" parent="NavigationRegion/YSort" instance=ExtResource("lamp")]
+position = Vector2(40, 32)
+automatic_lighting = true
+switch_on_hour = 18.0
+switch_off_hour = 8.0
+fade_duration_hours = 2.0
+
+[node name="Sprite" parent="NavigationRegion/YSort/Lightbulb" index="0"]
+z_index = 0
+z_as_relative = true
+position = Vector2(0, -24)
+
+[node name="Light" parent="NavigationRegion/YSort/Lightbulb" index="1"]
+energy = 0.35
+texture_scale = 0.6
+
+[node name="BuildingVolume" parent="." instance=ExtResource("volume")]
+position = Vector2(40, 64)
+
+[node name="Facade" parent="." instance=ExtResource("facade")]
+position = Vector2(40, 64)
+
+[node name="EntranceDoor" parent="." instance=ExtResource("door")]
+position = Vector2(40, 64)
+
+[node name="ElevatorReturn" type="Marker2D" parent="."]
+position = Vector2(22, 20)

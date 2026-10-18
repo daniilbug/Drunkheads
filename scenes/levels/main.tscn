@@ -7,6 +7,7 @@
 
 [ext_resource type="PackedScene" path="res://scenes/levels/cafe.tscn" id="5_cafe"]
 [ext_resource type="PackedScene" path="res://scenes/core/world_time.tscn" id="6_world_time"]
+[ext_resource type="PackedScene" path="res://scenes/levels/home_entrance.tscn" id="7_home_entrance"]
 
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
@@ -27,6 +28,9 @@ position = Vector2(900, 0)
 
 [node name="Cafe" parent="." instance=ExtResource("5_cafe")]
 position = Vector2(1800, 0)
+
+[node name="HomeEntrance" parent="." instance=ExtResource("7_home_entrance")]
+position = Vector2(3600, 0)
 
 [node name="HeadphonePlayer" type="AudioStreamPlayer" parent="." unique_id=1806567769]
 volume_db = -30.0

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[sub_resource type="CanvasItemMaterial" id="Unshaded"]
+light_mode = 1
+
+[node name="BuildingVolume" type="Node2D"]
+z_index = -1
+
+[node name="HiddenRooms" type="Polygon2D" parent="."]
+material = SubResource("Unshaded")
+polygon = PackedVector2Array(-168, -296, 168, -296, 172, -292, 172, 1, 42, 1, 42, -103, -42, -103, -42, 1, -172, 1, -172, -292)
+color = Color(0.15686275, 0.14901961, 0.13333333, 1)
+
+[node name="WallDepth" type="Polygon2D" parent="."]
+material = SubResource("Unshaded")
+polygon = PackedVector2Array(-44, -105, 44, -105, 44, 1, 42, 1, 42, -103, -42, -103, -42, 1, -44, 1)
+color = Color(0.27058824, 0.25490196, 0.23137255, 1)

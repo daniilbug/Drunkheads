@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/facade.tscn" id="facade"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/entrance_door.png" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/entrance_step.tscn" id="step"]
+
+[sub_resource type="RectangleShape2D" id="CentralWallShape"]
+size = Vector2(80, 9)
+
+[node name="HomeEntranceHouse" type="Node2D"]
+
+[node name="Facade" parent="." instance=ExtResource("facade")]
+
+[node name="ClosedEntrance" type="Sprite2D" parent="."]
+position = Vector2(-16, -27)
+texture = ExtResource("door")
+centered = false
+hframes = 2
+
+[node name="Porch" parent="." instance=ExtResource("step")]
+
+[node name="CentralWall" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="CentralWall"]
+position = Vector2(0, -4.5)
+shape = SubResource("CentralWallShape")

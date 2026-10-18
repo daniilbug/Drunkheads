@@ -11,7 +11,7 @@ func _ready() -> void:
 	$StreetNavigation.bake_navigation_polygon(false)
 
 func _prepare_player_spawn(player: Player) -> void:
-	player.level_id = transport_destination.id
+	player.level_id = level_id
 	if get_parent() is Main:
 		player.in_vehicle = true
 		taxi_stop.queue_arrival(int(player.name))

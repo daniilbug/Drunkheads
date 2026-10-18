@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/elevator_ding.mp3" id="audio"]
+
+[node name="ElevatorDing" type="AudioStreamPlayer2D"]
+stream = ExtResource("audio")
+bus = &"World"
+max_distance = 256.0
+attenuation = 0.5
+
+[connection signal="finished" from="." to="." method="queue_free"]

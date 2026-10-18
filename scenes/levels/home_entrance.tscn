@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/level.tscn" id="level"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/entrance_room.tscn" id="room"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance_house.tscn" id="house"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance_traffic_road.tscn" id="road"]
+[ext_resource type="Texture2D" path="res://assets/sprites/street/asphalt.png" id="asphalt"]
+[ext_resource type="Resource" path="res://assets/transport/home.tres" id="destination"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/front_greenery.tscn" id="greenery"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/fenced_yard.tscn" id="yard"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/swing.tscn" id="swing"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/sandbox.tscn" id="sandbox"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/lantern.tscn" id="lantern"]
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_bench.tscn" id="bench"]
+
+[node name="HomeEntrance" instance=ExtResource("level")]
+level_id = "home"
+transport_destination = ExtResource("destination")
+
+[node name="EntranceRoom" parent="." instance=ExtResource("room")]
+position = Vector2(140, 296)
+
+[node name="Asphalt" type="Sprite2D" parent="."]
+z_index = -1
+texture_repeat = 2
+position = Vector2(-476, 0)
+texture = ExtResource("asphalt")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1352, 500)
+
+[node name="BrickHouseLeft" parent="." instance=ExtResource("house")]
+position = Vector2(-272, 360)
+
+[node name="BrickHouseRight" parent="." instance=ExtResource("house")]
+position = Vector2(632, 360)
+
+[node name="GreeneryLeft" parent="." instance=ExtResource("greenery")]
+position = Vector2(-272, 360)
+
+[node name="GreeneryCenter" parent="." instance=ExtResource("greenery")]
+position = Vector2(180, 360)
+
+[node name="GreeneryRight" parent="." instance=ExtResource("greenery")]
+position = Vector2(632, 360)
+
+[node name="SwingYard" parent="." instance=ExtResource("yard")]
+position = Vector2(-46, 360)
+
+[node name="Swing" parent="SwingYard" instance=ExtResource("swing")]
+position = Vector2(0, -14)
+
+[node name="SandboxYard" parent="." instance=ExtResource("yard")]
+position = Vector2(406, 360)
+
+[node name="Sandbox" parent="SandboxYard" instance=ExtResource("sandbox")]
+position = Vector2(0, -14)
+
+[node name="Bench" parent="." instance=ExtResource("bench")]
+position = Vector2(406, 322)
+
+[node name="LanternLeft" parent="." instance=ExtResource("lantern")]
+position = Vector2(16, 368)
+
+[node name="LanternRight" parent="." instance=ExtResource("lantern")]
+position = Vector2(344, 368)
+
+[node name="TrafficRoad" parent="." instance=ExtResource("road")]
+position = Vector2(-476, 390)
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(309, 380)
+
+[node name="BottomLeft" parent="LevelBounds" index="0"]
+position = Vector2(-452, 490)
+
+[node name="TopRight" parent="LevelBounds" index="1"]
+position = Vector2(812, 24)

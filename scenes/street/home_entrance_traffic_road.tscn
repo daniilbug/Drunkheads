@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/bar_traffic_road.tscn" id="road"]
+
+[node name="TrafficRoad" instance=ExtResource("road")]
+road_width = 1352.0
+
+[node name="Stop" parent="RightTrafficLane" index="2"]
+position = Vector2(751, 27.25)

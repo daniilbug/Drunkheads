@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/window.png" id="window"]
+
+[node name="FacadeWindow" type="Sprite2D"]
+texture = ExtResource("window")
+centered = false
+offset = Vector2(-7, -9)

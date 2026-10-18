@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/home_entrance/elevator.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/elevator.png" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/elevator_ding.tscn" id="ding"]
+
+[sub_resource type="RectangleShape2D" id="InteractionShape"]
+size = Vector2(32, 16)
+
+[node name="Elevator" type="Node2D"]
+script = ExtResource("script")
+ding_scene = ExtResource("ding")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(-16, -32)
+texture = ExtResource("texture")
+centered = false
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+position = Vector2(0, 8)
+shape = SubResource("InteractionShape")

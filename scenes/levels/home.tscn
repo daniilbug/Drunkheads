@@ -9,12 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="7_asphalt"]
 [ext_resource type="PackedScene" uid="uid://gk5fn3pi0fov" path="res://scenes/room/home/toilet.tscn" id="8_toilet"]
 
-[ext_resource type="Resource" path="res://assets/transport/home.tres" id="transport_destination"]
-
 [node name="Home" unique_id=269715578 instance=ExtResource("1_level")]
 script = ExtResource("4_home")
-transport_destination = ExtResource("transport_destination")
-transport_arrival_interior = true
+level_id = "apartment"
 
 [node name="HomeRoom" parent="." index="0" unique_id=579288066 instance=ExtResource("2_room")]
 

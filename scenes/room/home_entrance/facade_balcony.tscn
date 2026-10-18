@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/balcony.png" id="balcony"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/balcony_door.png" id="door"]
+
+[node name="FacadeBalcony" type="Node2D"]
+
+[node name="GlassDoor" type="Sprite2D" parent="."]
+position = Vector2(-7, -32)
+texture = ExtResource("door")
+centered = false
+
+[node name="Balcony" type="Sprite2D" parent="."]
+position = Vector2(-20, -17)
+texture = ExtResource("balcony")
+centered = false

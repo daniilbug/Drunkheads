@@ -1,0 +1,183 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/brick.png" id="brick"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/roof.png" id="roof"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/facade_window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/facade_balcony.tscn" id="balcony"]
+
+[sub_resource type="RectangleShape2D" id="WingShape"]
+size = Vector2(132, 9)
+
+[node name="Facade" type="Node2D"]
+
+[node name="UpperWall" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(-172, -216)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 344, 189)
+
+[node name="LowerLeftWall" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(-172, -27)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 189, 164, 28)
+
+[node name="LowerRightWall" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(8, -27)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(180, 189, 164, 28)
+
+[node name="Roof" type="Polygon2D" parent="."]
+texture_repeat = 2
+position = Vector2(-172, -296)
+texture = ExtResource("roof")
+polygon = PackedVector2Array(4, 0, 340, 0, 344, 4, 344, 80, 0, 80, 0, 4)
+
+[node name="RoofCap" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-168, -296, 168, -296, 168, -295, -168, -295)
+color = Color(0.5294118, 0.5647059, 0.47843137, 1)
+
+[node name="RoofLowerEdge" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-171, -219, 171, -219, 171, -218, -171, -218)
+color = Color(0.4392157, 0.48235294, 0.40392157, 1)
+
+[node name="RoofShadow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-172, -218, 172, -218, 172, -216, -172, -216)
+color = Color(0.1882353, 0.23137255, 0.20392157, 1)
+
+[node name="Cornice" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-172, -216, 172, -216, 172, -215, -172, -215)
+color = Color(0.5803922, 0.5921569, 0.5019608, 1)
+
+[node name="CorniceShadow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-171, -215, 171, -215, 171, -214, -171, -214)
+color = Color(0.33333334, 0.3647059, 0.30980393, 1)
+
+[node name="DoorFrameOuter" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-10, -29, 10, -29, 10, 1, 8, 1, 8, -27, -8, -27, -8, 1, -10, 1)
+color = Color(0.39607844, 0.44705883, 0.4, 1)
+
+[node name="DoorFrameInner" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-9, -28, 9, -28, 9, 1, 8, 1, 8, -27, -8, -27, -8, 1, -9, 1)
+color = Color(0.39607844, 0.44705883, 0.4, 1)
+
+[node name="LeftWing" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="LeftWing"]
+position = Vector2(-106, -4.5)
+shape = SubResource("WingShape")
+
+[node name="RightWing" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="RightWing"]
+position = Vector2(106, -4.5)
+shape = SubResource("WingShape")
+
+[node name="WindowFloor5Left" parent="." instance=ExtResource("window")]
+position = Vector2(-46, -176)
+
+[node name="BalconyFloor5" parent="." instance=ExtResource("balcony")]
+position = Vector2(0, -156)
+
+[node name="WindowFloor5Right" parent="." instance=ExtResource("window")]
+position = Vector2(46, -176)
+
+[node name="WindowFloor4Left" parent="." instance=ExtResource("window")]
+position = Vector2(-46, -136)
+
+[node name="BalconyFloor4" parent="." instance=ExtResource("balcony")]
+position = Vector2(0, -116)
+
+[node name="WindowFloor4Right" parent="." instance=ExtResource("window")]
+position = Vector2(46, -136)
+
+[node name="WindowFloor3Left" parent="." instance=ExtResource("window")]
+position = Vector2(-46, -96)
+
+[node name="BalconyFloor3" parent="." instance=ExtResource("balcony")]
+position = Vector2(0, -76)
+
+[node name="WindowFloor3Right" parent="." instance=ExtResource("window")]
+position = Vector2(46, -96)
+
+[node name="WindowFloor2Left" parent="." instance=ExtResource("window")]
+position = Vector2(-46, -56)
+
+[node name="BalconyFloor2" parent="." instance=ExtResource("balcony")]
+position = Vector2(0, -36)
+
+[node name="WindowFloor2Right" parent="." instance=ExtResource("window")]
+position = Vector2(46, -56)
+
+[node name="WindowFloor1Left" parent="." instance=ExtResource("window")]
+position = Vector2(-46, -16)
+
+[node name="WindowFloor1Right" parent="." instance=ExtResource("window")]
+position = Vector2(46, -16)
+
+[node name="WindowFloor5LeftMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(-92, -176)
+
+[node name="WindowFloor5LeftOuter" parent="." instance=ExtResource("window")]
+position = Vector2(-138, -176)
+
+[node name="WindowFloor5RightMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(92, -176)
+
+[node name="WindowFloor5RightOuter" parent="." instance=ExtResource("window")]
+position = Vector2(138, -176)
+
+[node name="WindowFloor4LeftMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(-92, -136)
+
+[node name="WindowFloor4LeftOuter" parent="." instance=ExtResource("window")]
+position = Vector2(-138, -136)
+
+[node name="WindowFloor4RightMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(92, -136)
+
+[node name="WindowFloor4RightOuter" parent="." instance=ExtResource("window")]
+position = Vector2(138, -136)
+
+[node name="WindowFloor3LeftMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(-92, -96)
+
+[node name="WindowFloor3LeftOuter" parent="." instance=ExtResource("window")]
+position = Vector2(-138, -96)
+
+[node name="WindowFloor3RightMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(92, -96)
+
+[node name="WindowFloor3RightOuter" parent="." instance=ExtResource("window")]
+position = Vector2(138, -96)
+
+[node name="WindowFloor2LeftMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(-92, -56)
+
+[node name="WindowFloor2LeftOuter" parent="." instance=ExtResource("window")]
+position = Vector2(-138, -56)
+
+[node name="WindowFloor2RightMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(92, -56)
+
+[node name="WindowFloor2RightOuter" parent="." instance=ExtResource("window")]
+position = Vector2(138, -56)
+
+[node name="WindowFloor1LeftMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(-92, -16)
+
+[node name="WindowFloor1LeftOuter" parent="." instance=ExtResource("window")]
+position = Vector2(-138, -16)
+
+[node name="WindowFloor1RightMiddle" parent="." instance=ExtResource("window")]
+position = Vector2(92, -16)
+
+[node name="WindowFloor1RightOuter" parent="." instance=ExtResource("window")]
+position = Vector2(138, -16)

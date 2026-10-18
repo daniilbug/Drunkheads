@@ -33,6 +33,7 @@ radius = 3.0
 
 [node name="Cafe" groups=["cafe_street_navigation_geometry"] instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_tbgi4")
+level_id = "cafe"
 transport_destination = ExtResource("transport_destination")
 
 [node name="CafeHall" parent="." index="0" instance=ExtResource("2_sugp2")]

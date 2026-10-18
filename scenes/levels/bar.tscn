@@ -28,6 +28,7 @@ source_geometry_group_name = &"street_navigation_geometry"
 
 [node name="Bar" unique_id=85658459 groups=["street_navigation_geometry"] instance=ExtResource("1_0wfyh")]
 script = ExtResource("2_tbgi4")
+level_id = "bar"
 transport_destination = ExtResource("transport_destination")
 
 [node name="BarHall" parent="." index="0" unique_id=1 instance=ExtResource("2_sugp2")]

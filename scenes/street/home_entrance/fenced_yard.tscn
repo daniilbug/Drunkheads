@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/earth.tscn" id="earth"]
+[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/fence.tscn" id="fence"]
+
+[sub_resource type="RectangleShape2D" id="SideWallShape"]
+size = Vector2(4, 60)
+
+[node name="FencedYard" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Earth" parent="." instance=ExtResource("earth")]
+position = Vector2(-54, -60)
+
+[node name="Fence" parent="." instance=ExtResource("fence")]
+position = Vector2(0, -60)
+
+[node name="HouseSideWalls" type="StaticBody2D" parent="."]
+
+[node name="Left" type="CollisionShape2D" parent="HouseSideWalls"]
+position = Vector2(-56, -30)
+shape = SubResource("SideWallShape")
+
+[node name="Right" type="CollisionShape2D" parent="HouseSideWalls"]
+position = Vector2(56, -30)
+shape = SubResource("SideWallShape")
