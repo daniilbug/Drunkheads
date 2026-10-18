@@ -16,8 +16,9 @@ var _departure_pending := false
 var _pending_destination := ""
 var _exit_count := 0
 
-func _get_main() -> Main:
-	return level.get_parent() as Main
+func _get_transport() -> WorldTransport:
+	var main := level.get_parent() as Main
+	return main.transport if main != null else null
 
 func has_pending_service() -> bool:
 	return _departure_pending or not _arrival_queue.is_empty()
@@ -26,7 +27,7 @@ func request_departure() -> bool:
 	if not multiplayer.is_server() or is_instance_valid(bus) or has_pending_service():
 		return false
 	_pending_destination = _choose_destination()
-	if _get_main() != null and _pending_destination.is_empty():
+	if _get_transport() != null and _pending_destination.is_empty():
 		return false
 	_departure_pending = true
 	_try_spawn()
@@ -64,18 +65,18 @@ func _process(delta: float) -> void:
 			bus.configure_route(bus.position, level.to_local((lane.get_node("End") as Marker2D).global_position), bus.cruise_speed, false)
 
 func _choose_destination() -> String:
-	var main := _get_main()
-	if main == null or level.transport_destination == null:
+	var transport := _get_transport()
+	if transport == null or level.transport_destination == null:
 		return ""
-	var destinations := main.get_transport_destinations(level.transport_destination.id)
+	var destinations := transport.get_destinations(level.transport_destination.id)
 	return destinations.pick_random().id if not destinations.is_empty() else ""
 
 func _try_spawn() -> void:
 	if not has_pending_service():
 		stop.release_bay(self)
 		return
-	var main := _get_main()
-	while not _arrival_queue.is_empty() and (main == null or not main.has_bus_trip(_arrival_queue[0])):
+	var transport := _get_transport()
+	while not _arrival_queue.is_empty() and (transport == null or not transport.has_bus_trip(_arrival_queue[0])):
 		_arrival_queue.pop_front()
 	if not has_pending_service():
 		stop.release_bay(self)
@@ -83,7 +84,7 @@ func _try_spawn() -> void:
 	if not stop.request_bay(self):
 		return
 	var trip_id := _arrival_queue[0] if not _arrival_queue.is_empty() else 0
-	var vehicle_name := main.get_bus_trip_vehicle_name(trip_id) if trip_id != 0 else ""
+	var vehicle_name := transport.get_bus_trip_vehicle_name(trip_id) if trip_id != 0 else ""
 	var destination := level.transport_destination.id if trip_id != 0 else _pending_destination
 	bus = lane.spawn_vehicle(bus_scene, stop.global_position, true, vehicle_name, {"destination_id": destination}) as Bus
 	if bus == null:
@@ -95,7 +96,7 @@ func _try_spawn() -> void:
 	_arrival_trip_id = trip_id
 	if trip_id != 0:
 		_arrival_queue.pop_front()
-		main.attach_bus_arrival(trip_id, bus)
+		transport.attach_bus_arrival(trip_id, bus)
 	else:
 		_departure_pending = false
 		_pending_destination = ""
@@ -103,7 +104,7 @@ func _try_spawn() -> void:
 func _on_route_finished() -> void:
 	if bus.service_state == Bus.ServiceState.APPROACHING:
 		if _arrival_trip_id != 0:
-			_get_main().complete_bus_arrival(_arrival_trip_id, self)
+			_get_transport().complete_bus_arrival(_arrival_trip_id, self)
 			_arrival_trip_id = 0
 		# An incoming trip may have lost its last passenger before reaching the
 		# stop. It still needs a new outward route rather than its current level.
@@ -112,30 +113,32 @@ func _on_route_finished() -> void:
 		bus.service_state = Bus.ServiceState.BOARDING
 		_exit_count = 0
 		_wait_remaining = dwell_seconds
-		bus.boarding_enabled = _get_main() != null and not bus.destination_id.is_empty()
+		bus.boarding_enabled = _get_transport() != null and not bus.destination_id.is_empty()
 	else:
 		var departing := bus
 		bus = null
 		stop.release_bay(self)
-		if _get_main() != null and not departing.passenger_ids.is_empty():
-			_get_main().depart_bus(self, departing)
+		if _get_transport() != null and not departing.passenger_ids.is_empty():
+			_get_transport().depart_bus(self, departing)
 		departing.queue_free()
 
 func _on_boarding_requested(player: Player) -> void:
-	var main := _get_main()
-	if main != null:
-		main.board_bus(player, self)
+	var transport := _get_transport()
+	if transport != null:
+		transport.board_bus(player, self)
 
 func _on_bus_exiting(exiting_bus: Bus) -> void:
 	if bus != exiting_bus:
 		return
 	bus = null
 	stop.release_bay(self)
-	var main := _get_main()
-	if main == null or not is_inside_tree() or main.is_queued_for_deletion():
+	if not is_inside_tree() or level.get_parent().is_queued_for_deletion():
+		return
+	var transport := _get_transport()
+	if transport == null:
 		return
 	if _arrival_trip_id != 0:
-		main.reset_bus_arrival(_arrival_trip_id, self)
+		transport.reset_bus_arrival(_arrival_trip_id, self)
 		_arrival_queue.push_front(_arrival_trip_id)
 		_arrival_trip_id = 0
-	main.recover_bus_passengers(exiting_bus.passenger_ids, self)
+	transport.recover_bus_passengers(exiting_bus.passenger_ids, self)

@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bwckyb5wg1tyd" path="res://scripts/core/phone_controller.gd" id="1_controller"]
+
+[node name="PhoneController" type="Node"]
+script = ExtResource("1_controller")

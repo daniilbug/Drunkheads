@@ -29,7 +29,7 @@ func _ready() -> void:
 func _refresh_destination(animate := false) -> void:
 	var level := Level.find_level_node(self)
 	var main := level.get_parent() as Main if level != null else null
-	var destination := main.get_transport_destination(destination_id) if main != null else null
+	var destination := main.transport.get_destination(destination_id) if main != null else null
 	var texture := destination.icon if destination != null else null
 	if _destination_tween != null:
 		_destination_tween.kill()

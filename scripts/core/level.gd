@@ -58,7 +58,7 @@ func _spawn_standalone_player() -> void:
 		spawn_point = player_spawn if player_spawn != null else get_node_or_null("PlayerSpawn") as Node2D
 	if spawn_point != null:
 		player.global_position = spawn_point.global_position
-	_init_local_player(player)
+	activate_local_player(player)
 
 func _prepare_player_spawn(_player: Player) -> void:
 	pass
@@ -126,12 +126,6 @@ func get_available_arrival_position(player: Player, marker: Marker2D, room: Room
 	return Vector2.INF
 
 func _cleanup_player(peer_id: int) -> void:
-	var taxi_stop := get_taxi_stop()
-	if taxi_stop != null:
-		taxi_stop.remove_passenger(peer_id)
-	var bus_stop := get_bus_stop()
-	if bus_stop != null:
-		bus_stop.remove_passenger(peer_id)
 	for seat in find_children("*", "Seat", true, false):
 		if seat.occupant_name == str(peer_id):
 			seat.vacate()
@@ -157,22 +151,36 @@ func get_players() -> Array[Player]:
 			players.append(child)
 	return players
 
-func _init_local_player(player: Player) -> void:
-	if local_player != null:
-		return
-	if player.player_data == null:
-		player.player_data = PlayerData.new()
-	if player.settings == null:
-		player.settings = PlayerSettings.new()
-	if not player.drink_action_requested.is_connected(_on_drink_action_requested):
-		player.drink_action_requested.connect(_on_drink_action_requested)
-		player.smoke_action_requested.connect(_on_smoke_action_requested)
+## Owns the local level context and camera limits; Main selects the active level.
+func activate_local_player(player: Player) -> void:
+	if local_player != null and local_player != player:
+		deactivate_local_player()
+	_init_local_player(player)
 	local_player = player
 	var bounds := get_world_bounds()
 	player.camera.limit_left = floori(bounds.position.x)
 	player.camera.limit_top = floori(bounds.position.y)
 	player.camera.limit_right = ceili(bounds.end.x)
 	player.camera.limit_bottom = ceili(bounds.end.y)
+	player.camera.reset_smoothing()
+
+func deactivate_local_player() -> void:
+	if local_player == null:
+		return
+	for child in get_children():
+		if child is Room:
+			child.reset_wall_visibility()
+	local_player = null
+
+func _init_local_player(player: Player) -> void:
+	if player.player_data == null:
+		player.player_data = PlayerData.new()
+	if player.settings == null:
+		player.settings = PlayerSettings.new()
+	# Items stay in their spawning level when carried elsewhere.
+	if not player.drink_action_requested.is_connected(_on_drink_action_requested):
+		player.drink_action_requested.connect(_on_drink_action_requested)
+		player.smoke_action_requested.connect(_on_smoke_action_requested)
 
 func get_world_bounds() -> Rect2:
 	var a := _bottom_left_bound.global_position

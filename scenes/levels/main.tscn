@@ -4,10 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://1q5qopjnmf5o" path="res://scenes/levels/bar.tscn" id="2_bar"]
 [ext_resource type="PackedScene" uid="uid://14grqjfbu4u6" path="res://scenes/levels/home.tscn" id="3_home"]
 [ext_resource type="Script" uid="uid://csyn6xfjumvym" path="res://scripts/core/headphone_player.gd" id="4_headphones"]
+[ext_resource type="Script" uid="uid://bqmbtjmwybg" path="res://scripts/core/hud.gd" id="8_hud"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/cafe.tscn" id="5_cafe"]
 [ext_resource type="PackedScene" path="res://scenes/core/world_time.tscn" id="6_world_time"]
 [ext_resource type="PackedScene" path="res://scenes/levels/home_entrance.tscn" id="7_home_entrance"]
+[ext_resource type="PackedScene" path="res://scenes/core/phone_controller.tscn" id="9_phone_controller"]
+[ext_resource type="PackedScene" path="res://scenes/core/world_transport.tscn" id="10_transport"]
 
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
@@ -16,6 +19,8 @@ y_sort_enabled = true
 script = ExtResource("1_main")
 
 [node name="WorldTime" parent="." instance=ExtResource("6_world_time")]
+
+[node name="WorldTransport" parent="." instance=ExtResource("10_transport")]
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
@@ -42,7 +47,10 @@ destination = NodePath("../../../../../Home/CorridorRoom/NavigationRegion/YSort/
 volume_db = -30.0
 script = ExtResource("4_headphones")
 
+[node name="PhoneController" parent="." instance=ExtResource("9_phone_controller")]
+
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1498230204]
+script = ExtResource("8_hud")
 
 [node name="Stats" type="VBoxContainer" parent="HUD" unique_id=1724038865]
 offset_left = 428.0
