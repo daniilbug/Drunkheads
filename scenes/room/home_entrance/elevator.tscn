@@ -1,25 +1,105 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/room/home_entrance/elevator.gd" id="script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/elevator.png" id="texture"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/elevator_frame.png" id="frame"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/elevator_doors.png" id="doors"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/elevator_cabin.png" id="cabin"]
 [ext_resource type="PackedScene" path="res://scenes/room/home_entrance/elevator_ding.tscn" id="ding"]
 
 [sub_resource type="RectangleShape2D" id="InteractionShape"]
-size = Vector2(32, 16)
+size = Vector2(32, 40)
+
+[sub_resource type="RectangleShape2D" id="DoorShape"]
+size = Vector2(18, 4)
+
+[sub_resource type="RectangleShape2D" id="BackShape"]
+size = Vector2(18, 4)
+
+[sub_resource type="RectangleShape2D" id="SideShape"]
+size = Vector2(4, 24)
+
+[sub_resource type="RectangleShape2D" id="VisibilityShape"]
+size = Vector2(32, 24)
+
+[sub_resource type="SceneReplicationConfig" id="ElevatorReplication"]
+properties/0/path = NodePath(".:state")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:door_open_ratio")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Elevator" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("script")
 ding_scene = ExtResource("ding")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 light_mask = 2
 texture_filter = 1
-position = Vector2(-16, -34)
-texture = ExtResource("texture")
+texture = ExtResource("frame")
 centered = false
+offset = Vector2(-16, -34)
+
+[node name="Cabin" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -24)
+texture = ExtResource("cabin")
+centered = false
+offset = Vector2(-16, -10)
+
+[node name="DoorLeft" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("doors")
+centered = false
+offset = Vector2(-9, -28)
+region_enabled = true
+region_rect = Rect2(0, 0, 9, 22)
+
+[node name="DoorRight" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("doors")
+centered = false
+offset = Vector2(0, -28)
+region_enabled = true
+region_rect = Rect2(9, 0, 9, 22)
 
 [node name="Area" type="Area2D" parent="."]
 
 [node name="Shape" type="CollisionShape2D" parent="Area"]
-position = Vector2(0, 8)
+position = Vector2(0, -4)
 shape = SubResource("InteractionShape")
+
+[node name="DoorBody" type="StaticBody2D" parent="."]
+
+[node name="Shape" type="CollisionShape2D" parent="DoorBody"]
+shape = SubResource("DoorShape")
+
+[node name="CabinBody" type="StaticBody2D" parent="."]
+
+[node name="Back" type="CollisionShape2D" parent="CabinBody"]
+position = Vector2(0, -22)
+shape = SubResource("BackShape")
+
+[node name="Left" type="CollisionShape2D" parent="CabinBody"]
+position = Vector2(-11, -10)
+shape = SubResource("SideShape")
+
+[node name="Right" type="CollisionShape2D" parent="CabinBody"]
+position = Vector2(11, -10)
+shape = SubResource("SideShape")
+
+[node name="VisibilityZone" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Shape" type="CollisionShape2D" parent="VisibilityZone"]
+position = Vector2(0, -8)
+shape = SubResource("VisibilityShape")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("ElevatorReplication")

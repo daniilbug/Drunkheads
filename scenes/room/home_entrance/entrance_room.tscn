@@ -10,11 +10,18 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/floor.png" id="floor"]
 [ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/wall.png" id="wall"]
 
-[node name="EntranceRoom" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+[sub_resource type="RectangleShape2D" id="TopWallLeft"]
+size = Vector2(13, 4)
+
+[sub_resource type="RectangleShape2D" id="TopWallRight"]
+size = Vector2(49, 4)
+
+[node name="EntranceRoom" node_paths=PackedStringArray("wall_transparency_targets", "additional_transparency_zones") instance=ExtResource("room")]
 y_sort_enabled = true
 room_size = Vector2(80, 64)
 wall_hidden_alpha = 0.0
 wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Facade"), NodePath("EntranceDoor")])
+additional_transparency_zones = Array[NodePath]([NodePath("NavigationRegion/YSort/Elevator/VisibilityZone")])
 
 [node name="Floor" parent="." index="0"]
 texture_repeat = 2
@@ -25,6 +32,17 @@ region_rect = Rect2(0, 0, 80, 64)
 [node name="Top" parent="Walls" index="0"]
 position = Vector2(40, 0)
 
+[node name="Shape" parent="Walls/Top" index="0"]
+disabled = true
+
+[node name="LeftPassageWall" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(-33.5, 0)
+shape = SubResource("TopWallLeft")
+
+[node name="RightPassageWall" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(15.5, 0)
+shape = SubResource("TopWallRight")
+
 [node name="Sprite" parent="Walls/Top" index="1"]
 light_mask = 2
 texture_repeat = 2
@@ -32,7 +50,34 @@ position = Vector2(-40, -35)
 texture = ExtResource("wall")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 80, 35)
+region_rect = Rect2(0, 0, 13, 35)
+
+[node name="RightSprite" type="Sprite2D" parent="Walls/Top"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-9, -35)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(31, 0, 49, 35)
+
+[node name="LiftLintel" type="Sprite2D" parent="Walls/Top"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-27, -35)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(13, 0, 18, 8)
+
+[node name="LiftBase" type="Sprite2D" parent="Walls/Top"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-27, -5)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(13, 30, 18, 5)
 
 [node name="Edge" type="Polygon2D" parent="Walls/Top"]
 light_mask = 2
@@ -87,9 +132,10 @@ position = Vector2(0, 0)
 
 [node name="Elevator" parent="NavigationRegion/YSort" instance=ExtResource("elevator")]
 position = Vector2(22, 0)
+remember_departure = true
 
 [node name="StairDoor" parent="NavigationRegion/YSort" instance=ExtResource("stair_door")]
-position = Vector2(66, 0)
+position = Vector2(62, 0)
 
 [node name="Lightbulb" parent="NavigationRegion/YSort" instance=ExtResource("lamp")]
 position = Vector2(40, 32)
@@ -115,6 +161,3 @@ position = Vector2(40, 64)
 
 [node name="EntranceDoor" parent="." instance=ExtResource("door")]
 position = Vector2(40, 64)
-
-[node name="ElevatorReturn" type="Marker2D" parent="."]
-position = Vector2(22, 20)

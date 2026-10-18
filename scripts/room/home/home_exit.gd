@@ -1,6 +1,8 @@
 class_name HomeExit
 extends Interactable
 
+@export var arrival: Marker2D
+
 @onready var area: Area2D = $Area
 
 func interact(player: Player) -> void:
@@ -16,12 +18,14 @@ func _request_exit() -> void:
 
 func _try_exit(peer_id: int) -> void:
 	var home := Level.find_level_node(self)
-	if home == null:
+	if home == null or not is_instance_valid(arrival):
 		return
 	var main := home.get_parent() as Main
-	if main == null or not main.is_player_home(peer_id):
+	if main == null:
 		return
 	var player := main.get_player(peer_id)
-	if player == null or not area.overlaps_area(player.interaction_area):
+	if player == null or player.level_id != home.level_id or player.in_vehicle \
+		or player.is_sitting or not area.overlaps_area(player.interaction_area):
 		return
-	main.return_from_home(peer_id)
+	var destination := Level.find_level_node(arrival)
+	main.transfer_player(peer_id, destination, arrival.global_position)

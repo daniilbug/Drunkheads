@@ -271,34 +271,22 @@ func _on_taxi_boarding_requested(player: Player, level_id: String) -> void:
 	if player.level_id == level_id and _taxi_destinations.has(int(player.name)):
 		_get_taxi_stop(level_id).board_player(player)
 
-func enter_home(peer_id: int) -> void:
-	if not multiplayer.is_server():
-		return
+## Objects own their transitions; Main only applies a move between registered levels.
+func transfer_player(peer_id: int, destination: Level, arrival_position: Vector2) -> bool:
+	if not multiplayer.is_server() or not is_instance_valid(destination) or not arrival_position.is_finite():
+		return false
+	if _levels.get(destination.level_id) != destination:
+		return false
 	var player := get_player(peer_id)
-	if player == null or player.level_id != home_entrance.level_id or player.in_vehicle or player.is_sitting:
-		return
-	var marker := home.get_node("CorridorRoom/ElevatorReturn") as Marker2D
-	var room := home.get_node("CorridorRoom") as Room
-	var arrival := home.get_available_arrival_position(player, marker, room)
-	if not arrival.is_finite():
-		return
-	# Entering the lift cancels a taxi still waiting outside.
-	home_entrance.get_taxi_stop().remove_passenger(peer_id)
+	var source := get_player_level(peer_id)
+	if player == null or player.is_queued_for_deletion() or source == null:
+		return false
+	var stop := source.get_taxi_stop()
+	if stop != null:
+		stop.remove_passenger(peer_id)
 	_taxi_destinations.erase(peer_id)
-	player.return_level_id = home_entrance.level_id
-	_apply_trip.rpc(peer_id, home.level_id, arrival)
-
-func return_from_home(peer_id: int) -> void:
-	if not multiplayer.is_server() or not is_player_home(peer_id):
-		return
-	var player := get_player(peer_id)
-	if player.in_vehicle or player.is_sitting:
-		return
-	var marker := home_entrance.get_node("EntranceRoom/ElevatorReturn") as Marker2D
-	var room := home_entrance.get_node("EntranceRoom") as Room
-	var arrival := home_entrance.get_available_arrival_position(player, marker, room)
-	if arrival.is_finite():
-		_apply_trip.rpc(peer_id, home_entrance.level_id, arrival)
+	_apply_trip.rpc(peer_id, destination.level_id, arrival_position)
+	return true
 
 @rpc("authority", "call_local", "reliable")
 func _begin_arrival(peer_id: int, destination: String, arrival_position: Vector2) -> void:
@@ -313,10 +301,6 @@ func _begin_arrival(peer_id: int, destination: String, arrival_position: Vector2
 	if player == local_player:
 		_activate_local_level(destination)
 		_receive_taxi_availability(false)
-
-func is_player_home(peer_id: int) -> bool:
-	var player := get_player(peer_id)
-	return player != null and player.level_id == home.level_id
 
 @rpc("authority", "call_local", "reliable")
 func _apply_trip(peer_id: int, destination: String, arrival_position: Vector2) -> void:

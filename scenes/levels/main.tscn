@@ -24,6 +24,9 @@ spawn_path = NodePath("..")
 [node name="Home" parent="." unique_id=1924197594 instance=ExtResource("3_home")]
 position = Vector2(900, 0)
 
+[node name="Elevator" parent="Home/CorridorRoom/NavigationRegion/YSort" node_paths=PackedStringArray("destination")]
+destination = NodePath("../../../../../HomeEntrance/EntranceRoom/NavigationRegion/YSort/Elevator")
+
 [node name="Bar" parent="." unique_id=1970715540 instance=ExtResource("2_bar")]
 
 [node name="Cafe" parent="." instance=ExtResource("5_cafe")]
@@ -31,6 +34,9 @@ position = Vector2(1800, 0)
 
 [node name="HomeEntrance" parent="." instance=ExtResource("7_home_entrance")]
 position = Vector2(3600, 0)
+
+[node name="Elevator" parent="HomeEntrance/EntranceRoom/NavigationRegion/YSort" node_paths=PackedStringArray("destination")]
+destination = NodePath("../../../../../Home/CorridorRoom/NavigationRegion/YSort/Elevator")
 
 [node name="HeadphonePlayer" type="AudioStreamPlayer" parent="." unique_id=1806567769]
 volume_db = -30.0
@@ -55,3 +61,8 @@ text = "Mind     50"
 [node name="MoneyLabel" type="Label" parent="HUD/Stats" unique_id=2048936289]
 layout_mode = 2
 text = "Money   $50"
+
+[editable path="Home"]
+[editable path="Home/CorridorRoom"]
+[editable path="HomeEntrance"]
+[editable path="HomeEntrance/EntranceRoom"]

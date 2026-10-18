@@ -114,6 +114,27 @@ def elevator() -> Image.Image:
     return image
 
 
+def elevator_frame() -> Image.Image:
+    """Preserve the approved housing, with a clear opening for sliding doors."""
+    image = elevator()
+    ImageDraw.Draw(image).rectangle((7, 7, 24, 28), fill=(0, 0, 0, 0))
+    return image
+
+
+def elevator_doors() -> Image.Image:
+    """Two 9x22 leaves cropped from the approved closed elevator."""
+    return elevator().crop((7, 7, 25, 29))
+
+
+def elevator_cabin() -> Image.Image:
+    """Flat cabin wall and floor, with a single line between them."""
+    image, draw = canvas(32, 32)
+    draw.rectangle((7, 7, 24, 17), fill=PALETTE["door"])
+    draw.rectangle((7, 19, 24, 28), fill=PALETTE["door_light"])
+    draw.line((7, 18, 24, 18), fill=PALETTE["steel_dark"])
+    return image
+
+
 def stair_door() -> Image.Image:
     """16x28 wooden door; a flat leaf, handle and stair sign, without a stroke."""
     image, draw = canvas(16, 28)
@@ -244,16 +265,20 @@ def lobby_mockup(textures: dict[str, Image.Image]) -> Image.Image:
 
 
 def main() -> None:
+    generators = {
+        "entrance_door": entrance_door, "elevator": elevator,
+        "stair_door": stair_door, "wall": wall, "floor": floor,
+        "entrance_step": entrance_step, "elevator_frame": elevator_frame,
+        "elevator_doors": elevator_doors, "elevator_cabin": elevator_cabin,
+    }
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--preview-dir", type=Path, help="Directory outside assets/sprites for review images")
+    parser.add_argument("--only", nargs="+", choices=generators, help="Write only the selected textures")
     args = parser.parse_args()
     if args.preview_dir and args.preview_dir.resolve().is_relative_to(SPRITES):
         parser.error("Keep review images outside assets/sprites")
-    textures = {
-        "entrance_door": entrance_door(), "elevator": elevator(),
-        "stair_door": stair_door(), "wall": wall(), "floor": floor(),
-        "entrance_step": entrance_step(),
-    }
+    textures = {name: generate() for name, generate in generators.items()
+                if args.only is None or name in args.only}
     OUTPUT.mkdir(parents=True, exist_ok=True)
     for name, image in textures.items():
         output = OUTPUT / f"{name}.png"
@@ -261,6 +286,9 @@ def main() -> None:
         print(f"{output}: {image.width}x{image.height} RGBA")
     if args.preview_dir:
         args.preview_dir.mkdir(parents=True, exist_ok=True)
+        for name in generators:
+            if name not in textures:
+                textures[name] = Image.open(OUTPUT / f"{name}.png").convert("RGBA")
         for name, image in (("sprites", review_sheet(textures)), ("lobby", lobby_mockup(textures))):
             output = args.preview_dir / f"{name}.png"
             image.save(output)

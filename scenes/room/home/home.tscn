@@ -110,10 +110,10 @@ shape = SubResource("RectangleShape2D_o6o7m")
 
 [node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
 texture_repeat = 2
-position = Vector2(-8, -31.5)
+position = Vector2(-8, -1)
 texture = ExtResource("4_4td4w")
 region_enabled = true
-region_rect = Rect2(0, 0, 16, 207)
+region_rect = Rect2(0, 0, 16, 147)
 
 [node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
 position = Vector2(240, 73.5)
@@ -123,10 +123,10 @@ shape = SubResource("RectangleShape2D_vxj3g")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
 texture_repeat = 2
-position = Vector2(8, -31.5)
+position = Vector2(8, -1)
 texture = ExtResource("4_4td4w")
 region_enabled = true
-region_rect = Rect2(0, 0, 16, 207)
+region_rect = Rect2(0, 0, 16, 147)
 
 [node name="Middle" type="StaticBody2D" parent="Walls" parent_id_path=PackedInt32Array(4) index="4" unique_id=215694835]
 z_as_relative = false

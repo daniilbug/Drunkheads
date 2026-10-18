@@ -22,6 +22,8 @@ extends Node2D
 @export var wall_sort_with_player := false
 ## Wall and door roots to fade together; their children inherit the transparency.
 @export var wall_transparency_targets: Array[CanvasItem] = []
+## Connected alcoves can keep the room visible while the player is inside them.
+@export var additional_transparency_zones: Array[Area2D] = []
 
 var _wall_transparency_tween: Tween
 
@@ -44,6 +46,9 @@ func _ready() -> void:
 		return
 	_transparency_zone.body_entered.connect(_on_body_entered)
 	_transparency_zone.body_exited.connect(_on_body_exited)
+	for zone in additional_transparency_zones:
+		zone.body_entered.connect(_on_body_entered)
+		zone.body_exited.connect(_on_body_exited)
 
 func get_walls() -> Array[StaticBody2D]:
 	var children = $Walls.get_children()
@@ -123,6 +128,11 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_body_exited(body: Node2D) -> void:
 	if _is_local_player(body):
+		if _transparency_zone.overlaps_body(body):
+			return
+		for zone in additional_transparency_zones:
+			if zone.overlaps_body(body):
+				return
 		reset_wall_visibility()
 
 func reset_wall_visibility() -> void:
