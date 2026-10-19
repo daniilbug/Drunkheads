@@ -64,7 +64,7 @@ position = Vector2(-36, -5)
 position = Vector2(19, -5)
 
 [node name="Headlight" parent="Visuals" index="1" unique_id=770002230]
-position = Vector2(55, -15)
+position = Vector2(73.75, -15)
 
 [node name="DestinationIcon" parent="Visuals" index="3" instance=ExtResource("4_icon")]
 position = Vector2(-41, -26)

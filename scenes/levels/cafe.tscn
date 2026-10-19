@@ -61,8 +61,6 @@ region_rect = Rect2(0, 0, 800, 600)
 script = ExtResource("3_npc_mgr")
 hall_path = NodePath("CafeHall")
 wc_path = NodePath("CafeWC")
-order_on_arrival = true
-leave_after_drink = true
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0"]
 position = Vector2(-220, 371)

@@ -9,8 +9,6 @@ const NPC_SCENE := preload("res://scenes/core/npc.tscn")
 
 @export var hall_path: NodePath = ^"BarHall"
 @export var wc_path: NodePath = ^"BarWC"
-@export var order_on_arrival := false
-@export var leave_after_drink := false
 
 var _spawn_timer := 0.0
 var _available_slots := MAX_NPCS
@@ -38,8 +36,6 @@ func _spawn_npc() -> void:
 	npc.name = str(_next_npc_id)
 	npc.hall_path = hall_path
 	npc.wc_path = wc_path
-	npc.order_on_arrival = order_on_arrival
-	npc.leave_after_drink = leave_after_drink
 	npc.randomize_appearance()
 	_next_npc_id -= 1
 

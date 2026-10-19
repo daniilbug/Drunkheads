@@ -8,6 +8,7 @@ enum State {
 	LOOKING_FOR_SEAT,
 	SITTING,
 	GOING_TO_BARTENDER,
+	WAITING_TO_ORDER,
 	WAITING_FOR_DRINK,
 	DRINKING,
 	GOING_TO_CABIN,
@@ -16,14 +17,11 @@ enum State {
 	LEAVING_CABIN,
 	GOING_TO_SINK,
 	WASHING_HANDS,
-	EXITING,
-	RESTING
+	EXITING
 }
 
 @export var hall_path: NodePath = ^"BarHall"
 @export var wc_path: NodePath = ^"BarWC"
-@export var order_on_arrival := false
-@export var leave_after_drink := false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
 @onready var _level: Level = Level.find_level_node(self)
@@ -49,10 +47,10 @@ const WASHING_DURATION_MS := 3000
 const DRINK_INTERVAL_MS := 5000
 const DRINK_WAIT_TIMEOUT_MS := 11000
 const BENCH_VISIT_CHANCE := 0.33
+# Includes visitors who stop at the bench before entering the bar.
 const BAR_VISIT_CHANCE := 0.80
 const ANOTHER_DRINK_CHANCE := 0.33
 const WC_VISIT_CHANCE := 0.33
-const INTERACTION_DISTANCE := 20.0
 const SEAT_INTERACTION_DISTANCE := 24.0
 const SINK_INTERACTION_DISTANCE := 16.0
 const CABIN_APPROACH_OFFSET := Vector2(40.0, -4.5)
@@ -103,13 +101,12 @@ func _physics_process(delta: float) -> void:
 			if _elapsed_ms >= SITTING_DURATION_MS:
 				_stand_up()
 				state = State.GOING_TO_BARTENDER
+		State.WAITING_TO_ORDER:
+			_waiting_to_order()
 		State.WAITING_FOR_DRINK:
 			_waiting_for_drink()
 		State.DRINKING:
 			_drinking()
-		State.RESTING:
-			if _elapsed_ms >= SITTING_DURATION_MS:
-				_begin_exit()
 		State.USING_CABIN:
 			if _elapsed_ms >= CABIN_DURATION_MS:
 				state = State.LEAVING_CABIN
@@ -151,7 +148,7 @@ func _physics_process(delta: float) -> void:
 
 func _is_navigating() -> bool:
 	return state in [State.GOING_TO_BENCH, State.LOOKING_FOR_SEAT, State.GOING_TO_BARTENDER,
-		State.WAITING_FOR_DRINK, State.GOING_TO_CABIN, State.GOING_TO_SINK, State.EXITING]
+		State.WAITING_TO_ORDER, State.WAITING_FOR_DRINK, State.GOING_TO_CABIN, State.GOING_TO_SINK, State.EXITING]
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	if state in [State.ENTERING_CABIN, State.LEAVING_CABIN] or is_sitting:
@@ -177,13 +174,10 @@ func _move_through_cabin(delta: float) -> void:
 			state = State.GOING_TO_SINK
 
 func _arriving() -> void:
-	if order_on_arrival:
-		state = State.GOING_TO_BARTENDER
-		return
 	var choice := randf()
 	if choice < BENCH_VISIT_CHANCE:
 		state = State.GOING_TO_BENCH
-	elif choice < BENCH_VISIT_CHANCE + BAR_VISIT_CHANCE:
+	elif choice < BAR_VISIT_CHANCE:
 		state = State.LOOKING_FOR_SEAT
 	else:
 		_begin_exit()
@@ -215,15 +209,21 @@ func _set_destination(target: Vector2, arrival_distance: float = 4.0) -> void:
 		nav_agent.target_position = target
 
 func _going_to_bartender() -> void:
-	_set_destination(_bartender.purchase_area.global_position, INTERACTION_DISTANCE)
-	if nav_agent.is_target_reached():
-		var item: BarMenuItem = _bartender.get_menu_items().pick_random()
-		if not _bartender.order_item(self, item):
-			if _elapsed_ms >= DRINK_WAIT_TIMEOUT_MS:
-				_begin_exit()
-			return
-		_set_destination(_bartender.purchase_area.global_position)
-		state = State.WAITING_FOR_DRINK
+	_set_destination(_bartender.purchase_area.global_position)
+	# Use the same reach check as the bartender; a navigation radius can stop too far away.
+	if _bartender.purchase_area.overlaps_area(interaction_area):
+		state = State.WAITING_TO_ORDER
+
+func _waiting_to_order() -> void:
+	if not _bartender.purchase_area.overlaps_area(interaction_area):
+		state = State.GOING_TO_BARTENDER
+		return
+	var item: BarMenuItem = _bartender.get_menu_items().pick_random()
+	if not _bartender.order_item(self, item):
+		if _elapsed_ms >= DRINK_WAIT_TIMEOUT_MS:
+			_begin_exit()
+		return
+	state = State.WAITING_FOR_DRINK
 
 func _waiting_for_drink() -> void:
 	var drinks = _get_drinks_nearby()
@@ -251,12 +251,6 @@ func _drinking() -> void:
 			_finish_drink()
 
 func _finish_drink() -> void:
-	if leave_after_drink:
-		if is_instance_valid(_hands_item):
-			_hands_item.queue_free()
-		_hands_item = null
-		state = State.RESTING
-		return
 	if is_sitting:
 		_stand_up()
 	_hands_item = null
