@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://cwxvyfkjgthba"]
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_8py06"]
-[ext_resource type="Texture2D" uid="uid://bjjar8xskv6s1" path="res://assets/sprites/bar_floor.png" id="2_ecrvg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bar/floor.png" id="2_ecrvg"]
 [ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/room/bar/bar.gd" id="2_ro7p1"]
-[ext_resource type="Texture2D" uid="uid://ck1whxc3d1w5c" path="res://assets/sprites/bar_bg.png" id="3_ayeq0"]
+[ext_resource type="Texture2D" uid="uid://b32l7eodiyj6x" path="res://assets/sprites/bar/counter_background.png" id="3_ayeq0"]
 [ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/room/bar/plant.tscn" id="4_1v61x"]
 [ext_resource type="PackedScene" uid="uid://brrb1kdp2f7ys" path="res://scenes/room/bar/neon_sign.tscn" id="5_6ljkh"]
 [ext_resource type="PackedScene" uid="uid://c1dt3luxyc5sg" path="res://scenes/room/bar/bartender.tscn" id="6_eo0d5"]
@@ -14,10 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://b8unrnh2ptmbw" path="res://scenes/room/bar/window_transparent.tscn" id="11_kd8aa"]
 [ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/room/bar/bar_door.tscn" id="13_eo0d5"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="13_n4oow"]
-[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="13_r35sc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bar/brick.png" id="13_r35sc"]
 [ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/room/bar/dance_floor.tscn" id="13_ro7p1"]
-[ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="16_bxo4q"]
-[ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="16_fsl2a"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bar/window.png" id="16_bxo4q"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bar/roof.png" id="16_fsl2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eoy7c"]
 size = Vector2(320, 4)
@@ -60,7 +60,10 @@ wall_hidden_alpha = 0.0
 wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("BarDoor")])
 
 [node name="Floor" parent="." index="0" unique_id=2]
+texture_repeat = 2
 texture = ExtResource("2_ecrvg")
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 300)
 
 [node name="Top" parent="Walls" parent_id_path=PackedInt32Array(4) index="0" unique_id=5]
 y_sort_enabled = true
@@ -88,7 +91,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 158, 42)
 
 [node name="Menu" parent="Walls/Top" index="4" unique_id=1599645215 instance=ExtResource("10_fsl2a")]
-position = Vector2(-5, -15)
+position = Vector2(-32, -15)
 
 [node name="LeftConnector" type="CollisionShape2D" parent="Walls/Top" index="5" unique_id=3001]
 position = Vector2(-145, 0)
@@ -150,11 +153,8 @@ texture = ExtResource("16_bxo4q")
 hframes = 2
 
 [node name="Roof" type="Sprite2D" parent="Walls/Bottom" index="9" unique_id=710410853]
-texture_repeat = 2
 position = Vector2(0, -89)
 texture = ExtResource("16_fsl2a")
-region_enabled = true
-region_rect = Rect2(0, 0, 340, 32)
 
 [node name="BarSign" parent="Walls/Bottom" index="10" unique_id=1758219415 instance=ExtResource("11_eia43")]
 position = Vector2(127.57077, -12.505554)
@@ -167,10 +167,11 @@ shape = SubResource("RectangleShape2D_bw7fw")
 
 [node name="Sprite" parent="Walls/Left" index="1" unique_id=1016601638]
 texture_repeat = 2
-position = Vector2(-4, 2)
+position = Vector2(-8, -150)
 texture = ExtResource("13_r35sc")
+centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 8, 301)
+region_rect = Rect2(8, 1, 8, 303)
 
 [node name="Right" parent="Walls" parent_id_path=PackedInt32Array(4) index="3" unique_id=11]
 position = Vector2(320, 150)
@@ -180,10 +181,11 @@ shape = SubResource("RectangleShape2D_ht54o")
 
 [node name="Sprite" parent="Walls/Right" index="1" unique_id=1912598871]
 texture_repeat = 2
-position = Vector2(4, 2)
+position = Vector2(0, -150)
 texture = ExtResource("13_r35sc")
+centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 8, 301)
+region_rect = Rect2(0, 1, 8, 303)
 
 [node name="TransparencyZone" parent="." index="2" unique_id=13]
 position = Vector2(160, 150)

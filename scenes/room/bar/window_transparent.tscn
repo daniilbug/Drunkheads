@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/core/light_source.gd" id="lighting_script"]
 [ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
-[ext_resource type="Texture2D" uid="uid://ckiyabi0ajuye" path="res://assets/sprites/window_transparent.png" id="1_uyvff"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bar/window_glass.png" id="1_uyvff"]
 
 [sub_resource type="Gradient" id="Gradient_uyvff"]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c2n6gnfnfbbch"]
 
 [ext_resource type="Script" uid="uid://daqrqknickw75" path="res://scripts/room/bar/chair.gd" id="1_48mhd"]
-[ext_resource type="Texture2D" uid="uid://vrwocusmllgc" path="res://assets/sprites/chair.png" id="2_b8sam"]
+[ext_resource type="Texture2D" uid="uid://dkrcno55v0mfd" path="res://assets/sprites/bar/chair.png" id="2_b8sam"]
 [ext_resource type="PackedScene" path="res://scenes/core/seat.tscn" id="3_seat"]
 
 [node name="Chair" type="Node2D" unique_id=585785857]

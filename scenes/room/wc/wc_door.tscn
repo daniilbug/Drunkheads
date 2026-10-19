@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dqbynlr7e4ivp"]
 
 [ext_resource type="PackedScene" uid="uid://dgjm7b2yaq5kp" path="res://scenes/core/door.tscn" id="1_wcdr"]
-[ext_resource type="Texture2D" uid="uid://xweln8gsygfb" path="res://assets/sprites/wc/door.png" id="2_64jud"]
+[ext_resource type="Texture2D" uid="uid://b1gpewty5lqxm" path="res://assets/sprites/bar/wc_door.png" id="2_64jud"]
 
 [node name="WCDoor" unique_id=1 instance=ExtResource("1_wcdr")]
 

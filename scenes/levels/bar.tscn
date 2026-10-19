@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
 [ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
 [ext_resource type="PackedScene" uid="uid://yyxk8drg18gg" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
-[ext_resource type="PackedScene" uid="uid://dcpll4c8f6iix" path="res://scenes/street/brick_house.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" path="res://scenes/street/bar_brick_house.tscn" id="12_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://bvdxs668pifkp" path="res://scenes/street/lantern.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://csrj85emlopgi" path="res://scenes/street/bench.tscn" id="15_xwirx"]
 [ext_resource type="PackedScene" path="res://scenes/street/bar_traffic_road.tscn" id="16_bar_traffic_road"]

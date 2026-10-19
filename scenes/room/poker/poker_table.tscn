@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cceaouu46sogy"]
 
 [ext_resource type="Script" uid="uid://1bb0m5svgshm" path="res://scripts/minigame/poker/poker_session.gd" id="1_ee1sl"]
-[ext_resource type="Texture2D" uid="uid://ca23hqxll5j0c" path="res://assets/sprites/poker/poker_table.png" id="2_1mlhw"]
+[ext_resource type="Texture2D" uid="uid://b1gd0oab1gd1y" path="res://assets/sprites/bar/poker_table.png" id="2_1mlhw"]
 [ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/room/bar/chair.tscn" id="3_6estj"]
 
 [sub_resource type="RectangleShape2D" id="1"]

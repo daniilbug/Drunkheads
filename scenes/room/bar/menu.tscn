@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://ecv8ygkcr5r3"]
 
-[ext_resource type="Texture2D" uid="uid://bq853br3xmoa5" path="res://assets/sprites/menu.png" id="1_mxvjf"]
+[ext_resource type="Texture2D" uid="uid://mqakadelrrra" path="res://assets/sprites/bar/menu.png" id="1_mxvjf"]
 
 [node name="Menu" type="Node2D" unique_id=1599645215]
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=893688161]
 light_mask = 2
-position = Vector2(0, -6)
-scale = Vector2(0.3, 0.3)
+texture_filter = 1
+position = Vector2(0, -15)
+scale = Vector2(0.333333333, 0.333333333)
 texture = ExtResource("1_mxvjf")

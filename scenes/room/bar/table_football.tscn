@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://wbgbdugtw7ni"]
 
 [ext_resource type="Script" uid="uid://mc00e6kac7dy" path="res://scripts/minigame/table-football/table_football_interact.gd" id="1_5j7js"]
-[ext_resource type="Texture2D" uid="uid://5x7qhcwjf6wy" path="res://assets/sprites/table_football.png" id="2_xsr0x"]
+[ext_resource type="Texture2D" uid="uid://deync3tbglcss" path="res://assets/sprites/bar/table_football.png" id="2_xsr0x"]
 [ext_resource type="PackedScene" uid="uid://ciynetx522t16" path="res://scenes/core/lamp.tscn" id="3_ytu1d"]
 
 [sub_resource type="RectangleShape2D" id="1"]
