@@ -61,7 +61,7 @@ func _request_occupy() -> void:
 	if (
 		(is_occupied and occupant_name != player.name)
 		or not is_player_in_reach(player)
-		or player.global_position.distance_to(global_position) > 32.0
+		or (interaction_radius <= 0.0 and player.global_position.distance_to(global_position) > 32.0)
 	):
 		_reject_occupy.rpc_id(peer_id)
 		return

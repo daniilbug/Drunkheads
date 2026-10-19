@@ -66,7 +66,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 113, 32)
 
 [node name="BuildingWall" type="Sprite2D" parent="Walls/Top/Sprite"]
-light_mask = 2
+light_mask = 1
 show_behind_parent = true
 texture_repeat = 2
 position = Vector2(0.5, -8)
@@ -76,7 +76,7 @@ region_enabled = true
 region_rect = Rect2(0, 19, 113, 40)
 
 [node name="Sprite" parent="Walls/Bottom" index="1"]
-light_mask = 2
+light_mask = 1
 texture_repeat = 2
 position = Vector2(-107, -69)
 texture = ExtResource("front")
@@ -86,7 +86,7 @@ region_rect = Rect2(0, 28, 213, 72)
 material = SubResource("FrontClip")
 
 [node name="Sprite" parent="Walls/Left" index="1"]
-light_mask = 2
+light_mask = 1
 texture_repeat = 2
 position = Vector2(-8, -138)
 texture = ExtResource("side")
@@ -95,7 +95,7 @@ region_enabled = true
 region_rect = Rect2(56, 19, 8, 241)
 
 [node name="Sprite" parent="Walls/Right" index="1"]
-light_mask = 2
+light_mask = 1
 texture_repeat = 2
 position = Vector2(0, -126)
 texture = ExtResource("side")

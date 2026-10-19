@@ -24,7 +24,6 @@ position = Vector2(0, 2)
 
 [node name="SeatRight" parent="." unique_id=889112035 instance=ExtResource("2_seat")]
 position = Vector2(13, 2)
-seat_position_offset = Vector2(0, 2)
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=333054723]
 position = Vector2(0, -6)

@@ -20,11 +20,12 @@ automatic_lighting = true
 
 [node name="Sprite" parent="." index="0"]
 modulate = Color(1, 1, 1, 1)
-light_mask = 2
+light_mask = 1
 position = Vector2(0, 0)
 texture = ExtResource("1_texture")
 
 [node name="Light" parent="." index="1"]
+range_item_cull_mask = 1
 color = Color(1, 0.91, 0.74, 1)
 energy = 0.7
 texture = SubResource("Texture_sign")

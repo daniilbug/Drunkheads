@@ -27,7 +27,10 @@ shape = SubResource("TableShape")
 position = Vector2(0, -3)
 
 [node name="ChairTop" parent="." instance=ExtResource("chair")]
-position = Vector2(0, -14)
+position = Vector2(0, -9)
+
+[node name="Seat" parent="ChairTop" index="1"]
+interaction_radius = 12.0
 
 [node name="ChairBottom" parent="." instance=ExtResource("chair")]
 position = Vector2(0, 18)
