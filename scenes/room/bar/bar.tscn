@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://cwxvyfkjgthba"]
 
 [ext_resource type="PackedScene" uid="uid://c4kpd1fxe2rj3" path="res://scenes/core/room.tscn" id="1_8py06"]
-[ext_resource type="Texture2D" path="res://assets/sprites/bar/floor.png" id="2_ecrvg"]
+[ext_resource type="Texture2D" uid="uid://c51owmopbvorc" path="res://assets/sprites/bar/floor.png" id="2_ecrvg"]
 [ext_resource type="Script" uid="uid://c63lg6pil0m6o" path="res://scripts/room/bar/bar.gd" id="2_ro7p1"]
 [ext_resource type="Texture2D" uid="uid://b32l7eodiyj6x" path="res://assets/sprites/bar/counter_background.png" id="3_ayeq0"]
 [ext_resource type="PackedScene" uid="uid://bdl3xq7nt8huj" path="res://scenes/room/bar/plant.tscn" id="4_1v61x"]
@@ -14,10 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://b8unrnh2ptmbw" path="res://scenes/room/bar/window_transparent.tscn" id="11_kd8aa"]
 [ext_resource type="PackedScene" uid="uid://ii7raidpoyu3" path="res://scenes/room/bar/bar_door.tscn" id="13_eo0d5"]
 [ext_resource type="Shader" uid="uid://bmfsoiobcejig" path="res://assets/shaders/clip.gdshader" id="13_n4oow"]
-[ext_resource type="Texture2D" path="res://assets/sprites/bar/brick.png" id="13_r35sc"]
+[ext_resource type="Texture2D" uid="uid://ystk7fujp6rr" path="res://assets/sprites/bar/brick.png" id="13_r35sc"]
 [ext_resource type="PackedScene" uid="uid://dck66yt4prbuv" path="res://scenes/room/bar/dance_floor.tscn" id="13_ro7p1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/bar/window.png" id="16_bxo4q"]
-[ext_resource type="Texture2D" path="res://assets/sprites/bar/roof.png" id="16_fsl2a"]
+[ext_resource type="Texture2D" uid="uid://df013y38rqngb" path="res://assets/sprites/bar/window.png" id="16_bxo4q"]
+[ext_resource type="Texture2D" uid="uid://bnhnvwesnoq41" path="res://assets/sprites/bar/roof.png" id="16_fsl2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eoy7c"]
 size = Vector2(320, 4)
@@ -57,7 +57,7 @@ y_sort_enabled = true
 script = ExtResource("2_ro7p1")
 room_size = Vector2(320, 300)
 wall_hidden_alpha = 0.0
-wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("BarDoor")])
+wall_transparency_targets = [NodePath("Walls/Bottom"), NodePath("BarDoor")]
 
 [node name="Floor" parent="." index="0" unique_id=2]
 texture_repeat = 2

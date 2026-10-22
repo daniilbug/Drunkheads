@@ -6,32 +6,31 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from home_furniture_palette import EDGE, HANDLE, TOP, WOOD
+
 
 SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
+
+
+def draw_glass(draw: ImageDraw.ImageDraw, rect: tuple[int, int, int, int]) -> None:
+    """Warm translucent panes and soft reflections shared with the balcony door."""
+    x, y, width, height = rect
+    draw.rectangle((x, y, x + width - 1, y + height - 1), fill=(230, 194, 122, 58))
+    if width >= 5 and height >= 6:
+        draw.line((x + 1, y + 2, x + 1, y + height - 3), fill=(255, 238, 200, 90))
+        draw.line((x + 2, y + 2, x + min(width - 2, 5), y + 2), fill=(255, 238, 200, 65))
 
 
 def generate() -> Image.Image:
     image = Image.new("RGBA", (28, 20))
     draw = ImageDraw.Draw(image)
-    dark, wood, light = "#604738", "#916e53", "#b38c68"
-
-    # Wooden frame with two equal glazed leaves.
-    draw.rectangle((1, 0, 26, 17), fill=dark)
-    draw.rectangle((2, 1, 25, 16), fill=wood)
-    draw.line((2, 1, 25, 1), fill=light)
-    for left in (3, 15):
-        draw.rectangle((left, 2, left + 9, 15), fill=dark)
-        draw.rectangle((left + 1, 3, left + 8, 14), fill=(141, 210, 227, 140))
-
-    # Paired handles sit on the uniform glass, inset from the central frame.
-    draw.line((13, 2, 13, 15), fill=light)
+    draw.rectangle((1, 0, 26, 17), fill=WOOD)
+    for x in (4, 16):
+        draw_glass(draw, (x, 3, 8, 12))
+    draw.rectangle((0, 17, 27, 18), fill=TOP)
+    draw.line((0, 19, 27, 19), fill=EDGE)
     for x in (10, 17):
-        draw.line((x, 10, x, 12), fill="#d6bb8d")
-
-    # A shallow sill provides a clear lower edge without a cast shadow.
-    draw.rectangle((0, 17, 27, 19), fill=dark)
-    draw.line((1, 17, 26, 17), fill=light)
-    draw.line((1, 18, 26, 18), fill=wood)
+        draw.line((x, 10, x, 12), fill=HANDLE)
     return image
 
 

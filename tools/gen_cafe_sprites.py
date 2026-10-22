@@ -131,19 +131,30 @@ def bench():
     save(im,'bench')
 
 def window():
-    """Wider two-pane cafe window: dark wood framing and warm translucent glass."""
+    """Flat sage frame with the existing warm translucent glass and reflections."""
     im,d=canvas(24,24)
-    box(d,(0,0,23,23),'wood_outline')
-    box(d,(1,1,22,22),'wood_dark')
-    d.line((1,1,22,1),fill=P['wood'])
+    box(d,(0,0,23,23),'sage')
     for x in (2,13):
         box(d,(x,2,x+8,21),(230,194,122,58))
         d.line((x+1,4,x+1,17),fill=(255,238,200,90))
         d.line((x+2,4,x+5,4),fill=(255,238,200,65))
-    box(d,(11,2,12,21),'wood_outline')
-    d.line((11,2,11,21),fill=P['wood'])
-    d.line((1,22,22,22),fill=P['wood'])
     save(im,'window')
+
+def house_windows():
+    """Two 16x24 glass frames, with separate interiors for non-enterable houses."""
+    im,d=canvas(32,24)
+    interior,backing=canvas(32,24)
+    for frame in range(2):
+        x=frame*16
+        box(d,(x,0,x+15,23),'sage')
+        for left,right in ((2,6),(9,13)):
+            box(d,(x+left,2,x+right,21),(230,194,122,58))
+            d.line((x+left+1,4,x+left+1,17),fill=(255,238,200,90))
+            d.line((x+left+2,4,x+right,4),fill=(255,238,200,65))
+            box(backing,(x+left,2,x+right,21),'#424a43' if frame==0 else '#bda77f')
+            box(backing,(x+left,18,x+right,21),'#3d453e' if frame==0 else '#a6916d')
+    save(im,'house_window')
+    save(interior,'house_window_backing')
 
 def barista():
     im,d=canvas(24,20)
@@ -235,41 +246,31 @@ def cabin():
         box(d,(x,27,x+1,29),'ink');d.point((x,27),fill=P['steel'])
     save(im,'wc_cabin')
 
+def open_door_frame(im,d):
+    """A 16x28 opening with a one-pixel sage frame on all four sides."""
+    box(d,(32,0,47,27),'sage')
+    box(d,(33,1,46,26),(0,0,0,0))
+    leaf=im.crop((0,0,16,28)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    im.paste(leaf,(48,0))
+
 def door():
+    """Flat solid WC leaf; two 32x28 frames, with real transparent passage."""
     im,d=canvas(64,28)
-    for frame in range(2):
-        x=frame*32
-        box(d,(x,0,x+15,27),'wood_dark')
-        if frame==0:
-            box(d,(x+1,1,x+14,26),'sage_dark');box(d,(x+2,2,x+13,25),'sage')
-            d.point((x+12,18),fill=P['silver'])
-        else:
-            box(d,(x+1,1,x+14,26),'ink')
-            leaf=im.crop((0,0,16,28)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-            im.paste(leaf,(x+16,0))
+    box(d,(0,0,15,27),'sage')
+    d.point((12,18),fill=P['silver'])
+    open_door_frame(im,d)
     save(im,'wc_door')
 
 def entrance_door():
-    """Two 32x28 frames, retaining the inherited 16-pixel entrance opening."""
+    """Glazed sage entrance; preserve the closed leaf and use a 1px open frame."""
     im,d=canvas(64,28)
-    for frame in range(2):
-        x=frame*32
-        box(d,(x,0,x+15,27),'wood_outline')
-        box(d,(x+1,1,x+14,26),'wood_dark')
-        d.line((x+1,1,x+14,1),fill=P['wood'])
-        if frame==0:
-            box(d,(x+2,2,x+13,25),'wood_outline')
-            box(d,(x+3,3,x+12,22),(230,194,122,58))
-            d.line((x+4,5,x+4,18),fill=(255,238,200,90))
-            d.line((x+5,5,x+8,5),fill=(255,238,200,65))
-            box(d,(x+3,23,x+12,25),'wood_dark')
-            d.line((x+3,23,x+12,23),fill=P['wood'])
-            box(d,(x+12,15,x+13,18),'steel');d.line((x+12,15,x+12,17),fill=P['silver'])
-        else:
-            # Fully open against the wall, like the Bar and Home doors.
-            box(d,(x+2,2,x+13,25),(0,0,0,0))
-            leaf=im.crop((0,0,16,28)).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-            im.paste(leaf,(x+16,0))
+    box(d,(0,0,15,27),'sage')
+    box(d,(3,3,12,22),(230,194,122,58))
+    d.line((4,5,4,18),fill=(255,238,200,90))
+    d.line((5,5,8,5),fill=(255,238,200,65))
+    box(d,(12,15,13,18),'steel')
+    d.line((12,15,12,17),fill=P['silver'])
+    open_door_frame(im,d)
     save(im,'entrance_door')
 
 def sign():
@@ -305,7 +306,7 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     tiles('floor','#d7c8ad','#e1d5be');tiles('wc_floor','#dfd8c4','#eae4d4')
     wall('wall',32,32);wall('wc_wall',32,42)
-    facade_brick();roof_tiles();table();chair();bench();window();barista();machine();coffee();sink();trash();cabin();door();entrance_door();sign();menu()
-    print('Generated 21 Cafe textures in',OUT)
+    facade_brick();roof_tiles();table();chair();bench();window();house_windows();barista();machine();coffee();sink();trash();cabin();door();entrance_door();sign();menu()
+    print('Generated 23 Cafe textures in',OUT)
 
 if __name__=='__main__':main()

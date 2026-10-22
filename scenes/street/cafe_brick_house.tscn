@@ -1,0 +1,87 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://dcpll4c8f6iix" path="res://scenes/street/brick_house.tscn" id="house"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="brick"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/roof_tiles.png" id="roof"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/house_window.png" id="window"]
+[ext_resource type="Texture2D" path="res://assets/sprites/cafe/house_window_backing.png" id="interior"]
+
+[node name="CafeBrickHouse" instance=ExtResource("house")]
+
+[node name="House" parent="." index="0"]
+texture = ExtResource("brick")
+
+[node name="Roof" parent="." index="1"]
+texture = ExtResource("roof")
+
+[node name="Window1" parent="." index="3"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window1"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window2" parent="." index="4"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window2"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window3" parent="." index="5"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window3"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window4" parent="." index="6"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window4"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window5" parent="." index="7"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window5"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window6" parent="." index="8"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window6"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window7" parent="." index="9"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window7"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window8" parent="." index="10"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window8"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2
+
+[node name="Window9" parent="." index="11"]
+texture = ExtResource("window")
+
+[node name="Interior" type="Sprite2D" parent="Window9"]
+show_behind_parent = true
+texture = ExtResource("interior")
+hframes = 2

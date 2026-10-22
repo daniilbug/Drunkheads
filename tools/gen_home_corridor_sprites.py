@@ -3,8 +3,8 @@
 
 Two 48x28 RGBA frames retain the approved 16-pixel wooden leaf. The open
 leaf moves right, like the existing balcony door, while a thin doorway
-frame stays at the opening. Colours come from the existing
-entrance. Review sheets must be saved outside the source sprite directory.
+frame stays at the opening. Wood matches the home furniture; metal details
+come from the existing entrance. Review sheets must be saved outside the source sprite directory.
 """
 
 import argparse
@@ -13,6 +13,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 from gen_home_entrance_sprites import PALETTE, tiled
+from home_furniture_palette import WOOD
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +26,7 @@ def door_panel() -> Image.Image:
     """Unnumbered, unoutlined leaf with a raised handle."""
     image = Image.new("RGBA", (20, 28))
     draw = ImageDraw.Draw(image)
-    draw.rectangle((2, 0, 17, 27), fill=PALETTE["brown"])
+    draw.rectangle((2, 0, 17, 27), fill=WOOD)
     draw.point((9, 12), fill=PALETTE["steel_dark"])
     draw.rectangle((15, 14, 16, 18), fill=PALETTE["steel_frame"])
     draw.line((13, 15, 16, 15), fill=PALETTE["silver"])
@@ -40,7 +41,7 @@ def apartment_door() -> Image.Image:
     opened = Image.new("RGBA", FRAME_SIZE)
     opened.alpha_composite(panel.crop((2, 0, 18, 28)), (24, 0))
     draw = ImageDraw.Draw(opened)
-    draw.rectangle((8, 0, 23, 27), outline=PALETTE["brown_dark"])
+    draw.rectangle((8, 0, 23, 27), outline=WOOD)
     image.alpha_composite(opened, (FRAME_SIZE[0], 0))
     return image
 

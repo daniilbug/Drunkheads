@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from home_furniture_palette import EDGE, HANDLE, SEAM, TOP, WOOD
+
 
 SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 
@@ -13,32 +15,15 @@ SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 def generate() -> Image.Image:
     image = Image.new("RGBA", (24, 32))
     draw = ImageDraw.Draw(image)
-    dark, wood, light = "#4d3428", "#76533a", "#9a7250"
-
-    # Solid feet, inset equally from the outer edges.
+    # Preserve the symmetrical silhouette, using broad planes without a border.
     for left in (3, 18):
-        draw.rectangle((left, 28, left + 2, 31), fill=dark)
-
-    draw.rectangle((0, 0, 23, 29), fill=dark)
-    draw.rectangle((1, 1, 22, 28), fill=wood)
-
-    # Shallow top plane above the front, matching the bedside cabinet.
-    draw.line((1, 1, 22, 1), fill=light)
-    draw.line((1, 2, 1, 3), fill=light)
-    draw.line((22, 2, 22, 3), fill=light)
-    draw.line((0, 4, 23, 4), fill=dark)
-
-    # A continuous front with one straight, centered seam between equal doors.
-    draw.rectangle((2, 6, 21, 26), fill=dark)
-    draw.rectangle((3, 7, 20, 25), fill="#896344")
-    for left in (4, 15):
-        draw.line((left, 7, left + 4, 7), fill=light)
-    draw.rectangle((11, 6, 12, 26), fill=dark)
-
-    # Matching brass pulls placed symmetrically beside the seam.
+        draw.rectangle((left, 28, left + 2, 31), fill=EDGE)
+    draw.rectangle((0, 0, 23, 29), fill=WOOD)
+    draw.rectangle((0, 0, 23, 3), fill=TOP)
+    draw.rectangle((11, 5, 12, 27), fill=SEAM)
+    draw.rectangle((0, 28, 23, 29), fill=EDGE)
     for x in (8, 15):
-        draw.line((x, 16, x, 19), fill="#d6bb8d")
-    draw.line((1, 28, 22, 28), fill=light)
+        draw.line((x, 16, x, 19), fill=HANDLE)
     return image
 
 

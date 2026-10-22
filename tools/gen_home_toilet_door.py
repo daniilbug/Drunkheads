@@ -4,14 +4,13 @@
 import argparse
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageColor
+
+from home_furniture_palette import WOOD
 
 
 SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 SOURCE = SPRITES / "balcony_door.png"
-GLASS = (141, 210, 227, 140)
-UPPER_WOOD = (193, 158, 122, 255)
-LOWER_WOOD = (177, 140, 105, 255)
 
 
 def make_door() -> Image.Image:
@@ -21,11 +20,12 @@ def make_door() -> Image.Image:
         raise ValueError(f"Expected a 64×28 balcony door sprite, got {door.size}")
 
     pixels = door.load()
+    wood = ImageColor.getcolor(WOOD, "RGBA")
     replaced = 0
     for y in range(door.height):
         for x in range(door.width):
-            if pixels[x, y] == GLASS:
-                pixels[x, y] = UPPER_WOOD if y < 18 else LOWER_WOOD
+            if 0 < pixels[x, y][3] < 255:
+                pixels[x, y] = wood
                 replaced += 1
     if replaced == 0:
         raise ValueError("Balcony door has no glass pixels to replace")

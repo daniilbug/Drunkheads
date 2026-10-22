@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from home_furniture_palette import WOOD
+
 
 SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 # Relative to BalconyDoor; the existing panel occupies (-7, -30)..(7, -3).
@@ -16,7 +18,7 @@ def make_frame() -> Image.Image:
     """One-pixel frame matching the closed panel's exact 15x28 outline."""
     image = Image.new("RGBA", (15, 28))
     draw = ImageDraw.Draw(image)
-    draw.rectangle((0, 0, 14, 27), outline="#604738")
+    draw.rectangle((0, 0, 14, 27), outline=WOOD)
     return image
 
 

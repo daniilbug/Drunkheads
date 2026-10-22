@@ -6,31 +6,22 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from home_furniture_palette import EDGE, SURFACE, TOP, WOOD
+
 
 SPRITES = Path(__file__).resolve().parents[1] / "assets/sprites/home"
-WOOD_DARK = "#70543e"
-WOOD = "#a27d5e"
-WOOD_LIGHT = "#bf9a73"
-FABRIC_DARK = "#c7b18f"
-FABRIC = "#d9c7a4"
-FABRIC_LIGHT = "#e8d9ba"
 
 
 def make_table() -> Image.Image:
     image = Image.new("RGBA", (40, 20))
     draw = ImageDraw.Draw(image)
-    # 1.2 times smaller than the bar table, retaining crisp pixel borders.
-    draw.rectangle((3, 17, 4, 19), fill=WOOD_DARK)
-    draw.rectangle((35, 17, 36, 19), fill=WOOD_DARK)
-    draw.rectangle((1, 14, 38, 17), fill=WOOD_DARK)
-    draw.line((2, 15, 37, 15), fill=WOOD)
-    draw.rectangle((0, 0, 39, 14), fill=WOOD_DARK)
-    draw.rectangle((1, 1, 38, 13), fill=WOOD)
-    draw.line((1, 1, 38, 1), fill=WOOD_LIGHT)
-    draw.rectangle((2, 2, 37, 12), fill="#d9c7a4")
-    draw.line((2, 2, 37, 2), fill="#e8d9ba")
-    draw.line((2, 3, 2, 11), fill="#e8d9ba")
-    draw.line((3, 12, 37, 12), fill="#c7b18f")
+    # Keep the original silhouette; separate top, edge and apron by tone.
+    for x in (3, 35):
+        draw.rectangle((x, 17, x + 1, 19), fill=EDGE)
+    draw.rectangle((1, 14, 38, 17), fill=EDGE)
+    draw.rectangle((0, 0, 39, 13), fill=SURFACE)
+    draw.line((0, 14, 39, 14), fill=WOOD)
+    draw.line((1, 15, 38, 15), fill=WOOD)
     return image
 
 
@@ -38,22 +29,23 @@ def make_chair(north: bool, occupied: bool) -> Image.Image:
     image = Image.new("RGBA", (14, 16))
     draw = ImageDraw.Draw(image)
     for x in (2, 10):
-        draw.rectangle((x, 10, x + 1, 15), fill=WOOD_DARK)
+        draw.rectangle((x, 10, x + 1, 15), fill=EDGE)
 
     if north:
-        # From behind, the solid backrest completely hides the seat cushion.
+        # From behind, the solid backrest completely hides the seat.
         # Both occupancy frames share this silhouette.
-        draw.rectangle((2, 3, 11, 11), fill=WOOD_DARK)
-        draw.rectangle((3, 4, 10, 10), fill=WOOD)
-        draw.line((3, 4, 10, 4), fill=WOOD_LIGHT)
+        draw.rectangle((2, 3, 11, 11), fill=WOOD)
+        draw.rectangle((2, 3, 11, 4), fill=SURFACE)
+        draw.line((2, 11, 11, 11), fill=EDGE)
     else:
-        draw.rectangle((2, 1, 11, 8), fill=WOOD_DARK)
-        draw.rectangle((3, 2, 10, 7), fill=WOOD)
-        draw.line((3, 2, 10, 2), fill=WOOD_LIGHT)
-        draw.rectangle((1, 8, 12, 11), fill=WOOD_DARK)
-        draw.rectangle((2, 8, 11, 10), fill=FABRIC)
-        draw.line((2, 8, 11, 8), fill=FABRIC_DARK if occupied else FABRIC_LIGHT)
-        draw.line((2, 11, 11, 11), fill=WOOD)
+        draw.rectangle((2, 1, 11, 8), fill=WOOD)
+        draw.rectangle((2, 1, 11, 2), fill=TOP)
+        draw.line((2, 7, 11, 7), fill=EDGE)
+        draw.rectangle((1, 8, 12, 9), fill=SURFACE)
+        if occupied:
+            draw.line((1, 8, 12, 8), fill=TOP)
+        draw.line((1, 10, 12, 10), fill=WOOD)
+        draw.line((1, 11, 12, 11), fill=EDGE)
     return image
 
 

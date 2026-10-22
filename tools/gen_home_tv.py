@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from home_furniture_palette import EDGE, TOP, WOOD
+
 
 OUTPUT = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 
@@ -19,12 +21,12 @@ def generate_tv() -> Image.Image:
     highlight = "#65737a"
 
     # The cabinet faces the sofa too: the viewer sees a plain wooden back.
-    wood_outline, wood = "#4d3428", "#76533a"
     draw.rectangle((3, 31, 44, 33), fill=(34, 26, 24, 48))
-    draw.rectangle((5, 30, 8, 33), fill=wood_outline)
-    draw.rectangle((39, 30, 42, 33), fill=wood_outline)
-    draw.rectangle((2, 20, 45, 31), fill=wood_outline)
-    draw.rectangle((3, 21, 44, 30), fill=wood)
+    draw.rectangle((5, 30, 8, 33), fill=EDGE)
+    draw.rectangle((39, 30, 42, 33), fill=EDGE)
+    draw.rectangle((2, 20, 45, 31), fill=WOOD)
+    draw.rectangle((2, 20, 45, 22), fill=TOP)
+    draw.line((2, 31, 45, 31), fill=EDGE)
 
     # The smaller set keeps the original casing and rear-panel details.
     draw.rectangle((16, 16, 17, 21), fill=outline)

@@ -6,6 +6,9 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from gen_home_window import draw_glass
+from home_furniture_palette import HANDLE, WOOD
+
 
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "assets/sprites/home"
 
@@ -60,20 +63,10 @@ def make_side_railing() -> Image.Image:
 
 
 def draw_door_panel(draw: ImageDraw.ImageDraw, x: int) -> None:
-    dark = "#604738"
-    wood = "#916e53"
-    wood_light = "#b38c68"
-    glass = (141, 210, 227, 140)
-
-    draw.rectangle((x, 0, x + 14, 27), fill=dark)
-    draw.rectangle((x + 1, 1, x + 13, 26), fill=wood)
-    draw.line((x + 1, 1, x + 12, 1), fill=wood_light)
-    draw.rectangle((x + 2, 3, x + 12, 16), fill=dark)
-    draw.rectangle((x + 3, 4, x + 11, 15), fill=glass)
-    draw.rectangle((x + 2, 18, x + 12, 24), fill=dark)
-    draw.rectangle((x + 3, 19, x + 11, 23), fill=glass)
-    draw.rectangle((x + 2, 26, x + 12, 27), fill=dark)
-    draw.point((x + 12, 18), fill="#d6bb8d")
+    draw.rectangle((x, 0, x + 14, 27), fill=WOOD)
+    draw_glass(draw, (x + 3, 4, 9, 12))
+    draw_glass(draw, (x + 3, 19, 9, 5))
+    draw.point((x + 12, 18), fill=HANDLE)
 
 
 def make_door() -> Image.Image:

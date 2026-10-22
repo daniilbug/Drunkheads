@@ -7,12 +7,10 @@
 [ext_resource type="Script" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
-[ext_resource type="PackedScene" path="res://scenes/street/brick_house.tscn" id="12_eb6dy"]
+[ext_resource type="PackedScene" path="res://scenes/street/cafe_brick_house.tscn" id="12_eb6dy"]
 [ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_bench.tscn" id="15_xwirx"]
 [ext_resource type="PackedScene" path="res://scenes/street/bar_traffic_road.tscn" id="16_bar_traffic_road"]
-[ext_resource type="Texture2D" path="res://assets/sprites/cafe/facade_brick.png" id="17_facade"]
-[ext_resource type="Texture2D" path="res://assets/sprites/cafe/roof_tiles.png" id="18_roof"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_tree.tscn" id="19_tree"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_shrub.tscn" id="20_shrub"]
 
@@ -92,20 +90,8 @@ left_lane_end_from_left = -64.0
 [node name="BrickHouse1" parent="." index="19" instance=ExtResource("12_eb6dy")]
 position = Vector2(-87.75, 359.5)
 
-[node name="House" parent="BrickHouse1" index="0"]
-texture = ExtResource("17_facade")
-
-[node name="Roof" parent="BrickHouse1" index="1"]
-texture = ExtResource("18_roof")
-
 [node name="BrickHouse2" parent="." index="20" instance=ExtResource("12_eb6dy")]
 position = Vector2(340.75, 360)
-
-[node name="House" parent="BrickHouse2" index="0"]
-texture = ExtResource("17_facade")
-
-[node name="Roof" parent="BrickHouse2" index="1"]
-texture = ExtResource("18_roof")
 
 [node name="Lantern1" parent="." index="21" instance=ExtResource("13_trceg")]
 position = Vector2(1.75, 367.5)
