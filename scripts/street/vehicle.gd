@@ -14,6 +14,8 @@ const ARRIVAL_TOLERANCE := 0.25
 @export var wheel_reference_speed := 70.0
 @export var obstacle_lookahead := 60.0
 @export var obstacle_gap := 4.0
+@export var honk_delay := 0.5
+@export var honk_interval := 5.0
 @export var interaction_detectable := false
 @export var randomize_appearance_on_spawn := false
 
@@ -48,6 +50,7 @@ const ARRIVAL_TOLERANCE := 0.25
 @onready var _front_wheel: AnimatedSprite2D = $Visuals/Body/FrontWheel
 @onready var _interaction: VehicleInteraction = $VehicleInteraction
 @onready var _driving_audio: AudioStreamPlayer2D = get_node_or_null("DrivingAudio")
+@onready var _honk_audio: AudioStreamPlayer2D = $HonkAudio
 @onready var _navigation_agent: NavigationAgent2D = $NavigationAgent
 @onready var _forward_cast: ShapeCast2D = $ForwardCast
 
@@ -57,6 +60,8 @@ var _pending_delta := 0.0
 var _pending_speed := 0.0
 var _pending_clearance := 0.0
 var _world_units_per_local := 1.0
+var _blocked_time := 0.0
+var _honk_cooldown := 0.0
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
@@ -92,6 +97,7 @@ func configure_route(start: Vector2, destination: Vector2, speed: float, stop_at
 		_navigation_agent.target_position = get_parent().to_global(destination)
 	facing_right = destination.x >= start.x
 	current_speed = 0.0
+	_reset_honk()
 	travel_state = TravelState.DRIVING
 
 func randomize_appearance() -> void:
@@ -148,12 +154,34 @@ func _apply_safe_velocity(safe_velocity: Vector2) -> void:
 	current_speed = step / maxf(_pending_delta, 0.001)
 	if step >= remaining - ARRIVAL_TOLERANCE:
 		_finish_route()
+	else:
+		_update_honk(_pending_delta)
+
+func _update_honk(delta: float) -> void:
+	# Destination stops and normal braking must not trigger the horn.
+	if not _forward_cast.is_colliding() or current_speed >= MIN_MOVING_SPEED:
+		_reset_honk()
+		return
+	_blocked_time += delta
+	_honk_cooldown = maxf(_honk_cooldown - delta, 0.0)
+	if _blocked_time >= honk_delay and _honk_cooldown <= 0.0:
+		_play_honk.rpc()
+		_honk_cooldown = maxf(honk_interval, _honk_audio.stream.get_length())
+
+func _reset_honk() -> void:
+	_blocked_time = 0.0
+	_honk_cooldown = 0.0
+
+@rpc("authority", "call_local", "reliable")
+func _play_honk() -> void:
+	_honk_audio.play()
 
 func _finish_route() -> void:
 	position = _destination
 	_navigation_agent.velocity = Vector2.ZERO
 	current_speed = 0.0
 	travel_state = TravelState.STOPPED
+	_reset_honk()
 	route_finished.emit()
 
 func request_interaction(player: Player) -> void:

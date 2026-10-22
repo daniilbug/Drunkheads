@@ -6,6 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dlyr3if7ux7c8" path="res://assets/sprites/street/car_wheel_frames.tres" id="3_wheels"]
 [ext_resource type="Script" path="res://scripts/street/vehicle_interaction.gd" id="4_interaction"]
 [ext_resource type="AudioStream" uid="uid://dxglln3w1shh" path="res://assets/audio/car/car.mp3" id="7_car_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/car/honk.mp3" id="8_honk_audio"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(54, 14)
@@ -118,3 +119,11 @@ switch_on_hour = 18.0
 switch_off_hour = 8.0
 fade_duration_hours = 2.0
 light_sources = Array[NodePath]([NodePath("../Headlight")])
+
+[node name="HonkAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -10)
+stream = ExtResource("8_honk_audio")
+volume_db = -10.0
+max_distance = 500.0
+bus = &"World"
+playback_type = 1
