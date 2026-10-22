@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8vq2800afair" path="res://scripts/core/phone.gd" id="1_phone"]
 [ext_resource type="Script" uid="uid://btx7catsvl3m5" path="res://scripts/core/phone_music_wave.gd" id="2_wave"]
+[ext_resource type="PackedScene" path="res://scenes/core/phone_frame.tscn" id="3_frame"]
 [ext_resource type="Texture2D" uid="uid://bct6dk4405jwl" path="res://assets/sprites/phone/wallpaper_midnight.png" id="4_midnight"]
 [ext_resource type="Texture2D" uid="uid://dwuebvrnq4psu" path="res://assets/sprites/phone/wallpaper_amber.png" id="5_amber"]
 [ext_resource type="Texture2D" uid="uid://bk3pkq86ix534" path="res://assets/sprites/phone/wallpaper_sage.png" id="6_sage"]
@@ -56,7 +57,11 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0, 0, 0.7)
 
+[node name="Frame" parent="Root" instance=ExtResource("3_frame")]
+layout_mode = 1
+
 [node name="Screen" type="ColorRect" parent="Root" unique_id=1040362872]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

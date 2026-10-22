@@ -4,6 +4,7 @@ extends StaticBody2D
 signal item_purchased(item: BarMenuItem)
 
 @export var serves_coffee := false
+@export var menu_scene: PackedScene
 
 static var _drink_id := 0
 
@@ -21,15 +22,15 @@ var _pending_cost := 0.0
 var _pending_player: Player
 
 func get_menu_items() -> Array[BarMenuItem]:
-	return BarMenu.coffee_menu if serves_coffee else BarMenu.get_all_items()
+	return CafeMenu.coffee_menu if serves_coffee else BarMenu.get_all_items()
 
 func order(player: Player) -> void:
 	if _menu_open or _purchase_pending or player.is_world_input_blocked:
 		return
-	var menu: BarMenu = preload("res://scenes/room/bar/bar_menu.tscn").instantiate()
+	var menu := menu_scene.instantiate() as OrderMenu
 	add_child(menu)
 	_menu_open = true
-	menu.open(player, serves_coffee)
+	menu.open(player)
 	menu.item_selected.connect(func(item: BarMenuItem): order_item(player, item))
 	menu.closed.connect(func(): _on_menu_closed(menu))
 
@@ -110,6 +111,6 @@ func _process(delta: float) -> void:
 	var cycle := fmod(_anim_t, 3.0)
 	sprite.frame = 1 if cycle < 0.4 else 0
 	
-func _on_menu_closed(menu: BarMenu) -> void:
+func _on_menu_closed(menu: OrderMenu) -> void:
 	_menu_open = false
 	menu.queue_free()

@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/menu/order_menu.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/room/cafe/menu/cafe_menu.gd" id="1_script"]
+[ext_resource type="Theme" path="res://scenes/room/cafe/menu/cafe_menu_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/menu/cafe_menu_row.tscn" id="3_row"]
+
+[node name="DrinkMenu" instance=ExtResource("1_base")]
+script = ExtResource("1_script")
+row_scene = ExtResource("3_row")
+
+[node name="Panel" parent="." index="1"]
+offset_top = -200.0
+offset_bottom = 200.0
+theme = ExtResource("2_theme")
+
+[node name="Title" parent="Panel/Margin/VBox" index="0"]
+visible = true
+text = "COFFEE"
+
+[node name="Espresso" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Americano" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/Americano/Content/HBox/Info" index="0"]
+text = "Americano"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/Americano/Content/HBox/Info" index="1"]
+text = "A long black coffee. Restores 8 Mind."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/Americano/Content/HBox" index="1"]
+text = "$8"
+
+[node name="Cappuccino" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/Cappuccino/Content/HBox/Info" index="0"]
+text = "Cappuccino"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/Cappuccino/Content/HBox/Info" index="1"]
+text = "Espresso with silky milk foam. Restores 8 Mind."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/Cappuccino/Content/HBox" index="1"]
+text = "$10"
+
+[editable path="Panel/Margin/VBox/Scroll/List/Americano"]
+[editable path="Panel/Margin/VBox/Scroll/List/Cappuccino"]

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://81ki7hpcbc6l" path="res://assets/sprites/bar/bartender.png" id="2_juoo6"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
 [ext_resource type="PackedScene" uid="uid://c2n6gnfnfbbch" path="res://scenes/room/bar/chair.tscn" id="4_juoo6"]
+[ext_resource type="PackedScene" path="res://scenes/room/bar/menu/bar_menu.tscn" id="5_menu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
 size = Vector2(160, 16)
@@ -15,6 +16,7 @@ size = Vector2(21.5, 13)
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_611q6")
+menu_scene = ExtResource("5_menu")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=486637219]
 shape = SubResource("RectangleShape2D_counter")

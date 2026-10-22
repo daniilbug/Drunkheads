@@ -1,0 +1,112 @@
+[gd_scene load_steps=6 format=3 uid="uid://j8uafynfmw8s"]
+
+[ext_resource type="PackedScene" path="res://scenes/core/menu/order_menu.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://b40xduancicgs" path="res://scripts/room/bar/menu/bar_menu.gd" id="1_ywyjx"]
+[ext_resource type="Theme" path="res://scenes/room/bar/menu/bar_menu_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/room/bar/menu/bar_menu_row.tscn" id="3_row"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_categories"]
+
+[node name="DrinkMenu" instance=ExtResource("1_base")]
+script = ExtResource("1_ywyjx")
+row_scene = ExtResource("3_row")
+
+[node name="Panel" parent="." index="1"]
+theme = ExtResource("2_theme")
+
+[node name="Tabs" parent="Panel/Margin/VBox" index="1"]
+visible = true
+
+[node name="Beer" type="Button" parent="Panel/Margin/VBox/Tabs"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Cocktails")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Shots")
+mouse_default_cursor_shape = 2
+theme_type_variation = &"MenuTab"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_categories")
+text = "BEER"
+
+[node name="Shots" type="Button" parent="Panel/Margin/VBox/Tabs"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Beer")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Cocktails")
+mouse_default_cursor_shape = 2
+theme_type_variation = &"MenuTab"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_categories")
+text = "SHOTS"
+
+[node name="Cocktails" type="Button" parent="Panel/Margin/VBox/Tabs"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Shots")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Beer")
+mouse_default_cursor_shape = 2
+theme_type_variation = &"MenuTab"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_categories")
+text = "COCKTAILS"
+
+[node name="Lager" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="PaleAle" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/PaleAle/Content/HBox/Info" index="0"]
+text = "Pale Ale"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/PaleAle/Content/HBox/Info" index="1"]
+text = "Hoppy with a citrus bite."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/PaleAle/Content/HBox" index="1"]
+text = "$12"
+
+[node name="Stout" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/Stout/Content/HBox/Info" index="0"]
+text = "Dark Stout"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/Stout/Content/HBox/Info" index="1"]
+text = "Thick and roasty. Almost a meal."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/Stout/Content/HBox" index="1"]
+text = "$14"
+
+[node name="IPA" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/IPA/Content/HBox/Info" index="0"]
+text = "Strong IPA"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/IPA/Content/HBox/Info" index="1"]
+text = "Bitter kick. Not for the faint."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/IPA/Content/HBox" index="1"]
+text = "$15"
+
+[node name="Barleywine" parent="Panel/Margin/VBox/Scroll/List" instance=ExtResource("3_row")]
+layout_mode = 2
+
+[node name="Name" parent="Panel/Margin/VBox/Scroll/List/Barleywine/Content/HBox/Info" index="0"]
+text = "Barleywine"
+
+[node name="Description" parent="Panel/Margin/VBox/Scroll/List/Barleywine/Content/HBox/Info" index="1"]
+text = "Dark and potent. Respect it."
+
+[node name="Price" parent="Panel/Margin/VBox/Scroll/List/Barleywine/Content/HBox" index="1"]
+text = "$18"
+
+[connection signal="pressed" from="Panel/Margin/VBox/Tabs/Beer" to="." method="_on_tabs_tab_changed" binds= [0]]
+[connection signal="pressed" from="Panel/Margin/VBox/Tabs/Shots" to="." method="_on_tabs_tab_changed" binds= [1]]
+[connection signal="pressed" from="Panel/Margin/VBox/Tabs/Cocktails" to="." method="_on_tabs_tab_changed" binds= [2]]
+
+[editable path="Panel/Margin/VBox/Scroll/List/PaleAle"]
+[editable path="Panel/Margin/VBox/Scroll/List/Stout"]
+[editable path="Panel/Margin/VBox/Scroll/List/IPA"]
+[editable path="Panel/Margin/VBox/Scroll/List/Barleywine"]

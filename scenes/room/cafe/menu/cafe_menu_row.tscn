@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/menu/order_menu_row.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/room/cafe/menu/cafe_menu_row.gd" id="2_script"]
+[ext_resource type="Theme" path="res://scenes/room/cafe/menu/cafe_menu_theme.tres" id="3_theme"]
+
+[node name="CafeMenuRow" instance=ExtResource("1_base")]
+theme = ExtResource("3_theme")
+script = ExtResource("2_script")
+
+[node name="Name" parent="Content/HBox/Info" index="0"]
+text = "Espresso"
+
+[node name="Description" parent="Content/HBox/Info" index="1"]
+text = "Small, rich and aromatic. Restores 8 Mind."
+
+[node name="Price" parent="Content/HBox" index="1"]
+text = "$6"

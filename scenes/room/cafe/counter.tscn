@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://btgffnfbryit8" path="res://assets/sprites/cafe/barista.png" id="2_juoo6"]
 [ext_resource type="PackedScene" uid="uid://dsc8g1p4uat67" path="res://scenes/core/drop_place.tscn" id="3_611q6"]
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/coffee_machine.tscn" id="4_machine"]
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/menu/cafe_menu.tscn" id="5_menu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_counter"]
 size = Vector2(112, 16)
@@ -16,6 +17,7 @@ z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_611q6")
 serves_coffee = true
+menu_scene = ExtResource("5_menu")
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=991558053]
 shape = SubResource("RectangleShape2D_counter")
