@@ -290,3 +290,15 @@ func _finish_smoking(pack: CigarettePack, player_id: int) -> void:
 func _smoke_finished() -> void:
 	if local_player != null:
 		local_player.on_cigarette_smoked()
+
+func get_save_data() -> Dictionary:
+	return SaveGraph.capture(self)
+
+func prepare_save_restore(data: Dictionary) -> void:
+	SaveGraph.prepare_restore(self, data)
+
+func apply_save_data(data: Dictionary) -> void:
+	SaveGraph.restore(self, data)
+
+func can_restore_save_data(data: Dictionary) -> bool:
+	return SaveGraph.can_restore(self, data)

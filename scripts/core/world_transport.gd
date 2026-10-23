@@ -298,3 +298,13 @@ func recover_bus_passengers(passengers: Array[int], bus_stop: BusStop) -> void:
 		var player := _world.get_player(passengers[index])
 		if player != null and player.in_vehicle and player.level_id == level_id:
 			trip_completed.emit(passengers[index], level_id, bus_stop.stop.get_exit_position(index))
+
+## A bus journey is complete at its stop even if the passenger stays aboard.
+func is_travel_complete(player: Player) -> bool:
+	if not player.in_vehicle:
+		return true
+	var level := _world.get_player_level(int(player.name))
+	if level.transport_arrival_interior:
+		return true
+	var vehicle := level.get_node_or_null(NodePath(player.riding_vehicle_name)) as Bus if not player.riding_vehicle_name.is_empty() else null
+	return vehicle != null and vehicle.travel_state == Vehicle.TravelState.STOPPED and vehicle.service_state == Bus.ServiceState.BOARDING

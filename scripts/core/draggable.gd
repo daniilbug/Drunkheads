@@ -14,6 +14,7 @@ extends Node2D
 			placing_audio.play()
 
 func _enter_tree() -> void:
+	add_to_group("saveable")
 	if _level != null and get_parent() != _level:
 		safe_reparent_with_unique_name(self, _level, name)
 	set_multiplayer_authority(1, true)
@@ -113,3 +114,31 @@ func _get_top_ysort_anchor(node: Node) -> Node2D:
 				result = current
 		current = parent
 	return result
+
+func get_save_schema() -> Dictionary:
+	return {}
+
+func get_save_data() -> Dictionary:
+	if holder_peer_id < 0:
+		return {}
+	var data := {
+		"scene": scene_file_path, "name": str(name), "path": _level.get_path_to(self),
+		"position": position, "sprite_position": sprite.position, "holder_peer_id": holder_peer_id,
+		"fields": SaveGraph.get_fields(self, get_save_schema().keys()),
+	}
+	if holder_peer_id > 1:
+		data.holder_peer_id = 0
+		data.position = get_parent().to_local(_level.get_transport_arrival_position())
+		data.sprite_position = Vector2.ZERO
+	return data
+
+func apply_save_data(data: Dictionary) -> void:
+	position = data.position
+	sprite.position = data.sprite_position
+	holder_peer_id = data.holder_peer_id
+	SaveGraph.apply_fields(self, get_save_schema().keys(), data.fields)
+	if holder_peer_id == 1:
+		_level.get_player(1).take_spawned_item(self)
+
+func can_restore_save_data(fields: Dictionary, _saved_level: Node2D) -> bool:
+	return SaveGraph.matches(fields, get_save_schema())

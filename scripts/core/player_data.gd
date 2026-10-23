@@ -52,3 +52,12 @@ func get_drunkness() -> float:
 
 func is_drunk() -> bool:
 	return mind <= MIN_DRUNK_LIMIT
+
+func get_save_data() -> Dictionary:
+	return {"respect": respect, "mind": mind, "money": money}
+
+func apply_save_data(data: Dictionary) -> void:
+	for stat in ["respect", "mind", "money"]:
+		if data.has(stat):
+			_apply(stat, float(data[stat]) - float(get(stat)))
+	stats_changed.emit()

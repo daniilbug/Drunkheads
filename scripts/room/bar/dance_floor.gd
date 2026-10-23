@@ -23,6 +23,7 @@ func _ready() -> void:
 	_update_light()
 
 func _enter_tree() -> void:
+	super._enter_tree()
 	set_multiplayer_authority(1, true)
 
 func set_mode(mode: int) -> void:

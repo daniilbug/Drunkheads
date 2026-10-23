@@ -5,6 +5,12 @@ static var local_setup: Dictionary = {"name": "Player"}
 
 const SPEED := 350.0
 const FPS_WALK := 8.0
+const SAVE_SCHEMA := {
+	"player_name": "", "level_id": "", "return_level_id": "", "position": Vector2.ZERO,
+	"direction": Vector2.ZERO, "wallpaper": 0, "stats": {"money": 0.0, "mind": 0.0, "respect": 0.0},
+	"appearance": {"hair_id": 0, "hair_color_id": 0, "top_id": 0, "top_color_id": 0, "pants_id": 0, "pants_color_id": 0},
+}
+const SAVE_APPEARANCE: Array[String] = ["hair_id", "hair_color_id", "top_id", "top_color_id", "pants_id", "pants_color_id"]
 
 const ROW_WALK_S  := 0
 const ROW_WALK_N  := 1
@@ -132,7 +138,6 @@ func _ready() -> void:
 	sprite.set_headphones_enabled(headphones_enabled)
 	sprite.set_in_shower(in_shower)
 	_apply_vehicle_state()
-	sprite.frame = ROW_IDLE * 4
 	_start_idle_bob()
 	set_notify_transform(true)
 	call_deferred("_setup_authority")
@@ -162,10 +167,37 @@ func _setup_authority() -> void:
 	if is_multiplayer_authority():
 		player_data.stats_changed.connect(_on_stats_changed)
 		camera.make_current()
+		_on_stats_changed()
+
+func get_save_data() -> Dictionary:
+	var world := get_parent() as Main
+	var level := world.get_player_level(int(name)) if world != null else Level.find_level_node(self)
+	var stats := player_data.get_save_data()
+	if world != null:
+		# Uncommitted poker chips are cashed out; session state is not persisted.
+		for session in world.find_children("*", "PokerSession", true, false):
+			stats.money = clampf(stats.money + session.get_cash_out(int(name)), PlayerData.MIN_STAT, PlayerData.MAX_STAT)
+	return {
+		"player_name": player_name, "level_id": level_id, "return_level_id": return_level_id,
+		"position": level.to_local(level.get_transport_arrival_position() if in_vehicle else global_position), "direction": direction,
+		"appearance": SaveGraph.get_fields(self, SAVE_APPEARANCE),
+		"stats": stats, "wallpaper": settings.phone_wallpaper_index,
+	}
+
+func apply_save_data(data: Dictionary) -> void:
+	player_name = data.player_name
+	level_id = data.level_id
+	return_level_id = data.get("return_level_id", "bar")
+	direction = data.get("direction", Vector2.DOWN)
+	SaveGraph.apply_fields(self, SAVE_APPEARANCE, data.get("appearance", {}))
+	player_data = PlayerData.new()
+	player_data.apply_save_data(data.stats)
+	settings = PlayerSettings.new()
+	settings.phone_wallpaper_index = maxi(0, int(data.get("wallpaper", 0)))
 
 func _start_idle_bob() -> void:
-	_anim_row = ROW_IDLE
-	sprite.frame = ROW_IDLE * 4
+	_anim_row = _dir_to_idle_row(direction)
+	sprite.frame = _anim_row * 4
 	_idle_tween = create_tween().set_loops()
 	_idle_tween.tween_property(sprite, "scale:y", 0.95, 0.45).set_trans(Tween.TRANS_SINE)
 	_idle_tween.tween_property(sprite, "scale:y", 1.0, 0.45).set_trans(Tween.TRANS_SINE)

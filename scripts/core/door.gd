@@ -23,6 +23,7 @@ var _npc_entry_sides: Dictionary = {}
 const AUTO_CLOSE_DELAY := 2.0
 
 func _enter_tree() -> void:
+	add_to_group("saveable")
 	set_multiplayer_authority(1, true)
 
 func _ready() -> void:
@@ -195,3 +196,9 @@ func _make_sound(was_open: bool) -> void:
 	elif not was_open and is_open:
 		_audio.stream = load("res://assets/audio/interactions/door_open.mp3")
 		_audio.play()
+
+func get_save_data() -> Dictionary:
+	return SaveGraph.get_fields(self, ["is_open"])
+
+func apply_save_data(data: Dictionary) -> void:
+	SaveGraph.apply_fields(self, get_save_data().keys(), data)

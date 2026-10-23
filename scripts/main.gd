@@ -17,6 +17,7 @@ const PLAYER_SCENE := preload("res://scenes/core/player.tscn")
 @onready var headphone_player: HeadphonePlayer = $HeadphonePlayer
 @onready var phone_controller: PhoneController = $PhoneController
 @onready var transport: WorldTransport = $WorldTransport
+@onready var world_save: WorldSave = $WorldSave
 
 var _levels: Dictionary = {}
 var _name_registry: Dictionary = {}  # peer_id -> final display name (server only)
@@ -32,9 +33,23 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	if multiplayer.is_server() and auto_spawn_players:
 		multiplayer.peer_connected.connect(_on_peer_connected)
-		_spawn_player(multiplayer.get_unique_id())
+		var saved := SaveManager.take_pending_snapshot()
+		if not saved.is_empty():
+			if not world_save.can_restore(saved):
+				SaveManager.last_error = "Сохранение не соответствует текущему игровому миру."
+				var peer := multiplayer.multiplayer_peer
+				multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+				peer.close()
+				get_tree().change_scene_to_file.call_deferred("res://scenes/menu.tscn")
+				return
+		_spawn_player(multiplayer.get_unique_id(), saved.get("player", {}))
 		_init_local_player(get_player(multiplayer.get_unique_id()))
-		_register_player_setup(multiplayer.get_unique_id(), Player.local_setup)
+		var setup := Player.local_setup if saved.is_empty() else {"name": saved.player.player_name}
+		_register_player_setup(multiplayer.get_unique_id(), setup)
+		if not saved.is_empty():
+			world_save.restore_world(saved)
+		else:
+			world_save.request_save()
 
 func _register_levels() -> void:
 	for child in get_children():
@@ -70,14 +85,21 @@ func get_players() -> Array[Player]:
 func _on_peer_connected(peer_id: int) -> void:
 	_spawn_player(peer_id)
 
-func _spawn_player(peer_id: int) -> void:
+func _spawn_player(peer_id: int, saved: Dictionary = {}) -> void:
 	var player := PLAYER_SCENE.instantiate() as Player
 	player.name = str(peer_id)
-	player.level_id = bar.level_id
-	player.randomize_appearance()
-	bar._prepare_player_spawn(player)
+	if saved.is_empty():
+		player.level_id = bar.level_id
+		player.randomize_appearance()
+		bar._prepare_player_spawn(player)
+	else:
+		player.apply_save_data(saved)
+	var level := get_level(player.level_id)
+	var spawn_position := bar.player_spawn.global_position if saved.is_empty() else level.to_global(saved.position)
+	if not saved.is_empty() and not level.get_world_bounds().has_point(spawn_position):
+		spawn_position = level.get_transport_arrival_position()
+	player.position = to_local(spawn_position)
 	add_child(player)
-	player.global_position = bar.player_spawn.global_position
 
 func _on_player_spawned(node: Node) -> void:
 	if node is Player and int(node.name) == multiplayer.get_unique_id() and local_player == null:
@@ -173,6 +195,8 @@ func _begin_arrival(peer_id: int, destination: String, arrival_position: Vector2
 	if player == local_player:
 		_activate_local_level(destination)
 		local_player_travel_changed.emit()
+	if multiplayer.is_server():
+		world_save.request_save()
 
 @rpc("authority", "call_local", "reliable")
 func _apply_trip(peer_id: int, destination: String, arrival_position: Vector2) -> void:
@@ -187,6 +211,8 @@ func _apply_trip(peer_id: int, destination: String, arrival_position: Vector2) -
 	if player == local_player:
 		_activate_local_level(destination)
 		local_player_travel_changed.emit()
+	if multiplayer.is_server():
+		world_save.request_save()
 
 func _activate_local_level(level_id: String) -> void:
 	if not _levels.has(level_id):

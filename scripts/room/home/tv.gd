@@ -78,3 +78,12 @@ func _update_power() -> void:
 func _update_color() -> void:
 	if broadcast_colors != null:
 		_light.color = broadcast_colors.get_color(wrapi(color_index, 0, broadcast_colors.get_point_count()))
+
+func _enter_tree() -> void:
+	add_to_group("saveable")
+
+func get_save_data() -> Dictionary:
+	return SaveGraph.get_fields(self, ["is_turned_on", "color_index"])
+
+func apply_save_data(data: Dictionary) -> void:
+	SaveGraph.apply_fields(self, get_save_data().keys(), data)

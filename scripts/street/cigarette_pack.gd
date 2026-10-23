@@ -32,3 +32,10 @@ func play_smoke() -> void:
 
 func _set_smoke_frame(frame_index: int) -> void:
 	smoke_sprite.frame = frame_index
+
+func get_save_schema() -> Dictionary:
+	return {"cigarettes_left": [1, 2, 3, 4, 5]}
+
+func apply_save_data(data: Dictionary) -> void:
+	super.apply_save_data(data)
+	CigaretteMachine._next_pack_id = maxi(CigaretteMachine._next_pack_id, str(name).trim_prefix("CigarettePack").to_int())

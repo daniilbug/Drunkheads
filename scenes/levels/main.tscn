@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/home_entrance.tscn" id="7_home_entrance"]
 [ext_resource type="PackedScene" path="res://scenes/core/phone_controller.tscn" id="9_phone_controller"]
 [ext_resource type="PackedScene" path="res://scenes/core/world_transport.tscn" id="10_transport"]
+[ext_resource type="PackedScene" path="res://scenes/core/save/world_save.tscn" id="11_save"]
 
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
@@ -21,6 +22,8 @@ script = ExtResource("1_main")
 [node name="WorldTime" parent="." instance=ExtResource("6_world_time")]
 
 [node name="WorldTransport" parent="." instance=ExtResource("10_transport")]
+
+[node name="WorldSave" parent="." instance=ExtResource("11_save")]
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://bplker7qp53qd")
@@ -53,10 +56,10 @@ script = ExtResource("4_headphones")
 script = ExtResource("8_hud")
 
 [node name="Stats" type="VBoxContainer" parent="HUD" unique_id=1724038865]
-offset_left = 428.0
-offset_top = 827.0
-offset_right = 884.0
-offset_bottom = 1003.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 240.0
+offset_bottom = 120.0
 
 [node name="RespectLabel" type="Label" parent="HUD/Stats" unique_id=1563725347]
 layout_mode = 2

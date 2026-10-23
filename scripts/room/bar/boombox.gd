@@ -8,8 +8,8 @@ const PLAYING_FRAMES = 4
 @export var is_playing: bool = true:
 	set(value):
 		is_playing = value
-		audio.stream_paused = not value
 		if is_node_ready():
+			audio.stream_paused = not value
 			if value:
 				_playing_tween.play()
 			else:
@@ -61,3 +61,6 @@ func _local_resume():
 	
 func _local_pause():
 	is_playing = false
+
+func get_save_schema() -> Dictionary:
+	return {"is_playing": false}

@@ -69,3 +69,21 @@ func _dock_result(player_id: int, accepted: bool) -> void:
 	var player := _level.get_player(player_id)
 	if accepted and player != null and player._hands_item == self:
 		player._hands_item = null
+
+func get_save_schema() -> Dictionary:
+	return {"record_id": [0, 1, 2, 3], "dock_path": NodePath()}
+
+func get_save_data() -> Dictionary:
+	var data := super.get_save_data()
+	if not data.is_empty() and not dock_path.is_empty():
+		data.fields.dock_path = _level.get_path_to(get_node(dock_path))
+	return data
+
+func apply_save_data(data: Dictionary) -> void:
+	var restored := data.duplicate(true)
+	if not restored.fields.dock_path.is_empty():
+		restored.fields.dock_path = NodePath(str(_level.get_path()) + "/" + str(restored.fields.dock_path))
+	super.apply_save_data(restored)
+
+func can_restore_save_data(fields: Dictionary, saved_level: Node2D) -> bool:
+	return super.can_restore_save_data(fields, saved_level) and (fields.dock_path.is_empty() or (SaveGraph.safe_path(fields.dock_path) and saved_level.get_node_or_null(fields.dock_path) is CafeRecordSlot))

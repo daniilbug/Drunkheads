@@ -40,6 +40,8 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
 
 func _ready() -> void:
+	if _main != null:
+		(_main.get_node("WorldSave") as WorldSave).restored.connect(restore_player_access)
 	_update_visuals()
 
 func _exit_tree() -> void:
@@ -237,3 +239,7 @@ func _play_ding() -> void:
 	var audio := ding_scene.instantiate() as AudioStreamPlayer2D
 	add_child(audio)
 	audio.play()
+
+func restore_player_access(player: Player) -> void:
+	if _level.level_id == player.level_id and contains_player(player):
+		move_doors(true)

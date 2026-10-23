@@ -17,6 +17,11 @@ var spectating: Array[bool]    = [false, false, false, false]
 var _betting: PokerBetting
 var _round:   PokerRound
 
+## Same cash-out as leaving the table; used without changing the live session.
+func get_cash_out(peer_id: int) -> float:
+	var slot := _slot_of(peer_id)
+	return money[slot] / CHIP_RATE if slot >= 0 else 0.0
+
 func _ready() -> void:
 	_betting = PokerBetting.new(self)
 	_round   = PokerRound.new(self, _betting)

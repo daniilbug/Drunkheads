@@ -63,3 +63,12 @@ func _local_turn_on():
 	
 func _local_turn_off():
 	is_watering = false
+
+func _enter_tree() -> void:
+	add_to_group("saveable")
+
+func get_save_data() -> Dictionary:
+	return SaveGraph.get_fields(self, ["is_watering"])
+
+func apply_save_data(data: Dictionary) -> void:
+	SaveGraph.apply_fields(self, get_save_data().keys(), data)

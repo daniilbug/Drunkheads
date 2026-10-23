@@ -3,6 +3,7 @@ extends AudioStreamPlayer
 
 signal changed
 
+const SAVE_SCHEMA := {"track": 0, "enabled": false}
 const PLAYLIST: AudioStreamPlaylist = preload("res://assets/audio/background/playlist.tres")
 
 var track_index := 0
@@ -38,3 +39,11 @@ func select_relative(offset: int) -> void:
 	if enabled:
 		play()
 	changed.emit()
+
+func get_save_data() -> Dictionary:
+	return {"track": track_index, "enabled": enabled}
+
+func apply_save_data(data: Dictionary) -> void:
+	select_relative(data.track - track_index)
+	if enabled != data.enabled:
+		toggle()

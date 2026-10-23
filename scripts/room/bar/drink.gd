@@ -91,3 +91,24 @@ func _update_drink_sprite() -> void:
 		visible_w,
 		visible_h,
 	)
+
+func get_save_schema() -> Dictionary:
+	return {
+		"drink_name": "", "type": [0, 1, 2, 3], "flavor": "", "cost": 0.0, "alcohol": 0.0,
+		"sprite_frame": [0, 1, 2, 3, 4], "max_parts": Vector2i(1, 64), "parts": Vector2i(1, 64), "customer_id": [0, 1],
+	}
+
+func get_save_data() -> Dictionary:
+	if customer_id < 0:
+		return {}
+	var data := super.get_save_data()
+	if not data.is_empty() and customer_id > 1:
+		data.fields.customer_id = 0
+	return data
+
+func apply_save_data(data: Dictionary) -> void:
+	super.apply_save_data(data)
+	Bartender._drink_id = maxi(Bartender._drink_id, str(name).trim_prefix("Drink").to_int())
+
+func can_restore_save_data(fields: Dictionary, saved_level: Node2D) -> bool:
+	return super.can_restore_save_data(fields, saved_level) and fields.parts <= fields.max_parts and fields.cost >= 0 and fields.alcohol >= 0

@@ -134,3 +134,12 @@ func _apply_light_state() -> void:
 	for i in _glows.size():
 		if is_instance_valid(_glows[i]):
 			_glows[i].self_modulate = _glow_colors[i] * Color(brightness, brightness, brightness, 1.0)
+
+func _enter_tree() -> void:
+	add_to_group("saveable")
+
+func get_save_data() -> Dictionary:
+	return SaveGraph.get_fields(self, ["is_turned_on", "lighting_enabled", "automatic_lighting", "switch_on_hour", "switch_off_hour", "fade_duration_hours"])
+
+func apply_save_data(data: Dictionary) -> void:
+	SaveGraph.apply_fields(self, get_save_data().keys(), data)

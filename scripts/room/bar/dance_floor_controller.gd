@@ -10,8 +10,9 @@ const MODES = 4
 @export var mode: int = 0:
 	set(value):
 		mode = value
-		sprite.frame = mode
-		audio.play()
+		if is_node_ready():
+			sprite.frame = mode
+			audio.play()
 
 func _ready() -> void:
 	sprite = $Sprite
@@ -30,4 +31,11 @@ func _remote_next_mode() -> void:
 	
 func _local_next_mode() -> void:
 	mode = (mode + 1) % MODES
+	on_mode_change.emit(mode)
+
+func get_save_schema() -> Dictionary:
+	return {"mode": [0, 1, 2, 3]}
+
+func apply_save_data(data: Dictionary) -> void:
+	super.apply_save_data(data)
 	on_mode_change.emit(mode)

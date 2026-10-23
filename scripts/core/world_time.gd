@@ -6,6 +6,7 @@ extends Node
 signal time_changed(hour: float)
 signal night_lighting_changed(strength: float)
 
+const SAVE_SCHEMA := {"hours": 0.0, "day_duration": 0.0, "time_scale": 0.0, "paused": false}
 const HOURS_PER_DAY := 24.0
 const CORRECTION_SPEED := 6.0
 
@@ -64,6 +65,21 @@ func _process(delta: float) -> void:
 
 func get_hour() -> float:
 	return fposmod(_display_hours, HOURS_PER_DAY)
+
+func get_save_data() -> Dictionary:
+	return {"hours": _total_hours, "day_duration": day_duration, "time_scale": time_scale, "paused": paused}
+
+func apply_save_data(data: Dictionary) -> void:
+	if not is_multiplayer_authority():
+		return
+	_total_hours = maxf(0.0, float(data.get("hours", initial_hour)))
+	_display_hours = _total_hours
+	day_duration = maxf(1.0, float(data.get("day_duration", day_duration)))
+	time_scale = maxf(0.0, float(data.get("time_scale", time_scale)))
+	paused = data.get("paused", false)
+	_seek_revision += 1
+	_publish_snapshot()
+	_update_lighting()
 
 func get_night_light_strength() -> float:
 	return _night_strength
