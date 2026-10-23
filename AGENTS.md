@@ -28,6 +28,7 @@
 | Уровень, изменение существующей комнаты, объект, взаимодействие | [Взаимодействия](.agents/rules/interactions.md) | [drunkards-world-feature](.agents/skills/drunkards-world-feature/SKILL.md) |
 | RPC, authority, спавн, репликация или общее состояние мира | [Мультиплеер](.agents/rules/multiplayer.md) | [drunkards-multiplayer-feature](.agents/skills/drunkards-multiplayer-feature/SKILL.md) |
 | Статы, деньги, настройки, события, HUD | [Данные и сигналы](.agents/rules/data-and-signals.md) | Workflow соответствующей функции мира или мини-игры |
+| Игровой интерфейс, меню предмета, HUD | [Интерфейсы](.agents/rules/interfaces.md), [пиксельная графика](.agents/rules/pixel-art.md), [данные и сигналы](.agents/rules/data-and-signals.md) | [drunkards-pixel-art](.agents/skills/drunkards-pixel-art/SKILL.md) и workflow соответствующей функции |
 | NPC, навигация, занятость объектов | [NPC](.agents/rules/npc.md), [мультиплеер](.agents/rules/multiplayer.md) | [drunkards-npc-behavior](.agents/skills/drunkards-npc-behavior/SKILL.md) |
 | Покер или настольный футбол | [Мини-игры](.agents/rules/minigames.md), [мультиплеер](.agents/rules/multiplayer.md) | [drunkards-minigame-change](.agents/skills/drunkards-minigame-change/SKILL.md) |
 | Спрайт, анимация, отрисовка, визуальный layout | [Пиксельная графика](.agents/rules/pixel-art.md) | [drunkards-pixel-art](.agents/skills/drunkards-pixel-art/SKILL.md) |

@@ -83,6 +83,12 @@ properties/9/replication_mode = 2
 properties/10/path = NodePath(".:return_level_id")
 properties/10/spawn = true
 properties/10/replication_mode = 2
+properties/11/path = NodePath(".:owned_tops")
+properties/11/spawn = true
+properties/11/replication_mode = 2
+properties/12/path = NodePath(".:owned_bottoms")
+properties/12/spawn = true
+properties/12/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
 collision_mask = 9

@@ -39,6 +39,11 @@ var seated_seat: Seat = null
 @export var level_id := "bar"
 @export var return_level_id := "bar"
 
+# A garment is its existing atlas style ID and fixed fabric color ID.
+# These inventories, like appearance, are owned by the server.
+@export var owned_tops: Array[Vector2i] = []
+@export var owned_bottoms: Array[Vector2i] = []
+
 @export var hair_id: int = 0:
 	set(value):
 		hair_id = value
@@ -128,6 +133,7 @@ signal drink_action_requested(player_id: int, drink_name: String)
 signal smoke_action_requested(player_id: int, pack_name: String)
 signal phone_requested(player: Player)
 signal bus_exit_requested(player: Player)
+signal appearance_changed
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(int(name), true)
@@ -162,6 +168,37 @@ func randomize_appearance() -> void:
 func _refresh_appearance() -> void:
 	if is_node_ready():
 		sprite.set_appearance(hair_id, top_id, pants_id, hair_color_id, top_color_id, pants_color_id)
+		appearance_changed.emit()
+
+func initialize_wardrobe() -> void:
+	for is_top in [true, false]:
+		var items := owned_tops if is_top else owned_bottoms
+		if not items.is_empty():
+			continue
+		var current := Vector2i(top_id, top_color_id) if is_top else Vector2i(pants_id, pants_color_id)
+		items.append(current)
+		var group_start := (current.x / CharacterSprite.STYLES_PER_GROUP) * CharacterSprite.STYLES_PER_GROUP
+		while items.size() < 3:
+			var item := Vector2i(group_start + randi_range(0, CharacterSprite.STYLES_PER_GROUP - 1),
+				randi_range(0, CharacterSprite.CLOTHING_COLORS.size() - 1))
+			if item not in items:
+				items.append(item)
+
+static func is_valid_wardrobe(data: Variant) -> bool:
+	if not SaveGraph.matches(data, {"tops": [], "bottoms": []}):
+		return false
+	for slot in ["tops", "bottoms"]:
+		var count := CharacterSprite.TOP_TEXTURES.size() if slot == "tops" else CharacterSprite.PANTS_TEXTURES.size()
+		var items: Array = data[slot]
+		if items.is_empty() or items.size() > count * CharacterSprite.CLOTHING_COLORS.size():
+			return false
+		var seen := {}
+		for item in items:
+			if item is not Vector2i or item.x < 0 or item.x >= count \
+				or item.y < 0 or item.y >= CharacterSprite.CLOTHING_COLORS.size() or seen.has(item):
+				return false
+			seen[item] = true
+	return true
 
 func _setup_authority() -> void:
 	if is_multiplayer_authority():
@@ -182,6 +219,7 @@ func get_save_data() -> Dictionary:
 		"position": level.to_local(level.get_transport_arrival_position() if in_vehicle else global_position), "direction": direction,
 		"appearance": SaveGraph.get_fields(self, SAVE_APPEARANCE),
 		"stats": stats, "wallpaper": settings.phone_wallpaper_index,
+		"wardrobe": {"tops": owned_tops.duplicate(), "bottoms": owned_bottoms.duplicate()},
 	}
 
 func apply_save_data(data: Dictionary) -> void:
@@ -190,6 +228,9 @@ func apply_save_data(data: Dictionary) -> void:
 	return_level_id = data.get("return_level_id", "bar")
 	direction = data.get("direction", Vector2.DOWN)
 	SaveGraph.apply_fields(self, SAVE_APPEARANCE, data.get("appearance", {}))
+	if data.has("wardrobe"):
+		owned_tops.assign(data.wardrobe.tops)
+		owned_bottoms.assign(data.wardrobe.bottoms)
 	player_data = PlayerData.new()
 	player_data.apply_save_data(data.stats)
 	settings = PlayerSettings.new()

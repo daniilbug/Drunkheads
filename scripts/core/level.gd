@@ -51,6 +51,7 @@ func _spawn_standalone_player() -> void:
 	player.level_id = level_id
 	player.player_name = Player.local_setup.get("name", "Player")
 	player.randomize_appearance()
+	player.initialize_wardrobe()
 	_prepare_player_spawn(player)
 	add_child(player)
 	var spawn_point := get_node_or_null("TaxiReturn") as Node2D

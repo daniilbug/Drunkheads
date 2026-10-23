@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/clothing_color.gdshader" id="1_shader"]
+
+[sub_resource type="StyleBoxFlat" id="Normal"]
+bg_color = Color(0.47451, 0.368627, 0.286275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45098, 0.34902, 0.270588, 1)
+
+[sub_resource type="StyleBoxFlat" id="Hover"]
+bg_color = Color(0.52549, 0.403922, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.615686, 0.490196, 0.388235, 1)
+
+[sub_resource type="StyleBoxFlat" id="Selected"]
+bg_color = Color(0.52549, 0.403922, 0.309804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.839216, 0.733333, 0.552941, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.839216, 0.733333, 0.552941, 0.55)
+
+[sub_resource type="ShaderMaterial" id="Dye"]
+shader = ExtResource("1_shader")
+
+[node name="Card" type="Button"]
+custom_minimum_size = Vector2(176, 176)
+focus_mode = 2
+mouse_default_cursor_shape = 2
+toggle_mode = true
+theme_override_styles/normal = SubResource("Normal")
+theme_override_styles/hover = SubResource("Hover")
+theme_override_styles/pressed = SubResource("Selected")
+theme_override_styles/hover_pressed = SubResource("Selected")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Hanger" type="Line2D" parent="."]
+points = PackedVector2Array(84, 37, 84, 33, 88, 29, 92, 33, 92, 39, 68, 53, 108, 53, 92, 43)
+width = 2.0
+default_color = Color(0.615686, 0.490196, 0.388235, 1)
+
+[node name="Icon" type="TextureRect" parent="."]
+material = SubResource("Dye")
+texture_filter = 1
+layout_mode = 0
+offset_left = 28.0
+offset_top = 28.0
+offset_right = 148.0
+offset_bottom = 148.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+

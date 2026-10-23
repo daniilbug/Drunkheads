@@ -48,6 +48,8 @@ func _ready() -> void:
 		_register_player_setup(multiplayer.get_unique_id(), setup)
 		if not saved.is_empty():
 			world_save.restore_world(saved)
+			if not saved.player.has("wardrobe"):
+				world_save.request_save()
 		else:
 			world_save.request_save()
 
@@ -94,6 +96,7 @@ func _spawn_player(peer_id: int, saved: Dictionary = {}) -> void:
 		bar._prepare_player_spawn(player)
 	else:
 		player.apply_save_data(saved)
+	player.initialize_wardrobe()
 	var level := get_level(player.level_id)
 	var spawn_position := bar.player_spawn.global_position if saved.is_empty() else level.to_global(saved.position)
 	if not saved.is_empty() and not level.get_world_bounds().has_point(spawn_position):

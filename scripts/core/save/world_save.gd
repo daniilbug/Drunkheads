@@ -59,6 +59,14 @@ static func is_valid_snapshot(snapshot: Dictionary) -> bool:
 		return false
 	if snapshot.player.level_id not in snapshot.levels or snapshot.player.return_level_id not in snapshot.levels:
 		return false
+	# Optional in version 1: older saves receive a starter wardrobe once on load.
+	if snapshot.player.has("wardrobe"):
+		if not Player.is_valid_wardrobe(snapshot.player.wardrobe):
+			return false
+		var appearance: Dictionary = snapshot.player.appearance
+		if Vector2i(appearance.top_id, appearance.top_color_id) not in snapshot.player.wardrobe.tops \
+			or Vector2i(appearance.pants_id, appearance.pants_color_id) not in snapshot.player.wardrobe.bottoms:
+			return false
 	for id in snapshot.levels:
 		if not id is String or id.is_empty() or not SaveGraph.is_valid_level(snapshot.levels[id]):
 			return false

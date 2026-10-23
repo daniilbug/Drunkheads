@@ -1,0 +1,139 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/home/wardrobe/wardrobe_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://scenes/room/home/wardrobe/character.tscn" id="3_character"]
+
+[sub_resource type="StyleBoxFlat" id="CabinetStyle"]
+bg_color = Color(0.52549, 0.403922, 0.309804, 1)
+shadow_color = Color(0.15, 0.11, 0.08, 0.35)
+shadow_size = 12
+shadow_offset = Vector2(0, 12)
+
+[sub_resource type="StyleBoxFlat" id="MirrorStyle"]
+bg_color = Color(0.384314, 0.415686, 0.384314, 1)
+border_width_left = 12
+border_width_top = 12
+border_width_right = 12
+border_width_bottom = 12
+border_color = Color(0.615686, 0.490196, 0.388235, 1)
+
+[node name="WardrobeMenu" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_menu")
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+
+[node name="Dim" type="ColorRect" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.047059, 0.043137, 0.035294, 0.56)
+
+[node name="Panel" type="Panel" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -244.0
+offset_right = 512.0
+offset_bottom = 244.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("CabinetStyle")
+
+[node name="Backing" type="ColorRect" parent="Overlay/Panel"]
+offset_left = 24.0
+offset_top = 32.0
+offset_right = 616.0
+offset_bottom = 452.0
+mouse_filter = 2
+color = Color(0.45098, 0.34902, 0.270588, 1)
+
+[node name="TopRow" type="ScrollContainer" parent="Overlay/Panel"]
+offset_left = 40.0
+offset_top = 48.0
+offset_right = 600.0
+offset_bottom = 240.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="Padding" type="MarginContainer" parent="Overlay/Panel/TopRow"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 192
+theme_override_constants/margin_right = 192
+
+[node name="Items" type="HBoxContainer" parent="Overlay/Panel/TopRow/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BottomRow" type="ScrollContainer" parent="Overlay/Panel"]
+offset_left = 40.0
+offset_top = 264.0
+offset_right = 600.0
+offset_bottom = 456.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="Padding" type="MarginContainer" parent="Overlay/Panel/BottomRow"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 192
+theme_override_constants/margin_right = 192
+
+[node name="Items" type="HBoxContainer" parent="Overlay/Panel/BottomRow/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ShelfFace" type="ColorRect" parent="Overlay/Panel"]
+offset_left = 24.0
+offset_top = 244.0
+offset_right = 616.0
+offset_bottom = 256.0
+mouse_filter = 2
+color = Color(0.490196, 0.380392, 0.294118, 1)
+
+[node name="ShelfTop" type="ColorRect" parent="Overlay/Panel"]
+offset_left = 24.0
+offset_top = 244.0
+offset_right = 616.0
+offset_bottom = 248.0
+mouse_filter = 2
+color = Color(0.615686, 0.490196, 0.388235, 1)
+
+[node name="Preview" type="Panel" parent="Overlay/Panel"]
+offset_left = 656.0
+offset_top = 40.0
+offset_right = 984.0
+offset_bottom = 448.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("MirrorStyle")
+
+[node name="Reflection" type="Polygon2D" parent="Overlay/Panel/Preview"]
+polygon = PackedVector2Array(12, 180, 160, 12, 204, 12, 12, 228)
+color = Color(0.8, 0.83, 0.73, 0.08)
+
+[node name="Character" parent="Overlay/Panel/Preview" instance=ExtResource("3_character")]
+position = Vector2(164, 324)
+scale = Vector2(12, 12)
+
+[node name="Plinth" type="ColorRect" parent="Overlay/Panel"]
+offset_top = 468.0
+offset_right = 1024.0
+offset_bottom = 488.0
+mouse_filter = 2
+color = Color(0.490196, 0.380392, 0.294118, 1)
+
