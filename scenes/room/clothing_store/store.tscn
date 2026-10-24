@@ -22,6 +22,8 @@
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/entrance_mat.tscn" id="entrance_mat"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/wall_clock.tscn" id="wall_clock"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/mannequin.tscn" id="mannequin"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/sale_table.tscn" id="sale_table"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/sale_sign.tscn" id="sale_sign"]
 
 [sub_resource type="ShaderMaterial" id="FacadeCutouts"]
 shader = ExtResource("clip")
@@ -166,6 +168,12 @@ position = Vector2(136, 55)
 
 [node name="Mannequin" parent="NavigationRegion/YSort" instance=ExtResource("mannequin")]
 position = Vector2(140, 198)
+
+[node name="SaleTable" parent="NavigationRegion/YSort" instance=ExtResource("sale_table")]
+position = Vector2(112, 128)
+
+[node name="SaleSign" parent="NavigationRegion/YSort" instance=ExtResource("sale_sign")]
+position = Vector2(140, 118)
 
 [node name="TopsRack1" parent="NavigationRegion/YSort" instance=ExtResource("tops")]
 position = Vector2(44, 84)

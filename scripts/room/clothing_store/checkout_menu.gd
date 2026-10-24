@@ -10,6 +10,7 @@ var _player: Player
 var _checkout: ClothingCheckout
 var _paths: Array[NodePath] = []
 var _items: Array[Vector3i] = []
+var _discounts: Array[int] = []
 var _closing := false
 
 
@@ -37,7 +38,8 @@ func _refresh() -> void:
 		return
 	_paths.assign(basket.map(func(garment: ShopGarment): return garment.get_path()))
 	_items.assign(basket.map(func(garment: ShopGarment): return Vector3i(int(garment.is_top), garment.style_id, garment.color_id)))
-	var payable := _player.clothing_shop.unowned_items(_items)
+	_discounts.assign(basket.map(func(garment: ShopGarment): return garment.discount_percent))
+	var prices := _player.clothing_shop.basket_prices(_items, _discounts)
 	var total := 0
 	for index in _cards.get_child_count():
 		var card := _cards.get_child(index) as Control
@@ -48,8 +50,7 @@ func _refresh() -> void:
 		var icon: TextureRect = card.get_node("Icon")
 		icon.texture = garment.sprite.texture
 		icon.material = garment.sprite.material
-		var price := ClothingShop.price(garment.is_top) if _items[index] in payable else 0
-		payable.erase(_items[index])
+		var price := prices[index]
 		total += price
 		(card.get_node("Price") as Label).text = str(price)
 		card.modulate.a = 0.55 if price == 0 else 1.0
@@ -62,7 +63,7 @@ func _refresh() -> void:
 
 func _on_buy() -> void:
 	if not _closing and not _buy.disabled:
-		_player.clothing_shop.buy_at_checkout(_checkout, _paths.duplicate(), _items.duplicate())
+		_player.clothing_shop.buy_at_checkout(_checkout, _paths.duplicate(), _items.duplicate(), _discounts.duplicate())
 
 
 func _on_purchase_finished(accepted: bool) -> void:

@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/sale_table.png" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/clothing_slot.tscn" id="slot"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(32, 32)
+
+[node name="SaleTable" type="StaticBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -18)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("Footprint")
+
+[node name="Slots" type="Node2D" parent="."]
+
+[node name="TopLeft" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(-8, -32)
+allow_any_clothing = true
+generates_stock = true
+stock_discount_percent = 50
+
+[node name="TopRight" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(8, -32)
+allow_any_clothing = true
+generates_stock = true
+stock_discount_percent = 50
+
+[node name="BottomLeft" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(-8, -16)
+allow_any_clothing = true
+generates_stock = true
+stock_discount_percent = 50
+
+[node name="BottomRight" parent="Slots" instance=ExtResource("slot")]
+position = Vector2(8, -16)
+allow_any_clothing = true
+generates_stock = true
+stock_discount_percent = 50

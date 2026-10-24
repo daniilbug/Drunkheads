@@ -218,6 +218,45 @@ def fitting_table() -> Image.Image:
     return image
 
 
+def sale_table() -> Image.Image:
+    """Square oak top for four garments, with a low front face."""
+    image = Image.new("RGBA", (32, 36), WOOD)
+    d = ImageDraw.Draw(image)
+    d.line((1, 0, 30, 0), fill=WOOD_LIGHT)
+    d.line((1, 31, 30, 31), fill=WOOD_EDGE)
+    d.rectangle((1, 32, 30, 35), fill=WOOD_FRONT)
+    d.line((4, 9, 14, 9), fill=WOOD_GRAIN)
+    d.line((18, 23, 27, 23), fill=WOOD_EDGE)
+    return image
+
+
+def sale_sign() -> Image.Image:
+    """Small freestanding SALE -50% sign with hand-pixelled lettering."""
+    image = Image.new("RGBA", (22, 26))
+    d = ImageDraw.Draw(image)
+    d.rectangle((10, 13, 11, 23), fill=WOOD_EDGE)
+    d.rectangle((7, 24, 14, 25), fill=WOOD_FRONT)
+    d.rectangle((0, 0, 21, 14), fill="#ad5d51")
+    d.line((1, 0, 20, 0), fill="#c07967")
+    glyphs = {
+        "S": ("111", "100", "111", "001", "111"),
+        "A": ("010", "101", "111", "101", "101"),
+        "L": ("100", "100", "100", "100", "111"),
+        "E": ("111", "100", "110", "100", "111"),
+        "-": ("000", "000", "111", "000", "000"),
+        "5": ("111", "100", "111", "001", "111"),
+        "0": ("111", "101", "101", "101", "111"),
+        "%": ("101", "001", "010", "100", "101"),
+    }
+    for word, y in (("SALE", 2), ("-50%", 8)):
+        for index, letter in enumerate(word):
+            for row, line in enumerate(glyphs[letter]):
+                for column, pixel in enumerate(line):
+                    if pixel == "1":
+                        d.point((3 + index * 4 + column, y + row), fill=WHITE_LIGHT)
+    return image
+
+
 def pouf() -> Image.Image:
     """Small sage upholstered seat on a low oak plinth."""
     image = Image.new("RGBA", (16, 14))
@@ -315,6 +354,7 @@ def generate() -> None:
         "entrance_door": entrance_door,
         "pavement": pavement,
         "rack": rack, "display_table": display_table, "fitting_table": fitting_table,
+        "sale_table": sale_table, "sale_sign": sale_sign,
         "pouf": pouf, "cash_register": cash_register, "fitting_cabin": fitting_cabin,
         "counter": lambda: wood_block(52), "clerk": clerk, "destination_icon": destination_icon,
     }.items():

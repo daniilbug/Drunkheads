@@ -45,8 +45,8 @@ func clear_fitting(source: Node) -> void:
 func _enter_tree() -> void:
 	set_multiplayer_authority(1)
 
-static func price(is_top: bool) -> int:
-	return TOP_PRICE if is_top else BOTTOM_PRICE
+static func price(is_top: bool, discount_percent := 0) -> int:
+	return ceili((TOP_PRICE if is_top else BOTTOM_PRICE) * (100 - discount_percent) / 100.0)
 
 static func is_valid_item(is_top: bool, item: Vector2i) -> bool:
 	var count := CharacterSprite.TOP_TEXTURES.size() if is_top else CharacterSprite.PANTS_TEXTURES.size()
@@ -73,26 +73,49 @@ func unowned_items(items: Array[Vector3i]) -> Array[Vector3i]:
 	return result
 
 
-func basket_price(items: Array[Vector3i]) -> int:
+func basket_prices(items: Array[Vector3i], discounts: Array[int] = []) -> Array[int]:
+	var prices: Array[int] = []
+	prices.resize(items.size())
+	var cheapest := {}
+	for index in items.size():
+		var item := items[index]
+		if owns(item.x == 1, Vector2i(item.y, item.z)):
+			continue
+		var cost := price(item.x == 1, discounts[index] if index < discounts.size() else 0)
+		var previous: int = cheapest.get(item, -1)
+		if previous < 0 or cost < prices[previous]:
+			if previous >= 0:
+				prices[previous] = 0
+			cheapest[item] = index
+			prices[index] = cost
+	return prices
+
+
+func basket_price(items: Array[Vector3i], discounts: Array[int] = []) -> int:
 	var total := 0
-	for item in unowned_items(items):
-		total += price(item.x == 1)
+	for cost in basket_prices(items, discounts):
+		total += cost
 	return total
 
 
-func buy_at_checkout(checkout: Interactable, paths: Array[NodePath], items: Array[Vector3i]) -> void:
-	if checkout.can_use(player) and paths.size() == items.size() and _begin_purchase(items):
+func buy_at_checkout(checkout: Interactable, paths: Array[NodePath], items: Array[Vector3i], discounts: Array[int] = []) -> void:
+	if checkout.can_use(player) and paths.size() == items.size() and _begin_purchase(items, discounts):
 		checkout.purchase(player, paths, _pending_cost)
 
 
-func _begin_purchase(items: Array[Vector3i]) -> bool:
+func _begin_purchase(items: Array[Vector3i], discounts: Array[int] = []) -> bool:
 	if not player.is_multiplayer_authority() or purchase_pending or items.is_empty() \
 		or multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return false
+	if not discounts.is_empty() and discounts.size() != items.size():
+		return false
+	for discount in discounts:
+		if discount < 0 or discount > 100:
+			return false
 	for item in items:
 		if item.x not in [0, 1] or not is_valid_item(item.x == 1, Vector2i(item.y, item.z)):
 			return false
-	var total := basket_price(items)
+	var total := basket_price(items, discounts)
 	if player.player_data.money < total:
 		return false
 	purchase_pending = true

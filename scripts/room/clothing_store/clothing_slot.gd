@@ -6,6 +6,8 @@ signal contents_changed
 
 @export var is_top := true
 @export var allow_any_clothing := false
+@export var generates_stock := false
+@export_range(0, 100, 1) var stock_discount_percent := 0
 var initial_item := Vector2i(-1, -1)
 
 

@@ -62,12 +62,14 @@ func _commit_purchase(player: Player, paths: Array[NodePath], total: int) -> boo
 	if basket.is_empty() or basket.size() != paths.size():
 		return false
 	var items: Array[Vector3i] = []
+	var discounts: Array[int] = []
 	for index in basket.size():
 		var garment := basket[index]
 		if garment.get_path() != paths[index]:
 			return false
 		items.append(Vector3i(int(garment.is_top), garment.style_id, garment.color_id))
-	if total != player.clothing_shop.basket_price(items):
+		discounts.append(garment.discount_percent)
+	if total != player.clothing_shop.basket_price(items, discounts):
 		return false
 	for item in player.clothing_shop.unowned_items(items):
 		var wardrobe := player.owned_tops if item.x == 1 else player.owned_bottoms

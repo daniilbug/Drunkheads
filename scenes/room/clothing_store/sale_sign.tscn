@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/sale_sign.png" id="texture"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(8, 3)
+
+[node name="SaleSign" type="StaticBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+offset = Vector2(0, -13)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1.5)
+shape = SubResource("Footprint")

@@ -23,6 +23,7 @@ func _update_garments() -> void:
 	for index in $Garments.get_child_count():
 		var slot := $Garments.get_child(index) as ClothingSlot
 		slot.is_top = display_tops
+		slot.generates_stock = index < garments.size()
 		slot.initial_item = garments[index] if index < garments.size() else Vector2i(-1, -1)
 		var sprite := slot.get_node("Preview") as Sprite2D
 		sprite.visible = Engine.is_editor_hint() and index < garments.size()

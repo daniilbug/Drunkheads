@@ -4,6 +4,13 @@ extends Draggable
 @export var is_top := true
 @export var style_id := 0
 @export var color_id := 0
+@export_range(0, 100, 1) var discount_percent := 0:
+	set(value):
+		discount_percent = value
+		if is_node_ready() and not dock_path.is_empty():
+			var slot := get_node_or_null(dock_path) as ClothingSlot
+			if slot != null:
+				slot.contents_changed.emit()
 var item: Vector2i:
 	get:
 		return Vector2i(style_id, color_id)
@@ -115,20 +122,25 @@ func get_save_schema() -> Dictionary:
 
 func get_save_data() -> Dictionary:
 	var data := super.get_save_data()
-	if not data.is_empty() and not dock_path.is_empty():
-		data.fields.dock_path = _level.get_path_to(get_node(dock_path))
+	if not data.is_empty():
+		# Optional in older saves; validate it separately in can_restore_save_data().
+		data.fields.discount_percent = discount_percent
+		if not dock_path.is_empty():
+			data.fields.dock_path = _level.get_path_to(get_node(dock_path))
 	return data
 
 
 func apply_save_data(data: Dictionary) -> void:
 	var restored := data.duplicate(true)
+	discount_percent = restored.fields.get("discount_percent", 0)
 	if not restored.fields.dock_path.is_empty():
 		restored.fields.dock_path = NodePath(str(_level.get_path()) + "/" + str(restored.fields.dock_path))
 	super.apply_save_data(restored)
 
 
 func can_restore_save_data(fields: Dictionary, saved_level: Node2D) -> bool:
-	if not super.can_restore_save_data(fields, saved_level) or not ClothingShop.is_valid_item(fields.is_top, Vector2i(fields.style_id, fields.color_id)):
+	if not super.can_restore_save_data(fields, saved_level) or not SaveGraph.matches(fields.get("discount_percent", 0), Vector2i(0, 100)) \
+		or not ClothingShop.is_valid_item(fields.is_top, Vector2i(fields.style_id, fields.color_id)):
 		return false
 	if fields.dock_path.is_empty():
 		return true

@@ -33,6 +33,9 @@ properties/5/replication_mode = 2
 properties/6/path = NodePath(".:color_id")
 properties/6/spawn = true
 properties/6/replication_mode = 2
+properties/7/path = NodePath(".:discount_percent")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
 [node name="Garment" instance=ExtResource("base")]
 script = ExtResource("script")
