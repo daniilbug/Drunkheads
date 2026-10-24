@@ -86,7 +86,7 @@ func _build_row(row: HBoxContainer, items: Array[Vector2i], is_top: bool) -> voi
 		row.add_child(card)
 		var icon := card.get_node("Icon") as TextureRect
 		var texture: Texture2D = CharacterSprite.TOP_TEXTURES[item.x] if is_top else CharacterSprite.PANTS_TEXTURES[item.x]
-		icon.texture = _garment_icon(texture)
+		icon.texture = CharacterSprite.garment_icon(texture)
 		var dye := icon.material.duplicate() as ShaderMaterial
 		dye.set_shader_parameter("clothing_color", CharacterSprite.CLOTHING_COLORS[item.y])
 		icon.material = dye
@@ -104,21 +104,6 @@ func _configure_focus() -> void:
 			var across := card.get_path_to(other_row.get_child(mini(index, other_row.get_child_count() - 1)))
 			card.focus_neighbor_top = across if row == _bottoms else NodePath(".")
 			card.focus_neighbor_bottom = across if row == _tops else NodePath(".")
-
-func _garment_icon(texture: Texture2D) -> ImageTexture:
-	# Crop the actual front-facing idle frame; hide exposed anatomy for the item icon.
-	# The original atlases and their generators remain untouched.
-	var image := texture.get_image().get_region(Rect2i(0, Player.ROW_IDLE * 20, 12, 20))
-	for y in image.get_height():
-		for x in image.get_width():
-			var color := image.get_pixel(x, y)
-			if color == Color8(236, 194, 149) or color == Color8(200, 155, 110):
-				image.set_pixel(x, y, Color.TRANSPARENT)
-	var bounds := image.get_used_rect()
-	# A square canvas keeps every icon on the same integer pixel grid.
-	var square := Image.create(12, 12, false, Image.FORMAT_RGBA8)
-	square.blit_rect(image, bounds, Vector2i((12 - bounds.size.x) / 2, (12 - bounds.size.y) / 2))
-	return ImageTexture.create_from_image(square)
 
 func _select(index: int, is_top: bool) -> void:
 	if is_top:

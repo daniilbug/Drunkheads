@@ -21,6 +21,8 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 @onready var _destination_options: GridContainer = $Root/Screen/TaxiDestinations/Options
 @onready var _wallpapers_button: Button = $Root/Screen/Launcher/Apps/WallpapersButton
 @onready var _music_button: Button = $Root/Screen/Launcher/Apps/MusicButton
+@onready var _marketplace_button: Button = $Root/Screen/Launcher/Apps/MarketplaceButton
+@onready var _marketplace: PhoneMarketplace = $Root/Screen/Marketplace
 @onready var _music_page: Control = $Root/Screen/MusicPlayer
 @onready var _music_wave: PhoneMusicWave = $Root/Screen/MusicPlayer/Wave
 @onready var _music_progress: ProgressBar = $Root/Screen/MusicPlayer/Progress
@@ -37,6 +39,7 @@ const PAUSE_ICON := preload("res://assets/sprites/phone/pause_icon.png")
 ]
 
 var _settings: PlayerSettings
+var _clothing_shop: ClothingShop
 var _headphone_player: HeadphonePlayer
 var _world_time: WorldTime
 var _current_level := "bar"
@@ -67,6 +70,9 @@ func _build_destination_buttons() -> void:
 func set_player_settings(settings: PlayerSettings) -> void:
 	_settings = settings
 
+func set_clothing_shop(shop: ClothingShop) -> void:
+	_clothing_shop = shop
+
 func set_headphone_player(player: HeadphonePlayer) -> void:
 	_headphone_player = player
 
@@ -96,6 +102,10 @@ func _ready() -> void:
 	_build_destination_buttons()
 	_wallpapers_button.pressed.connect(_show_picker)
 	_music_button.pressed.connect(_show_music)
+	_marketplace_button.pressed.connect(_show_marketplace)
+	_marketplace_button.disabled = _clothing_shop == null
+	if _clothing_shop != null:
+		_marketplace.set_shop(_clothing_shop)
 	_music_button.disabled = _headphone_player == null
 	if _headphone_player != null:
 		_previous_button.pressed.connect(_headphone_player.select_relative.bind(-1))
@@ -117,7 +127,7 @@ func set_taxi_available(available: bool) -> void:
 	_refresh_destinations()
 	_taxi_button.disabled = not available
 	_taxi_button.modulate = Color.WHITE if available else Color(0.55, 0.55, 0.55)
-	if _picker.visible or _music_page.visible or _taxi_page.visible:
+	if _picker.visible or _music_page.visible or _taxi_page.visible or _marketplace.visible:
 		return
 	if available:
 		_taxi_button.grab_focus()
@@ -153,6 +163,7 @@ func _select_wallpaper(index: int) -> void:
 	_show_launcher()
 
 func _show_picker() -> void:
+	_marketplace.hide()
 	_taxi_page.hide()
 	_launcher.hide()
 	_music_page.hide()
@@ -160,12 +171,20 @@ func _show_picker() -> void:
 	_preview_buttons[clampi(_settings.phone_wallpaper_index, 0, _preview_buttons.size() - 1)].grab_focus()
 
 func _show_music() -> void:
+	_marketplace.hide()
 	_taxi_page.hide()
 	_launcher.hide()
 	_picker.hide()
 	_music_page.show()
 	_update_music_visuals()
 	_toggle_button.grab_focus()
+
+func _show_marketplace() -> void:
+	_taxi_page.hide()
+	_launcher.hide()
+	_picker.hide()
+	_music_page.hide()
+	_marketplace.open()
 
 func _refresh_music() -> void:
 	if _headphone_player == null:
@@ -185,6 +204,7 @@ func _update_music_visuals() -> void:
 	_music_wave.update_playback(position, playing)
 
 func _show_launcher() -> void:
+	_marketplace.hide()
 	_taxi_page.hide()
 	_picker.hide()
 	_music_page.hide()
@@ -195,6 +215,7 @@ func _show_launcher() -> void:
 		_taxi_button.grab_focus()
 
 func _on_taxi_pressed() -> void:
+	_marketplace.hide()
 	_launcher.hide()
 	_picker.hide()
 	_music_page.hide()
@@ -219,7 +240,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		closed.emit()
 	elif event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		if _picker.visible or _music_page.visible or _taxi_page.visible:
+		if _picker.visible or _music_page.visible or _taxi_page.visible or _marketplace.visible:
 			_show_launcher()
 		else:
 			closed.emit()

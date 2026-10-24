@@ -57,6 +57,7 @@ func _open_phone() -> void:
 		return
 	_phone = PHONE_SCENE.instantiate() as Phone
 	_phone.set_player_settings(_player.settings)
+	_phone.set_clothing_shop(_player.clothing_shop)
 	_phone.set_headphone_player(_headphone_player)
 	_phone.set_world_time(_world_time)
 	_phone.set_transport_destinations(_destinations)

@@ -149,6 +149,7 @@ func _request_player_setup(setup: Dictionary) -> void:
 
 func _init_local_player_ui(player: Player) -> void:
 	player.player_data.stats_changed.connect(hud.update_stats.bind(player.player_data))
+	player.clothing_shop.changed.connect(world_save.request_save)
 	phone_controller.configure(player, headphone_player, world_time,
 		transport.get_destinations(), transport.is_local_taxi_available)
 	player.phone_requested.connect(phone_controller.open)

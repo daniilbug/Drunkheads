@@ -111,6 +111,7 @@ var player_name: String = ""
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var camera: Camera2D = get_node_or_null("Camera")
 @onready var audio: AudioStreamPlayer2D = $Audio
+@onready var clothing_shop: ClothingShop = get_node_or_null("ClothingShop")
 
 var _hands_item: Draggable = null
 var _smoking := false

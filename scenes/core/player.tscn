@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/core/moving_navigation_obstacle.gd" id="4_nav_obstacle"]
 [ext_resource type="Shader" path="res://assets/shaders/hair_color.gdshader" id="hair_color_shader"]
 [ext_resource type="Shader" path="res://assets/shaders/clothing_color.gdshader" id="clothing_color_shader"]
+[ext_resource type="PackedScene" path="res://scenes/core/clothing_shop.tscn" id="clothing_shop"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hair"]
 shader = ExtResource("hair_color_shader")
@@ -93,6 +94,8 @@ properties/12/replication_mode = 2
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
 collision_mask = 9
 script = ExtResource("1_q88xf")
+
+[node name="ClothingShop" parent="." instance=ExtResource("clothing_shop")]
 
 [node name="Shape" type="CollisionShape2D" parent="." unique_id=634790149]
 position = Vector2(0, -4)

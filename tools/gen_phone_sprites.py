@@ -122,6 +122,17 @@ def generate_music_icon() -> Path:
     return _save_glyph(icon, "music_icon.png")
 
 
+def generate_shopping_icon() -> Path:
+    icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(icon)
+    # A solid handbag with an open arched handle and soft corners.
+    draw.ellipse((10, 6, 21, 19), fill=OUTLINE)
+    draw.ellipse((12, 8, 19, 17), fill=(0, 0, 0, 0))
+    draw.polygon([(8, 13), (23, 13), (25, 22), (25, 24),
+                  (24, 25), (7, 25), (6, 24), (6, 22)], fill=OUTLINE)
+    return _save_glyph(icon, "shopping_icon.png")
+
+
 def generate_home_icon() -> Path:
     icon = Image.new("RGBA", (OUTPUT_ICON_SIZE, OUTPUT_ICON_SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(icon)
@@ -212,6 +223,7 @@ if __name__ == "__main__":
     print(generate_taxi_icon())
     print(generate_wallpaper_icon())
     print(generate_music_icon())
+    print(generate_shopping_icon())
     print(generate_home_icon())
     print(generate_cafe_icon())
     print(generate_bar_icon())

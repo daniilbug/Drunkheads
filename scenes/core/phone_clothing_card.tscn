@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/clothing_color.gdshader" id="1_dye"]
+[ext_resource type="FontFile" path="res://assets/fonts/pixelify_sans/PixelifySans.ttf" id="2_font"]
+
+[sub_resource type="ShaderMaterial" id="Dye"]
+shader = ExtResource("1_dye")
+
+[sub_resource type="StyleBoxFlat" id="Normal"]
+bg_color = Color(0, 0, 0, 0.35)
+
+[sub_resource type="StyleBoxFlat" id="Hover"]
+bg_color = Color(0, 0, 0, 0.55)
+
+[sub_resource type="StyleBoxFlat" id="Owned"]
+bg_color = Color(0, 0, 0, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.9, 0.76, 0.45)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.9, 0.76, 1)
+
+[node name="ClothingCard" type="Button"]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+toggle_mode = true
+theme_override_styles/normal = SubResource("Normal")
+theme_override_styles/hover = SubResource("Hover")
+theme_override_styles/pressed = SubResource("Owned")
+theme_override_styles/hover_pressed = SubResource("Owned")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Icon" type="TextureRect" parent="."]
+material = SubResource("Dye")
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 70.0
+offset_bottom = 68.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 72.0
+offset_bottom = 96.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.76, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1

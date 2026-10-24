@@ -116,6 +116,19 @@ const CLOTHING_COLORS: Array[Color] = [
 var _in_shower := false
 var _headphones_enabled := false
 
+static func garment_icon(texture: Texture2D) -> ImageTexture:
+	# Front-facing idle frame, with exposed anatomy removed from the garment.
+	var image := texture.get_image().get_region(Rect2i(0, Player.ROW_IDLE * 20, 12, 20))
+	for y in image.get_height():
+		for x in image.get_width():
+			var color := image.get_pixel(x, y)
+			if color == Color8(236, 194, 149) or color == Color8(200, 155, 110):
+				image.set_pixel(x, y, Color.TRANSPARENT)
+	var bounds := image.get_used_rect()
+	var square := Image.create(12, 12, false, Image.FORMAT_RGBA8)
+	square.blit_rect(image, bounds, Vector2i((12 - bounds.size.x) / 2, (12 - bounds.size.y) / 2))
+	return ImageTexture.create_from_image(square)
+
 func _ready() -> void:
 	# Characters and slots must never share dye uniforms, including NPCs.
 	for layer in [_hair, _top, _pants]:
