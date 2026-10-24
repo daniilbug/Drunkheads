@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/shopping_icon.png" id="buy_icon"]
+[ext_resource type="FontFile" path="res://assets/fonts/pixelify_sans/PixelifySans.ttf" id="font"]
+
+[sub_resource type="StyleBoxFlat" id="Buy"]
+bg_color = Color(0.72, 0.57, 0.39, 1)
+
+[sub_resource type="StyleBoxFlat" id="Hover"]
+bg_color = Color(0.81, 0.67, 0.47, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.98, 0.89, 0.67, 1)
+
+[node name="PurchaseButton" type="Button"]
+custom_minimum_size = Vector2(0, 64)
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Buy")
+theme_override_styles/hover = SubResource("Hover")
+theme_override_styles/pressed = SubResource("Buy")
+theme_override_styles/disabled = SubResource("Buy")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Contents" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="Contents"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("buy_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="Contents"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource("font")
+theme_override_colors/font_color = Color(0.227451, 0.14902, 0.062745, 1)
+theme_override_font_sizes/font_size = 32
+vertical_alignment = 1

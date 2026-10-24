@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/window.tscn" id="window"]
+[ext_resource type="Texture2D" path="res://assets/sprites/barber/window.png" id="texture"]
+
+[node name="BarberWindow" instance=ExtResource("window")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("texture")

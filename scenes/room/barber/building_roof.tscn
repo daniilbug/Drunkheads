@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/roof.tscn" id="roof"]
+
+[node name="BuildingRoof" instance=ExtResource("roof")]
+
+[node name="Surface" parent="." index="0"]
+polygon = PackedVector2Array(0, 0, 416, 0, 416, 56, 0, 56)
+
+[node name="Cap" parent="." index="1"]
+polygon = PackedVector2Array(0, 0, 416, 0, 416, 1, 0, 1)
+
+[node name="LowerEdge" parent="." index="2"]
+polygon = PackedVector2Array(1, 53, 415, 53, 415, 54, 1, 54)
+
+[node name="Shadow" parent="." index="3"]
+polygon = PackedVector2Array(0, 54, 416, 54, 416, 56, 0, 56)
+
+[node name="Cornice" parent="." index="4"]
+polygon = PackedVector2Array(0, 56, 416, 56, 416, 57, 0, 57)
+
+[node name="CorniceShadow" parent="." index="5"]
+polygon = PackedVector2Array(1, 57, 415, 57, 415, 58, 1, 58)

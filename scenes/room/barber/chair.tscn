@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/barber/chair.png" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/core/seat.tscn" id="seat"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(8, 3)
+
+[node name="BarberChair" type="StaticBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -12)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1.5)
+shape = SubResource("Footprint")
+
+[node name="Seat" parent="." instance=ExtResource("seat")]
+facing_north = true
+seat_position_offset = Vector2(0, -7)
+stand_on_interact = true
+stand_position_offset = Vector2(0, 12)
+interaction_radius = 16.0

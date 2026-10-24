@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/brick.png" id="brick"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/building_roof.tscn" id="roof"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/upper_window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/facade_cladding.tscn" id="cladding"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/shirt_sign.tscn" id="shirt"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/scissors_sign.tscn" id="scissors"]
+
+[sub_resource type="ShaderMaterial" id="Cutouts"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 5
+shader_parameter/cutouts = PackedVector4Array(168, 150, 80, 24, 280, 150, 80, 24, 256, 149, 16, 28, 40, 150, 32, 24, 80, 149, 16, 28)
+
+[node name="BuildingFacade" type="Node2D"]
+
+[node name="Brick" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-152, -176)
+texture = ExtResource("brick")
+material = SubResource("Cutouts")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 178)
+region_filter_clip_enabled = false
+
+[node name="LeftEdge" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-160, -176)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 178)
+region_filter_clip_enabled = false
+
+[node name="RightEdge" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(248, -176)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(16, 0, 8, 178)
+region_filter_clip_enabled = false
+
+[node name="Roof" parent="." instance=ExtResource("roof")]
+position = Vector2(-160, -232)
+
+[node name="StoreCladding" parent="." instance=ExtResource("cladding")]
+position = Vector2(4, -32)
+
+[node name="StoreSign" parent="." instance=ExtResource("shirt")]
+position = Vector2(112, -42)
+
+[node name="BarberSign" parent="." instance=ExtResource("scissors")]
+position = Vector2(-64, -47)
+
+[node name="Window0_0" parent="." instance=ExtResource("window")]
+position = Vector2(-104, -37)
+
+[node name="Window0_1" parent="." instance=ExtResource("window")]
+position = Vector2(-24, -37)
+
+[node name="Window0_2" parent="." instance=ExtResource("window")]
+position = Vector2(56, -37)
+
+[node name="Window0_3" parent="." instance=ExtResource("window")]
+position = Vector2(168, -37)
+
+[node name="Window0_4" parent="." instance=ExtResource("window")]
+position = Vector2(224, -37)
+
+[node name="Window1_0" parent="." instance=ExtResource("window")]
+position = Vector2(-104, -85)
+
+[node name="Window1_1" parent="." instance=ExtResource("window")]
+position = Vector2(-24, -85)
+
+[node name="Window1_2" parent="." instance=ExtResource("window")]
+position = Vector2(56, -85)
+
+[node name="Window1_3" parent="." instance=ExtResource("window")]
+position = Vector2(168, -85)
+
+[node name="Window1_4" parent="." instance=ExtResource("window")]
+position = Vector2(224, -85)
+
+[node name="Window2_0" parent="." instance=ExtResource("window")]
+position = Vector2(-104, -133)
+
+[node name="Window2_1" parent="." instance=ExtResource("window")]
+position = Vector2(-24, -133)
+
+[node name="Window2_2" parent="." instance=ExtResource("window")]
+position = Vector2(56, -133)
+
+[node name="Window2_3" parent="." instance=ExtResource("window")]
+position = Vector2(168, -133)
+
+[node name="Window2_4" parent="." instance=ExtResource("window")]
+position = Vector2(224, -133)

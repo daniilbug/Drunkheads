@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/wc/mirror.tscn" id="mirror"]
+
+[node name="BarberMirror" instance=ExtResource("mirror")]
+
+[node name="Glass" parent="." index="0"]
+position = Vector2(-6, -23)
+centered = false
+
+[node name="Frame" parent="." index="1"]
+position = Vector2(-6, -23)
+centered = false

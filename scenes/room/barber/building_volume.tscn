@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[sub_resource type="CanvasItemMaterial" id="Unshaded"]
+light_mode = 1
+
+[sub_resource type="RectangleShape2D" id="LeftWing"]
+size = Vector2(40, 232)
+
+[sub_resource type="RectangleShape2D" id="AboveBarber"]
+size = Vector2(112, 132)
+
+[sub_resource type="RectangleShape2D" id="AboveStore"]
+size = Vector2(232, 32)
+
+[sub_resource type="RectangleShape2D" id="Partition"]
+size = Vector2(8, 200)
+
+[sub_resource type="RectangleShape2D" id="RightWing"]
+size = Vector2(32, 232)
+
+[node name="BuildingVolume" type="Node2D"]
+z_index = -1
+
+[node name="HiddenRooms" type="Polygon2D" parent="."]
+material = SubResource("Unshaded")
+polygon = PackedVector2Array(-160, 0, 256, 0, 256, 234, 228, 234, 228, 2, -4, 2, -4, 102, -124, 102, -124, 234, -160, 234)
+color = Color(0.156863, 0.14902, 0.133333, 1)
+
+[node name="Body" type="StaticBody2D" parent="."]
+
+[node name="LeftWing" type="CollisionShape2D" parent="Body"]
+position = Vector2(-140, 116)
+shape = SubResource("LeftWing")
+
+[node name="AboveBarber" type="CollisionShape2D" parent="Body"]
+position = Vector2(-64, 66)
+shape = SubResource("AboveBarber")
+
+[node name="AboveStore" type="CollisionShape2D" parent="Body"]
+position = Vector2(108, 16)
+shape = SubResource("AboveStore")
+
+[node name="Partition" type="CollisionShape2D" parent="Body"]
+position = Vector2(-4, 132)
+shape = SubResource("Partition")
+
+[node name="RightWing" type="CollisionShape2D" parent="Body"]
+position = Vector2(240, 116)
+shape = SubResource("RightWing")

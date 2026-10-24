@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
 [ext_resource type="PackedScene" path="res://scenes/street/bike_rack.tscn" id="bike_rack"]
 [ext_resource type="PackedScene" path="res://scenes/street/bench.tscn" id="bench"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/room.tscn" id="barber"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/building_facade.tscn" id="facade"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/building_volume.tscn" id="volume"]
 
 [sub_resource type="CircleShape2D" id="LanternFootprint"]
 radius = 3.0
@@ -18,16 +21,23 @@ script = ExtResource("script")
 level_id = "clothing_store"
 transport_destination = ExtResource("destination")
 
-[node name="Store" parent="." index="0" instance=ExtResource("store")]
+[node name="BuildingFacade" parent="." index="0" instance=ExtResource("facade")]
+position = Vector2(0, 232)
+
+[node name="Store" parent="." index="1" node_paths=PackedStringArray("wall_transparency_targets", "additional_transparency_zones") instance=ExtResource("store")]
 position = Vector2(0, 32)
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("../BuildingFacade"), NodePath("Entrance"), NodePath("../BarberRoom/Entrance")])
+additional_transparency_zones = Array[NodePath]([NodePath("../BarberRoom/TransparencyZone")])
 
-[node name="Pavement" parent="." index="1" instance=ExtResource("pavement")]
-position = Vector2(-112, -16)
+[node name="Pavement" parent="." index="2" instance=ExtResource("pavement")]
+position = Vector2(-256, 0)
+offset = Vector2(0, -16)
+region_rect = Rect2(0, 0, 608, 400)
 
-[node name="PlayerSpawn" type="Marker2D" parent="." index="2"]
+[node name="PlayerSpawn" type="Marker2D" parent="." index="3"]
 position = Vector2(112, 250)
 
-[node name="TaxiReturn" type="Marker2D" parent="." index="3"]
+[node name="TaxiReturn" type="Marker2D" parent="." index="4"]
 position = Vector2(146, 262)
 
 [node name="BikeRack" parent="." instance=ExtResource("bike_rack")]
@@ -80,17 +90,23 @@ radius = 3.0
 _spawnable_scenes = PackedStringArray("res://scenes/room/clothing_store/garment.tscn")
 spawn_path = NodePath("..")
 
+[node name="BuildingVolume" parent="." instance=ExtResource("volume")]
+
+[node name="BarberRoom" parent="." node_paths=PackedStringArray("additional_transparency_zones") instance=ExtResource("barber")]
+position = Vector2(-120, 132)
+additional_transparency_zones = Array[NodePath]([NodePath("../Store/TransparencyZone")])
+
 [node name="BottomLeft" parent="LevelBounds" index="0"]
-position = Vector2(-80, 372)
+position = Vector2(-224, 372)
 
 [node name="TopRight" parent="LevelBounds" index="1"]
-position = Vector2(304, 0)
+position = Vector2(320, 0)
 
 [node name="TrafficRoad" parent="." instance=ExtResource("road")]
-position = Vector2(-112, 272)
-road_width = 448.0
+position = Vector2(-256, 272)
+road_width = 608.0
 right_lane_start_from_left = -64.0
 left_lane_end_from_left = -64.0
 
 [node name="Stop" parent="TrafficRoad/RightTrafficLane" index="2"]
-position = Vector2(224, 27.25)
+position = Vector2(368, 27.25)

@@ -1,0 +1,89 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/barber/hair_menu.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/core/menu/character_preview.tscn" id="character"]
+[ext_resource type="PackedScene" path="res://scenes/core/menu/purchase_button.tscn" id="buy"]
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.85, 0.86, 0.80, 1)
+shadow_color = Color(0.13, 0.15, 0.13, 0.35)
+shadow_size = 12
+shadow_offset = Vector2(0, 10)
+
+[sub_resource type="StyleBoxFlat" id="Mirror"]
+bg_color = Color(0.68, 0.74, 0.69, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.44, 0.50, 0.45, 1)
+
+[node name="HairMenu" type="CanvasLayer"]
+layer = 10
+script = ExtResource("script")
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+
+[node name="Dim" type="ColorRect" parent="Overlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.10, 0.13, 0.10, 0.6)
+
+[node name="Panel" type="Panel" parent="Overlay"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -314.0
+offset_top = -191.0
+offset_right = 314.0
+offset_bottom = 191.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Panel")
+
+[node name="Preview" type="Panel" parent="Overlay/Panel"]
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 210.0
+offset_bottom = 364.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Mirror")
+
+[node name="Character" parent="Overlay/Panel/Preview" instance=ExtResource("character")]
+position = Vector2(96, 300)
+scale = Vector2(9, 9)
+
+[node name="Choices" type="GridContainer" parent="Overlay/Panel"]
+offset_left = 234.0
+offset_top = 24.0
+offset_right = 594.0
+offset_bottom = 310.0
+columns = 5
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="Apply" parent="Overlay/Panel" instance=ExtResource("buy")]
+custom_minimum_size = Vector2(0, 32)
+offset_left = 234.0
+offset_top = 332.0
+offset_right = 594.0
+offset_bottom = 364.0
+focus_neighbor_left = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+
+[node name="Icon" parent="Overlay/Panel/Apply/Contents" index="0"]
+custom_minimum_size = Vector2(32, 32)
+
+[node name="Price" parent="Overlay/Panel/Apply/Contents" index="1"]
+theme_override_font_sizes/font_size = 24

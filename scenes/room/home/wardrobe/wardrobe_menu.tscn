@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/room/home/wardrobe/wardrobe_menu.gd" id="1_menu"]
-[ext_resource type="PackedScene" path="res://scenes/room/home/wardrobe/character.tscn" id="3_character"]
+[ext_resource type="PackedScene" path="res://scenes/core/menu/character_preview.tscn" id="3_character"]
 
 [sub_resource type="StyleBoxFlat" id="CabinetStyle"]
 bg_color = Color(0.52549, 0.403922, 0.309804, 1)

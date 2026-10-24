@@ -1,0 +1,68 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/player.png" id="body"]
+[ext_resource type="Shader" path="res://assets/shaders/hair_color.gdshader" id="shader"]
+
+[sub_resource type="AtlasTexture" id="Head"]
+atlas = ExtResource("body")
+region = Rect2(0, 80, 12, 10)
+
+[sub_resource type="ShaderMaterial" id="Dye"]
+resource_local_to_scene = true
+shader = ExtResource("shader")
+
+[sub_resource type="StyleBoxFlat" id="Normal"]
+bg_color = Color(0.76, 0.79, 0.74, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.60, 0.66, 0.58, 1)
+
+[sub_resource type="StyleBoxFlat" id="Selected"]
+bg_color = Color(0.76, 0.79, 0.74, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.39, 0.47, 0.37, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.95, 0.88, 1)
+
+[node name="HairCard" type="Button"]
+custom_minimum_size = Vector2(64, 64)
+toggle_mode = true
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Normal")
+theme_override_styles/hover = SubResource("Selected")
+theme_override_styles/pressed = SubResource("Selected")
+theme_override_styles/hover_pressed = SubResource("Selected")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Head" type="TextureRect" parent="."]
+offset_left = 8.0
+offset_top = 12.0
+offset_right = 56.0
+offset_bottom = 52.0
+mouse_filter = 2
+texture_filter = 1
+texture = SubResource("Head")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Hair" type="TextureRect" parent="."]
+material = SubResource("Dye")
+offset_left = 8.0
+offset_top = 12.0
+offset_right = 56.0
+offset_bottom = 52.0
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5

@@ -5,13 +5,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/floor.png" id="floor"]
 [ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/wall.png" id="wall"]
 [ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/brick.png" id="brick"]
-[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
-[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/facade_cladding.tscn" id="cladding"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/entrance_door.tscn" id="door"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/window.tscn" id="window"]
-[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/upper_window.tscn" id="upper_window"]
-[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/roof.tscn" id="roof"]
-[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/shirt_sign.tscn" id="shirt_sign"]
 [ext_resource type="PackedScene" path="res://scenes/room/bar/plant.tscn" id="plant"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/rack.tscn" id="tops"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/bottoms_table.tscn" id="bottoms"]
@@ -24,11 +19,6 @@
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/mannequin.tscn" id="mannequin"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/sale_table.tscn" id="sale_table"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/sale_sign.tscn" id="sale_sign"]
-
-[sub_resource type="ShaderMaterial" id="FacadeCutouts"]
-shader = ExtResource("clip")
-shader_parameter/active_cutouts = 3
-shader_parameter/cutouts = PackedVector4Array(16, 150, 80, 24, 128, 150, 80, 24, 104, 149, 16, 28)
 
 [sub_resource type="RectangleShape2D" id="HorizontalWall"]
 size = Vector2(224, 4)
@@ -79,14 +69,6 @@ position = Vector2(112, 200)
 shape = SubResource("HorizontalWall")
 
 [node name="Sprite" parent="Walls/Bottom" index="1"]
-texture_repeat = 2
-material = SubResource("FacadeCutouts")
-position = Vector2(-112, -176)
-texture = ExtResource("brick")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 224, 178)
-region_filter_clip_enabled = false
 
 [node name="Left" parent="Walls" index="2"]
 position = Vector2(0, 100)
@@ -100,7 +82,7 @@ position = Vector2(-8, -130)
 texture = ExtResource("brick")
 centered = false
 region_enabled = true
-region_rect = Rect2(40, 42, 8, 232)
+region_rect = Rect2(0, 42, 8, 232)
 region_filter_clip_enabled = false
 
 [node name="Right" parent="Walls" index="3"]
@@ -115,41 +97,14 @@ position = Vector2(0, -130)
 texture = ExtResource("brick")
 centered = false
 region_enabled = true
-region_rect = Rect2(32, 42, 8, 232)
+region_rect = Rect2(40, 42, 8, 232)
 region_filter_clip_enabled = false
-
-[node name="Cladding" parent="Walls/Bottom" instance=ExtResource("cladding")]
-position = Vector2(-108, -32)
-
-[node name="ShirtSign" parent="Walls/Bottom" instance=ExtResource("shirt_sign")]
-position = Vector2(0, -42)
 
 [node name="LeftWindow" parent="Walls/Bottom" instance=ExtResource("window")]
 position = Vector2(-56, 0)
 
 [node name="RightWindow" parent="Walls/Bottom" instance=ExtResource("window")]
 position = Vector2(56, 0)
-
-[node name="UpperWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(-56, -37)
-
-[node name="UpperWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(56, -37)
-
-[node name="TopWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(-56, -85)
-
-[node name="TopWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(56, -85)
-
-[node name="ThirdFloorWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(-56, -133)
-
-[node name="ThirdFloorWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
-position = Vector2(56, -133)
-
-[node name="Roof" parent="Walls/Bottom" instance=ExtResource("roof")]
-position = Vector2(-120, -232)
 
 [node name="Entrance" parent="." instance=ExtResource("door")]
 position = Vector2(112, 200)

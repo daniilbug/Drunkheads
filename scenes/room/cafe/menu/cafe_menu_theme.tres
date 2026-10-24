@@ -1,10 +1,29 @@
-[gd_resource type="Theme" load_steps=12 format=3]
+[gd_resource type="Theme" format=3 uid="uid://dtbkeydu5fnpq"]
 
-[ext_resource type="FontFile" path="res://assets/fonts/pixelify_sans/PixelifySans.ttf" id="1_font"]
+[ext_resource type="FontFile" uid="uid://dklcidkb5rtt6" path="res://assets/fonts/pixelify_sans/PixelifySans.ttf" id="1_font"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_row"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+bg_color = Color(0.835294, 0.847059, 0.768627, 0.05)
+border_width_bottom = 2
+border_color = Color(0.509804, 0.588235, 0.505882, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row_hover"]
+bg_color = Color(0.835294, 0.847059, 0.768627, 0.07)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row_pressed"]
+bg_color = Color(0.835294, 0.847059, 0.768627, 0.13)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_rule"]
+color = Color(0.509804, 0.588235, 0.505882, 0.75)
+thickness = 2
 
 [sub_resource type="FontVariation" id="FontVariation_heading"]
 base_font = ExtResource("1_font")
-variation_opentype = {"wght": 700.0}
+variation_opentype = {
+"wght": 700.0
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board"]
 bg_color = Color(0.160784, 0.2, 0.184314, 1)
@@ -15,27 +34,6 @@ border_width_bottom = 8
 border_color = Color(0.392157, 0.294118, 0.211765, 1)
 shadow_color = Color(0, 0, 0, 0.28)
 shadow_offset = Vector2(5, 5)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_row"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row_hover"]
-bg_color = Color(0.835294, 0.847059, 0.768627, 0.07)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row_pressed"]
-bg_color = Color(0.835294, 0.847059, 0.768627, 0.13)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
-bg_color = Color(0.835294, 0.847059, 0.768627, 0.05)
-border_width_bottom = 2
-border_color = Color(0.509804, 0.588235, 0.505882, 0.8)
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_rule"]
-color = Color(0.509804, 0.588235, 0.505882, 0.75)
-thickness = 2
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scroll"]
-content_margin_left = 3.0
-content_margin_right = 3.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scroll_grabber"]
 content_margin_left = 3.0
@@ -50,6 +48,10 @@ content_margin_top = 8.0
 content_margin_right = 3.0
 content_margin_bottom = 8.0
 bg_color = Color(0.72549, 0.764706, 0.686275, 0.6)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scroll"]
+content_margin_left = 3.0
+content_margin_right = 3.0
 
 [resource]
 default_font = ExtResource("1_font")

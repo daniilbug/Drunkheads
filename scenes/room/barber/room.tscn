@@ -1,0 +1,131 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/room/barber/room.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/barber/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/barber/wall.png" id="wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/brick.png" id="brick"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/entrance_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/mirror.tscn" id="mirror"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/worktop.tscn" id="worktop"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/chair.tscn" id="chair"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/barber.tscn" id="barber"]
+[ext_resource type="PackedScene" path="res://scenes/room/barber/hairstyle_photo.tscn" id="photo"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/ceiling_light.tscn" id="light"]
+
+[node name="BarberRoom" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("base")]
+script = ExtResource("script")
+y_sort_enabled = true
+room_size = Vector2(112, 100)
+wall_hidden_alpha = 0.0
+door_hidden_alpha = 0.1
+wall_transparency_targets = Array[NodePath]([NodePath("Entrance")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 112, 100)
+region_filter_clip_enabled = false
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(56, 0)
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-56, -30)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 112, 32)
+region_filter_clip_enabled = false
+
+[node name="HairstylePhoto" parent="Walls/Top" instance=ExtResource("photo")]
+position = Vector2(0, -16)
+
+[node name="Mirrors" type="Node2D" parent="Walls/Top"]
+position = Vector2(-56, 0)
+
+[node name="Left" parent="Walls/Top/Mirrors" instance=ExtResource("mirror")]
+position = Vector2(28, 0)
+
+[node name="Right" parent="Walls/Top/Mirrors" instance=ExtResource("mirror")]
+position = Vector2(83, 0)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(56, 100)
+
+[node name="Window" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(-32, 0)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(0, 50)
+
+[node name="Sprite" parent="Walls/Left" index="1"]
+texture_repeat = 2
+position = Vector2(-8, -80)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(24, 46, 8, 132)
+region_filter_clip_enabled = false
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(112, 50)
+
+[node name="Sprite" parent="Walls/Right" index="1"]
+texture_repeat = 2
+position = Vector2(0, -80)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 46, 8, 132)
+region_filter_clip_enabled = false
+
+[node name="WorktopLeft" parent="NavigationRegion/YSort" instance=ExtResource("worktop")]
+position = Vector2(28, 8)
+
+[node name="WorktopRight" parent="NavigationRegion/YSort" instance=ExtResource("worktop")]
+position = Vector2(84, 8)
+
+[node name="ChairLeft" parent="NavigationRegion/YSort" instance=ExtResource("chair")]
+position = Vector2(28, 29)
+
+[node name="ChairRight" parent="NavigationRegion/YSort" instance=ExtResource("chair")]
+position = Vector2(84, 29)
+
+[node name="Barber" parent="NavigationRegion/YSort" instance=ExtResource("barber")]
+position = Vector2(56, 28)
+
+[node name="Entrance" parent="." instance=ExtResource("door")]
+position = Vector2(56, 100)
+
+[node name="LightTopLeft" parent="." instance=ExtResource("light")]
+position = Vector2(28, 28)
+
+[node name="Light" parent="LightTopLeft" index="0"]
+energy = 0.16
+texture_scale = 0.65
+
+[node name="LightTopRight" parent="." instance=ExtResource("light")]
+position = Vector2(84, 28)
+
+[node name="Light" parent="LightTopRight" index="0"]
+energy = 0.16
+texture_scale = 0.65
+
+[node name="LightBottomLeft" parent="." instance=ExtResource("light")]
+position = Vector2(28, 76)
+
+[node name="Light" parent="LightBottomLeft" index="0"]
+energy = 0.16
+texture_scale = 0.65
+
+[node name="LightBottomRight" parent="." instance=ExtResource("light")]
+position = Vector2(84, 76)
+
+[node name="Light" parent="LightBottomRight" index="0"]
+energy = 0.16
+texture_scale = 0.65
