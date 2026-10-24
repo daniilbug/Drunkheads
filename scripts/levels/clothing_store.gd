@@ -1,22 +1,17 @@
 extends Level
 
-var _has_players := false
-
-
 func _ready() -> void:
 	player_spawn = $PlayerSpawn
 	super._ready()
-	set_physics_process(multiplayer.is_server())
 
 
-func _physics_process(_delta: float) -> void:
-	var occupied := get_players().any(func(player: Player):
-		return player.level_id == level_id and not player.is_queued_for_deletion())
-	if occupied and not _has_players and $Store.restock_empty_slots() > 0:
-		var main := get_parent() as Main
-		if main != null:
-			main.world_save.request_save()
-	_has_players = occupied
+func cleanup() -> void:
+	if not multiplayer.is_server():
+		return
+	for child in get_children():
+		if child is ShopGarment:
+			child.queue_free()
+	$Store.restock()
 
 
 func get_save_data() -> Dictionary:

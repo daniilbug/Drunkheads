@@ -3,7 +3,8 @@ extends Level
 @onready var _balcony: Room = $BalconyRoom
 @onready var _street_ambience: AudioStreamPlayer = $StreetAmbience
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
 	var on_balcony := false
 	if is_instance_valid(local_player) and local_player.is_inside_tree() and is_visible_in_tree():
 		# Use the player's origin (feet), so the sound cannot leak through the wall.

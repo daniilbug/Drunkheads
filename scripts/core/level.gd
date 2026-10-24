@@ -30,6 +30,7 @@ var player_spawn: Node2D
 
 var local_player: Player = null
 var world_time: WorldTime
+var _has_players := false
 
 func _ready() -> void:
 	if get_parent() is Main:
@@ -44,6 +45,22 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Room:
 			child.init_room()
+
+func _physics_process(_delta: float) -> void:
+	if not multiplayer.is_server():
+		return
+	var occupied := get_players().any(func(player: Player):
+		return player.level_id == level_id and not player.is_queued_for_deletion())
+	if _has_players and not occupied:
+		cleanup()
+		var main := get_parent() as Main
+		if main != null:
+			main.world_save.request_save()
+	_has_players = occupied
+
+## Server hook called once when the last player leaves, including disconnects.
+func cleanup() -> void:
+	pass
 
 func _spawn_standalone_player() -> void:
 	var player := PLAYER_SCENE.instantiate() as Player
