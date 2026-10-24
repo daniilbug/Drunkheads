@@ -146,6 +146,7 @@ position = Vector2(0, 0)
 
 [node name="Elevator" parent="NavigationRegion/YSort" instance=ExtResource("elevator")]
 position = Vector2(44, 0)
+destination_level_id = "home"
 
 [node name="StairDoor" parent="NavigationRegion/YSort" instance=ExtResource("stairs")]
 position = Vector2(72, 0)

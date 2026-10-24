@@ -5,7 +5,7 @@ extends Interactable
 enum State { CLOSED, OPENING, OPEN, CLOSING, TRAVELLING }
 
 @export var ding_scene: PackedScene
-@export var destination: HomeElevator
+@export var destination_level_id := ""
 @export var remember_departure := false
 @export_range(0.1, 3.0, 0.05) var door_duration := 0.65
 @export_range(0.1, 5.0, 0.05) var travel_duration := 0.65
@@ -35,6 +35,14 @@ var _empty_time := 0.0
 var _cabin_was_occupied := false
 var _trip_partner: HomeElevator
 var _passengers: Array[Player] = []
+
+var destination: HomeElevator:
+	get:
+		if _main != null:
+			for elevator: HomeElevator in get_tree().get_nodes_in_group("home_elevators"):
+				if elevator._main == _main and elevator._level.level_id == destination_level_id:
+					return elevator
+		return null
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)

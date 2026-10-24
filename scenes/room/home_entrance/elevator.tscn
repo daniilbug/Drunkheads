@@ -29,7 +29,7 @@ properties/1/path = NodePath(".:door_open_ratio")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Elevator" type="Node2D"]
+[node name="Elevator" type="Node2D" groups=["home_elevators"]]
 y_sort_enabled = true
 script = ExtResource("script")
 ding_scene = ExtResource("ding")

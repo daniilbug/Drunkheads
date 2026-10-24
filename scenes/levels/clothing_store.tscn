@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/room/barber/room.tscn" id="barber"]
 [ext_resource type="PackedScene" path="res://scenes/room/barber/building_facade.tscn" id="facade"]
 [ext_resource type="PackedScene" path="res://scenes/room/barber/building_volume.tscn" id="volume"]
+[ext_resource type="PackedScene" path="res://scenes/street/shrub_bed.tscn" id="shrub_bed"]
 
 [sub_resource type="CircleShape2D" id="LanternFootprint"]
 radius = 3.0
@@ -45,6 +46,18 @@ position = Vector2(24, 246)
 
 [node name="Bench" parent="." instance=ExtResource("bench")]
 position = Vector2(210, 252)
+
+[node name="AlleyShrub1" parent="." instance=ExtResource("shrub_bed")]
+position = Vector2(-192, 32)
+
+[node name="AlleyShrub2" parent="." instance=ExtResource("shrub_bed")]
+position = Vector2(-192, 96)
+
+[node name="AlleyShrub3" parent="." instance=ExtResource("shrub_bed")]
+position = Vector2(-192, 160)
+
+[node name="AlleyShrub4" parent="." instance=ExtResource("shrub_bed")]
+position = Vector2(-192, 224)
 
 [node name="LanternLeft" parent="." instance=ExtResource("lantern")]
 texture_filter = 1

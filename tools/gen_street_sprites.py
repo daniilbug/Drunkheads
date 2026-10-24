@@ -111,7 +111,52 @@ def generate_bike_rack() -> Path:
     return path
 
 
+def generate_shrub() -> Path:
+    """An upright shrub with a soft silhouette, at its approved 20x32 size."""
+    image = Image.new("RGBA", (20, 32))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((9, 24, 10, 31), fill=(103, 77, 51))
+    draw.polygon(
+        [(7, 0), (12, 0), (12, 2), (15, 2), (15, 5), (17, 5),
+         (17, 10), (18, 10), (18, 17), (17, 17), (17, 22), (15, 22),
+         (15, 25), (4, 25), (4, 23), (2, 23), (2, 20), (1, 20),
+         (1, 12), (2, 12), (2, 7), (4, 7), (4, 3), (7, 3)],
+        fill=(102, 126, 66),
+    )
+    draw.polygon(
+        [(7, 3), (10, 3), (10, 5), (12, 5), (12, 9), (10, 9),
+         (10, 12), (7, 12), (7, 14), (4, 14), (4, 10), (6, 10),
+         (6, 6), (7, 6)],
+        fill=(130, 151, 76),
+    )
+    draw.rectangle((6, 4, 8, 5), fill=(144, 164, 86))
+    for patch in [(4, 16, 7, 18), (10, 13, 13, 15), (7, 21, 9, 23)]:
+        draw.rectangle(patch, fill=(130, 151, 76))
+    draw.rectangle((15, 19, 16, 21), fill=(94, 114, 65))
+    OUT.mkdir(parents=True, exist_ok=True)
+    path = OUT / "shrub.png"
+    image.save(path)
+    return path
+
+
+def generate_planting_bed() -> Path:
+    """A square patch of soil set into the pavement."""
+    image = Image.new("RGBA", (20, 20), (118, 91, 65))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((1, 1, 18, 18), fill=(137, 107, 75))
+    for x, y in [(3, 4), (13, 3), (6, 15), (15, 13), (2, 11), (11, 17)]:
+        draw.rectangle((x, y, x + 1, y), fill=(111, 88, 62))
+    for x, y in [(5, 2), (16, 7), (9, 13), (4, 17)]:
+        draw.rectangle((x, y, x + 2, y), fill=(157, 125, 87))
+    OUT.mkdir(parents=True, exist_ok=True)
+    path = OUT / "planting_bed.png"
+    image.save(path)
+    return path
+
+
 if __name__ == "__main__":
     print(generate_cigarette_smoke())
     print(generate_horizontal_road())
     print(generate_bike_rack())
+    print(generate_shrub())
+    print(generate_planting_bed())

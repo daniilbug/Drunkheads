@@ -175,6 +175,13 @@ func activate_local_player(player: Player) -> void:
 		deactivate_local_player()
 	_init_local_player(player)
 	local_player = player
+	var main := get_parent() as Main
+	if main != null:
+		for level in main.get_levels():
+			if level == self:
+				player.remove_collision_exception_with(level._bounds_body)
+			else:
+				player.add_collision_exception_with(level._bounds_body)
 	var bounds := get_world_bounds()
 	player.camera.limit_left = floori(bounds.position.x)
 	player.camera.limit_top = floori(bounds.position.y)

@@ -131,6 +131,7 @@ position = Vector2(0, 0)
 position = Vector2(0, 0)
 
 [node name="Elevator" parent="NavigationRegion/YSort" instance=ExtResource("elevator")]
+destination_level_id = "apartment"
 position = Vector2(22, 0)
 remember_departure = true
 

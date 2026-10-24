@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" path="res://scenes/room/barber/hairstyle_photo.tscn" id="photo"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/ceiling_light.tscn" id="light"]
 
+[sub_resource type="RectangleShape2D" id="HorizontalWall"]
+size = Vector2(112, 4)
+
 [node name="BarberRoom" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("base")]
 script = ExtResource("script")
 y_sort_enabled = true
@@ -31,6 +34,9 @@ region_filter_clip_enabled = false
 
 [node name="Top" parent="Walls" index="0"]
 position = Vector2(56, 0)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("HorizontalWall")
 
 [node name="Sprite" parent="Walls/Top" index="1"]
 light_mask = 2
@@ -56,6 +62,9 @@ position = Vector2(83, 0)
 
 [node name="Bottom" parent="Walls" index="1"]
 position = Vector2(56, 100)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("HorizontalWall")
 
 [node name="Window" parent="Walls/Bottom" instance=ExtResource("window")]
 position = Vector2(-32, 0)
