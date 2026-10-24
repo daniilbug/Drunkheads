@@ -48,7 +48,7 @@ func _show_saves() -> void:
 			title = "%s — %s" % [save.file_name, save.error]
 		else:
 			var date := Time.get_datetime_string_from_unix_time(int(save.saved_at / 1000000)).replace("T", " ")
-			var names := {"bar": "Бар", "cafe": "Кафе", "apartment": "Квартира", "home": "Подъезд"}
+			var names := {"bar": "Бар", "cafe": "Кафе", "apartment": "Квартира", "home": "Подъезд", "clothing_store": "Магазин одежды"}
 			title = "%s UTC · %s · %s · $%.2f" % [date, save.name, names.get(save.level, save.level), save.money]
 		var index := save_list.add_item(title)
 		save_list.set_item_metadata(index, save.file_name)

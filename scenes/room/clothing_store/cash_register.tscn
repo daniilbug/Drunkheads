@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/cash_register.png" id="texture"]
+
+[node name="CashRegister" type="Node2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -15)
+texture = ExtResource("texture")

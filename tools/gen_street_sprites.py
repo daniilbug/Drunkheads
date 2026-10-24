@@ -94,6 +94,24 @@ def generate_horizontal_road() -> Path:
     return path
 
 
+def generate_bike_rack() -> Path:
+    """Three low metal hoops, at the approved native 36x14 pixel size."""
+    image = Image.new("RGBA", (36, 14))
+    draw = ImageDraw.Draw(image)
+    for x in (3, 14, 25):
+        draw.line([(x, 12), (x, 4), (x + 2, 2), (x + 6, 2), (x + 8, 4), (x + 8, 12)],
+                  fill="#6d7874", width=2)
+        draw.line([(x, 11), (x, 4), (x + 2, 2), (x + 6, 2)], fill="#a0aaa3")
+        draw.line((x + 8, 4, x + 8, 12), fill="#56615e")
+        for foot in (x, x + 8):
+            draw.line((foot - 1, 13, foot + 1, 13), fill="#6d7874")
+    OUT.mkdir(parents=True, exist_ok=True)
+    path = OUT / "bike_rack.png"
+    image.save(path)
+    return path
+
+
 if __name__ == "__main__":
     print(generate_cigarette_smoke())
     print(generate_horizontal_road())
+    print(generate_bike_rack())

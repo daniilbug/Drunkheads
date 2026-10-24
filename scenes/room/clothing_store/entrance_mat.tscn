@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/entrance_mat.png" id="texture"]
+
+[node name="EntranceMat" type="Sprite2D"]
+light_mask = 2
+texture_filter = 1
+texture = ExtResource("texture")

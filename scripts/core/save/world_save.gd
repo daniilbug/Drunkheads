@@ -35,16 +35,15 @@ func capture() -> Dictionary:
 func restore_world(snapshot: Dictionary) -> void:
 	_world.world_time.apply_save_data(snapshot.clock)
 	# Build every level first, then restore fields and references between objects.
-	for level in _world.get_levels():
-		level.prepare_save_restore(snapshot.levels[level.level_id])
-	for level in _world.get_levels():
-		level.apply_save_data(snapshot.levels[level.level_id])
+	# Levels introduced after this checkpoint keep their scene's initial state.
+	for id in snapshot.levels:
+		_world.get_level(id).prepare_save_restore(snapshot.levels[id])
+	for id in snapshot.levels:
+		_world.get_level(id).apply_save_data(snapshot.levels[id])
 	_world.headphone_player.apply_save_data(snapshot.headphones)
 	restored.emit(_world.local_player)
 
 func can_restore(snapshot: Dictionary) -> bool:
-	if snapshot.levels.size() != _world.get_levels().size():
-		return false
 	for id in snapshot.levels:
 		var level := _world.get_level(id)
 		if level == null or not level.can_restore_save_data(snapshot.levels[id]):

@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/counter.png" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/clerk.tscn" id="clerk"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/cash_register.tscn" id="register"]
+[ext_resource type="Script" path="res://scripts/room/clothing_store/checkout.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/clothing_slot.tscn" id="slot"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/checkout_menu.tscn" id="menu"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(52, 12)
+
+[sub_resource type="RectangleShape2D" id="InteractionShape"]
+size = Vector2(52, 20)
+
+[node name="Counter" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("script")
+menu_scene = ExtResource("menu")
+
+[node name="Clerk" parent="." instance=ExtResource("clerk")]
+position = Vector2(0, -12)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+texture = ExtResource("texture")
+offset = Vector2(0, -8)
+
+[node name="CashRegister" parent="." instance=ExtResource("register")]
+position = Vector2(16, 0)
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("Footprint")
+
+[node name="CheckoutSlots" type="Node2D" parent="."]
+
+[node name="Left" parent="CheckoutSlots" instance=ExtResource("slot")]
+position = Vector2(-14, -12)
+allow_any_clothing = true
+
+[node name="Right" parent="CheckoutSlots" instance=ExtResource("slot")]
+position = Vector2(0, -12)
+allow_any_clothing = true
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 1
+collision_mask = 1
+
+[node name="Shape" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 2)
+shape = SubResource("InteractionShape")

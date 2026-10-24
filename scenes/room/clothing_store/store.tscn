@@ -1,0 +1,214 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="Script" path="res://scripts/room/clothing_store/store.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/wall.png" id="wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/brick.png" id="brick"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/facade_cladding.tscn" id="cladding"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/entrance_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/upper_window.tscn" id="upper_window"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/roof.tscn" id="roof"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/shirt_sign.tscn" id="shirt_sign"]
+[ext_resource type="PackedScene" path="res://scenes/room/bar/plant.tscn" id="plant"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/rack.tscn" id="tops"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/bottoms_table.tscn" id="bottoms"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/fitting_room.tscn" id="fitting"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/counter.tscn" id="counter"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/ceiling_light.tscn" id="lighting"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/pouf.tscn" id="pouf"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/entrance_mat.tscn" id="entrance_mat"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/wall_clock.tscn" id="wall_clock"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/mannequin.tscn" id="mannequin"]
+
+[sub_resource type="ShaderMaterial" id="FacadeCutouts"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 3
+shader_parameter/cutouts = PackedVector4Array(16, 150, 80, 24, 128, 150, 80, 24, 104, 149, 16, 28)
+
+[sub_resource type="RectangleShape2D" id="HorizontalWall"]
+size = Vector2(224, 4)
+
+[sub_resource type="RectangleShape2D" id="VerticalWall"]
+size = Vector2(4, 200)
+
+[node name="Store" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+script = ExtResource("script")
+y_sort_enabled = true
+room_size = Vector2(224, 200)
+wall_hidden_alpha = 0.0
+door_hidden_alpha = 0.1
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Entrance")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 200)
+region_filter_clip_enabled = false
+
+[node name="EntranceMat" parent="Floor" instance=ExtResource("entrance_mat")]
+position = Vector2(112, 190)
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(112, 0)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("HorizontalWall")
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-112, -30)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 32)
+
+[node name="WallClock" parent="Walls/Top" instance=ExtResource("wall_clock")]
+position = Vector2(-72, -14)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(112, 200)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("HorizontalWall")
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+texture_repeat = 2
+material = SubResource("FacadeCutouts")
+position = Vector2(-112, -176)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 178)
+region_filter_clip_enabled = false
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(0, 100)
+
+[node name="Shape" parent="Walls/Left" index="0"]
+shape = SubResource("VerticalWall")
+
+[node name="Sprite" parent="Walls/Left" index="1"]
+texture_repeat = 2
+position = Vector2(-8, -130)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 42, 8, 232)
+region_filter_clip_enabled = false
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(224, 100)
+
+[node name="Shape" parent="Walls/Right" index="0"]
+shape = SubResource("VerticalWall")
+
+[node name="Sprite" parent="Walls/Right" index="1"]
+texture_repeat = 2
+position = Vector2(0, -130)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(32, 42, 8, 232)
+region_filter_clip_enabled = false
+
+[node name="Cladding" parent="Walls/Bottom" instance=ExtResource("cladding")]
+position = Vector2(-108, -32)
+
+[node name="ShirtSign" parent="Walls/Bottom" instance=ExtResource("shirt_sign")]
+position = Vector2(0, -42)
+
+[node name="LeftWindow" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(-56, 0)
+
+[node name="RightWindow" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(56, 0)
+
+[node name="UpperWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(-56, -37)
+
+[node name="UpperWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(56, -37)
+
+[node name="TopWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(-56, -85)
+
+[node name="TopWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(56, -85)
+
+[node name="ThirdFloorWindowLeft" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(-56, -133)
+
+[node name="ThirdFloorWindowRight" parent="Walls/Bottom" instance=ExtResource("upper_window")]
+position = Vector2(56, -133)
+
+[node name="Roof" parent="Walls/Bottom" instance=ExtResource("roof")]
+position = Vector2(-120, -232)
+
+[node name="Entrance" parent="." instance=ExtResource("door")]
+position = Vector2(112, 200)
+
+[node name="FittingRoomLeft" parent="NavigationRegion/YSort" instance=ExtResource("fitting")]
+position = Vector2(104, 30)
+
+[node name="FittingRoomRight" parent="NavigationRegion/YSort" instance=ExtResource("fitting")]
+position = Vector2(168, 30)
+
+[node name="Counter" parent="NavigationRegion/YSort" instance=ExtResource("counter")]
+position = Vector2(40, 34)
+
+[node name="Pouf" parent="NavigationRegion/YSort" instance=ExtResource("pouf")]
+position = Vector2(136, 55)
+
+[node name="Mannequin" parent="NavigationRegion/YSort" instance=ExtResource("mannequin")]
+position = Vector2(140, 198)
+
+[node name="TopsRack1" parent="NavigationRegion/YSort" instance=ExtResource("tops")]
+position = Vector2(44, 84)
+
+[node name="TopsRack2" parent="NavigationRegion/YSort" instance=ExtResource("tops")]
+position = Vector2(44, 139)
+garments = Array[Vector2i]([Vector2i(4, 8), Vector2i(5, 10), Vector2i(6, 2), Vector2i(7, 14)])
+
+[node name="TopsRack3" parent="NavigationRegion/YSort" instance=ExtResource("tops")]
+position = Vector2(44, 194)
+garments = Array[Vector2i]([Vector2i(8, 4), Vector2i(9, 1), Vector2i(13, 12), Vector2i(19, 13)])
+
+[node name="BottomsTable1" parent="NavigationRegion/YSort" instance=ExtResource("bottoms")]
+position = Vector2(180, 84)
+
+[node name="BottomsTable2" parent="NavigationRegion/YSort" instance=ExtResource("bottoms")]
+position = Vector2(180, 139)
+garments = Array[Vector2i]([Vector2i(4, 5), Vector2i(5, 2), Vector2i(6, 4), Vector2i(9, 8)])
+
+[node name="BottomsTable3" parent="NavigationRegion/YSort" instance=ExtResource("bottoms")]
+position = Vector2(180, 194)
+garments = Array[Vector2i]([Vector2i(12, 3), Vector2i(16, 0), Vector2i(17, 5), Vector2i(18, 10)])
+
+[node name="LeftPlant" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
+position = Vector2(12, 192)
+
+[node name="RightPlant" parent="NavigationRegion/YSort" instance=ExtResource("plant")]
+position = Vector2(212, 192)
+
+[node name="LightTopLeft" parent="." instance=ExtResource("lighting")]
+position = Vector2(44, 52)
+
+[node name="LightTopCenter" parent="." instance=ExtResource("lighting")]
+position = Vector2(112, 52)
+
+[node name="LightTopRight" parent="." instance=ExtResource("lighting")]
+position = Vector2(180, 52)
+
+[node name="LightBottomLeft" parent="." instance=ExtResource("lighting")]
+position = Vector2(44, 140)
+
+[node name="LightBottomCenter" parent="." instance=ExtResource("lighting")]
+position = Vector2(112, 140)
+
+[node name="LightBottomRight" parent="." instance=ExtResource("lighting")]
+position = Vector2(180, 140)

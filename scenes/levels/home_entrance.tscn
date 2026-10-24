@@ -10,8 +10,11 @@
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance/fenced_yard.tscn" id="yard"]
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance/swing.tscn" id="swing"]
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance/sandbox.tscn" id="sandbox"]
-[ext_resource type="PackedScene" path="res://scenes/street/home_entrance/lantern.tscn" id="lantern"]
+[ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_bench.tscn" id="bench"]
+
+[sub_resource type="CircleShape2D" id="LanternFootprint"]
+radius = 3.0
 
 [node name="HomeEntrance" instance=ExtResource("level")]
 level_id = "home"
@@ -62,8 +65,26 @@ position = Vector2(406, 322)
 [node name="LanternLeft" parent="." instance=ExtResource("lantern")]
 position = Vector2(16, 368)
 
+[node name="Sprite" parent="LanternLeft" index="0"]
+position = Vector2(0, -17)
+
+[node name="Shape" parent="LanternLeft/Body" index="0"]
+shape = SubResource("LanternFootprint")
+
+[node name="Obstacle" parent="LanternLeft" index="4"]
+radius = 3.0
+
 [node name="LanternRight" parent="." instance=ExtResource("lantern")]
 position = Vector2(344, 368)
+
+[node name="Sprite" parent="LanternRight" index="0"]
+position = Vector2(0, -17)
+
+[node name="Shape" parent="LanternRight/Body" index="0"]
+shape = SubResource("LanternFootprint")
+
+[node name="Obstacle" parent="LanternRight" index="4"]
+radius = 3.0
 
 [node name="TrafficRoad" parent="." instance=ExtResource("road")]
 position = Vector2(-476, 390)

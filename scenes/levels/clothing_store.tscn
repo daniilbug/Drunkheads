@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/level.tscn" id="level"]
+[ext_resource type="Script" path="res://scripts/levels/clothing_store.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/store.tscn" id="store"]
+[ext_resource type="PackedScene" path="res://scenes/street/shop_pavement.tscn" id="pavement"]
+[ext_resource type="PackedScene" path="res://scenes/street/bar_traffic_road.tscn" id="road"]
+[ext_resource type="Resource" path="res://assets/transport/clothing_store.tres" id="destination"]
+[ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
+[ext_resource type="PackedScene" path="res://scenes/street/bike_rack.tscn" id="bike_rack"]
+[ext_resource type="PackedScene" path="res://scenes/street/bench.tscn" id="bench"]
+
+[sub_resource type="CircleShape2D" id="LanternFootprint"]
+radius = 3.0
+
+[node name="ClothingStore" instance=ExtResource("level")]
+script = ExtResource("script")
+level_id = "clothing_store"
+transport_destination = ExtResource("destination")
+
+[node name="Store" parent="." index="0" instance=ExtResource("store")]
+position = Vector2(0, 32)
+
+[node name="Pavement" parent="." index="1" instance=ExtResource("pavement")]
+position = Vector2(-112, -16)
+
+[node name="PlayerSpawn" type="Marker2D" parent="." index="2"]
+position = Vector2(112, 250)
+
+[node name="TaxiReturn" type="Marker2D" parent="." index="3"]
+position = Vector2(146, 262)
+
+[node name="BikeRack" parent="." instance=ExtResource("bike_rack")]
+position = Vector2(24, 246)
+
+[node name="Bench" parent="." instance=ExtResource("bench")]
+position = Vector2(210, 252)
+
+[node name="LanternLeft" parent="." instance=ExtResource("lantern")]
+texture_filter = 1
+position = Vector2(-28, 260)
+
+[node name="Right" parent="LanternLeft" index="1"]
+color = Color(1, 0.878431, 0.678431, 1)
+energy = 0.35
+texture_scale = 1.35
+
+[node name="Left" parent="LanternLeft" index="2"]
+color = Color(1, 0.878431, 0.678431, 1)
+energy = 0.35
+texture_scale = 1.35
+
+[node name="Shape" parent="LanternLeft/Body" index="0"]
+shape = SubResource("LanternFootprint")
+
+[node name="Obstacle" parent="LanternLeft" index="4"]
+radius = 3.0
+
+[node name="LanternRight" parent="." instance=ExtResource("lantern")]
+texture_filter = 1
+position = Vector2(252, 260)
+
+[node name="Right" parent="LanternRight" index="1"]
+color = Color(1, 0.878431, 0.678431, 1)
+energy = 0.35
+texture_scale = 1.35
+
+[node name="Left" parent="LanternRight" index="2"]
+color = Color(1, 0.878431, 0.678431, 1)
+energy = 0.35
+texture_scale = 1.35
+
+[node name="Shape" parent="LanternRight/Body" index="0"]
+shape = SubResource("LanternFootprint")
+
+[node name="Obstacle" parent="LanternRight" index="4"]
+radius = 3.0
+
+[node name="GarmentSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/room/clothing_store/garment.tscn")
+spawn_path = NodePath("..")
+
+[node name="BottomLeft" parent="LevelBounds" index="0"]
+position = Vector2(-80, 372)
+
+[node name="TopRight" parent="LevelBounds" index="1"]
+position = Vector2(304, 0)
+
+[node name="TrafficRoad" parent="." instance=ExtResource("road")]
+position = Vector2(-112, 272)
+road_width = 448.0
+right_lane_start_from_left = -64.0
+left_lane_end_from_left = -64.0
+
+[node name="Stop" parent="TrafficRoad/RightTrafficLane" index="2"]
+position = Vector2(224, 27.25)

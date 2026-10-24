@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/cafe/cafe_door.tscn" id="door"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/entrance_door.png" id="texture"]
+
+[node name="ShopDoor" instance=ExtResource("door")]
+
+[node name="ClosedSprite" parent="." index="0"]
+position = Vector2(-8, -27)
+texture = ExtResource("texture")
+
+[node name="OpenSprite" parent="." index="1"]
+position = Vector2(-8, -27)
+texture = ExtResource("texture")

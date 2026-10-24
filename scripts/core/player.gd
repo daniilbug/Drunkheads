@@ -168,7 +168,10 @@ func randomize_appearance() -> void:
 
 func _refresh_appearance() -> void:
 	if is_node_ready():
-		sprite.set_appearance(hair_id, top_id, pants_id, hair_color_id, top_color_id, pants_color_id)
+		var top := clothing_shop.fitting_top if clothing_shop != null else Vector2i(-1, -1)
+		var bottom := clothing_shop.fitting_bottom if clothing_shop != null else Vector2i(-1, -1)
+		sprite.set_appearance(hair_id, top.x if top.x >= 0 else top_id, bottom.x if bottom.x >= 0 else pants_id,
+			hair_color_id, top.y if top.x >= 0 else top_color_id, bottom.y if bottom.x >= 0 else pants_color_id)
 		appearance_changed.emit()
 
 func initialize_wardrobe() -> void:
@@ -353,6 +356,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_take_drop()
 
 func _try_interact() -> void:
+	if is_sitting and seated_seat != null and seated_seat.stand_on_interact:
+		_stand_up()
+		return
 	var areas := interaction_area.get_overlapping_areas()
 	if _hands_item != null:
 		for area in areas:
@@ -423,25 +429,28 @@ func _try_interact() -> void:
 
 func _try_take_drop() -> void:
 	var areas := interaction_area.get_overlapping_areas()
+	if _hands_item is ShopGarment:
+		(_hands_item as ShopGarment).place_nearby(self, areas)
+		return
 	if _hands_item is CafeRecord:
 		(_hands_item as CafeRecord).place_nearby(self, areas)
 		return
-	# Q selects the closest record on the tabletop.
+	# Closely spaced clothes and records are selected by their visible position.
 	if _hands_item == null:
-		var nearest_record: CafeRecord
+		var nearest_item: Draggable
 		for area in areas:
-			var record := area.get_parent() as CafeRecord
-			if record != null and record.can_pickup(self) and (nearest_record == null or global_position.distance_squared_to(area.global_position) < global_position.distance_squared_to(nearest_record.get_node("Area").global_position)):
-				nearest_record = record
-		if nearest_record != null:
-			take_spawned_item(nearest_record)
-			nearest_record.pickup(self)
+			var item := area.get_parent() as Draggable
+			if (item is CafeRecord or item is ShopGarment) and item.can_pickup(self) and (nearest_item == null or global_position.distance_squared_to(area.global_position) < global_position.distance_squared_to(nearest_item.get_node("Area").global_position)):
+				nearest_item = item
+		if nearest_item != null:
+			take_spawned_item(nearest_item)
+			nearest_item.pickup(self)
 			return
 	for area in areas:
 		var owner_node := area.get_parent()
 		if owner_node is DropPlace and _hands_item != null:
 			var place = owner_node as DropPlace
-			if place is CafeRecordSlot:
+			if place is CafeRecordSlot or place is ClothingSlot:
 				continue
 			_hands_item.drop(self, place)
 			_hands_item = null
@@ -472,6 +481,8 @@ func _sit_in(seat: Seat) -> void:
 func _stand_up() -> void:
 	if seated_seat:
 		seated_seat.vacate(self)
+		if seated_seat.stand_position_offset != Vector2.ZERO:
+			global_position = seated_seat.to_global(seated_seat.stand_position_offset)
 		seated_seat = null
 	is_sitting = false
 	_start_idle_bob()

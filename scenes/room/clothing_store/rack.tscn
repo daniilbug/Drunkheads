@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/rack.png" id="texture"]
+[ext_resource type="Script" path="res://scripts/room/clothing_store/rack.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/clothing_slot.tscn" id="garment"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(48, 8)
+
+[node name="TopsRack" type="StaticBody2D"]
+script = ExtResource("script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -10)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("Footprint")
+
+[node name="Garments" type="Node2D" parent="."]
+
+[node name="Item1" parent="Garments" instance=ExtResource("garment")]
+position = Vector2(-15, -14)
+
+[node name="Item2" parent="Garments" instance=ExtResource("garment")]
+position = Vector2(-5, -14)
+
+[node name="Item3" parent="Garments" instance=ExtResource("garment")]
+position = Vector2(5, -14)
+
+[node name="Item4" parent="Garments" instance=ExtResource("garment")]
+position = Vector2(15, -14)

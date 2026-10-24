@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TransportDestination" format=3]
+
+[ext_resource type="Script" path="res://scripts/core/transport_destination.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/destination_icon.png" id="icon"]
+
+[resource]
+script = ExtResource("script")
+id = "clothing_store"
+display_name = "Магазин одежды"
+icon = ExtResource("icon")
+sort_order = 3

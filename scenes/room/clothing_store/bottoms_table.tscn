@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/rack.tscn" id="rack"]
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/display_table.png" id="texture"]
+
+[node name="BottomsTable" instance=ExtResource("rack")]
+display_tops = false
+garments = Array[Vector2i]([Vector2i(0, 4), Vector2i(1, 1), Vector2i(2, 7), Vector2i(3, 3)])
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, -8)
+texture = ExtResource("texture")
+
+[node name="Item1" parent="Garments" index="0"]
+position = Vector2(-15, -15)
+
+[node name="Item2" parent="Garments" index="1"]
+position = Vector2(-5, -15)
+
+[node name="Item3" parent="Garments" index="2"]
+position = Vector2(5, -15)
+
+[node name="Item4" parent="Garments" index="3"]
+position = Vector2(15, -15)

@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/cladding.png" id="texture"]
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+
+[sub_resource type="ShaderMaterial" id="Cutouts"]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 3
+shader_parameter/cutouts = PackedVector4Array(12, 6, 80, 24, 124, 6, 80, 24, 100, 5, 16, 27)
+
+[node name="FacadeCladding" type="Sprite2D"]
+self_modulate = Color(0.933333, 0.913725, 0.862745, 1)
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("Cutouts")
+texture = ExtResource("texture")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 216, 32)
+region_filter_clip_enabled = false

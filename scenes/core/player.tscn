@@ -90,6 +90,12 @@ properties/11/replication_mode = 2
 properties/12/path = NodePath(".:owned_bottoms")
 properties/12/spawn = true
 properties/12/replication_mode = 2
+properties/13/path = NodePath("ClothingShop:fitting_top")
+properties/13/spawn = true
+properties/13/replication_mode = 2
+properties/14/path = NodePath("ClothingShop:fitting_bottom")
+properties/14/spawn = true
+properties/14/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D" unique_id=1474730025]
 collision_mask = 9

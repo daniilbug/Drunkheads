@@ -22,7 +22,7 @@ func place_nearby(player: Player, areas: Array[Area2D]) -> void:
 	var nearest: DropPlace
 	for area in areas:
 		var place := area.get_parent() as DropPlace
-		if place != null and (nearest == null or player.global_position.distance_squared_to(place.shape.global_position) < player.global_position.distance_squared_to(nearest.shape.global_position)):
+		if place != null and place is not ClothingSlot and (nearest == null or player.global_position.distance_squared_to(place.shape.global_position) < player.global_position.distance_squared_to(nearest.shape.global_position)):
 			nearest = place
 	if nearest == null:
 		return
@@ -44,6 +44,8 @@ func _dock(player_id: int, path: NodePath) -> bool:
 	if player == null or holder_peer_id != player_id or place == null:
 		return false
 	if Level.find_level_node(place) != _level or not place.area.overlaps_area(player.interaction_area):
+		return false
+	if place is ClothingSlot:
 		return false
 	if place is CafeRecordSlot and not place.accepts(self):
 		return false

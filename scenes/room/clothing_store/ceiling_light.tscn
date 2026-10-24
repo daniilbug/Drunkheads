@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/clothing_store/ceiling_light.gd" id="script"]
+[ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="replication"]
+[sub_resource type="Gradient" id="Falloff"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 0.22, 1, 1, 1, 0.2, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="LightTexture"]
+gradient = SubResource("Falloff")
+width = 640
+height = 640
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="CeilingLight" type="Node2D" node_paths=PackedStringArray("light_sources")]
+script = ExtResource("script")
+light_sources = Array[NodePath]([NodePath("Light")])
+lighting_enabled = true
+is_turned_on = true
+automatic_lighting = false
+
+[node name="Light" type="PointLight2D" parent="."]
+texture_filter = 2
+color = Color(1, 0.99, 0.96, 1)
+energy = 0.42
+range_item_cull_mask = 2
+texture = SubResource("LightTexture")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = ExtResource("replication")

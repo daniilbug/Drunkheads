@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/core/phone_controller.tscn" id="9_phone_controller"]
 [ext_resource type="PackedScene" path="res://scenes/core/world_transport.tscn" id="10_transport"]
 [ext_resource type="PackedScene" path="res://scenes/core/save/world_save.tscn" id="11_save"]
+[ext_resource type="PackedScene" path="res://scenes/levels/clothing_store.tscn" id="12_clothing_store"]
 
 [node name="Main" type="Node2D" unique_id=297453603]
 position = Vector2(404, 803)
@@ -42,6 +43,9 @@ position = Vector2(1800, 0)
 
 [node name="HomeEntrance" parent="." instance=ExtResource("7_home_entrance")]
 position = Vector2(3600, 0)
+
+[node name="ClothingStore" parent="." instance=ExtResource("12_clothing_store")]
+position = Vector2(4628, 0)
 
 [node name="Elevator" parent="HomeEntrance/EntranceRoom/NavigationRegion/YSort" node_paths=PackedStringArray("destination")]
 destination = NodePath("../../../../../Home/CorridorRoom/NavigationRegion/YSort/Elevator")

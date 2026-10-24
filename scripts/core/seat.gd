@@ -7,6 +7,9 @@ signal occupancy_changed
 @export var facing_north := false
 @export var available_to_npc := true
 @export var seat_position_offset := Vector2.ZERO
+@export var stand_on_interact := false
+## Optional exit point relative to the seat; zero keeps the player's position.
+@export var stand_position_offset := Vector2.ZERO
 ## Maximum distance from the seat in local pixels; 0 uses only the interaction areas.
 @export_range(0.0, 64.0, 0.5, "or_greater") var interaction_radius: float = 0.0
 

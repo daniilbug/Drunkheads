@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/roof.png" id="roof"]
+
+[node name="Roof" type="Node2D"]
+
+[node name="Surface" type="Polygon2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("roof")
+polygon = PackedVector2Array(0, 0, 240, 0, 240, 56, 0, 56)
+
+[node name="Cap" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 0, 240, 0, 240, 1, 0, 1)
+color = Color(0.529412, 0.564706, 0.478431, 1)
+
+[node name="LowerEdge" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(1, 53, 239, 53, 239, 54, 1, 54)
+color = Color(0.439216, 0.482353, 0.403922, 1)
+
+[node name="Shadow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 54, 240, 54, 240, 56, 0, 56)
+color = Color(0.188235, 0.231373, 0.203922, 1)
+
+[node name="Cornice" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 56, 240, 56, 240, 57, 0, 57)
+color = Color(0.580392, 0.592157, 0.501961, 1)
+
+[node name="CorniceShadow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(1, 57, 239, 57, 239, 58, 1, 58)
+color = Color(0.333333, 0.364706, 0.309804, 1)
