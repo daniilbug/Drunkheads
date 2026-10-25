@@ -23,16 +23,16 @@ spawn_path = NodePath("../..")
 script = ExtResource("2_traffic_lane")
 
 [node name="Start" type="Marker2D" parent="RightTrafficLane"]
-position = Vector2(-65, 27.25)
+position = Vector2(-128, 27.25)
 
 [node name="End" type="Marker2D" parent="RightTrafficLane"]
-position = Vector2(305, 27.25)
+position = Vector2(368, 27.25)
 
 [node name="LeftTrafficLane" type="Node2D" parent="."]
 script = ExtResource("2_traffic_lane")
 
 [node name="Start" type="Marker2D" parent="LeftTrafficLane"]
-position = Vector2(305, 75.75)
+position = Vector2(368, 75.75)
 
 [node name="End" type="Marker2D" parent="LeftTrafficLane"]
-position = Vector2(-65, 75.75)
+position = Vector2(-128, 75.75)

@@ -5,10 +5,6 @@
 
 [node name="TrafficRoad" instance=ExtResource("1_traffic_road")]
 road_width = 800.0
-right_lane_start_from_left = 72.75
-right_lane_end_from_right = -55.0
-left_lane_start_from_right = -53.5
-left_lane_end_from_left = 73.25
 
 [node name="Stop" parent="RightTrafficLane" index="2" instance=ExtResource("2_stop")]
 position = Vector2(475, 27.25)

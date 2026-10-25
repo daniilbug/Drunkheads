@@ -95,7 +95,7 @@ def fence() -> Image.Image:
 
 
 def earth_tile() -> Image.Image:
-    """32x32 dirt tile; short grain clusters wrap across every image boundary."""
+    """32x32 fully grass-covered tile; all clusters wrap at edges."""
     tile = Image.new('RGBA', (32, 32), '#856347')
     rng = random.Random(281)
     colors = ['#76583f', '#926f51', '#a17e5c']
@@ -105,6 +105,24 @@ def earth_tile() -> Image.Image:
         color = colors[rng.randrange(len(colors))]
         for dx, dy in shapes[rng.randrange(len(shapes))]:
             tile.putpixel(((x + dx) % 32, (y + dy) % 32), (*ImageColor.getrgb(color), 255))
+
+    # Small olive tufts echo the courtyard shrubs and cover the whole tile.
+    grass_colors = ['#667e42', '#82974c']
+    tufts = [[(0, 0), (1, 0)], [(0, -1), (0, 0), (1, 0)],
+             [(0, -1), (0, 0), (1, 0), (2, -1)],
+             [(0, 0), (1, -1), (1, 0), (2, 0)]]
+    grass_pixels = set()
+    target_coverage = tile.width * tile.height
+    origins = [(x, y) for y in range(tile.height) for x in range(tile.width)]
+    rng.shuffle(origins)
+    for x, y in origins:
+        color = (*ImageColor.getrgb(rng.choice(grass_colors)), 255)
+        for dx, dy in rng.choice(tufts):
+            pixel = ((x + dx) % tile.width, (y + dy) % tile.height)
+            tile.putpixel(pixel, color)
+            grass_pixels.add(pixel)
+        if len(grass_pixels) >= target_coverage:
+            break
     return tile
 
 

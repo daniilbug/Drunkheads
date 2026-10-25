@@ -87,8 +87,6 @@ position = Vector2(117, 372)
 [node name="TrafficRoad" parent="." index="15" instance=ExtResource("16_bar_traffic_road")]
 position = Vector2(-200, 390)
 road_width = 653.0
-right_lane_start_from_left = -64.0
-left_lane_end_from_left = -64.0
 
 [node name="BrickHouse1" parent="." index="19" instance=ExtResource("12_eb6dy")]
 position = Vector2(-87.75, 359.5)

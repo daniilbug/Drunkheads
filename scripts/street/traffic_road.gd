@@ -6,22 +6,23 @@ extends Node2D
 		road_width = maxf(value, 1.0)
 		_update_layout()
 
-@export_storage var right_lane_start_from_left := -65.0:
+# Keep whole vehicles and their headlights outside the road at spawn/despawn.
+@export_storage var right_lane_start_from_left := -128.0:
 	set(value):
 		right_lane_start_from_left = value
 		_update_layout()
 
-@export_storage var right_lane_end_from_right := 65.0:
+@export_storage var right_lane_end_from_right := 128.0:
 	set(value):
 		right_lane_end_from_right = value
 		_update_layout()
 
-@export_storage var left_lane_start_from_right := 65.0:
+@export_storage var left_lane_start_from_right := 128.0:
 	set(value):
 		left_lane_start_from_right = value
 		_update_layout()
 
-@export_storage var left_lane_end_from_left := -65.0:
+@export_storage var left_lane_end_from_left := -128.0:
 	set(value):
 		left_lane_end_from_left = value
 		_update_layout()
