@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/room/grocery/product.gd" id="script"]
+
+[node name="Product" type="Node2D"]
+script = ExtResource("script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+centered = false

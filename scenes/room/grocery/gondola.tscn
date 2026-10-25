@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/gondola.png" id="texture"]
+[ext_resource type="Script" path="res://scripts/room/grocery/display.gd" id="script"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(28, 10)
+
+[node name="Gondola" type="StaticBody2D"]
+script = ExtResource("script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -10)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("Footprint")
+
+[node name="Products" type="Node2D" parent="."]

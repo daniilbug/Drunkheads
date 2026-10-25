@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/core/level.tscn" id="level"]
 [ext_resource type="PackedScene" path="res://scenes/room/home_entrance/entrance_room.tscn" id="room"]
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance_house.tscn" id="house"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/store.tscn" id="grocery"]
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance_traffic_road.tscn" id="road"]
 [ext_resource type="Texture2D" path="res://assets/sprites/street/asphalt.png" id="asphalt"]
 [ext_resource type="Resource" path="res://assets/transport/home.tres" id="destination"]
@@ -32,14 +33,15 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1352, 500)
 
-[node name="BrickHouseLeft" parent="." instance=ExtResource("house")]
-position = Vector2(-272, 360)
-
 [node name="BrickHouseRight" parent="." instance=ExtResource("house")]
 position = Vector2(632, 360)
 
 [node name="GreeneryLeft" parent="." instance=ExtResource("greenery")]
 position = Vector2(-272, 360)
+
+[node name="GroceryStore" parent="." node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("grocery")]
+position = Vector2(-384, 216)
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Facade"), NodePath("EntranceDoor"), NodePath("../GreeneryLeft")])
 
 [node name="GreeneryCenter" parent="." instance=ExtResource("greenery")]
 position = Vector2(180, 360)

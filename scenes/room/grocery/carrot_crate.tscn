@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/produce_crate.tscn" id="base"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/crate_carrot.tres" id="stock"]
+
+[node name="CarrotCrate" instance=ExtResource("base")]
+stock = ExtResource("stock")

@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="GroceryDisplayStock" format=3]
+
+[ext_resource type="Script" path="res://scripts/room/grocery/display_stock.gd" id="stock_script"]
+[ext_resource type="Script" path="res://scripts/room/grocery/display_row.gd" id="row_script"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/milk.tscn" id="milk"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/kefir.tscn" id="kefir"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/yogurt.tscn" id="yogurt"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/sour_cream.tscn" id="sour-cream"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/cottage_cheese.tscn" id="cottage-cheese"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/cheese.tscn" id="cheese"]
+
+[sub_resource type="Resource" id="Row0"]
+script = ExtResource("row_script")
+baseline = Vector2i(-17, -12)
+width = 16
+gap = 2
+repeat_to_fill = false
+products = Array[PackedScene]([ExtResource("milk"), ExtResource("kefir")])
+
+[sub_resource type="Resource" id="Row1"]
+script = ExtResource("row_script")
+baseline = Vector2i(4, -12)
+width = 16
+gap = 2
+repeat_to_fill = false
+products = Array[PackedScene]([ExtResource("yogurt"), ExtResource("sour-cream")])
+
+[sub_resource type="Resource" id="Row2"]
+script = ExtResource("row_script")
+baseline = Vector2i(-14, -3)
+width = 13
+gap = 2
+repeat_to_fill = false
+products = Array[PackedScene]([ExtResource("cottage-cheese")])
+
+[sub_resource type="Resource" id="Row3"]
+script = ExtResource("row_script")
+baseline = Vector2i(7, -3)
+width = 13
+gap = 2
+repeat_to_fill = false
+products = Array[PackedScene]([ExtResource("cheese")])
+
+[resource]
+script = ExtResource("stock_script")
+rows = Array[ExtResource("row_script")]([SubResource("Row0"), SubResource("Row1"), SubResource("Row2"), SubResource("Row3")])

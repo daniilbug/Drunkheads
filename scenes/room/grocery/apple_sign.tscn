@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/apple_sign.png" id="texture"]
+
+[node name="AppleSign" type="Sprite2D"]
+light_mask = 3
+texture_filter = 1
+texture = ExtResource("texture")

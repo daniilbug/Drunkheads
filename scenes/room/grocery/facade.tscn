@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/facade.tscn" id="facade"]
+[ext_resource type="Material" path="res://scenes/room/grocery/storefront_material.tres" id="cutouts"]
+
+[sub_resource type="RectangleShape2D" id="Wing"]
+size = Vector2(60, 9)
+
+[node name="GroceryFacade" instance=ExtResource("facade")]
+
+[node name="UpperWall" parent="." index="0"]
+region_rect = Rect2(0, 0, 344, 186)
+
+[node name="LowerLeftWall" parent="." index="1"]
+material = ExtResource("cutouts")
+position = Vector2(-172, -30)
+region_rect = Rect2(0, 186, 344, 30)
+region_filter_clip_enabled = false
+
+[node name="LowerRightWall" parent="." index="2"]
+visible = false
+
+[node name="RoofShadow" parent="." index="6"]
+visible = false
+
+[node name="CorniceShadow" parent="." index="8"]
+visible = false
+
+[node name="DoorFrameOuter" parent="." index="9"]
+visible = false
+
+[node name="DoorFrameInner" parent="." index="10"]
+visible = false
+
+[node name="Shape" parent="LeftWing" index="0"]
+position = Vector2(-142, -4.5)
+shape = SubResource("Wing")
+
+[node name="Shape" parent="RightWing" index="0"]
+position = Vector2(142, -4.5)
+shape = SubResource("Wing")
+
+[node name="WindowFloor1Left" parent="."]
+visible = false
+
+[node name="WindowFloor1Right" parent="."]
+visible = false
+
+[node name="WindowFloor1LeftMiddle" parent="."]
+visible = false
+
+[node name="WindowFloor1RightMiddle" parent="."]
+visible = false

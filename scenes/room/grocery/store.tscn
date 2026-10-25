@@ -1,0 +1,207 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/room.tscn" id="room"]
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/floor.png" id="floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/wall.png" id="wall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/home_entrance/brick.png" id="brick"]
+[ext_resource type="Material" path="res://scenes/room/grocery/storefront_material.tres" id="cutouts"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/facade.tscn" id="facade"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/building_volume.tscn" id="volume"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/entrance_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/window.tscn" id="window"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/apple_sign.tscn" id="apple"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/gondola.tscn" id="shelf"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/fridge.tscn" id="fridge"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/fridge_fresh.tres" id="fridge_fresh"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/counter.tscn" id="counter"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/shopping_baskets.tscn" id="baskets"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/ceiling_light.tscn" id="light"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/pasta_rice.tres" id="stock_pasta_rice"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/buckwheat_oats.tres" id="stock_buckwheat_oats"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/flour_sugar.tres" id="stock_flour_sugar"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/bread_baton.tres" id="stock_bread_baton"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/buns_cookies.tres" id="stock_buns_cookies"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/chocolate_chips.tres" id="stock_chocolate_chips"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/salt_oil.tres" id="stock_salt_oil"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/fish_stew.tres" id="stock_fish_stew"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/peas_tea.tres" id="stock_peas_tea"]
+
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/potato_crate.tscn" id="crate_potato"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/carrot_crate.tscn" id="crate_carrot"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/apple_crate.tscn" id="crate_apple"]
+
+[sub_resource type="RectangleShape2D" id="HorizontalWall"]
+size = Vector2(224, 4)
+
+[sub_resource type="RectangleShape2D" id="VerticalWall"]
+size = Vector2(4, 144)
+
+[node name="GroceryStore" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("room")]
+y_sort_enabled = true
+room_size = Vector2(224, 144)
+wall_hidden_alpha = 0.0
+door_hidden_alpha = 0.1
+wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("Facade"), NodePath("EntranceDoor")])
+
+[node name="Floor" parent="." index="0"]
+texture_repeat = 2
+texture = ExtResource("floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 144)
+region_filter_clip_enabled = false
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(112, 0)
+
+[node name="Shape" parent="Walls/Top" index="0"]
+shape = SubResource("HorizontalWall")
+
+[node name="Sprite" parent="Walls/Top" index="1"]
+light_mask = 2
+texture_repeat = 2
+position = Vector2(-112, -32)
+texture = ExtResource("wall")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 32)
+region_filter_clip_enabled = false
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(112, 144)
+
+[node name="Shape" parent="Walls/Bottom" index="0"]
+shape = SubResource("HorizontalWall")
+
+[node name="Sprite" parent="Walls/Bottom" index="1"]
+light_mask = 3
+texture_repeat = 2
+position = Vector2(-112, -30)
+texture = ExtResource("brick")
+material = ExtResource("cutouts")
+centered = false
+region_enabled = true
+region_rect = Rect2(60, 186, 224, 30)
+region_filter_clip_enabled = false
+
+[node name="LeftWindow" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(-108, 0)
+
+[node name="RightWindow" parent="Walls/Bottom" instance=ExtResource("window")]
+position = Vector2(16, 0)
+
+[node name="AppleSign" parent="Walls/Bottom/RightWindow" instance=ExtResource("apple")]
+position = Vector2(9, -20)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(0, 72)
+
+[node name="Shape" parent="Walls/Left" index="0"]
+shape = SubResource("VerticalWall")
+
+[node name="Sprite" parent="Walls/Left" index="1"]
+light_mask = 3
+texture_repeat = 2
+position = Vector2(-8, -104)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(4, 4, 8, 176)
+region_filter_clip_enabled = false
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(224, 72)
+
+[node name="Shape" parent="Walls/Right" index="0"]
+shape = SubResource("VerticalWall")
+
+[node name="Sprite" parent="Walls/Right" index="1"]
+light_mask = 3
+texture_repeat = 2
+position = Vector2(0, -104)
+texture = ExtResource("brick")
+centered = false
+region_enabled = true
+region_rect = Rect2(20, 4, 8, 176)
+region_filter_clip_enabled = false
+
+[node name="NavigationRegion" parent="." index="3"]
+position = Vector2(0, 0)
+
+[node name="YSort" parent="NavigationRegion" index="0"]
+position = Vector2(0, 0)
+
+[node name="BackShelfLeft" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(27, 4)
+stock = ExtResource("stock_pasta_rice")
+
+[node name="BackShelfMiddle" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(69, 4)
+stock = ExtResource("stock_buckwheat_oats")
+
+[node name="BackShelfRight" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(111, 4)
+stock = ExtResource("stock_flour_sugar")
+
+[node name="MiddleShelfLeft" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(27, 44)
+stock = ExtResource("stock_bread_baton")
+
+[node name="MiddleShelfMiddle" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(69, 44)
+stock = ExtResource("stock_buns_cookies")
+
+[node name="MiddleShelfRight" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(111, 44)
+stock = ExtResource("stock_chocolate_chips")
+
+[node name="FrontShelfLeft" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(27, 84)
+stock = ExtResource("stock_salt_oil")
+
+[node name="FrontShelfMiddle" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(69, 84)
+stock = ExtResource("stock_fish_stew")
+
+[node name="FrontShelfRight" parent="NavigationRegion/YSort" instance=ExtResource("shelf")]
+position = Vector2(111, 84)
+stock = ExtResource("stock_peas_tea")
+
+[node name="DisplayFridge" parent="NavigationRegion/YSort" instance=ExtResource("fridge")]
+position = Vector2(190, 4)
+
+[node name="ShoppingBaskets" parent="NavigationRegion/YSort" instance=ExtResource("baskets")]
+position = Vector2(162, 118)
+
+[node name="FreshFridge" parent="NavigationRegion/YSort" instance=ExtResource("fridge")]
+position = Vector2(190, 44)
+stock = ExtResource("fridge_fresh")
+
+[node name="PotatoCrate" parent="NavigationRegion/YSort" instance=ExtResource("crate_potato")]
+position = Vector2(25, 138)
+
+[node name="CarrotCrate" parent="NavigationRegion/YSort" instance=ExtResource("crate_carrot")]
+position = Vector2(50, 138)
+
+[node name="AppleCrate" parent="NavigationRegion/YSort" instance=ExtResource("crate_apple")]
+position = Vector2(75, 138)
+
+[node name="Counter" parent="NavigationRegion/YSort" instance=ExtResource("counter")]
+position = Vector2(192, 118)
+
+[node name="LightLeft" parent="Walls/Top" instance=ExtResource("light")]
+position = Vector2(-70, -22)
+
+[node name="LightCenter" parent="Walls/Top" instance=ExtResource("light")]
+position = Vector2(0, -22)
+
+[node name="LightRight" parent="Walls/Top" instance=ExtResource("light")]
+position = Vector2(70, -22)
+
+[node name="BuildingVolume" parent="." instance=ExtResource("volume")]
+position = Vector2(112, 144)
+
+[node name="Facade" parent="." instance=ExtResource("facade")]
+position = Vector2(112, 144)
+
+[node name="EntranceDoor" parent="." instance=ExtResource("door")]
+position = Vector2(112, 144)

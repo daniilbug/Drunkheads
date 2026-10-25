@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/clip.gdshader" id="clip"]
+
+[resource]
+shader = ExtResource("clip")
+shader_parameter/active_cutouts = 3
+shader_parameter/cutouts = PackedVector4Array(64, 188, 91, 27, 164, 189, 15, 27, 188, 188, 91, 27)

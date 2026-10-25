@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/product.tscn" id="base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/products/cottage-cheese.png" id="texture"]
+
+[node name="CottageCheese" instance=ExtResource("base")]
+product_name = "Творог"
+
+[node name="Sprite" parent="." index="0"]
+position = Vector2(0, -4)
+texture = ExtResource("texture")

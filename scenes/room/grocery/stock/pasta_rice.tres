@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="GroceryDisplayStock" format=3]
+
+[ext_resource type="Script" path="res://scripts/room/grocery/display_stock.gd" id="stock_script"]
+[ext_resource type="Script" path="res://scripts/room/grocery/display_row.gd" id="row_script"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/pasta.tscn" id="pasta"]
+[ext_resource type="PackedScene" path="res://scenes/room/grocery/products/rice.tscn" id="rice"]
+
+[sub_resource type="Resource" id="Row0"]
+script = ExtResource("row_script")
+baseline = Vector2i(-12, -11)
+width = 24
+products = Array[PackedScene]([ExtResource("pasta")])
+
+[sub_resource type="Resource" id="Row1"]
+script = ExtResource("row_script")
+baseline = Vector2i(-12, -2)
+width = 24
+products = Array[PackedScene]([ExtResource("rice")])
+
+[resource]
+script = ExtResource("stock_script")
+rows = Array[ExtResource("row_script")]([SubResource("Row0"), SubResource("Row1")])

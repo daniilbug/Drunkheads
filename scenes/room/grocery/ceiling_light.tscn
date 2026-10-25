@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/room/clothing_store/ceiling_light.tscn" id="light"]
+[node name="CeilingLight" instance=ExtResource("light")]
+
+[node name="Light" parent="." index="0"]
+position = Vector2(0, 72)
+energy = 1.15
+shadow_enabled = false

@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/fridge.png" id="texture"]
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/fridge_glass.png" id="glass"]
+[ext_resource type="Script" path="res://scripts/room/grocery/display.gd" id="script"]
+[ext_resource type="Resource" path="res://scenes/room/grocery/stock/fridge_dairy.tres" id="stock"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(44, 8)
+
+[node name="DisplayFridge" type="StaticBody2D"]
+script = ExtResource("script")
+stock = ExtResource("stock")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -13)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("Footprint")
+
+[node name="Products" type="Node2D" parent="."]
+
+[node name="Glass" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -13)
+texture = ExtResource("glass")

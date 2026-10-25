@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/shopping_baskets.png" id="texture"]
+
+[sub_resource type="RectangleShape2D" id="Footprint"]
+size = Vector2(10, 4)
+
+[node name="ShoppingBaskets" type="StaticBody2D"]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 2
+texture_filter = 1
+position = Vector2(0, -5)
+texture = ExtResource("texture")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("Footprint")

@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/core/door.tscn" id="door"]
+[ext_resource type="Texture2D" path="res://assets/sprites/grocery/entrance_door.png" id="texture"]
+[ext_resource type="PackedScene" path="res://scenes/room/home_entrance/entrance_step.tscn" id="step"]
+
+[sub_resource type="RectangleShape2D" id="Body"]
+size = Vector2(14, 4)
+
+[sub_resource type="RectangleShape2D" id="Interaction"]
+size = Vector2(22, 12)
+
+[sub_resource type="RectangleShape2D" id="Approach"]
+size = Vector2(22, 48)
+
+[node name="EntranceDoor" instance=ExtResource("door")]
+
+[node name="ClosedSprite" parent="." index="0"]
+light_mask = 3
+position = Vector2(-8, -27)
+texture = ExtResource("texture")
+hframes = 2
+
+[node name="OpenSprite" parent="." index="1"]
+light_mask = 3
+position = Vector2(-8, -27)
+texture = ExtResource("texture")
+hframes = 2
+frame = 1
+
+[node name="Shape" parent="Body" index="0"]
+shape = SubResource("Body")
+
+[node name="Shape" parent="InteractionZone" index="0"]
+position = Vector2(0, -4)
+shape = SubResource("Interaction")
+
+[node name="Porch" parent="." instance=ExtResource("step")]
+
+[node name="Shape" parent="NPCApproachZone" index="0"]
+shape = SubResource("Approach")
+
+[node name="Shape" parent="PassageZone" index="0"]
+shape = SubResource("Body")
