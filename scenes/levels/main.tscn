@@ -36,13 +36,13 @@ spawn_path = NodePath("..")
 position = Vector2(530, 0)
 
 [node name="Cafe" parent="." instance=ExtResource("5_cafe")]
-position = Vector2(1380.25, 0)
+position = Vector2(1340, 0)
 
 [node name="HomeEntrance" parent="." instance=ExtResource("7_home_entrance")]
-position = Vector2(2506.5, 0)
+position = Vector2(2319, 0)
 
 [node name="ClothingStore" parent="." instance=ExtResource("12_clothing_store")]
-position = Vector2(3688.5, 0)
+position = Vector2(3501, 0)
 
 [node name="HeadphonePlayer" type="AudioStreamPlayer" parent="." unique_id=1806567769]
 volume_db = -30.0

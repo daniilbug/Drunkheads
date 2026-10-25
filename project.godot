@@ -15,14 +15,14 @@ run/main_scene="uid://dy73lxq0fpx5g"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-SaveManager="*res://scripts/core/save/save_manager.gd"
-
 [audio]
 
 buses/default_bus_layout="uid://dfyccxfhmjoy0"
 driver/enable_input=true
+
+[autoload]
+
+SaveManager="*res://scripts/core/save/save_manager.gd"
 
 [display]
 
