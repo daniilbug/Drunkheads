@@ -38,9 +38,8 @@ transport_destination = ExtResource("transport_destination")
 light_mask = 0
 position = Vector2(20, 156)
 
-[node name="CafeWC" parent="." index="1" node_paths=PackedStringArray("wall_transparency_targets") instance=ExtResource("5_tbgi4")]
+[node name="CafeWC" parent="." index="1" instance=ExtResource("5_tbgi4")]
 position = Vector2(133, 76)
-wall_transparency_targets = Array[NodePath]([NodePath("Walls/Bottom"), NodePath("WCDoor"), NodePath("../CafeHall/Walls/Top")])
 
 
 [node name="Asphalt" type="Node2D" parent="." index="3"]
@@ -59,8 +58,6 @@ region_rect = Rect2(0, 0, 653, 600)
 
 [node name="NPCManager" type="Node2D" parent="." index="6"]
 script = ExtResource("3_npc_mgr")
-hall_path = NodePath("CafeHall")
-wc_path = NodePath("CafeWC")
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0"]
 position = Vector2(-220, 371)

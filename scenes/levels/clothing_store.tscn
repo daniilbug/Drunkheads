@@ -13,11 +13,20 @@
 [ext_resource type="PackedScene" path="res://scenes/room/barber/building_facade.tscn" id="facade"]
 [ext_resource type="PackedScene" path="res://scenes/room/barber/building_volume.tscn" id="volume"]
 [ext_resource type="PackedScene" path="res://scenes/street/shrub_bed.tscn" id="shrub_bed"]
+[ext_resource type="Script" path="res://scripts/core/npc_manager.gd" id="npc_manager"]
+
+[sub_resource type="NavigationPolygon" id="StreetNavigationPolygon"]
+resource_local_to_scene = true
+outlines = Array[PackedVector2Array]([PackedVector2Array(-256, 232, 352, 232, 352, 372, -256, 372)])
+parsed_geometry_type = 1
+parsed_collision_mask = 1
+source_geometry_mode = 1
+source_geometry_group_name = &"clothing_street_navigation_geometry"
 
 [sub_resource type="CircleShape2D" id="LanternFootprint"]
 radius = 3.0
 
-[node name="ClothingStore" instance=ExtResource("level")]
+[node name="ClothingStore" groups=["clothing_street_navigation_geometry"] instance=ExtResource("level")]
 script = ExtResource("script")
 level_id = "clothing_store"
 transport_destination = ExtResource("destination")
@@ -121,3 +130,17 @@ road_width = 608.0
 
 [node name="Stop" parent="TrafficRoad/RightTrafficLane" index="2"]
 position = Vector2(368, 27.25)
+
+[node name="NPCManager" type="Node2D" parent="."]
+script = ExtResource("npc_manager")
+
+[node name="NPCPath" type="Node2D" parent="."]
+
+[node name="Left" type="Marker2D" parent="NPCPath"]
+position = Vector2(-240, 260)
+
+[node name="Right" type="Marker2D" parent="NPCPath"]
+position = Vector2(336, 260)
+
+[node name="StreetNavigation" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("StreetNavigationPolygon")

@@ -13,11 +13,22 @@
 [ext_resource type="PackedScene" path="res://scenes/street/home_entrance/sandbox.tscn" id="sandbox"]
 [ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_bench.tscn" id="bench"]
+[ext_resource type="Script" path="res://scripts/levels/home_entrance.gd" id="script"]
+[ext_resource type="Script" path="res://scripts/core/npc_manager.gd" id="npc_manager"]
+
+[sub_resource type="NavigationPolygon" id="StreetNavigationPolygon"]
+resource_local_to_scene = true
+outlines = Array[PackedVector2Array]([PackedVector2Array(-476, 358, 876, 358, 876, 488, -476, 488)])
+parsed_geometry_type = 1
+parsed_collision_mask = 1
+source_geometry_mode = 1
+source_geometry_group_name = &"home_street_navigation_geometry"
 
 [sub_resource type="CircleShape2D" id="LanternFootprint"]
 radius = 3.0
 
-[node name="HomeEntrance" instance=ExtResource("level")]
+[node name="HomeEntrance" groups=["home_street_navigation_geometry"] instance=ExtResource("level")]
+script = ExtResource("script")
 level_id = "home"
 transport_destination = ExtResource("destination")
 
@@ -99,3 +110,17 @@ position = Vector2(-452, 490)
 
 [node name="TopRight" parent="LevelBounds" index="1"]
 position = Vector2(812, 24)
+
+[node name="NPCManager" type="Node2D" parent="."]
+script = ExtResource("npc_manager")
+
+[node name="NPCPath" type="Node2D" parent="."]
+
+[node name="Left" type="Marker2D" parent="NPCPath"]
+position = Vector2(-460, 380)
+
+[node name="Right" type="Marker2D" parent="NPCPath"]
+position = Vector2(860, 380)
+
+[node name="StreetNavigation" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("StreetNavigationPolygon")

@@ -239,6 +239,10 @@ func _create_bounds_wall(wall_name: String, wall_position: Vector2, size: Vector
 	wall.shape = rectangle
 	_bounds_body.add_child(wall)
 
+## Each level selects an independent route before the server spawns its NPC.
+func create_npc_route() -> NPCRoute:
+	return null
+
 func _init_npc(npc: NPC) -> void:
 	npc.player_data = PlayerData.new()
 	npc.drink_action_requested.connect(_on_drink_action_requested)

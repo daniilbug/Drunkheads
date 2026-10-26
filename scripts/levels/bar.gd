@@ -6,10 +6,14 @@ extends Level
 
 func _ready() -> void:
 	player_spawn = $PlayerSpawn
-	npc_manager.npc_added.connect(_init_npc)
+	npc_manager.configure(10.0)
 	$CigaretteSpawner.spawned.connect(_on_cigarette_spawned)
 	super._ready()
 	$StreetNavigation.bake_navigation_polygon(false)
+
+func create_npc_route() -> NPCRoute:
+	return NPCVisitRoute.new($BarHall, $BarWC, $Bench,
+		$PlayerSpawn.global_position, $NPCManager/ExitPoint.global_position)
 
 func _prepare_player_spawn(player: Player) -> void:
 	if get_parent() is Main:
