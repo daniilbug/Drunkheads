@@ -79,3 +79,9 @@ shape = SubResource("BusPavementEntrance")
 
 [node name="MultiplayerSynchronizer" parent="." index="6" unique_id=328169659]
 replication_config = SubResource("SceneReplicationConfig_vehicle")
+
+[node name="BoardingAudio" parent="."]
+position = Vector2(34, -28)
+
+[node name="ExitAudio" parent="."]
+position = Vector2(34, -28)

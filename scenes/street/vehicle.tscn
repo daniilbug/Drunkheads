@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/street/vehicle_interaction.gd" id="4_interaction"]
 [ext_resource type="AudioStream" uid="uid://dxglln3w1shh" path="res://assets/audio/car/car.mp3" id="7_car_audio"]
 [ext_resource type="AudioStream" path="res://assets/audio/car/honk.mp3" id="8_honk_audio"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/transport_board.wav" id="boarding"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/transport_exit.wav" id="exit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(54, 14)
@@ -126,4 +128,22 @@ stream = ExtResource("8_honk_audio")
 volume_db = -10.0
 max_distance = 500.0
 bus = &"World"
+playback_type = 1
+
+[node name="BoardingAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -10)
+stream = ExtResource("boarding")
+bus = &"World"
+volume_db = -8.0
+max_distance = 512.0
+attenuation = 1.0
+playback_type = 1
+
+[node name="ExitAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -10)
+stream = ExtResource("exit")
+bus = &"World"
+volume_db = -8.0
+max_distance = 512.0
+attenuation = 1.0
 playback_type = 1

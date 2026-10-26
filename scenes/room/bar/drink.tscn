@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c32y5jxqyspnc" path="res://scripts/room/bar/drink.gd" id="2_68v5n"]
 [ext_resource type="Texture2D" uid="uid://c6tqhc4i8iht6" path="res://assets/sprites/drinks/beer_glass.png" id="3_4pm5x"]
 [ext_resource type="Texture2D" uid="uid://bgnpqee8dffto" path="res://assets/sprites/drinks/beer.png" id="4_glw30"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/drink.mp3" id="gulp"]
 
 [sub_resource type="SceneReplicationConfig" id="DrinkReplication"]
 properties/0/path = NodePath(".:position")
@@ -69,3 +70,12 @@ region_rect = Rect2(0, 0, 8, 10)
 
 [node name="MultiplayerSynchronizer" parent="." index="3"]
 replication_config = SubResource("DrinkReplication")
+
+[node name="DrinkAudio" type="AudioStreamPlayer2D" parent="Sprite"]
+stream = ExtResource("gulp")
+bus = &"World"
+volume_db = -12.0
+max_distance = 256.0
+attenuation = 3.0
+max_polyphony = 2
+playback_type = 1

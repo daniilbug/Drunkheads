@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/room/barber/barber.gd" id="script"]
 [ext_resource type="PackedScene" path="res://scenes/room/barber/hair_menu.tscn" id="menu"]
 [ext_resource type="Texture2D" path="res://assets/sprites/barber/barber.png" id="texture"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/haircut.wav" id="haircut"]
 
 [sub_resource type="AtlasTexture" id="Idle"]
 atlas = ExtResource("texture")
@@ -43,3 +44,12 @@ shape = SubResource("Reach")
 [node name="Shape" type="CollisionShape2D" parent="Body"]
 position = Vector2(0, -2)
 shape = SubResource("Footprint")
+
+[node name="HaircutAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("haircut")
+bus = &"World"
+volume_db = -14.0
+max_distance = 256.0
+attenuation = 3.0
+max_polyphony = 2
+playback_type = 1

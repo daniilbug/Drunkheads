@@ -60,10 +60,16 @@ func _select_hair(peer_id: int, style: int) -> void:
 	var accepted := can_use(player) and style >= 0 and style < CharacterSprite.HAIR_TEXTURES.size() and style != player.hair_id
 	if accepted:
 		player.hair_id = style
+		_play_haircut.rpc()
 		var main := level.get_parent() as Main
 		if main != null and player == main.local_player:
 			main.world_save.request_save()
 	_purchase_result.rpc_id(peer_id, accepted)
+
+
+@rpc("authority", "call_local", "reliable")
+func _play_haircut() -> void:
+	$HaircutAudio.play()
 
 
 @rpc("authority", "call_local", "reliable")

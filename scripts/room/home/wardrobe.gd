@@ -44,15 +44,22 @@ func _equip(peer_id: int, is_top: bool, item: Vector2i) -> void:
 		else:
 			_reject_selection.rpc_id(peer_id)
 		return
+	var previous := Vector2i(player.top_id, player.top_color_id) if is_top else Vector2i(player.pants_id, player.pants_color_id)
 	if is_top:
 		player.top_id = item.x
 		player.top_color_id = item.y
 	else:
 		player.pants_id = item.x
 		player.pants_color_id = item.y
+	if previous != item:
+		_play_change_sound.rpc()
 	var main := level.get_parent() as Main
 	if main != null and player == main.local_player:
 		main.world_save.request_save()
+
+@rpc("authority", "call_local", "reliable")
+func _play_change_sound() -> void:
+	$ChangeAudio.play()
 
 @rpc("authority", "call_local", "reliable")
 func _reject_selection() -> void:

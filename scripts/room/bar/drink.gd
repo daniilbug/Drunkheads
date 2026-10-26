@@ -4,6 +4,8 @@ extends Draggable
 
 const FRAMES := 5
 
+var _suppress_gulp := false
+
 @export var drink_name: String = ""
 @export var type: BarMenuItem.Type = BarMenuItem.Type.BEER:
 	set(value):
@@ -25,7 +27,10 @@ const FRAMES := 5
 var max_parts: int = 4:
 	set(value):
 		max_parts = value
+		var was_suppressed := _suppress_gulp
+		_suppress_gulp = true
 		parts = value
+		_suppress_gulp = was_suppressed
 		if is_node_ready():
 			_update_drink_sprite()
 
@@ -35,9 +40,12 @@ var max_parts: int = 4:
 @export
 var parts: int = max_parts:
 	set(value):
+		var consumed := value < parts
 		parts = value
 		if is_node_ready():
 			_update_drink_sprite()
+			if consumed and not _suppress_gulp and not Engine.is_editor_hint() and multiplayer.is_server():
+				_play_gulp.rpc(parts == 0)
 
 func _ready() -> void:
 	_update_drink_sprite()
@@ -50,6 +58,15 @@ func _local_pickup(player_id: int) -> bool:
 		return false
 	customer_id = 0
 	return true
+
+@rpc("authority", "call_local", "reliable")
+func _play_gulp(last_part: bool) -> void:
+	var audio := $Sprite/DrinkAudio as AudioStreamPlayer2D
+	if last_part:
+		# Let the drink's final sound finish at its position after the cup despawns.
+		audio.reparent(_level)
+		audio.finished.connect(audio.queue_free, CONNECT_ONE_SHOT)
+	audio.play()
 
 func get_respect_bonus() -> float:
 	if type == BarMenuItem.Type.COFFEE:
@@ -107,7 +124,9 @@ func get_save_data() -> Dictionary:
 	return data
 
 func apply_save_data(data: Dictionary) -> void:
+	_suppress_gulp = true
 	super.apply_save_data(data)
+	_suppress_gulp = false
 	Bartender._drink_id = maxi(Bartender._drink_id, str(name).trim_prefix("Drink").to_int())
 
 func can_restore_save_data(fields: Dictionary, saved_level: Node2D) -> bool:

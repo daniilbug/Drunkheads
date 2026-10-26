@@ -53,6 +53,7 @@ const ARRIVAL_TOLERANCE := 0.25
 @onready var _honk_audio: AudioStreamPlayer2D = $HonkAudio
 @onready var _navigation_agent: NavigationAgent2D = $NavigationAgent
 @onready var _forward_cast: ShapeCast2D = $ForwardCast
+@onready var _level: Level = Level.find_level_node(self)
 
 var _destination := Vector2.ZERO
 var _stop_at_destination := false
@@ -62,6 +63,8 @@ var _pending_clearance := 0.0
 var _world_units_per_local := 1.0
 var _blocked_time := 0.0
 var _honk_cooldown := 0.0
+var _audio_passengers: Array[int] = []
+var _passenger_audio_initialized := false
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(1, true)
@@ -102,6 +105,31 @@ func configure_route(start: Vector2, destination: Vector2, speed: float, stop_at
 
 func randomize_appearance() -> void:
 	pass
+
+func _process(_delta: float) -> void:
+	if _level == null or not multiplayer.is_server() or multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		return
+	var passengers: Array[int] = []
+	for player in _level.get_players():
+		if not player.is_queued_for_deletion() and player.in_vehicle and player.level_id == _level.level_id and player.riding_vehicle_name == name:
+			passengers.append(int(player.name))
+	# An arriving vehicle already has passengers. Establish its initial manifest
+	# without replaying boarding, including when the vehicle is recreated en route.
+	if not _passenger_audio_initialized:
+		_audio_passengers = passengers
+		_passenger_audio_initialized = true
+		return
+	if passengers.any(func(peer_id: int): return peer_id not in _audio_passengers):
+		_play_boarding_sound.rpc()
+	for peer_id in _audio_passengers:
+		if peer_id in passengers:
+			continue
+		var player := _level.get_player(peer_id)
+		# Transfers and disconnects are not passengers stepping out at this stop.
+		if player != null and not player.is_queued_for_deletion() and not player.in_vehicle and player.level_id == _level.level_id:
+			_play_exit_sound.rpc()
+			break
+	_audio_passengers = passengers
 
 func _physics_process(delta: float) -> void:
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
@@ -189,6 +217,14 @@ func request_interaction(player: Player) -> void:
 		_handle_interaction(int(player.name))
 	else:
 		_request_interaction.rpc_id(1)
+
+@rpc("authority", "call_local", "reliable")
+func _play_boarding_sound() -> void:
+	$BoardingAudio.play()
+
+@rpc("authority", "call_local", "reliable")
+func _play_exit_sound() -> void:
+	$ExitAudio.play()
 
 @rpc("any_peer", "reliable")
 func _request_interaction() -> void:

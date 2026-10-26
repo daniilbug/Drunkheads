@@ -23,7 +23,10 @@ func _on_entered(body: Node2D) -> void:
 func _on_exited(body: Node2D) -> void:
 	if body is Player:
 		_players.erase(body)
+		var previous := _get_outfit(body)
 		body.clothing_shop.clear_fitting(self)
+		if previous != _get_outfit(body):
+			_play_change_sound.rpc()
 
 
 func _physics_process(_delta: float) -> void:
@@ -37,9 +40,29 @@ func _physics_process(_delta: float) -> void:
 func _refresh() -> void:
 	var top: ShopGarment = $Table/Slots/Top.get_garment()
 	var bottom: ShopGarment = $Table/Slots/Bottom.get_garment()
+	var changed := false
 	for player in _players:
 		if is_instance_valid(player):
+			var previous := _get_outfit(player)
 			player.clothing_shop.preview_fitting(self, top.item if top != null else Vector2i(-1, -1), bottom.item if bottom != null else Vector2i(-1, -1))
+			if previous != _get_outfit(player):
+				changed = true
+	if changed:
+		_play_change_sound.rpc()
+
+
+func _get_outfit(player: Player) -> Array[Vector2i]:
+	var top := player.clothing_shop.fitting_top
+	var bottom := player.clothing_shop.fitting_bottom
+	return [
+		top if top.x >= 0 else Vector2i(player.top_id, player.top_color_id),
+		bottom if bottom.x >= 0 else Vector2i(player.pants_id, player.pants_color_id),
+	]
+
+
+@rpc("authority", "call_local", "reliable")
+func _play_change_sound() -> void:
+	$ChangeAudio.play()
 
 
 func _exit_tree() -> void:

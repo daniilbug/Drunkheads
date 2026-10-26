@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/clothing_store/fitting_cabin.png" id="back"]
 [ext_resource type="Script" path="res://scripts/room/clothing_store/fitting_room.gd" id="script"]
 [ext_resource type="PackedScene" path="res://scenes/room/clothing_store/fitting_table.tscn" id="table"]
+[ext_resource type="AudioStream" path="res://assets/audio/interactions/clothing_change.wav" id="clothing"]
 
 [sub_resource type="RectangleShape2D" id="BackShape"]
 size = Vector2(24, 4)
@@ -48,4 +49,13 @@ shape = SubResource("InsideShape")
 
 [node name="Table" parent="." instance=ExtResource("table")]
 position = Vector2(24, 6)
+
+[node name="ChangeAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -15)
+stream = ExtResource("clothing")
+bus = &"World"
+volume_db = -12.0
+max_distance = 256.0
+attenuation = 3.0
+playback_type = 1
 
