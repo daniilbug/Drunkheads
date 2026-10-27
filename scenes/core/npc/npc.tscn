@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bdvk4vs15fb0q"]
 
-[ext_resource type="Script" uid="uid://bxauom013q3vc" path="res://scripts/core/npc.gd" id="1_q88xf"]
+[ext_resource type="Script" uid="uid://bxauom013q3vc" path="res://scripts/core/npc/npc.gd" id="1_q88xf"]
 [ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
 [ext_resource type="Script" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
 [ext_resource type="Texture2D" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/characters/pants_0.png" id="2_pants"]
 [ext_resource type="Shader" path="res://assets/shaders/hair_color.gdshader" id="hair_color_shader"]
 [ext_resource type="Shader" path="res://assets/shaders/clothing_color.gdshader" id="clothing_color_shader"]
+
+[ext_resource type="PackedScene" path="res://scenes/core/npc/conversation.tscn" id="conversation"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hair"]
 shader = ExtResource("hair_color_shader")
@@ -42,6 +44,10 @@ properties/3/path = NodePath(".:direction")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+properties/4/path = NodePath("Conversation:presentation")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_appearance"]
 properties/0/path = NodePath(".:hair_id")
 properties/0/spawn = true
@@ -61,6 +67,9 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath(".:pants_color_id")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath(".:level_id")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [node name="NPC" type="CharacterBody2D" unique_id=1474730025]
 collision_layer = 16
@@ -140,3 +149,5 @@ replication_config = SubResource("SceneReplicationConfig_5x06y")
 
 [node name="AppearanceSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_appearance")
+
+[node name="Conversation" parent="." instance=ExtResource("conversation")]

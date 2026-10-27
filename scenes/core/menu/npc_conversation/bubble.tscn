@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/menu/npc_conversation/bubble.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/bubble.png" id="body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/bubble_shadow.png" id="shadow"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/tail_down.png" id="tail"]
+
+[node name="Bubble" type="Control"]
+mouse_filter = 2
+script = ExtResource("script")
+
+[node name="Shadow" type="NinePatchRect" parent="."]
+self_modulate = Color(0.1, 0.12, 0.1, 1)
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = 4.0
+mouse_filter = 2
+texture = ExtResource("shadow")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Body" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("body")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Tail" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("tail")

@@ -17,13 +17,19 @@ enum State {
 	LEAVING_CABIN,
 	GOING_TO_SINK,
 	WASHING_HANDS,
-	EXITING
+	EXITING,
+	TALKING
 }
 
 var route: NPCRoute
+var profile: NPCProfile
 var _moving_directly := false
+var _resume_state: State
+var _resume_elapsed := 0.0
+var _resume_direction := Vector2.DOWN
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent
+@onready var conversation: NPCConversation = $Conversation
 @onready var _world_scale: float = global_transform.x.length()
 
 var _elapsed_ms := 0.0
@@ -61,6 +67,13 @@ func _setup_authority() -> void:
 func _physics_process(delta: float) -> void:
 	if not multiplayer.is_server() or route == null:
 		return
+	if state == State.TALKING:
+		nav_agent.velocity = Vector2.ZERO
+		velocity = Vector2.ZERO
+		var player := conversation.participant()
+		if is_instance_valid(player):
+			NPCConversationMotion.face(self, player)
+		return
 	if NavigationServer2D.map_get_iteration_id(nav_agent.get_navigation_map()) == 0:
 		return
 
@@ -80,7 +93,7 @@ func _physics_process(delta: float) -> void:
 			_begin_exit()
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	if _moving_directly or is_sitting:
+	if _moving_directly or is_sitting or state == State.TALKING or route == null:
 		return
 	velocity = safe_velocity if route.is_navigating() else Vector2.ZERO
 	move_and_slide()
@@ -97,3 +110,21 @@ func _begin_exit() -> void:
 	route.cleanup()
 	_set_destination(route.exit_position, EXIT_DISTANCE)
 	state = State.EXITING
+
+func pause_for_conversation() -> void:
+	_resume_state = state
+	_resume_elapsed = _elapsed_ms
+	_resume_direction = direction
+	state = State.TALKING
+	velocity = Vector2.ZERO
+	nav_agent.velocity = Vector2.ZERO
+	_animate_movement(0.0, Vector2.ZERO)
+	audio.stop()
+
+func resume_after_conversation() -> void:
+	if state == State.TALKING:
+		state = _resume_state
+		_elapsed_ms = _resume_elapsed
+		if is_sitting:
+			direction = _resume_direction
+			sprite.frame = NPCConversationMotion.idle_frame(self)

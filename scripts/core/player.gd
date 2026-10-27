@@ -412,6 +412,11 @@ func _try_interact() -> void:
 			var bartender = owner_node as Bartender
 			bartender.order(self)
 			return
+		elif owner_node is NPC:
+			var conversation := NPCConversation.nearest(self, areas)
+			if conversation != null:
+				conversation.interact(self)
+				return
 		elif owner_node is Switch:
 			# Adjacent switches can both overlap the player's interaction area.
 			var nearest_switch := owner_node as Switch

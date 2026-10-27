@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/npc/conversation.gd" id="conversation"]
+[ext_resource type="Script" path="res://scripts/core/npc/conversation_motion.gd" id="motion"]
+[ext_resource type="PackedScene" path="res://scenes/core/menu/npc_conversation/menu.tscn" id="menu"]
+
+[node name="Conversation" type="Node"]
+script = ExtResource("conversation")
+menu_scene = ExtResource("menu")
+
+[node name="Motion" type="Node" parent="."]
+script = ExtResource("motion")

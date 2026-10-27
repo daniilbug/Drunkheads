@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c12cbds4voqai" path="res://assets/sprites/street/asphalt.png" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cwxvyfkjgthba" path="res://scenes/room/bar/bar.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://dkkv5wia5wuoo" path="res://scripts/levels/bar.gd" id="2_tbgi4"]
-[ext_resource type="Script" uid="uid://5eb3l2o6scfd" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
+[ext_resource type="Script" uid="uid://5eb3l2o6scfd" path="res://scripts/core/npc/npc_manager.gd" id="3_npc_mgr"]
 [ext_resource type="PackedScene" uid="uid://beou7oanjwgs3" path="res://scenes/room/wc/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://b1j7g1w1w2e4i" path="res://scenes/room/poker/poker_room.tscn" id="5_tefeu"]
 [ext_resource type="PackedScene" uid="uid://ds0moei40y8mg" path="res://scenes/street/cigarette_machine.tscn" id="6_cigarette_machine"]
@@ -55,7 +55,7 @@ offset = Vector2(0, -300)
 region_enabled = true
 region_rect = Rect2(0, 0, 760, 600)
 
-[node name="NPCManager" type="Node2D" parent="." index="6" unique_id=2072928996]
+[node name="NPCManager" type="Node2D" parent="." index="6" unique_id=2072928996 groups=["saveable"]]
 script = ExtResource("3_npc_mgr")
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0" unique_id=210341260]

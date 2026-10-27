@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" path="res://scenes/street/lantern.tscn" id="lantern"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_bench.tscn" id="bench"]
 [ext_resource type="Script" path="res://scripts/levels/home_entrance.gd" id="script"]
-[ext_resource type="Script" path="res://scripts/core/npc_manager.gd" id="npc_manager"]
+[ext_resource type="Script" path="res://scripts/core/npc/npc_manager.gd" id="npc_manager"]
 
 [sub_resource type="NavigationPolygon" id="StreetNavigationPolygon"]
 resource_local_to_scene = true
@@ -111,7 +111,7 @@ position = Vector2(-452, 490)
 [node name="TopRight" parent="LevelBounds" index="1"]
 position = Vector2(812, 24)
 
-[node name="NPCManager" type="Node2D" parent="."]
+[node name="NPCManager" type="Node2D" parent="." groups=["saveable"]]
 script = ExtResource("npc_manager")
 
 [node name="NPCPath" type="Node2D" parent="."]

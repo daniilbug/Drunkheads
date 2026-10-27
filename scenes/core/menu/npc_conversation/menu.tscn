@@ -1,0 +1,171 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/core/menu/npc_conversation/bubbles.gd" id="script"]
+
+[ext_resource type="Script" path="res://scripts/core/menu/npc_conversation/menu.gd" id="menu"]
+
+[ext_resource type="PackedScene" path="res://scenes/core/menu/npc_conversation/bubble.tscn" id="bubble"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/dot.png" id="dot"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/spark.png" id="spark"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/ui/choice_focus.png" id="focus"]
+[ext_resource type="Texture2D" path="res://assets/sprites/social/voice.png" id="voice"]
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+[sub_resource type="StyleBoxTexture" id="Focus"]
+texture = ExtResource("focus")
+texture_margin_bottom = 3.0
+
+[node name="ConversationMenu" type="CanvasLayer"]
+layer = 10
+script = ExtResource("menu")
+
+[node name="Bubbles" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture_filter = 1
+script = ExtResource("script")
+
+[node name="PlayerBubble" parent="Bubbles" instance=ExtResource("bubble")]
+visible = false
+
+[node name="NPCBubble" parent="Bubbles" instance=ExtResource("bubble")]
+visible = false
+
+[node name="PlayerTopic" type="TextureRect" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+expand_mode = 1
+
+[node name="NPCTopic" type="TextureRect" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+expand_mode = 1
+
+[node name="Heart" type="TextureRect" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+expand_mode = 1
+
+[node name="Spark" type="TextureRect" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+expand_mode = 1
+
+offset_right = 12.0
+offset_bottom = 12.0
+texture = ExtResource("spark")
+
+[node name="ResultMark" type="TextureRect" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+expand_mode = 1
+
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Thinking" type="Control" parent="Bubbles"]
+visible = false
+mouse_filter = 2
+
+[node name="Dot0" type="TextureRect" parent="Bubbles/Thinking"]
+offset_right = 6.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("dot")
+
+[node name="Dot1" type="TextureRect" parent="Bubbles/Thinking"]
+offset_right = 6.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("dot")
+
+[node name="Dot2" type="TextureRect" parent="Bubbles/Thinking"]
+offset_right = 6.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("dot")
+
+[node name="Voice" type="Sprite2D" parent="Bubbles"]
+visible = false
+scale = Vector2(2, 2)
+texture = ExtResource("voice")
+centered = false
+hframes = 2
+
+[node name="Panel" type="Control" parent="Bubbles"]
+offset_right = 248.0
+offset_bottom = 104.0
+mouse_filter = 2
+
+[node name="Choice0" type="Button" parent="Bubbles/Panel"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 80.0
+offset_bottom = 80.0
+focus_neighbor_left = NodePath("../Choice2")
+focus_neighbor_right = NodePath("../Choice1")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+theme_override_styles/normal = SubResource("Empty")
+theme_override_styles/pressed = SubResource("Focus")
+theme_override_styles/hover = SubResource("Focus")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Icon" type="TextureRect" parent="Bubbles/Panel/Choice0"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Choice1" type="Button" parent="Bubbles/Panel"]
+offset_left = 92.0
+offset_top = 16.0
+offset_right = 156.0
+offset_bottom = 80.0
+focus_neighbor_left = NodePath("../Choice0")
+focus_neighbor_right = NodePath("../Choice2")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+theme_override_styles/normal = SubResource("Empty")
+theme_override_styles/pressed = SubResource("Focus")
+theme_override_styles/hover = SubResource("Focus")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Icon" type="TextureRect" parent="Bubbles/Panel/Choice1"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Choice2" type="Button" parent="Bubbles/Panel"]
+offset_left = 168.0
+offset_top = 16.0
+offset_right = 232.0
+offset_bottom = 80.0
+focus_neighbor_left = NodePath("../Choice1")
+focus_neighbor_right = NodePath("../Choice0")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+theme_override_styles/normal = SubResource("Empty")
+theme_override_styles/pressed = SubResource("Focus")
+theme_override_styles/hover = SubResource("Focus")
+theme_override_styles/focus = SubResource("Focus")
+
+[node name="Icon" type="TextureRect" parent="Bubbles/Panel/Choice2"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

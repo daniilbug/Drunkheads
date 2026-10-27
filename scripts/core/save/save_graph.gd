@@ -74,7 +74,11 @@ static func can_restore(level: Node2D, data: Dictionary) -> bool:
 			return false
 	for path in data.objects:
 		var node := level.get_node_or_null(path)
-		if node == null or not node.is_in_group("saveable") or node is Draggable or not matches(data.objects[path], node.get_save_data()):
+		if node == null or not node.is_in_group("saveable") or node is Draggable:
+			return false
+		var valid: bool = node.can_restore_save_data(data.objects[path]) if node.has_method("can_restore_save_data") \
+			else matches(data.objects[path], node.get_save_data())
+		if not valid:
 			return false
 	return true
 

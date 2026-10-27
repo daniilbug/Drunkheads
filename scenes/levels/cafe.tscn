@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/street/asphalt.png" id="2_jyhfs"]
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/cafe.tscn" id="2_sugp2"]
 [ext_resource type="Script" path="res://scripts/levels/cafe.gd" id="2_tbgi4"]
-[ext_resource type="Script" path="res://scripts/core/npc_manager.gd" id="3_npc_mgr"]
+[ext_resource type="Script" path="res://scripts/core/npc/npc_manager.gd" id="3_npc_mgr"]
 [ext_resource type="PackedScene" path="res://scenes/room/cafe/wc.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" path="res://scenes/room/wc/trash.tscn" id="9_85g3d"]
 [ext_resource type="PackedScene" path="res://scenes/street/cafe_brick_house.tscn" id="12_eb6dy"]
@@ -56,7 +56,7 @@ offset = Vector2(0, -300)
 region_enabled = true
 region_rect = Rect2(0, 0, 653, 600)
 
-[node name="NPCManager" type="Node2D" parent="." index="6"]
+[node name="NPCManager" type="Node2D" parent="." index="6" groups=["saveable"]]
 script = ExtResource("3_npc_mgr")
 
 [node name="ExitPoint" type="Marker2D" parent="NPCManager" index="0"]
