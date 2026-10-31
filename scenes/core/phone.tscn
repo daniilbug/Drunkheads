@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/phone/status_battery.png" id="15_battery"]
 [ext_resource type="Texture2D" path="res://assets/sprites/phone/shopping_icon.png" id="16_shopping"]
 [ext_resource type="PackedScene" path="res://scenes/core/phone_marketplace.tscn" id="17_marketplace"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/app_icon_background.png" id="18_app_background"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/taxi_icon.png" id="19_taxi"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/wallpapers_icon.png" id="20_wallpapers"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/music_icon.png" id="21_music"]
+[ext_resource type="Texture2D" path="res://assets/sprites/phone/play_icon.png" id="22_play"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_app"]
 
@@ -21,21 +26,6 @@ bg_color = Color(0.19, 0.3, 0.35, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
 bg_color = Color(0.85, 0.69, 0.36, 1)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_28pym"]
-load_path = "res://.godot/imported/app_icon_background.png-26382a8537411521a7f3f1ccc014957f.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h0v7o"]
-load_path = "res://.godot/imported/taxi_icon.png-b426f34c53c3060e698b5b2ce8f26223.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jj4an"]
-load_path = "res://.godot/imported/wallpapers_icon.png-e73dfe34274aa282293f1be551a7f557.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r36fv"]
-load_path = "res://.godot/imported/music_icon.png-42da6d89b21250831af5ef05b392726f.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_glghh"]
-load_path = "res://.godot/imported/play_icon.png-0b56e12321b6755398bf7a39420409b2.ctex"
 
 [node name="Phone" type="CanvasLayer" unique_id=1963600119]
 layer = 10
@@ -124,7 +114,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Apps/Taxi" unique_id=1502883391]
@@ -134,7 +124,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_h0v7o")
+texture = ExtResource("19_taxi")
 expand_mode = 1
 
 [node name="WallpapersButton" type="Button" parent="Root/Screen/Launcher/Apps" unique_id=400404278]
@@ -152,7 +142,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Apps/WallpapersButton" unique_id=1424210148]
@@ -162,7 +152,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_jj4an")
+texture = ExtResource("20_wallpapers")
 expand_mode = 1
 
 [node name="MusicButton" type="Button" parent="Root/Screen/Launcher/Apps" unique_id=168588845]
@@ -180,7 +170,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Apps/MusicButton" unique_id=1961516632]
@@ -190,7 +180,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_r36fv")
+texture = ExtResource("21_music")
 expand_mode = 1
 
 [node name="MarketplaceButton" type="Button" parent="Root/Screen/Launcher/Apps"]
@@ -208,7 +198,7 @@ offset_top = 5.0
 offset_right = 69.0
 offset_bottom = 69.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/Launcher/Apps/MarketplaceButton"]
@@ -292,7 +282,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Previous" unique_id=932598185]
@@ -322,7 +312,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Toggle" unique_id=1746594453]
@@ -333,7 +323,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_glghh")
+texture = ExtResource("22_play")
 expand_mode = 1
 
 [node name="Next" type="Button" parent="Root/Screen/MusicPlayer/Controls" unique_id=688676799]
@@ -352,7 +342,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_28pym")
+texture = ExtResource("18_app_background")
 expand_mode = 1
 
 [node name="Glyph" type="TextureRect" parent="Root/Screen/MusicPlayer/Controls/Next" unique_id=1307830746]

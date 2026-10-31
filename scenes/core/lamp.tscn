@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cs0dngurjonf4" path="res://scripts/core/lamp.gd" id="1_cq6jn"]
 [ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
-[ext_resource type="Texture2D" uid="uid://1jq6q1pigrsk" path="res://assets/sprites/lamp.png" id="1_hkk6q"]
+[ext_resource type="Texture2D" uid="uid://1jq6q1pigrsk" path="res://assets/sprites/core/lamp.png" id="1_hkk6q"]
 
 [sub_resource type="Gradient" id="Gradient_mut0l"]
 interpolation_mode = 2

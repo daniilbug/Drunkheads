@@ -78,7 +78,7 @@ def entrance_door() -> Image.Image:
 
 def entrance_step() -> Image.Image:
     """Widen the existing concrete step by extending only its flat middle."""
-    source = Image.open(SPRITES / "porch.png").convert("RGBA")
+    source = Image.open(SPRITES / "bar/porch.png").convert("RGBA")
     width = ENTRANCE_DOOR_OPENING_WIDTH + 6
     middle = source.width // 2
     extra = width - source.width
@@ -239,7 +239,7 @@ def lobby_mockup(textures: dict[str, Image.Image]) -> Image.Image:
     bulb = Image.open(SPRITES / "home/lightbulb.png").convert("RGBA")
     room.alpha_composite(bulb, (64, 32))
     # An existing 12x20 character frame establishes the actual world scale.
-    player = Image.open(SPRITES / "player.png").convert("RGBA").crop((0, 20, 12, 40))
+    player = Image.open(SPRITES / "characters/player.png").convert("RGBA").crop((0, 20, 12, 40))
     for name in ("pants_0", "top_0", "hair_0"):
         layer = Image.open(SPRITES / f"characters/{name}.png").convert("RGBA")
         player.alpha_composite(layer.crop((0, 20, 12, 40)))

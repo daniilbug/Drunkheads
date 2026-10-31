@@ -91,7 +91,7 @@ def hairstyle_photo() -> Image.Image:
     d = ImageDraw.Draw(image)
     d.rectangle((1, 1, 12, 12), fill=WHITE)
     d.rectangle((2, 2, 11, 11), fill='#bcc4b9')
-    head = Image.open(SPRITES / 'player.png').convert('RGBA').crop((0, 80, 12, 88))
+    head = Image.open(SPRITES / 'characters/player.png').convert('RGBA').crop((0, 80, 12, 88))
     hair = Image.open(SPRITES / 'characters/hair_3.png').convert('RGBA').crop((0, 80, 12, 88))
     palette = {
         (64, 64, 64, 255): (38, 27, 21, 255),

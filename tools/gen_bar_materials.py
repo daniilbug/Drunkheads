@@ -113,7 +113,7 @@ def roof(size: tuple[int, int]) -> Image.Image:
 
 def window_frame(transparent: bool) -> Image.Image:
     size = (16, 24) if transparent else (32, 24)
-    source = original("window_transparent.png" if transparent else "window.png", size)
+    source = original("bar/source/window_transparent.png" if transparent else "street/window.png", size)
     image = Image.new("RGBA", size, P["frame"])
     draw = ImageDraw.Draw(image)
     for offset in range(0, size[0], 16):
@@ -127,7 +127,7 @@ def window_frame(transparent: bool) -> Image.Image:
 
 
 def glass_layer() -> Image.Image:
-    mask = original("window_transparent.png", (16, 24)).getchannel("A")
+    mask = original("bar/source/window_transparent.png", (16, 24)).getchannel("A")
     image = Image.new("RGBA", (16, 24), GLASS)
     draw = ImageDraw.Draw(image)
     for x in (2, 9):
@@ -151,7 +151,7 @@ def window(transparent: bool) -> Image.Image:
 
 def door() -> Image.Image:
     """Two 32x28 frames; flat leaf and jamb match the window frame color."""
-    source = original("bar_door.png", (64, 28))
+    source = original("bar/source/bar_door.png", (64, 28))
     image = Image.new("RGBA", source.size)
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, 15, 27), fill=P["frame"])
@@ -215,7 +215,7 @@ def interior_door(kind: str) -> Image.Image:
 
 def table_football() -> Image.Image:
     """Change only the wood body and supports; retain every original playing pixel."""
-    source = original("table_football.png", (36, 48))
+    source = original("bar/source/table_football.png", (36, 48))
     image = source.copy()
     wood = {
         (165, 118, 70, 255): P["table_top"],
@@ -251,7 +251,7 @@ def poker_table() -> Image.Image:
 
 def counter_background() -> Image.Image:
     """Walnut shelf with the original bottles; transparency reveals the brick wall."""
-    source = original("bar_bg.png", (320, 32))
+    source = original("bar/source/bar_bg.png", (320, 32))
     image = Image.new("RGBA", source.size)
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 20, 319, 21), fill=P["table_top"])
@@ -271,7 +271,7 @@ def counter_background() -> Image.Image:
 
 def bartender() -> Image.Image:
     """Recolor the baked counter patch in both frames, preserving the character."""
-    image = original("bartender.png", (24, 20))
+    image = original("bar/source/bartender.png", (24, 20))
     wood = ImageColor.getcolor(P["table_top"], "RGBA")
     for y in range(15, 20):
         for x in range(image.width):

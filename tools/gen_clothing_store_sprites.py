@@ -63,7 +63,7 @@ def wall_clock() -> Image.Image:
 
 def mannequin() -> Image.Image:
     """Decorative ivory mannequin wearing real garment frames on an oak plinth."""
-    pose = Image.open(SPRITES / "player.png").convert("RGBA").crop((0, 80, 12, 100))
+    pose = Image.open(SPRITES / "characters/player.png").convert("RGBA").crop((0, 80, 12, 100))
     body = Image.new("RGBA", pose.size, WHITE)
     body.putalpha(pose.getchannel("A").point(lambda alpha: 255 if alpha else 0))
     d = ImageDraw.Draw(body)

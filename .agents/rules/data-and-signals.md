@@ -4,7 +4,7 @@
 
 При изменении UI и HUD выполняй также [правила интерфейсов](interfaces.md).
 
-- Статы персонажа храни в `PlayerData extends Resource`, локальные пользовательские настройки — в `PlayerSettings extends Resource`. Данные позиции каталога бара продолжай в `BarMenuItem extends Resource`.
+- Статы персонажа храни в `PlayerData extends Resource`, локальные пользовательские настройки — в `PlayerSettings extends Resource`. Позиции каталога бара создавай как `BarMenuItem` из `scripts/room/bar/menu/`, позиции кафе — как `CafeMenuItem` из `scripts/room/cafe/menu/`. Их общий родитель `OrderMenuItem extends Resource` из `scripts/core/menu/` содержит только общие поля меню; вид алкогольного напитка и крепость принадлежат `BarMenuItem`. Каталоги типизированы своей специализацией и остаются в `BarMenu` и `CafeMenu`; общий интерфейс и выдача заказов принимают родителя. Числовые значения `Drink.Type` сохраняют формат репликации и сохранений напитков.
 - Создавай отдельные экземпляры изменяемых ресурсов по существующему жизненному циклу: `Level._init_local_player()` и `_init_npc()`. Сохраняй независимость данных разных игроков и NPC.
 - Изменяй статы через методы `PlayerData`: `adjust_money()`, методы эффектов и общий `_apply()`. Продолжай действующие ограничения значений и вычисление фактической delta в одном месте.
 - Сохраняй контракт сигналов: `stat_changed(stat, actual_delta)` сообщает фактическое изменение отдельного стата, `stats_changed` обновляет суммарное отображение. Новая операция со статами должна поддерживать оба нужных потребителя.
@@ -14,4 +14,4 @@
 - Учитывай срок жизни подписок и источников: для одноразового удаления используй существующий паттерн `CONNECT_ONE_SHOT`, а при повторном открытии UI предотвращай повторные подключения и устаревшие ссылки.
 - Поля `Resource` и локальные сигналы не реплицируются автоматически. Добавляй сетевую передачу только через существующего сетевого владельца затронутой функции.
 
-Образцы: `scripts/core/player_data.gd`, `scripts/core/player_settings.gd`, `scripts/room/bar/bar_menu_item.gd`, `scripts/main.gd`, `scripts/core/headphone_player.gd`, `scripts/core/phone.gd`.
+Образцы: `scripts/core/player_data.gd`, `scripts/core/player_settings.gd`, `scripts/core/menu/order_menu_item.gd`, `scripts/main.gd`, `scripts/core/headphone_player.gd`, `scripts/core/phone.gd`.

@@ -2,12 +2,14 @@
 class_name Drink
 extends Draggable
 
+enum Type { BEER, SHOT, COCTAIL, COFFEE }
+
 const FRAMES := 5
 
 var _suppress_gulp := false
 
 @export var drink_name: String = ""
-@export var type: BarMenuItem.Type = BarMenuItem.Type.BEER:
+@export var type: Type = Type.BEER:
 	set(value):
 		type = value
 		if is_node_ready():
@@ -69,17 +71,17 @@ func _play_gulp(last_part: bool) -> void:
 	audio.play()
 
 func get_respect_bonus() -> float:
-	if type == BarMenuItem.Type.COFFEE:
+	if type == Type.COFFEE:
 		return 0.0
 	return 5.0 + alcohol
 
 func get_mind_penalty() -> float:
-	if type == BarMenuItem.Type.COFFEE:
+	if type == Type.COFFEE:
 		return -8.0
 	return 5.0 + alcohol
 
 func _update_drink_sprite() -> void:
-	if type == BarMenuItem.Type.COFFEE:
+	if type == Type.COFFEE:
 		sprite.texture = preload("res://assets/sprites/cafe/coffee_cup.png")
 		drink_sprite.texture = preload("res://assets/sprites/cafe/coffee.png")
 		drink_sprite.region_enabled = true
@@ -87,13 +89,13 @@ func _update_drink_sprite() -> void:
 		drink_sprite.region_rect = Rect2(Vector2(sprite_frame, clampi(max_parts - parts, 0, 4)) * frame_size, frame_size)
 		return
 	match type:
-		BarMenuItem.Type.BEER:
+		Type.BEER:
 			sprite.texture = load("res://assets/sprites/drinks/beer_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/beer.png")
-		BarMenuItem.Type.SHOT:
+		Type.SHOT:
 			sprite.texture = load("res://assets/sprites/drinks/shot_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/shot.png")
-		BarMenuItem.Type.COCTAIL:
+		Type.COCTAIL:
 			sprite.texture = load("res://assets/sprites/drinks/cocktail_glass.png")
 			drink_sprite.texture = load("res://assets/sprites/drinks/cocktail.png")
 	

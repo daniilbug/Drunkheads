@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dcpll4c8f6iix"]
 
-[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/brick.png" id="1_8dc4u"]
-[ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/roof.png" id="2_0kse8"]
-[ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/window.png" id="3_0kse8"]
+[ext_resource type="Texture2D" uid="uid://dorn05fe7oiuy" path="res://assets/sprites/street/brick.png" id="1_8dc4u"]
+[ext_resource type="Texture2D" uid="uid://d1a63b7773g85" path="res://assets/sprites/street/roof.png" id="2_0kse8"]
+[ext_resource type="Texture2D" uid="uid://dy3jp4m0eurq2" path="res://assets/sprites/street/window.png" id="3_0kse8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8dc4u"]
 size = Vector2(160, 9)

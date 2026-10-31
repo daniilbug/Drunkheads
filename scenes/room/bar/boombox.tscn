@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://fixpgx736rri"]
 
 [ext_resource type="Script" uid="uid://tdiqhjfq4vmv" path="res://scripts/room/bar/boombox.gd" id="1_2koit"]
-[ext_resource type="Texture2D" uid="uid://cedhrbfo2qmdc" path="res://assets/sprites/boombox.png" id="2_a321k"]
+[ext_resource type="Texture2D" uid="uid://cedhrbfo2qmdc" path="res://assets/sprites/bar/boombox.png" id="2_a321k"]
 [ext_resource type="AudioStreamPlaylist" path="res://assets/audio/background/playlist.tres" id="3_playlist"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2lq3"]

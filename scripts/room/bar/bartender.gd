@@ -1,7 +1,7 @@
 class_name Bartender
 extends StaticBody2D
 
-signal item_purchased(item: BarMenuItem)
+signal item_purchased(item: OrderMenuItem)
 
 @export var serves_coffee := false
 @export var menu_scene: PackedScene
@@ -21,8 +21,10 @@ var _purchase_pending := false
 var _pending_cost := 0.0
 var _pending_player: Player
 
-func get_menu_items() -> Array[BarMenuItem]:
-	return CafeMenu.coffee_menu if serves_coffee else BarMenu.get_all_items()
+func get_menu_items() -> Array[OrderMenuItem]:
+	var items: Array[OrderMenuItem] = []
+	items.assign(CafeMenu.coffee_menu if serves_coffee else BarMenu.get_all_items())
+	return items
 
 func order(player: Player) -> void:
 	if _menu_open or _purchase_pending or player.is_world_input_blocked:
@@ -31,10 +33,10 @@ func order(player: Player) -> void:
 	add_child(menu)
 	_menu_open = true
 	menu.open(player)
-	menu.item_selected.connect(func(item: BarMenuItem): order_item(player, item))
+	menu.item_selected.connect(func(item: OrderMenuItem): order_item(player, item))
 	menu.closed.connect(func(): _on_menu_closed(menu))
 
-func order_item(player: Player, item: BarMenuItem) -> bool:
+func order_item(player: Player, item: OrderMenuItem) -> bool:
 	var index := get_menu_items().find(item)
 	if index < 0 or player.player_data == null or player.player_data.money < item.cost:
 		return false
@@ -76,14 +78,15 @@ func _serve_for(peer_id: int, index: int) -> bool:
 			if order_place.to_local(existing.sprite.global_position).length() < 6.0:
 				return false
 	var item := items[index]
+	var bar_item := item as BarMenuItem
 	var drink := load("res://scenes/room/bar/drink.tscn").instantiate() as Drink
 	_drink_id += 1
 	drink.name = "Drink%d" % _drink_id
 	drink.drink_name = item.name
-	drink.type = item.type
+	drink.type = bar_item.type if bar_item != null else Drink.Type.COFFEE
 	drink.flavor = item.flavor
 	drink.cost = item.cost
-	drink.alcohol = item.alcohol
+	drink.alcohol = bar_item.alcohol if bar_item != null else 0
 	drink.sprite_frame = item.sprite
 	drink.max_parts = item.parts
 	drink.customer_id = peer_id

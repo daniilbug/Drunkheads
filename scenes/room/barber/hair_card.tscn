@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/player.png" id="body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/player.png" id="body"]
 [ext_resource type="Shader" path="res://assets/shaders/hair_color.gdshader" id="shader"]
 
 [sub_resource type="AtlasTexture" id="Head"]

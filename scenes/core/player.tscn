@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bplker7qp53qd"]
 
 [ext_resource type="Script" uid="uid://qhf7evqheuvh" path="res://scripts/core/player.gd" id="1_q88xf"]
-[ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/player.png" id="2_665sb"]
+[ext_resource type="Texture2D" uid="uid://km6dikhk85ac" path="res://assets/sprites/characters/player.png" id="2_665sb"]
 [ext_resource type="Script" uid="uid://md7jxbkt0tc8" path="res://scripts/core/character_sprite.gd" id="2_character_sprite"]
 [ext_resource type="Texture2D" uid="uid://dnamvitjkmj0a" path="res://assets/sprites/characters/hair_0.png" id="2_hair"]
 [ext_resource type="Texture2D" uid="uid://bna73fa5r3etb" path="res://assets/sprites/characters/headphones.png" id="2_headphones"]

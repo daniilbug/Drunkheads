@@ -2,7 +2,7 @@
 """Generate pixel-art sprite sheets for Drunkards."""
 
 from PIL import Image, ImageDraw
-import os
+from pathlib import Path
 
 from gen_character_hair import (
     STYLES as HAIR_STYLES,
@@ -10,12 +10,14 @@ from gen_character_hair import (
 )
 from character_pose import arm_is_visible, head_y as _player_head_y, walk_arms, walk_legs
 
-OUT = "/Users/daniilbug/drunkards/assets/sprites"
-OUT_DRINKS = "/Users/daniilbug/drunkards/assets/sprites/drinks"
-OUT_CHARACTERS = f"{OUT}/characters"
-os.makedirs(OUT, exist_ok=True)
-os.makedirs(OUT_DRINKS, exist_ok=True)
-os.makedirs(OUT_CHARACTERS, exist_ok=True)
+OUT = Path(__file__).resolve().parents[1] / "assets/sprites"
+OUT_DRINKS = OUT / "drinks"
+OUT_CHARACTERS = OUT / "characters"
+OUT_BAR = OUT / "bar"
+OUT_BAR_SOURCE = OUT_BAR / "source"
+OUT_CORE = OUT / "core"
+for output_directory in (OUT_DRINKS, OUT_CHARACTERS, OUT_BAR_SOURCE, OUT_CORE):
+    output_directory.mkdir(parents=True, exist_ok=True)
 
 TRANSPARENT = (0, 0, 0, 0)
 
@@ -313,7 +315,7 @@ def gen_player():
     from gen_character_clothing import generate_clothing_atlases
 
     layers = build_player_layers()
-    layers["base"].save(f"{OUT}/player.png")
+    layers["base"].save(f"{OUT_CHARACTERS}/player.png")
     generate_clothing_atlases(layers)
     generate_hair_atlases()
     print(f"Saved player base, {len(HAIR_STYLES)} hair and 40 clothing atlases")
@@ -367,7 +369,7 @@ def gen_bartender():
     sdraw = ImageDraw.Draw(sheet)
     for frame in range(2):
         draw_bartender_frame(sheet, sdraw, frame * BTW, 0, phase=frame)
-    sheet.save(f"{OUT}/bartender.png")
+    sheet.save(f"{OUT_BAR_SOURCE}/bartender.png")
     print(f"Saved bartender.png ({sheet.width}×{sheet.height})")
 
 
@@ -417,7 +419,7 @@ def gen_chair():
     draw_chair_front(sheet, sdraw, CHW,      0, occupied=True)
     draw_chair_back(sheet, sdraw,  CHW * 2,  0, occupied=False)
     draw_chair_back(sheet, sdraw,  CHW * 3,  0, occupied=True)
-    sheet.save(f"{OUT}/chair.png")
+    sheet.save(f"{OUT_BAR_SOURCE}/chair.png")
     print(f"Saved chair.png ({sheet.width}×{sheet.height})")
 
 
@@ -442,7 +444,7 @@ def gen_table():
     rect(draw, 1, H - 5, W - 2, 1, (90, 62, 28, 255))
     rect(draw, 1, H - 5, 2, 5, C["frame_wood"])
     rect(draw, W - 3, H - 5, 2, 5, C["frame_wood"])
-    img.save(f"{OUT}/table.png")
+    img.save(f"{OUT_BAR_SOURCE}/table.png")
     print(f"Saved table.png ({img.width}×{img.height})")
 
 
@@ -520,7 +522,7 @@ def gen_bar_bg():
     ]:
         rect(draw, edge_x, edge_y, ew, eh, C["frame_gold"])
 
-    img.save(f"{OUT}/bar_bg.png")
+    img.save(f"{OUT_BAR_SOURCE}/bar_bg.png")
     print(f"Saved bar_bg.png ({img.width}×{img.height})")
 
 
@@ -553,7 +555,7 @@ def gen_bar_floor():
             if 0 <= gx < W:
                 rect(draw, gx, y + 1, 1, max(0, min(ph - 2, H - y - 1)), C["floor_b"])
 
-    img.save(f"{OUT}/bar_floor.png")
+    img.save(f"{OUT_BAR_SOURCE}/bar_floor.png")
     print(f"Saved bar_floor.png ({img.width}×{img.height})")
 
 
@@ -625,7 +627,7 @@ def gen_boombox():
         px(img, draw, ox + 7, 8, BB_BTN)
         px(img, draw, ox + 9, 8, BB_BTN)
 
-    img.save(f"{OUT}/boombox.png")
+    img.save(f"{OUT_BAR}/boombox.png")
     print(f"Saved boombox.png ({img.width}×{img.height})")
 
 
@@ -653,7 +655,7 @@ def gen_lamp():
     rect(draw, 2, 16, 8, 2, (255, 225, 130, 180))
     rect(draw, 3, 18, 6, 2, (255, 210, 110, 110))
     rect(draw, 4, 20, 4, 2, (255, 195,  90,  60))
-    img.save(f"{OUT}/lamp.png")
+    img.save(f"{OUT_CORE}/lamp.png")
     print(f"Saved lamp.png ({W}×{H})")
 
 
@@ -898,7 +900,7 @@ def gen_carpet():
         px(img, draw, 0, fy, CARP_FRINGE)
         px(img, draw, CW - 1, fy, CARP_FRINGE)
 
-    img.save(f"{OUT}/carpet.png")
+    img.save(f"{OUT_BAR_SOURCE}/carpet.png")
     print(f"Saved carpet.png ({CW}×{CH})")
 
 

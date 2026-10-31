@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://be67bnrf4xq1x" path="res://scripts/room/bar/bar_sign.gd" id="1_ygby0"]
 [ext_resource type="SceneReplicationConfig" path="res://scenes/core/light_source_replication.tres" id="lighting_sync"]
-[ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar_sign.png" id="2_my1w7"]
+[ext_resource type="Texture2D" uid="uid://c3i2ome0g4oy1" path="res://assets/sprites/bar/bar_sign.png" id="2_my1w7"]
 
 [sub_resource type="Gradient" id="Gradient_er6gy"]
 offsets = PackedFloat32Array(0.17013232, 0.69187146)

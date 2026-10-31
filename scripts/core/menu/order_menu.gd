@@ -1,7 +1,7 @@
 class_name OrderMenu
 extends CanvasLayer
 
-signal item_selected(item: BarMenuItem)
+signal item_selected(item: OrderMenuItem)
 signal closed
 
 @export var row_scene: PackedScene
@@ -23,10 +23,10 @@ func open(player: Player) -> void:
 	# The interaction that opens the menu must not also confirm an order.
 	call_deferred("_focus_first_available")
 
-func _get_initial_items() -> Array[BarMenuItem]:
+func _get_initial_items() -> Array[OrderMenuItem]:
 	return []
 
-func _on_buy(item: BarMenuItem) -> void:
+func _on_buy(item: OrderMenuItem) -> void:
 	if _player.player_data.money < item.cost:
 		return
 	item_selected.emit(item)
@@ -46,7 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				button.button_pressed = true
 			button.pressed.emit()
 
-func _rebuild(items: Array[BarMenuItem]) -> void:
+func _rebuild(items: Array[OrderMenuItem]) -> void:
 	for child in list.get_children():
 		list.remove_child(child)
 		child.queue_free()

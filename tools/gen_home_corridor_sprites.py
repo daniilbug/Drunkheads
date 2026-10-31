@@ -89,7 +89,7 @@ def review_sheet(atlas: Image.Image) -> Image.Image:
     apartment_floor = Image.open(SPRITES / "home/floor.png").convert("RGBA")
     context.alpha_composite(tiled(apartment_floor, (16, 27)), (64, 7))
     context.alpha_composite(opened, (56, 7))
-    player = Image.open(SPRITES / "player.png").convert("RGBA").crop((0, 20, 12, 40))
+    player = Image.open(SPRITES / "characters/player.png").convert("RGBA").crop((0, 20, 12, 40))
     for name in ("pants_0", "top_0", "hair_0"):
         layer = Image.open(SPRITES / f"characters/{name}.png").convert("RGBA")
         player.alpha_composite(layer.crop((0, 20, 12, 40)))

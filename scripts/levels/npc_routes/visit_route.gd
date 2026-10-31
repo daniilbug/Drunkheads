@@ -141,7 +141,7 @@ func _waiting_to_order() -> void:
 	if not _bartender.purchase_area.overlaps_area(npc.interaction_area):
 		npc.state = NPC.State.GOING_TO_BARTENDER
 		return
-	var item: BarMenuItem = _bartender.get_menu_items().pick_random()
+	var item: OrderMenuItem = _bartender.get_menu_items().pick_random()
 	if not _bartender.order_item(npc, item):
 		if npc._elapsed_ms >= DRINK_WAIT_TIMEOUT_MS:
 			npc._begin_exit()

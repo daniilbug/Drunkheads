@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://xtnvdmvjcvsv"]
 
-[ext_resource type="Texture2D" uid="uid://dr05rkhp1lc3g" path="res://assets/sprites/bottles_shelf.png" id="1_x6amm"]
+[ext_resource type="Texture2D" uid="uid://dr05rkhp1lc3g" path="res://assets/sprites/poker/bottles_shelf.png" id="1_x6amm"]
 
 [node name="PokerShelf" type="Node2D" unique_id=1309903454]
 

@@ -194,7 +194,7 @@ def preview_panel(exterior: Image.Image, inside: bool) -> Image.Image:
     draw.rectangle((room_origin[0] - 2, wall_top - 4, room_origin[0] + 81, wall_top - 1), fill="#403d38")
     for x in (room_origin[0] - 2, room_origin[0] + 78):
         draw.rectangle((x, wall_top - 4, x + 3, room_origin[1] + 63), fill="#403d38")
-    player = sprite("player.png").crop((0, 20, 12, 40))
+    player = sprite("characters/player.png").crop((0, 20, 12, 40))
     for layer in ("pants_0", "top_0", "hair_0"):
         player.alpha_composite(sprite(f"characters/{layer}.png").crop((0, 20, 12, 40)))
     image.alpha_composite(player, (room_origin[0] + 34, room_origin[1] + 12))

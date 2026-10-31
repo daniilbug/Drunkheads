@@ -7,7 +7,7 @@ extends MarginContainer
 @onready var price_label: Label = $Content/HBox/Price
 @onready var availability: AnimationPlayer = $Availability
 
-func configure(item: BarMenuItem, can_afford: bool) -> void:
+func configure(item: OrderMenuItem, can_afford: bool) -> void:
 	name_label.text = item.name
 	description_label.text = item.flavor
 	price_label.text = "$%d" % int(item.cost)

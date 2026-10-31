@@ -26,4 +26,4 @@
 - `scripts/core/player.gd` — выбор действия и предмет в руках.
 - `scripts/core/interactable.gd`, `scripts/core/seat.gd`, `scripts/core/draggable.gd`, `scripts/core/drop_place.gd` — базовые контракты.
 - `scripts/street/cigarette_machine.gd` — создание и выдача предмета с ответом сервера.
-- `scripts/room/home/home_exit.gd`, `scripts/core/light_switch.gd` — интеракция через существующего владельца и проверку досягаемости.
+- `scripts/room/home_entrance/elevator.gd`, `scripts/core/light_switch.gd` — интеракция через существующего владельца и проверку досягаемости.
