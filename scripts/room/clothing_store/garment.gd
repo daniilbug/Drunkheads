@@ -1,9 +1,18 @@
 class_name ShopGarment
 extends Draggable
 
-@export var is_top := true
-@export var style_id := 0
-@export var color_id := 0
+@export var is_top := true:
+	set(value):
+		is_top = value
+		_update_appearance()
+@export var style_id := 0:
+	set(value):
+		style_id = value
+		_update_appearance()
+@export var color_id := 0:
+	set(value):
+		color_id = value
+		_update_appearance()
 @export_range(0, 100, 1) var discount_percent := 0:
 	set(value):
 		discount_percent = value
@@ -32,17 +41,23 @@ var _used_height := 0.0
 
 
 func _ready() -> void:
+	_update_appearance()
+	if multiplayer.is_server() and not dock_path.is_empty():
+		var slot := get_node_or_null(dock_path) as ClothingSlot
+		if slot != null:
+			super.drop(null, slot)
+			slot.contents_changed.emit()
+
+
+func _update_appearance() -> void:
+	if not is_node_ready():
+		return
 	var textures := CharacterSprite.TOP_TEXTURES if is_top else CharacterSprite.PANTS_TEXTURES
 	sprite.texture = CharacterSprite.garment_icon(textures[item.x])
 	var used := sprite.texture.get_image().get_used_rect()
 	_used_height = used.size.y
 	sprite.offset.y = sprite.texture.get_height() / 2.0 - used.position.y
 	(sprite.material as ShaderMaterial).set_shader_parameter("clothing_color", CharacterSprite.CLOTHING_COLORS[item.y])
-	if multiplayer.is_server() and not dock_path.is_empty():
-		var slot := get_node_or_null(dock_path) as ClothingSlot
-		if slot != null:
-			super.drop(null, slot)
-			slot.contents_changed.emit()
 
 
 func _process(delta: float) -> void:
